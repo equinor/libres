@@ -58,7 +58,6 @@ env:
   global:
      - ERT_SHOW_BACKTRACE=1
 
-
 script:
   - wget https://raw.githubusercontent.com/Statoil/ert/master/travis/build_total.py res
   - python build_total.py res
