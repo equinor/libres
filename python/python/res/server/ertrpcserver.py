@@ -93,6 +93,9 @@ class ErtRPCServer(SimpleXMLRPCServer):
         self.serve_forever()
 
     def stop(self):
+        print "In res.server.stop( ) method"
+        raise Exception("Come on - give me a traceback")
+
         if self._session.simulation_context is not None:
             if self._session.simulation_context.isRunning():
                 self._session.simulation_context._queue_manager.get_job_queue().killAllJobs()
