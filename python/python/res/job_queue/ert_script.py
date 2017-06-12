@@ -38,7 +38,7 @@ class ErtScript(object):
     def cancel(self):
         self.__is_cancelled = True
 
-    def cleanup(self):
+   def cleanup(self):
         """
         Override to perform cleanup after a run.
         """
@@ -69,13 +69,16 @@ class ErtScript(object):
         try:
             return self.run(*arguments)
         except AttributeError as e:
+            print "Exception: AttributeError" 
             if not hasattr(self, "run"):
                 self.__failed = True
                 return "Script '%s' has not implemented a 'run' function" % self.__class__.__name__
             return self.defaultStackTrace(e)
         except KeyboardInterrupt:
+            print "Exception: KeyboardInterrupt" 
             return "Script '%s' cancelled (CTRL+C)" % self.__class__.__name__
         except Exception as e:
+            print "Exception: Exception"
             return self.defaultStackTrace(e)
         finally:
             self.cleanup()
