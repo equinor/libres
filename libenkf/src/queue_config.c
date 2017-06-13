@@ -57,6 +57,26 @@ queue_config_type * queue_config_alloc() {
     return queue_config;
 }
 
+queue_config_type * queue_config_alloc_local_copy( queue_config_type * queue_config) {
+    queue_config_type * queue_config_copy = util_malloc(sizeof * queue_config_copy);
+    queue_config_copy->queue_drivers = hash_alloc();
+    queue_config_copy->job_script = NULL;
+    /*if (queue_config_has_job_script(queue_config))
+        queue_config_copy->job_script = util_realloc_string_copy(queue_config_copy->job_script, queue_config->job_script);
+    else
+        queue_config_copy->job_script = NULL;*/
+
+    queue_config_copy->driver_type = NULL_DRIVER;
+    queue_config_copy->user_mode = false;
+    
+    if (queue_config->user_mode) {
+        queue_config_init_user_mode( queue_config_copy );
+    }
+    //queue_config_copy->job_script = util_realloc_string_copy(queue_config_copy->job_script, queue_config->job_script);
+    
+    return queue_config_copy;
+}
+
 job_queue_type * queue_config_alloc_job_queue(const queue_config_type * queue_config) {
   job_queue_type * job_queue = job_queue_alloc(DEFAULT_MAX_SUBMIT, "OK", "STATUS", "ERROR");
   const char * driver_name = queue_config_get_queue_name(queue_config);
@@ -68,6 +88,7 @@ job_queue_type * queue_config_alloc_job_queue(const queue_config_type * queue_co
 
   if (queue_config->max_submit_set)
     job_queue_set_max_submit(job_queue, queue_config->max_submit);
+
   return job_queue;
 }
 
@@ -164,6 +185,8 @@ bool queue_config_has_queue_driver(const queue_config_type * queue_config, const
 
 bool queue_config_init(queue_config_type * queue_config, const config_content_type * config_content)
 {
+
+
   if (!queue_config->user_mode)
     queue_config_create_queue_drivers(queue_config);
 
