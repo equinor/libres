@@ -80,9 +80,8 @@ queue_config_type * queue_config_alloc_local_copy( queue_config_type * queue_con
         queue_config_copy->driver_type = LOCAL_DRIVER;
     
     if (queue_config->max_submit_set) {
-        queue_config_copy->max_submit = 0;
-        if (queue_config->max_submit > 1)
-            queue_config_copy->max_submit = 1;
+        queue_config_copy->max_submit_set = true;
+        queue_config_copy->max_submit = queue_config->max_submit;
     }
     else
         queue_config->max_submit_set = false;

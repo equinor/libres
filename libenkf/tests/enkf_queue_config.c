@@ -86,7 +86,7 @@ void test_parse() {
    
    test_assert_true( queue_config_get_driver_type(queue_config_copy) == LOCAL_DRIVER );
 
-   test_assert_true( queue_config_get_max_submit(queue_config_copy) == 1);
+   test_assert_true( queue_config_get_max_submit(queue_config_copy) == 6);
 
    queue_config_free( queue_config_copy );
    queue_config_free( queue_config );
