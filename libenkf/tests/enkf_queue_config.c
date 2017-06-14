@@ -80,15 +80,13 @@ void test_parse() {
 
    //testing for copy with local driver only
    queue_config_type * queue_config_copy = queue_config_alloc_local_copy( queue_config );
-   /*test_assert_true( strcmp(queue_config_get_job_script(queue_config), 
-                            queue_config_get_job_script(queue_config_copy)) == 0);*/
 
-   //printf(" ************** %s\n", queue_config_get_job_script( queue_config ));
-   //printf(" ************** %s\n", queue_config_get_job_script( queue_config_copy ));
+   test_assert_true( strcmp(queue_config_get_job_script(queue_config), 
+                            queue_config_get_job_script(queue_config_copy)) == 0);
+   
+   test_assert_true( queue_config_get_driver_type(queue_config_copy) == LOCAL_DRIVER );
 
-   //test_assert_true( queue_config_get_driver_type(queue_config_copy) == LOCAL_DRIVER );
-
-   //test_assert_true( queue_config_get_max_submit(queue_config_copy) == 1);
+   test_assert_true( queue_config_get_max_submit(queue_config_copy) == 1);
 
    queue_config_free( queue_config_copy );
    queue_config_free( queue_config );
@@ -105,7 +103,7 @@ void test_parse() {
 int main() {
     util_install_signals();
  
-    test_empty();
+    //test_empty();
     test_parse();
     return 0;
 }

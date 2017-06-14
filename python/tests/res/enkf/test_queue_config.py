@@ -25,3 +25,6 @@ class QueueConfigTest(ExtendedTestCase):
     def test_get_queue_config(self):
         QC = QueueConfig()
         JobQueue = QC.create_job_queue()
+        QC_copy = QC.create_local_copy();
+
+    
