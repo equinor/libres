@@ -116,7 +116,7 @@ class Driver(BaseCClass):
 
     @property
     def name(self):
-        return self._get_name(self)
+        return self._get_name()
 
     def free(self):
         self._free( )

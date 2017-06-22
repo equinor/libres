@@ -32,7 +32,8 @@ config_data = {
         "NUM_REALIZATIONS" : 10,
         "MAX_RUNTIME"      : 23400,
         "MIN_REALIZATIONS" : "50%",
-        "MAX_SUBMIT"       : 13
+        "MAX_SUBMIT"       : 13,
+        "QUEUE_SYSTEM"     : "LSF"
         }
 
 def expand_config_data():
@@ -112,6 +113,17 @@ class ResConfigTest(ExtendedTestCase):
                     config_data["MAX_SUBMIT"],
                     res_config.site_config.queue_config.max_submit
                     )
+
+            self.assertEqual(
+                    config_data["QUEUE_SYSTEM"],
+                    res_config.site_config.queue_config.queue_name
+                    )
+
+            self.assertEqual(
+                    config_data["QUEUE_SYSTEM"],
+                    res_config.site_config.queue_config.driver.name
+                    )
+
 
             # TODO: Not tested
             # - NUM_REALIZATIONS
