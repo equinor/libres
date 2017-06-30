@@ -149,8 +149,6 @@ static void site_config_set_config_file(site_config_type * site_config, const ch
 static site_config_type * site_config_alloc_empty() {
   site_config_type * site_config = util_malloc(sizeof * site_config);
    
-  site_config->queue_config = queue_config_alloc();
-
   site_config->joblist = ext_joblist_alloc();
  
   site_config->config_file = NULL;
@@ -160,7 +158,7 @@ static site_config_type * site_config_alloc_empty() {
   site_config->manual_url = NULL;
   site_config->default_browser = NULL;
   site_config->user_mode = false;  
-
+  site_config->queue_config = queue_config_alloc_empty();
 
   site_config->env_variables_user = hash_alloc();
   site_config->env_variables_site = hash_alloc();
@@ -243,7 +241,7 @@ void site_config_init_user_mode(site_config_type * site_config) {
 }
 
 queue_config_type * site_config_get_queue_config(const site_config_type * site_config) {
-    return site_config->queue_config;
+  return site_config->queue_config;
 }
 
 
@@ -604,6 +602,9 @@ bool site_config_load_user_config(
   config_content_free( content );
   config_free(config);
 
+  queue_config_free(site_config->queue_config);
+  site_config->queue_config = queue_config_alloc_load(user_config_filename);
+
   return status;
 }
 
@@ -618,8 +619,6 @@ bool site_config_load_user_config(
 
 bool site_config_init(site_config_type * site_config, const config_content_type * config) {
   
-  queue_config_init(site_config->queue_config, config);
-
   site_config_add_jobs(site_config, config);
   site_config_init_env(site_config, config);
 

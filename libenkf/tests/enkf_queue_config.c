@@ -17,7 +17,7 @@
 
 
 void test_empty() {
-   queue_config_type * queue_config = queue_config_alloc();
+   queue_config_type * queue_config = queue_config_alloc_empty();
    queue_config_type * queue_config_copy = queue_config_alloc_local_copy( queue_config );
    queue_config_free(queue_config);
    queue_config_free(queue_config_copy);
@@ -49,19 +49,20 @@ void test_parse() {
      fclose(stream);
    }
 
-
    config_content_type * config_content = config_parse(parser, "queue_config.txt", NULL, NULL, NULL, NULL, CONFIG_UNRECOGNIZED_ERROR, true);
    test_assert_true(config_content_has_item(config_content, QUEUE_SYSTEM_KEY));
 
    test_assert_true(config_content_has_item(config_content, QUEUE_OPTION_KEY));
    test_assert_true(config_content_has_item(config_content, MAX_SUBMIT_KEY));
 
-   queue_config_type * queue_config = queue_config_alloc();
-   queue_config_init(queue_config, config_content);
+   config_content_free(config_content);
+   config_free( parser );
+
+   queue_config_type * queue_config = queue_config_alloc_load("queue_config.txt");
 
    test_assert_true(queue_config_has_queue_driver(queue_config, "LSF"));
    test_assert_true(queue_config_get_driver_type(queue_config) == LSF_DRIVER);
-   
+
    test_check_double_equal(queue_config_get_max_submit(queue_config), 6);
 
    {
@@ -91,8 +92,6 @@ void test_parse() {
    queue_config_free( queue_config_copy );
    queue_config_free( queue_config );
    job_queue_free(job_queue);
-   config_content_free(config_content);
-   config_free( parser );
    test_work_area_free( work_area );
 }
 
