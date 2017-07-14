@@ -29,11 +29,6 @@ import requests
 import json
 import imp
 
-LOG_URL = "http://st-vsib.st.statoil.no:4444"
-#LOG_URL = "http://10.220.65.22:4444" #To be extracted up to job_discpatch in the future after a bit of testing and when job_dispatch is properly
-#versioned
-
-
 def redirect(file, fd, open_mode):
     new_fd = os.open(file, open_mode)
     os.dup2(new_fd, fd)
@@ -110,11 +105,12 @@ class JobManager(object):
 
 
 
-    def __init__(self, module_file="jobs.py", json_file="jobs.json", error_url=None):
+    def __init__(self, module_file="jobs.py", json_file="jobs.json", error_url=None, log_url=None):
         self._job_map = {}
         self.simulation_id = ""
         self.ert_pid = ""
         self._error_url = error_url
+        self._log_url = log_url
         if json_file is not None and os.path.isfile(json_file):
             self._loadJson(json_file)
         else:
@@ -328,7 +324,9 @@ class JobManager(object):
         return P
 
 
-    def postMessage(self, job=None, extra_fields={}, url=LOG_URL):
+    def postMessage(self, job=None, extra_fields={}, url=None):
+        if url is None:
+            url=self._log_url
         if job:
             job_fields = {"ert_job": job["name"],
                            "executable": job["executable"],
