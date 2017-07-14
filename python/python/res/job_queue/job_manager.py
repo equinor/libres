@@ -393,7 +393,7 @@ class JobManager(object):
         self.dump_EXIT_file(job, error_msg)
         std_err_out = self.extract_stderr_stdout(job)
         self.postMessage(job=job, extra_fields=std_err_out, url=self._error_url) #posts to the old database
-        std_err_out.update({"status": "exit","finished": True})
+        std_err_out.update({"status": "exit","finished": True, "error_msg": error_msg, "exit_status": exit_status, "error": True})
         self.postMessage(job=job, extra_fields=std_err_out) #Posts to new logstash
         pgid = os.getpgid(os.getpid())
         os.killpg(pgid, signal.SIGKILL)
