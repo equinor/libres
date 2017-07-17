@@ -319,6 +319,13 @@ def run_one(job_manager , job):
             exit_status = 0
         else:
             exit_status = 1
+        try:
+            P.stdin.close()
+            P.stdout.close()
+            P.stderr.close()
+        except Exception as ex:
+            log_msg = 'job_dispatch.run_one failed to close handles: %s' % ex
+            job_manager.postMessage(extra_fields={'msg': log_msg})
 
     else:
         exit_status, error_msg = job_manager.runJob(job)
