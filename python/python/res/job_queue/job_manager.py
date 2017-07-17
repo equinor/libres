@@ -322,7 +322,9 @@ class JobManager(object):
         return P
 
 
-    def postMessage(self, job=None, extra_fields={}, url=None):
+    def postMessage(self, job=None, extra_fields=None, url=None):
+        if extra_fields is None:
+            extra_fields = {}
         if url is None:
             url = self._log_url
         if job:
