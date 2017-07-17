@@ -134,8 +134,6 @@ class JobManager(object):
         self.initStatusFile()
 
 
-
-
     def _loadJson(self, json_file_name):
         try:
             with open(json_file_name, "r") as json_file:
@@ -326,7 +324,7 @@ class JobManager(object):
 
     def postMessage(self, job=None, extra_fields={}, url=None):
         if url is None:
-            url=self._log_url
+            url = self._log_url
         if job:
             job_fields = {"ert_job": job["name"],
                            "executable": job["executable"],
@@ -486,32 +484,32 @@ class JobManager(object):
     # This file will be read by the job_queue_node_fscanf_EXIT() function
     # in job_queue.c. Be very careful with changes in output format.
     def dump_EXIT_file(self, job, error_msg):
-        fileH = open(self.EXIT_file, "a")
-        now = time.localtime()
-        fileH.write("<error>\n")
-        fileH.write("  <time>%02d:%02d:%02d</time>\n" % (now.tm_hour, now.tm_min, now.tm_sec))
-        fileH.write("  <job>%s</job>\n" % job["name"])
-        fileH.write("  <reason>%s</reason>\n" % error_msg)
-        stderr_file = None
-        if job["stderr"]:
-            if os.path.exists(job["stderr"]):
-                with open(job["stderr"], "r") as errH:
-                    stderr = errH.read()
-                    if stderr:
-                        stderr_file = os.path.join(os.getcwd(), job["stderr"])
-                    else:
-                        stderr = "<Not written by:%s>\n" % job["name"]
+        with open(self.EXIT_file, "a") as fileH:
+            now = time.localtime()
+            fileH.write("<error>\n")
+            fileH.write("  <time>%02d:%02d:%02d</time>\n" % (now.tm_hour, now.tm_min, now.tm_sec))
+            fileH.write("  <job>%s</job>\n" % job["name"])
+            fileH.write("  <reason>%s</reason>\n" % error_msg)
+            stderr_file = None
+            if job["stderr"]:
+                if os.path.exists(job["stderr"]):
+                    with open(job["stderr"], "r") as errH:
+                        stderr = errH.read()
+                        if stderr:
+                            stderr_file = os.path.join(os.getcwd(), job["stderr"])
+                        else:
+                            stderr = "<Not written by:%s>\n" % job["name"]
+                else:
+                    stderr = "<stderr: Could not find file:%s>\n" % job["stderr"]
             else:
-                stderr = "<stderr: Could not find file:%s>\n" % job["stderr"]
-        else:
-            stderr = "<stderr: Not redirected>\n"
+                stderr = "<stderr: Not redirected>\n"
 
-        fileH.write("  <stderr>\n%s</stderr>\n" % stderr)
-        if stderr_file:
-            fileH.write("  <stderr_file>%s</stderr_file>\n" % stderr_file)
+            fileH.write("  <stderr>\n%s</stderr>\n" % stderr)
+            if stderr_file:
+                fileH.write("  <stderr_file>%s</stderr_file>\n" % stderr_file)
 
-        fileH.write("</error>\n")
-        fileH.close()
+            fileH.write("</error>\n")
+
 
         # Have renamed the exit file from "EXIT" to "ERROR";
         # must keep the old "EXIT" file around until all old ert versions
