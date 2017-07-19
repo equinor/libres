@@ -70,6 +70,7 @@ extern "C" {
   bool                   model_config_runpath_requires_iter( const model_config_type * model_config );
   bool                   model_config_get_pre_clear_runpath(const model_config_type * model_config);
   path_fmt_type        * model_config_get_runpath_fmt(const model_config_type * );
+  int                    model_config_iget_keep_runpath(const model_config_type * model_config, const size_t iens);
   history_type         * model_config_get_history(const model_config_type * );
   forward_model_type   * model_config_get_forward_model( const model_config_type * );
   bool                   model_config_internalize_state( const model_config_type *, int );
