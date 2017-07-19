@@ -92,6 +92,7 @@ struct model_config_struct {
   path_fmt_type        * current_runpath;           /* path_fmt instance for runpath - runtime the call gets arguments: (iens, report_step1 , report_step2) - i.e. at least one %d must be present.*/
   char                 * current_path_key;
   hash_type            * runpath_map;
+  bool                   pre_clear_runpath;
   char                 * jobname_fmt;               /* Format string with one '%d' for the jobname - can be NULL in which case the eclbase name will be used. */
   char                 * enspath;
   char                 * rftpath;
@@ -117,6 +118,9 @@ void model_config_set_jobname_fmt( model_config_type * model_config , const char
   model_config->jobname_fmt = util_realloc_string_copy( model_config->jobname_fmt , jobname_fmt );
 }
 
+bool model_config_get_pre_clear_runpath(const model_config_type * model_config) {
+  return model_config->pre_clear_runpath;
+}
 
 path_fmt_type * model_config_get_runpath_fmt(const model_config_type * model_config) {
   return model_config->current_runpath;
@@ -331,6 +335,7 @@ model_config_type * model_config_alloc() {
   model_config->gen_kw_export_file_name   = NULL;
   model_config->refcase                   = NULL;
 
+  model_config->pre_clear_runpath = DEFAULT_PRE_CLEAR_RUNPATH;
   model_config_set_enspath( model_config        , DEFAULT_ENSPATH );
   model_config_set_rftpath( model_config        , DEFAULT_RFTPATH );
   model_config_set_dbase_type( model_config     , DEFAULT_DBASE_TYPE );
@@ -431,6 +436,12 @@ void model_config_init(model_config_type * model_config ,
     model_config_add_runpath( model_config , DEFAULT_RUNPATH_KEY , config_content_get_value(config , RUNPATH_KEY) );
     model_config_select_runpath( model_config , DEFAULT_RUNPATH_KEY );
   }
+
+  if (config_content_has_item(config, PRE_CLEAR_RUNPATH_KEY))
+    model_config->pre_clear_runpath = config_content_get_value_as_bool(
+                                                         config,
+                                                         PRE_CLEAR_RUNPATH_KEY
+                                                         );
 
   {
     history_source_type source_type = DEFAULT_HISTORY_SOURCE;
