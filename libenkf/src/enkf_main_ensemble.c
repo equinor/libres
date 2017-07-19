@@ -57,16 +57,18 @@ void enkf_main_resize_ensemble( enkf_main_type * enkf_main , int new_ens_size ) 
     /*1: Grow the ensemble pointer. */
     enkf_main->ensemble = util_realloc(enkf_main->ensemble , new_ens_size * sizeof * enkf_main->ensemble );
 
+
     /*2: Allocate the new ensemble members. */
+    model_config_type * model_config = enkf_main_get_model_config(enkf_main);
     for (iens = enkf_main->ens_size; iens < new_ens_size; iens++)
 
       /* Observe that due to the initialization of the rng - this function is currently NOT thread safe. */
       enkf_main->ensemble[iens] = enkf_state_alloc(iens,
                                                    enkf_main->rng,
-                                                   model_config_iget_casename(enkf_main_get_model_config(enkf_main), iens),
-                                                   model_config_get_pre_clear_runpath(enkf_main_get_model_config(enkf_main)),
-                                                   int_vector_safe_iget(enkf_main->keep_runpath, iens),
-                                                   enkf_main_get_model_config(enkf_main),
+                                                   model_config_iget_casename(model_config, iens),
+                                                   model_config_get_pre_clear_runpath(model_config),
+                                                   model_config_iget_keep_runpath(model_config, iens),
+                                                   model_config,
                                                    enkf_main_get_ensemble_config(enkf_main),
                                                    enkf_main_get_site_config(enkf_main),
                                                    enkf_main_get_ecl_config(enkf_main),
