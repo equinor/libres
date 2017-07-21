@@ -153,9 +153,6 @@ struct enkf_main_struct {
   rng_type               * rng;
   ranking_table_type     * ranking_table;
 
-  int_vector_type        * keep_runpath;       /* HACK: This is only used in the initialization period - afterwards the data is held by the enkf_state object. */
-  bool                     pre_clear_runpath;  /* HACK: This is only used in the initialization period - afterwards the data is held by the enkf_state object. */
-
   char                   * user_config_file;
   char                   * rft_config_file;       /* File giving the configuration to the RFTwells*/
   enkf_obs_type          * obs;
@@ -233,6 +230,10 @@ const site_config_type * enkf_main_get_site_config( const enkf_main_type * enkf_
 
 const res_config_type * enkf_main_get_res_config(const enkf_main_type * enkf_main) {
   return enkf_main->res_config;
+}
+
+const log_config_type * enkf_main_get_log_config(const enkf_main_type * enkf_main) {
+  return res_config_get_log_config(enkf_main->res_config);
 }
 
 subst_config_type * enkf_main_get_subst_config(const enkf_main_type * enkf_main) {
@@ -330,8 +331,6 @@ void enkf_main_free(enkf_main_type * enkf_main){
   res_log_close();
 
   local_config_free( enkf_main->local_config );
-
-  int_vector_free( enkf_main->keep_runpath );
 
   util_safe_free( enkf_main->user_config_file );
   util_safe_free( enkf_main->rft_config_file );
@@ -1910,31 +1909,6 @@ bool enkf_main_get_verbose( const enkf_main_type * enkf_main ) {
   return enkf_main->verbose;
 }
 
-/**
-   Observe that this function parses and TEMPORARILY stores the keep_runpath
-   information ion the enkf_main object. This is subsequently passed on the
-   enkf_state members, and the functions enkf_main_iget_keep_runpath() and
-   enkf_main_iset_keep_runpath() act on the enkf_state objects, and not on the
-   internal keep_runpath field of the enkf_main object (what a fxxxing mess).
-*/
-
-
-void enkf_main_parse_keep_runpath(enkf_main_type * enkf_main , const char * delete_runpath_string , int ens_size ) {
-
-  int i;
-  for (i = 0; i < ens_size; i++)
-    int_vector_iset( enkf_main->keep_runpath , i , DEFAULT_KEEP);
-
-  {
-    int_vector_type * active_list = string_util_alloc_active_list(delete_runpath_string);
-
-    for (i = 0; i < int_vector_size( active_list ); i++)
-      int_vector_iset( enkf_main->keep_runpath , int_vector_iget( active_list , i ) , EXPLICIT_DELETE);
-
-    int_vector_free( active_list );
-  }
-}
-
 
 
 /**
@@ -1965,7 +1939,6 @@ static enkf_main_type * enkf_main_alloc_empty( ) {
   enkf_main->local_config       = NULL;
   enkf_main->rng                = NULL;
   enkf_main->ens_size           = 0;
-  enkf_main->keep_runpath       = int_vector_alloc( 0 , DEFAULT_KEEP );
   enkf_main->res_config         = NULL;
   enkf_main->ranking_table      = ranking_table_alloc( 0 );
   enkf_main->obs                = NULL;
@@ -2087,55 +2060,13 @@ static char * enkf_main_alloc_model_config_filename(const char * model_config) {
   return rel_model_config;
 }
 
-static void enkf_main_init_log(
-        const enkf_main_type * enkf_main,
-        const config_content_type * content) {
-  char * log_file=NULL;
-  if (config_content_has_item( content , LOG_FILE_KEY))
-    log_file = util_alloc_string_copy( config_content_get_value(content , LOG_FILE_KEY));
-  if(config_content_has_item( content , LOG_LEVEL_KEY))
-    res_log_init_log(res_log_level_parser(config_content_get_value(content , LOG_LEVEL_KEY)), log_file ,  enkf_main->verbose);
-  else
-    res_log_init_log_default_log_level(log_file ,  enkf_main->verbose);
-  free( log_file );
-}
-
-
-/**
-   By default the simulation directories are left intact when
-   the simulations re complete, but using the keyword
-   DELETE_RUNPATH you can request (some of) the directories to
-   be wiped after the simulations are complete.
-*/
-static void enkf_main_init_delete_runpath(
-                enkf_main_type * enkf_main,
-                const config_content_type * content) {
-
-  char * delete_runpath_string = NULL;
-  int ens_size = config_content_get_value_as_int(content, NUM_REALIZATIONS_KEY);
-
-  if (config_content_has_item(content, DELETE_RUNPATH_KEY))
-    delete_runpath_string = config_content_alloc_joined_string(
-                                                          content,
-                                                          DELETE_RUNPATH_KEY,
-                                                          ""
-                                                          );
-
-  enkf_main_parse_keep_runpath(enkf_main, delete_runpath_string, ens_size);
-
-  util_safe_free(delete_runpath_string);
-}
-
-static void enkf_main_init_pre_clear_runpath(
-                enkf_main_type * enkf_main,
-                const config_content_type * content) {
-
-  enkf_main->pre_clear_runpath = DEFAULT_PRE_CLEAR_RUNPATH;
-  if (config_content_has_item(content, PRE_CLEAR_RUNPATH_KEY))
-    enkf_main->pre_clear_runpath = config_content_get_value_as_bool(
-                                                         content,
-                                                         PRE_CLEAR_RUNPATH_KEY
-                                                         );
+static void enkf_main_init_log(const enkf_main_type * enkf_main) {
+  const log_config_type * log_config = enkf_main_get_log_config(enkf_main);
+  res_log_init_log(
+          log_config_get_log_level(log_config),
+          log_config_get_log_file(log_config),
+          enkf_main->verbose
+          );
 }
 
 
@@ -2173,12 +2104,6 @@ static void enkf_main_bootstrap_model(enkf_main_type * enkf_main, bool strict, b
 
   config_parser_type * config = config_alloc();
   config_content_type * content = model_config_alloc_content(enkf_main->user_config_file, config);
-
-  enkf_main_init_log(enkf_main, content);
-
-  enkf_main_init_delete_runpath(enkf_main, content);
-
-  enkf_main_init_pre_clear_runpath(enkf_main, content);
 
   enkf_main_init_rft_config(enkf_main, content);
 
@@ -2244,6 +2169,8 @@ enkf_main_type * enkf_main_alloc(const char * model_config, const res_config_typ
   enkf_main_rng_init( enkf_main );
 
   enkf_main_set_verbose(enkf_main, verbose);
+
+  enkf_main_init_log(enkf_main);
 
   char * user_config_file = enkf_main_alloc_model_config_filename(model_config);
   if(user_config_file) {

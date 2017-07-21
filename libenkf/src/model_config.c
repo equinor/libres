@@ -24,6 +24,7 @@
 
 #include <ert/util/type_macros.h>
 #include <ert/util/util.h>
+#include <ert/util/string_util.h>
 #include <ert/util/path_fmt.h>
 #include <ert/util/hash.h>
 #include <ert/util/menu.h>
@@ -92,6 +93,8 @@ struct model_config_struct {
   path_fmt_type        * current_runpath;           /* path_fmt instance for runpath - runtime the call gets arguments: (iens, report_step1 , report_step2) - i.e. at least one %d must be present.*/
   char                 * current_path_key;
   hash_type            * runpath_map;
+  bool                   pre_clear_runpath;
+  int_vector_type      * keep_runpath;
   char                 * jobname_fmt;               /* Format string with one '%d' for the jobname - can be NULL in which case the eclbase name will be used. */
   char                 * enspath;
   char                 * rftpath;
@@ -117,6 +120,9 @@ void model_config_set_jobname_fmt( model_config_type * model_config , const char
   model_config->jobname_fmt = util_realloc_string_copy( model_config->jobname_fmt , jobname_fmt );
 }
 
+bool model_config_get_pre_clear_runpath(const model_config_type * model_config) {
+  return model_config->pre_clear_runpath;
+}
 
 path_fmt_type * model_config_get_runpath_fmt(const model_config_type * model_config) {
   return model_config->current_runpath;
@@ -131,6 +137,10 @@ bool model_config_runpath_requires_iter( const model_config_type * model_config 
     return true;
   else
     return false;
+}
+
+int model_config_iget_keep_runpath(const model_config_type * model_config, const size_t iens) {
+  return int_vector_safe_iget(model_config->keep_runpath, iens);
 }
 
 
@@ -330,7 +340,9 @@ model_config_type * model_config_alloc() {
   model_config->runpath_map               = hash_alloc();
   model_config->gen_kw_export_file_name   = NULL;
   model_config->refcase                   = NULL;
+  model_config->keep_runpath              = int_vector_alloc(0, DEFAULT_KEEP);
 
+  model_config->pre_clear_runpath = DEFAULT_PRE_CLEAR_RUNPATH;
   model_config_set_enspath( model_config        , DEFAULT_ENSPATH );
   model_config_set_rftpath( model_config        , DEFAULT_RFTPATH );
   model_config_set_dbase_type( model_config     , DEFAULT_DBASE_TYPE );
@@ -407,6 +419,40 @@ static bool model_config_select_any_history( model_config_type * model_config , 
 }
 
 
+static void model_config_parse_keep_runpath(
+        model_config_type * model_config,
+        const char * delete_runpath_string
+        ) {
+
+  int_vector_type * active_list = string_util_alloc_active_list(delete_runpath_string);
+
+  for (int i = 0; i < int_vector_size(active_list); i++)
+    int_vector_iset(model_config->keep_runpath, int_vector_iget(active_list, i), EXPLICIT_DELETE);
+
+  int_vector_free(active_list);
+}
+
+
+/**
+   By default the simulation directories are left intact when
+   the simulations re complete, but using the keyword
+   DELETE_RUNPATH you can request (some of) the directories to
+   be wiped after the simulations are complete.
+*/
+static void model_config_init_delete_runpath(
+                model_config_type * model_config,
+                const config_content_type * config
+                ) {
+
+  int ens_size = config_content_get_value_as_int(config, NUM_REALIZATIONS_KEY);
+  for (int i = 0; i < ens_size; i++)
+    int_vector_iset(model_config->keep_runpath, i, DEFAULT_KEEP);
+
+  if (config_content_has_item(config, DELETE_RUNPATH_KEY)) {
+    const char * delete_runpath_string = config_content_get_value(config, DELETE_RUNPATH_KEY);
+    model_config_parse_keep_runpath(model_config, delete_runpath_string);
+  }
+}
 
 
 void model_config_init(model_config_type * model_config ,
@@ -431,6 +477,14 @@ void model_config_init(model_config_type * model_config ,
     model_config_add_runpath( model_config , DEFAULT_RUNPATH_KEY , config_content_get_value(config , RUNPATH_KEY) );
     model_config_select_runpath( model_config , DEFAULT_RUNPATH_KEY );
   }
+
+  if (config_content_has_item(config, PRE_CLEAR_RUNPATH_KEY))
+    model_config->pre_clear_runpath = config_content_get_value_as_bool(
+                                                         config,
+                                                         PRE_CLEAR_RUNPATH_KEY
+                                                         );
+
+  model_config_init_delete_runpath(model_config, config);
 
   {
     history_source_type source_type = DEFAULT_HISTORY_SOURCE;
@@ -537,6 +591,7 @@ void model_config_free(model_config_type * model_config) {
     time_map_free( model_config->external_time_map );
 
 
+  int_vector_free(model_config->keep_runpath);
   bool_vector_free(model_config->internalize_state);
   bool_vector_free(model_config->__load_eclipse_restart);
   hash_free(model_config->runpath_map);
@@ -723,7 +778,7 @@ static void model_config_init_user_config(config_parser_type * config ) {
   config_schema_item_iset_type(item, 0, CONFIG_EXISTING_PATH);
 
   config_add_key_value(config, LOG_LEVEL_KEY, false, CONFIG_STRING);
-  config_add_key_value(config, LOG_FILE_KEY, false, CONFIG_STRING);
+  config_add_key_value(config, LOG_FILE_KEY, false, CONFIG_PATH);
 
   config_add_key_value(config, MAX_RESAMPLE_KEY, false, CONFIG_INT);
 
