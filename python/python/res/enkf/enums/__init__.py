@@ -11,6 +11,7 @@ from .enkf_fs_type_enum import EnKFFSType
 from .gen_data_file_type_enum import GenDataFileType
 from .active_mode_enum import ActiveMode
 from .hook_runtime_enum import HookRuntime
+from .keep_runpath_enum import KeepRunpath
 
 __all__ = ["EnkfFieldFileFormatEnum",
            "LoadFailTypeEnum",
@@ -24,4 +25,5 @@ __all__ = ["EnkfFieldFileFormatEnum",
            "EnKFFSType",
            "GenDataFileType",
            "ActiveMode",
-           "HookRuntime"]
+           "HookRuntime",
+           "KeepRunpath"]

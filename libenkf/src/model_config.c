@@ -143,6 +143,9 @@ int model_config_iget_keep_runpath(const model_config_type * model_config, const
   return int_vector_safe_iget(model_config->keep_runpath, iens);
 }
 
+const int_vector_type * model_config_get_keep_runpath(const model_config_type * model_config) {
+  return model_config->keep_runpath;
+}
 
 const char * model_config_get_case_table_file( const model_config_type * model_config ) {
   return model_config->case_table_file;
