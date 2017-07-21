@@ -19,6 +19,7 @@ from res.enkf import EnkfPrototype
 from res.sched import HistorySourceEnum, SchedFile
 from res.job_queue import ForwardModel
 from ecl.util import PathFormat
+from res.enkf.enums import KeepRunpath
 
 
 class ModelConfig(BaseCClass):
@@ -42,6 +43,8 @@ class ModelConfig(BaseCClass):
     _runpath_requires_iterations = EnkfPrototype("bool  model_config_runpath_requires_iter(model_config)")
     _get_jobname_fmt             = EnkfPrototype("char* model_config_get_jobname_fmt(model_config)")
     _get_runpath_fmt             = EnkfPrototype("path_fmt_ref model_config_get_runpath_fmt(model_config)")
+    _get_pre_clear_runpath       = EnkfPrototype("bool model_config_get_pre_clear_runpath(model_config)")
+    _get_keep_runpath            = EnkfPrototype("int_vector_ref model_config_get_keep_runpath(model_config)")
 
     def __init__(self):
         raise NotImplementedError("Class can not be instantiated directly!")
@@ -118,3 +121,21 @@ class ModelConfig(BaseCClass):
     def getRunpathFormat(self):
         """ @rtype: PathFormat """
         return self._get_runpath_fmt()
+
+    @property
+    def pre_clear_runpath(self):
+        return self._get_pre_clear_runpath()
+
+    @property
+    def keep_runpath(self):
+        def int2enum(value):
+            for enum in KeepRunpath.enums():
+                if value == enum.value:
+                    return enum
+
+            raise KeyError(
+                    "Unexpected value %d, expected value in %r" %
+                    (value, [e.value() for e in KeepRunpath.enums()])
+                    )
+
+        return map(int2enum, list(self._get_keep_runpath()))

@@ -13,6 +13,7 @@ set(PYTHON_SOURCES
     gen_data_file_type_enum.py
     active_mode_enum.py
     hook_runtime_enum.py
+    keep_runpath_enum.py
 )
 
 add_python_package("python.res.enkf.enums"  ${PYTHON_INSTALL_PREFIX}/res/enkf/enums "${PYTHON_SOURCES}" True)
