@@ -26,7 +26,7 @@ except ImportError:
     from ert_statoil.job_manager import JobManager, assert_file_executable
 
 block_illegal_fileserver = False
-    
+
 REQUESTED_HEXVERSION  =  0x02070000
 
 FILE_SERVER_BLACKLIST = ["stfv-fsi01-nfs.st.statoil.no"]
@@ -44,7 +44,7 @@ def illegal_fileserver_exit(msg_txt , user):
     s = smtplib.SMTP('localhost')
     s.sendmail(from_, [to], msg.as_string())
     s.quit()
-    
+
     sys.exit(1)
 
 
@@ -309,7 +309,7 @@ def run_one(job_manager , job):
             if returncode is None:
                 # Still running
                 if run_time > job["max_running_minutes"] * 60:
-                    # Have been running to long - kill it
+                    # Have been running too long - kill it
                     kill_job_and_EXIT( job , P )
             else:
                 # Have completed within the time limits
@@ -319,6 +319,13 @@ def run_one(job_manager , job):
             exit_status = 0
         else:
             exit_status = 1
+        try:
+            P.stdin.close()
+            P.stdout.close()
+            P.stderr.close()
+        except Exception as ex:
+            log_msg = 'job_dispatch.run_one failed to close handles: %s' % ex
+            job_manager.postMessage(extra_fields={'msg': log_msg})
 
     else:
         exit_status, error_msg = job_manager.runJob(job)
@@ -469,7 +476,7 @@ Please contact Ketil Nummedal if you do not understand how to proceed.
 
         with open("WARNING-ILLEGAL-FILESERVER.txt", "w") as f:
             f.write(msg)
-            
+
         if block_illegal_fileserver:
             illegal_fileserver_exit( msg , job_manager.user )
 
