@@ -23,10 +23,10 @@ target_include_directories(analysis
 
 target_link_libraries(analysis PUBLIC ecl)
 target_compile_definitions(analysis PRIVATE -DINTERNAL_LINK)
-set_target_properties(analysis PROPERTIES
-    VERSION ${ERT_VERSION_MAJOR}.${ERT_VERSION_MINOR}
-    SOVERSION ${ERT_VERSION_MAJOR}
-)
+#set_target_properties(analysis PROPERTIES
+#    VERSION ${ERT_VERSION_MAJOR}.${ERT_VERSION_MINOR}
+#    SOVERSION ${ERT_VERSION_MAJOR}
+#)
 
 install(DIRECTORY include/ DESTINATION include)
 install(TARGETS analysis
