@@ -23,10 +23,10 @@ target_include_directories(analysis
 
 target_link_libraries(analysis PUBLIC ecl)
 target_compile_definitions(analysis PRIVATE -DINTERNAL_LINK)
-#set_target_properties(analysis PROPERTIES
-#    VERSION ${ERT_VERSION_MAJOR}.${ERT_VERSION_MINOR}
-#    SOVERSION ${ERT_VERSION_MAJOR}
-#)
+set_target_properties(analysis PROPERTIES
+    VERSION ${ERT_VERSION_MAJOR}.${ERT_VERSION_MINOR}
+    SOVERSION ${ERT_VERSION_MAJOR}
+)
 
 install(DIRECTORY include/ DESTINATION include)
 install(TARGETS analysis
@@ -46,7 +46,7 @@ set_target_properties(rml_enkf PROPERTIES VERSION 1.0
                                           SOVERSION 1.0
                                           PREFIX "")
 
-add_library(std_enkf_debug MODULE modules/std_enkf_debug.c)
+add_library(std_enkf_debug SHARED modules/std_enkf_debug.c)
 target_link_libraries(std_enkf_debug PRIVATE analysis ${CMAKE_DL_LIBS})
 target_include_directories(std_enkf_debug PRIVATE modules)
 set_target_properties(std_enkf_debug PROPERTIES VERSION 1.0
