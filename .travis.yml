@@ -69,12 +69,8 @@ install:
     - conda info -a
     - conda install pyqt=4 scipy=0.16.1 pylint numpy pandas matplotlib future
 
-env:
-  global:
-     - ERT_SHOW_BACKTRACE=1
-
 before_script:
   - wget https://raw.githubusercontent.com/Statoil/ert/master/travis/build_total.py
 
 script:
-  - python build_total.py res
+  - python build_total.py res ${TEST_SUITE}
