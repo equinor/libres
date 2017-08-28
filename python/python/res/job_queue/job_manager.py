@@ -95,7 +95,7 @@ def _jsonGet(data, key, err_msg=None):
 
 def _read_os_release(pfx='LSB_'):
     fname = '/etc/os-release'
-    if not os.isfile(fname):
+    if not os.path.isfile(fname):
         return {}
     def processline(ln):
         return ln.strip().replace('"', '')
