@@ -23,7 +23,7 @@ extern "C" {
 #endif
 
 #define RUNPATH_LIST_DEFAULT_LINE_FMT "%03d  %s  %s  %03d\n"
-
+#define RUNPATH_LIST_FILE ".ert_runpath_list"
 
   typedef struct runpath_list_struct runpath_list_type;
 

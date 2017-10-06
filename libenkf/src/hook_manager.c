@@ -161,6 +161,10 @@ void hook_manager_init( hook_manager_type * hook_manager , const config_content_
     const char * runpath_file = config_content_get_value_as_abspath(config_content, RUNPATH_FILE_KEY);
     hook_manager_set_runpath_list_file(hook_manager, NULL, runpath_file);
   }
+  else {
+    const char * runpath_path = config_content_get_config_path( config_content );
+    hook_manager_set_runpath_list_file(hook_manager, runpath_path, RUNPATH_LIST_FILE);
+  }
 }
 
 
