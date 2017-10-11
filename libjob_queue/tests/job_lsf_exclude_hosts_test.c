@@ -41,6 +41,48 @@ static char * add_excluded(lsf_driver_type * driver) {
   return select;
 }
 
+static bool stringlist_contains_substring(stringlist_type * lst, char * substr) {
+  for (int i = 0; i < stringlist_get_size(lst); i++)
+    if (strstr(stringlist_iget(lst, i), substr))
+      return true;
+  return false;
+}
+
+
+void test_submit_with_select_resources() {
+  lsf_driver_type * driver = lsf_driver_alloc();
+
+  // mimic:  QUEUE_OPTION LSF LSF_RESOURCE span[hosts=1] (see ERT-1403)
+  lsf_driver_set_option(driver, "LSF_RESOURCE",
+                        "bs[yes] "
+                        "select[hname!='xxx' && hname!='yyy'] "
+                        "span[hosts=1]"
+    );
+
+  add_excluded(driver);
+  char * select =
+    "select[hname!='xxx' && hname!='yyy' && "
+    "hname!='enern' && hname!='toern' && hname!='tre-ern.statoil.org']";
+  stringlist_type * argv = lsf_driver_alloc_cmd(driver, "", "NAME", "bsub", 1, 0, NULL);
+  lsf_driver_free(driver);
+
+  bool found = stringlist_contains_substring(argv, select);
+
+  if (!found) {
+    printf("%s lsf_driver_alloc_cmd argv does not contain %s\n", __func__, select);
+    printf("%s lsf_driver_alloc_cmd was %s\n", __func__, stringlist_alloc_joined_string(argv, " "));
+    exit(1);
+  }
+
+  bool found_span = stringlist_contains_substring(argv, "span[hosts=1]");
+  if (!found_span) {
+    printf("%s lsf_driver_alloc_cmd argv does not contain span[hosts=1]\n", __func__);
+    printf("%s lsf_driver_alloc_cmd was %s\n", __func__, stringlist_alloc_joined_string(argv, " "));
+    exit(1);
+  }
+}
+
+
 void test_submit_with_resources() {
   lsf_driver_type * driver = lsf_driver_alloc();
 
@@ -51,8 +93,17 @@ void test_submit_with_resources() {
   stringlist_type * argv = lsf_driver_alloc_cmd(driver, "", "NAME", "bsub", 1, 0, NULL);
   lsf_driver_free(driver);
 
-  if (!stringlist_contains(argv, select)) {
+  bool found = stringlist_contains_substring(argv, select);
+
+  if (!found) {
     printf("%s lsf_driver_alloc_cmd argv does not contain %s\n", __func__, select);
+    printf("%s lsf_driver_alloc_cmd was %s\n", __func__, stringlist_alloc_joined_string(argv, "\t\n"));
+    exit(1);
+  }
+
+  bool found_span = stringlist_contains_substring(argv, "span[hosts=1]");
+  if (!found_span) {
+    printf("%s lsf_driver_alloc_cmd argv does not contain span[hosts=1]\n", __func__);
     printf("%s lsf_driver_alloc_cmd was %s\n", __func__, stringlist_alloc_joined_string(argv, " "));
     exit(1);
   }
@@ -104,6 +155,7 @@ void test_bjobs_parse_hosts() {
 int main(int argc, char ** argv) {
   test_submit();
   test_submit_with_resources();
+  test_submit_with_select_resources();
 
   test_bjobs_parse_hosts();
   exit(0);

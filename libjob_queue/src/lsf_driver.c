@@ -330,6 +330,90 @@ static void lsf_driver_assert_submit_method( const lsf_driver_type * driver ) {
 
 
 
+/*
+  The resource request string contains spaces, and when passed
+  through the shell it must be protected with \"..\"; this applies
+  when submitting to a remote lsf server with ssh. However when
+  submitting to the local workstation using a bsub command the
+  command will be invoked with the util_spawn() command - and no
+  shell is involved. In this latter case we must avoid the \"...\"
+  quoting.
+*/
+static char * construct_quoted_resource_string(lsf_driver_type * driver) {
+  stringlist_type * select_list = stringlist_alloc_new();
+  if (stringlist_get_size(driver->exclude_hosts) > 0) {
+    for (int i = 0; i < stringlist_get_size(driver->exclude_hosts); i++) {
+      char * exclude_host = util_alloc_sprintf("hname!='%s'",
+                                               stringlist_iget(driver->exclude_hosts, i));
+      stringlist_append_owned_ref(select_list, exclude_host);
+    }
+  }
+
+  char * req = NULL;
+
+  if (stringlist_get_size(select_list) == 0) {
+    if (driver->resource_request)
+      req = util_alloc_string_copy(driver->resource_request);
+  } else {
+    // select_list is non-empty
+    if (driver->resource_request != NULL) {
+      char * resreq = util_alloc_string_copy(driver->resource_request);
+      char * excludes_string = stringlist_alloc_joined_string(select_list, " && ");
+
+      /*
+        A resource string can be "span[host=1] select[A && B] bla[xyz]".
+        The blacklisting feature is to have select[hname!=bad1 && hname!=bad2].
+      */
+
+      char* pos = strstr(resreq, "select["); // find select[...]
+      if (pos != NULL) {
+        // add select string to existing select[...]
+        char* endpos = strstr(pos, "]");
+        if (endpos != NULL)
+          *endpos = ' ';
+        else
+          util_abort("%s could not find termination of select statement: %s", __func__, resreq);
+
+        // We split string into (before) "bla[..] bla[..] select[xxx_"
+        // and (after) "... bla[..] bla[..]". (we replaced one ']' with ' ')
+        // Then we make final string:  before + &&excludes] + after
+        int before_size = endpos - resreq;
+        char before[before_size + 1];
+        strncpy(before, &resreq[0], before_size);
+        before[before_size] = '\0';
+
+        int after_size = strlen(resreq) - before_size;
+        char after[after_size + 1];
+        strncpy(after, &resreq[before_size], after_size);
+        after[after_size] = '\0';
+
+        req = util_alloc_sprintf("%s && %s]%s", before, excludes_string, after);
+      } else {
+        // no select string in request, add select[...]
+        req = util_alloc_sprintf("%s select[%s]", resreq, excludes_string);
+      }
+
+      free(excludes_string);
+      free(resreq);
+    } else {
+      char * select_string = stringlist_alloc_joined_string(select_list, " && ");
+      req = util_alloc_sprintf("select[%s]", select_string);
+      free(select_string);
+    }
+  }
+  stringlist_free(select_list);
+
+  char * quoted_resource_request = NULL;
+  if (req) {
+    if (driver->submit_method == LSF_SUBMIT_REMOTE_SHELL)
+      quoted_resource_request = util_alloc_sprintf("\"%s\"", req);
+    else
+      quoted_resource_request = util_alloc_string_copy(req);
+    free(req);
+  }
+  return quoted_resource_request;
+}
+
 
 
 stringlist_type * lsf_driver_alloc_cmd(lsf_driver_type * driver ,
@@ -342,58 +426,8 @@ stringlist_type * lsf_driver_alloc_cmd(lsf_driver_type * driver ,
 
   stringlist_type * argv  = stringlist_alloc_new();
   char *  num_cpu_string  = util_alloc_sprintf("%d" , num_cpu);
-  char * quoted_resource_request = NULL;
 
-  /*
-    The resource request string contains spaces, and when passed
-    through the shell it must be protected with \"..\"; this applies
-    when submitting to a remote lsf server with ssh. However when
-    submitting to the local workstation using a bsub command the
-    command will be invoked with the util_spawn() command - and no
-    shell is involved. In this latter case we must avoid the \"...\"
-    quoting.
-  */
-
-  {
-    stringlist_type * select_list = stringlist_alloc_new();
-    if (stringlist_get_size(driver->exclude_hosts) > 0) {
-      for (int i = 0; i < stringlist_get_size(driver->exclude_hosts); i++) {
-        char * exclude_host = util_alloc_sprintf("hname!='%s'", stringlist_iget(driver->exclude_hosts, i));
-        stringlist_append_owned_ref(select_list, exclude_host);
-      }
-    }
-
-    char * req = NULL;
-
-    if (stringlist_get_size(select_list) > 0) {
-      if (driver->resource_request != NULL) {
-        char * resreq = util_alloc_string_copy(driver->resource_request);
-        char * excludes_string = stringlist_alloc_joined_string(select_list, " && ");
-
-        util_string_tr(resreq, ']', ' '); // remove "]" from "select[A && B]
-        req = util_alloc_sprintf("%s && %s]", resreq, excludes_string);
-
-        free(excludes_string);
-        free(resreq);
-      } else {
-        char * select_string = stringlist_alloc_joined_string(select_list, " && ");
-        req = util_alloc_sprintf("select[%s]", select_string);
-        free(select_string);
-      }
-    } else {
-      if (driver->resource_request)
-        req = util_alloc_string_copy(driver->resource_request);
-    }
-
-    if (req) {
-      if (driver->submit_method == LSF_SUBMIT_REMOTE_SHELL)
-        quoted_resource_request = util_alloc_sprintf("\"%s\"", req);
-      else
-        quoted_resource_request = util_alloc_string_copy(req);
-      free(req);
-    }
-    stringlist_free(select_list);
-  }
+  char * quoted_resource_request = construct_quoted_resource_string(driver);
 
   if (driver->submit_method == LSF_SUBMIT_REMOTE_SHELL)
     stringlist_append_ref( argv , driver->bsub_cmd);
@@ -425,11 +459,9 @@ stringlist_type * lsf_driver_alloc_cmd(lsf_driver_type * driver ,
   }
 
   stringlist_append_ref( argv , submit_cmd);
-  {
-    int iarg;
-    for (iarg = 0; iarg < job_argc; iarg++)
-      stringlist_append_ref( argv , job_argv[ iarg ]);
-  }
+  for (int iarg = 0; iarg < job_argc; iarg++)
+    stringlist_append_ref( argv , job_argv[ iarg ]);
+
   free( num_cpu_string );
   util_safe_free( quoted_resource_request );
   return argv;
@@ -1342,4 +1374,3 @@ void * lsf_driver_alloc( ) {
 
 
 /*****************************************************************/
-
