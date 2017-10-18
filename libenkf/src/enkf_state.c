@@ -1241,15 +1241,23 @@ void enkf_state_ecl_write(enkf_state_type * enkf_state, const run_arg_type * run
      -----------------------------------------------------------------------------------------
   */
 
+  const shared_info_type * shared_info   = enkf_state->shared_info;
+  const model_config_type * model_config = shared_info->model_config;
+  const char * base_name                 = model_config_get_gen_kw_export_file(model_config);
+  char * export_file_name                = util_alloc_filename( run_arg_get_runpath( run_arg ) , base_name  , NULL);
+
+  // if the export file already exists, back it up
+  if(util_file_exists(export_file_name)) {
+    char * outdated_file_name = util_alloc_filename( run_arg_get_runpath( run_arg ) , base_name  , "old");
+    util_move_file(export_file_name, outdated_file_name);
+    free(outdated_file_name);
+  }
+
   stringlist_type * key_list = ensemble_config_alloc_keylist_from_var_type( enkf_state->ensemble_config , PARAMETER );
   if(stringlist_get_size( key_list ) > 0)
   {
-    const shared_info_type * shared_info   = enkf_state->shared_info;
-    const model_config_type * model_config = shared_info->model_config;
-    int iens                               = enkf_state_get_iens( enkf_state );
-    const char * base_name                 = model_config_get_gen_kw_export_file(model_config);
-    char * export_file_name                = util_alloc_filename( run_arg_get_runpath( run_arg ) , base_name  , NULL);
-    FILE * export_file                     = util_mkdir_fopen(export_file_name, "w");
+    int iens           = enkf_state_get_iens( enkf_state );
+    FILE * export_file = util_mkdir_fopen(export_file_name, "w");
 
     int ikey;
     for (ikey = 0; ikey < stringlist_get_size( key_list ); ikey++) {
@@ -1273,8 +1281,8 @@ void enkf_state_ecl_write(enkf_state_type * enkf_state, const run_arg_type * run
       enkf_node_free(enkf_node);
     }
     fclose(export_file);
-    free(export_file_name);
   }
+  free(export_file_name);
   stringlist_free( key_list );
 }
 
