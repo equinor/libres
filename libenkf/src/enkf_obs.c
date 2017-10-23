@@ -749,12 +749,15 @@ bool enkf_obs_load(enkf_obs_type * enkf_obs ,
   if (!enkf_obs->valid)
     return false;
 
-  int last_report                      = enkf_obs_get_last_restart( enkf_obs );
-  conf_class_type    * enkf_conf_class = enkf_obs_get_obs_conf_class();
-  conf_instance_type * enkf_conf       = conf_instance_alloc_from_file(enkf_conf_class, "enkf_conf", config_file);
+  int last_report = enkf_obs_get_last_restart(enkf_obs);
+  conf_class_type * enkf_conf_class = enkf_obs_get_obs_conf_class();
+  conf_instance_type * enkf_conf = conf_instance_alloc_from_file(enkf_conf_class,
+                                                                 "enkf_conf",
+                                                                 config_file);
 
   if(!conf_instance_validate(enkf_conf))
-    util_abort("Can not proceed with this configuration.\n");
+    util_abort("%s: Can not proceed with this configuration: %s\n",
+               __func__, config_file);
 
   handle_history_observation(enkf_obs, enkf_conf, last_report, std_cutoff);
   handle_summary_observation(enkf_obs, enkf_conf, last_report);
