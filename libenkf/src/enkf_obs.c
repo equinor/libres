@@ -275,6 +275,9 @@ bool enkf_obs_have_obs( const enkf_obs_type * enkf_obs ) {
     return false;
 }
 
+bool enkf_obs_is_valid(const enkf_obs_type* obs) {
+  return obs->valid;
+}
 
 void enkf_obs_free(enkf_obs_type * enkf_obs) {
   hash_free(enkf_obs->obs_hash);
@@ -734,7 +737,6 @@ static void handle_general_observation(enkf_obs_type * enkf_obs,
 
 
 
-
 /**
    This function will load an observation configuration from the
    observation file @config_file.
@@ -742,12 +744,13 @@ static void handle_general_observation(enkf_obs_type * enkf_obs,
    If called several times during one invocation the function will
    start by clearing the current content.
 */
-bool enkf_obs_load(enkf_obs_type * enkf_obs ,
+void enkf_obs_load(enkf_obs_type * enkf_obs ,
                    const char * config_file,
                    double std_cutoff) {
 
-  if (!enkf_obs->valid)
-    return false;
+  if (!enkf_obs_is_valid(enkf_obs))
+    util_abort("%s cannot load invalid enkf observation config %s.\n",
+               __func__, config_file);
 
   int last_report = enkf_obs_get_last_restart(enkf_obs);
   conf_class_type * enkf_conf_class = enkf_obs_get_obs_conf_class();
@@ -768,14 +771,10 @@ bool enkf_obs_load(enkf_obs_type * enkf_obs ,
   conf_class_free(enkf_conf_class);
 
   enkf_obs_update_keys( enkf_obs );
-  return true;
 }
 
 
-
-
-
- static conf_class_type * enkf_obs_get_obs_conf_class( void ) {
+static conf_class_type * enkf_obs_get_obs_conf_class( void ) {
   const char * enkf_conf_help = "An instance of the class ENKF_CONFIG shall contain neccessary infomation to run the enkf.";
   conf_class_type * enkf_conf_class = conf_class_alloc_empty("ENKF_CONFIG", true , false , enkf_conf_help);
   conf_class_set_help(enkf_conf_class, enkf_conf_help);
