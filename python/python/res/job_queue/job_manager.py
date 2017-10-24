@@ -142,7 +142,6 @@ class JobManager(object):
             self._loadModule(module_file)
 
         self.start_time = dt.now()
-        #((self.file_server, self.isilon_node), self.fs_use) = JobManager.fsInfo() DEBUG
         self.max_runtime = 0  # This option is currently sleeping
         self.short_sleep = 2  # Sleep between status checks
         self.node = socket.gethostname()
@@ -259,7 +258,6 @@ class JobManager(object):
 
     def initStatusFile(self):
         with open(self.STATUS_file, "a") as f:
-            #f.write("%-32s: %s/%s  file-server:%s \n" % ("Current host", self.node, os.uname()[4], self.isilon_node))  DEBUG
             f.write("%-32s: %s/%s\n" % ("Current host", self.node, os.uname()[4]))
             if "LSF_JOBID" in os.environ:
                 f.write("LSF JOBID: %s\n" % os.environ.get("LSF_JOBID"))
@@ -302,10 +300,6 @@ class JobManager(object):
     def getRuntime(self):
         rt = dt.now() - self.start_time
         return rt.total_seconds()
-
-
-    #def getFileServer(self): DEBUG
-    #    return self.isilon_node
 
 
     def execJob(self, job):
