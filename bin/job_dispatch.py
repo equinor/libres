@@ -398,9 +398,6 @@ def main(argv):
     max_runtime = 0
     job_manager = JobManager(error_url=LOG_URL, log_url=LOG_URL)
 
-
-    checkFileServerBlackList(job_manager)
-
     if len(sys.argv) <= 2:
         # Normal batch run.
 
@@ -447,8 +444,8 @@ def main(argv):
                 for j in jobs.jobList:
                     print "   %s" % j["name"]
 
-
-def checkFileServerBlackList(job_manager):
+#DEBUG
+def DEBUG_checkFileServerBlackList(job_manager):
     fs_info, usage = JobManager.fsInfo( )
     file_server = fs_info[0]
     if file_server in FILE_SERVER_BLACKLIST:
