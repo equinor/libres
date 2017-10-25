@@ -488,31 +488,6 @@ class JobManager(object):
 
         return ('?', '?.?.?.?')
 
-    #@staticmethod
-    #def fsInfo(path = None):
-    #    if path is None:
-    #        path = os.getcwd()
-
-    #    if not os.path.isabs(path):
-    #        raise ValueError("Must have an absolute path")
-
-    #    if not os.path.exists(path):
-    #        raise ValueError("No such entry: %s" % path)
-
-    #    path_list = path.split("/")
-    #    if len(path_list) < 3:
-    #        raise ValueError("Must have at least two levels in directory name")
-
-    #    mount_point = "/%s/%s" % (path_list[1], path_list[2])
-    #    file_server, isilon_node = JobManager.mountPoint(mount_point)
-
-    #    df_stdout = subprocess.check_output(["df", "-Ph", path]).strip().split('\n')
-    #    line1 = df_stdout[1].split()
-    #    size = line1[1]
-    #    free = line1[3]
-    #    util = line1[4]
-    #    return ((file_server, isilon_node), (size, free, util))
-
 
     # This file will be read by the job_queue_node_fscanf_EXIT() function
     # in job_queue.c. Be very careful with changes in output format.
