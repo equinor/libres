@@ -27,6 +27,7 @@ add_library(job_queue src/ext_job.c
                       src/workflow.c
                       src/workflow_job.c
                       src/workflow_joblist.c
+                      src/environment_varlist.c
                       ${lsb}
 )
 
@@ -60,6 +61,10 @@ target_link_libraries(create_file job_queue)
 add_executable(job_status_test tests/job_status_test.c)
 target_link_libraries(job_status_test job_queue pthread)
 add_test(NAME job_status_test COMMAND job_status_test)
+
+add_executable(environment_varlist_test tests/environment_varlist_test.c)
+target_link_libraries(environment_varlist_test job_queue)
+add_test(NAME environment_varlist_test COMMAND environment_varlist_test)
 
 add_executable(job_loadOK tests/job_loadOK.c)
 target_link_libraries(job_loadOK job_queue)
