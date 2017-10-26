@@ -22,9 +22,10 @@
 extern "C" {
 #endif
 
+typedef struct env_varlist_struct env_varlist_type;
 
-
-
+env_varlist_type * env_varlist_alloc();
+void               env_varlist_free(env_varlist_type * list);
 
 #ifdef __cplusplus
 }
