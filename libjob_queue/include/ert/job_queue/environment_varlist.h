@@ -28,7 +28,7 @@ env_varlist_type * env_varlist_alloc();
 
 void               env_varlist_add(env_varlist_type * list, char * var_name, char * var_value);
 int                env_varlist_get_size(env_varlist_type * list);
-char            ** env_varlist_get_varlist(env_varlist_type * list);
+char            ** env_varlist_alloc_varlist(env_varlist_type * list);
 char             * env_varlist_get_value(env_varlist_type * list, char * var);
 
 void               env_varlist_free(env_varlist_type * list);

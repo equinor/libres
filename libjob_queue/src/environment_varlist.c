@@ -20,7 +20,7 @@ int env_varlist_get_size(env_varlist_type * list) {
   return hash_get_size(list->varlist);
 }
 
-char ** env_varlist_get_varlist(env_varlist_type * list) {
+char ** env_varlist_alloc_varlist(env_varlist_type * list) {
   return hash_alloc_keylist(list->varlist);
 }
 

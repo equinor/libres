@@ -3,8 +3,10 @@
 #include <ert/util/test_util.h>
 
 void test_varlist() {
-  char * first  = "FIRST";  char * first_value = "TheFirstValue";
-  char * second = "SECOND"; char * second_value = "TheSecondValue";
+  char * first = util_alloc_string_copy("FIRST");
+  char * second = util_alloc_string_copy("SECOND");
+  char * first_value = util_alloc_string_copy("TheFirstValue");
+  char * second_value = util_alloc_string_copy("TheSecondValue");
 
   env_varlist_type * list = env_varlist_alloc();
   env_varlist_add(list, first, first_value);
@@ -12,7 +14,7 @@ void test_varlist() {
   int size = env_varlist_get_size(list);
   test_assert_int_equal(size, 2);
 
-  char ** keylist = env_varlist_get_varlist(list);
+  char ** keylist = env_varlist_alloc_varlist(list);
  
   char * value_0 = env_varlist_get_value(list, keylist[0]);
   test_assert_string_equal(value_0, second_value);
@@ -20,9 +22,11 @@ void test_varlist() {
   test_assert_string_equal(value_1, first_value);
 
   env_varlist_free(list);
+  free(first);  free(first_value);
+  free(second); free(second_value);
+  free(keylist[0]);
+  free(keylist[1]);
   free(keylist);
-  free(value_0);
-  free(value_1);
 }
 
 
