@@ -26,16 +26,18 @@ void test_varlist() {
   char * second_value = util_alloc_string_copy("TheSecondValue");
 
   env_varlist_type * list = env_varlist_alloc();
-  env_varlist_add(list, first, first_value);
-  env_varlist_add(list, second, second_value);
+  env_varlist_setenv(list, first, first_value);
+  env_varlist_setenv(list, second, second_value);
+  test_assert_string_equal(first_value, getenv(first));
+  test_assert_string_equal(second_value, getenv(second));
   int size = env_varlist_get_size(list);
   test_assert_int_equal(size, 2);
 
   char ** keylist = env_varlist_alloc_varlist(list);
  
-  char * value_0 = env_varlist_get_value(list, keylist[0]);
+  const char * value_0 = env_varlist_get_value(list, keylist[0]);
   test_assert_string_equal(value_0, second_value);
-  char * value_1 = env_varlist_get_value(list, keylist[1]);
+  const char * value_1 = env_varlist_get_value(list, keylist[1]);
   test_assert_string_equal(value_1, first_value);
 
   env_varlist_free(list);
@@ -46,8 +48,22 @@ void test_varlist() {
   free(keylist);
 }
 
+void test_setenv() {
+  char * first = util_alloc_string_copy("FIRST");
+  char * second = util_alloc_string_copy("SECOND");
+  char * first_value = util_alloc_string_copy("TheFirstValue");
+  char * second_value = util_alloc_string_copy("TheSecondValue");
+  env_varlist_type * list = env_varlist_alloc();
+  env_varlist_setenv(list, first, first_value);
+  env_varlist_setenv(list, second, second_value);
+  test_assert_string_equal(first_value, getenv(first));
+
+}
+
 
 int main() {
   test_varlist();
+  //test_setenv();
+  
   return 0;
 }
