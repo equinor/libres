@@ -28,15 +28,6 @@ typedef struct env_varlist_struct env_varlist_type;
 
 env_varlist_type * env_varlist_alloc();
 
-void               env_varlist_add(env_varlist_type * list, const char * var_name, const char * var_value);
-const char       * env_varlist_add_pathvar(env_varlist_type * list, const char * var, const char * value);
-int                env_varlist_get_size(const env_varlist_type * list);
-char            ** env_varlist_alloc_varlist(const env_varlist_type * list);
-const char       * env_varlist_get_value(const env_varlist_type * list, const char * var);
-
-
-
-
 void               env_varlist_setenv(env_varlist_type * list, const char * var, const char * value);
 void               env_varlist_fprintf(env_varlist_type * list, FILE * stream);
 

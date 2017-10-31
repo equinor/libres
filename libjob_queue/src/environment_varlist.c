@@ -33,30 +33,6 @@ env_varlist_type * env_varlist_alloc() {
   return list;
 }
 
-void env_varlist_add(env_varlist_type * list, const char * var_name, const char * var_value) {
-  hash_insert_string(list->varlist, var_name, var_value);
-}
-
-const char * env_varlist_add_pathvar(env_varlist_type * list, const char * var, const char * value) {
-  char * _value = NULL;
-  if (hash_has_key(list->varlist, var))
-    _value = hash_get(list->varlist, var);
-  env_varlist_add(list, var, value);
-  return _value;
-}
-
-int env_varlist_get_size(const env_varlist_type * list) {
-  return hash_get_size(list->varlist);
-}
-
-char ** env_varlist_alloc_varlist(const env_varlist_type * list) {
-  return hash_alloc_keylist(list->varlist);
-}
-
-const char * env_varlist_get_value(const env_varlist_type * list, const char * var) {
-  return hash_get(list->varlist, var);
-}
-
 
 void env_varlist_setenv(env_varlist_type * list, const char * key, const char * value) {
   util_interp_setenv(key, value);
