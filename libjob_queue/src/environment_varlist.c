@@ -21,6 +21,8 @@
 #include <ert/util/util_env.h>
 #include <ert/util/hash.h>
 
+#define ENV_VAR_KEY_STRING "global_environment"
+
 struct env_varlist_struct {
   hash_type * varlist;
 };
@@ -56,20 +58,33 @@ const char * env_varlist_get_value(const env_varlist_type * list, const char * v
 }
 
 
-void env_varlist_setenv(env_varlist_type * list, const char * var, const char * value) {
-  util_interp_setenv(var, value);
-  env_varlist_add(list, var, value);
+void env_varlist_setenv(env_varlist_type * list, const char * key, const char * value) {
+  util_interp_setenv(key, value);
+  hash_insert_string(list->varlist, key, value);
 }
 
 void env_varlist_fprintf_json(env_varlist_type * list) {
   FILE * stream    = util_fopen("jobs.json", "w");
+  fprintf(stream, "{\n");
+  fprintf(stream, "   ");
+  env_varlist_fprintf(list, stream);
+  fprintf(stream, "\n}");
   fclose(stream);
 }
 
 void env_varlist_fprintf(env_varlist_type * list, FILE * stream) {
   int size = hash_get_size(list->varlist);
-  fprintf(stream, "\"global_environment\" : {");
-  fprintf(stream, "}\n");
+  fprintf(stream, "\"%s\" : {", ENV_VAR_KEY_STRING);
+  char ** keylist = hash_alloc_keylist(list->varlist);
+  int i_max = size - 1;
+  for (int i = 0; i < size; i++) {
+    fprintf(stream, "\"%s\" : \"%s\"", keylist[i], (char*)hash_get(list->varlist, keylist[i])   );
+    if (i < i_max)
+      fprintf(stream, ", ");
+    free(keylist[i]);
+  }
+  free(keylist);
+  fprintf(stream, "}");
 }
 
 void env_varlist_free(env_varlist_type * list) {

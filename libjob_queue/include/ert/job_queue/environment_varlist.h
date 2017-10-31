@@ -38,7 +38,6 @@ const char       * env_varlist_get_value(const env_varlist_type * list, const ch
 
 
 void               env_varlist_setenv(env_varlist_type * list, const char * var, const char * value);
-void               env_varlist_fprintf_json(env_varlist_type * list);
 void               env_varlist_fprintf(env_varlist_type * list, FILE * stream);
 
 void               env_varlist_free(env_varlist_type * list);
