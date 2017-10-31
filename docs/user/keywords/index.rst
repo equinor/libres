@@ -51,7 +51,6 @@ Keyword name                                                             Require
 :ref:`ANALYSIS_LOAD <analysis_load>`                                      NO                                                                     Load analysis module
 :ref:`ANALYSIS_SET_VAR <analysis_set_var>`                                NO                                                                     Set analysis module internal state variable
 :ref:`ANALYSIS_SELECT <analysis_select>`                                  NO                                     STD_ENKF                        Select analysis module to use in update
-:ref:`CASE_TABLE <case_table>`                                            NO                                                                     For running sensitivities you can give the cases descriptive names
 :ref:`CONTAINER <container>`                                              NO                                                                     ...
 :ref:`CUSTOM_KW <custom_kw>`                                              NO                                                                     Ability to load arbitrary values from the forward model.
 :ref:`DATA_FILE <data_file>`                                              YES                                                                    Provide an ECLIPSE data file for the problem.

@@ -26,9 +26,6 @@ class EclConfig(BaseCClass):
 
     _alloc                  = EnkfPrototype("void* ecl_config_alloc(config_content)", bind = False)
     _free                   = EnkfPrototype("void  ecl_config_free( ecl_config )")
-    _get_eclbase            = EnkfPrototype("char* ecl_config_get_eclbase( ecl_config )")
-    _validate_eclbase       = EnkfPrototype("ui_return_obj ecl_config_validate_eclbase( ecl_config , char*)")
-    _set_eclbase            = EnkfPrototype("void  ecl_config_set_eclbase( ecl_config , char*)")
     _get_data_file          = EnkfPrototype("char* ecl_config_get_data_file(ecl_config)")
     _set_data_file          = EnkfPrototype("void  ecl_config_set_data_file(ecl_config , char*)")
     _validate_data_file     = EnkfPrototype("ui_return_obj ecl_config_validate_data_file(ecl_config , char*)")
@@ -64,21 +61,6 @@ class EclConfig(BaseCClass):
 
     def free(self):
         self._free()
-
-    #-----------------------------------------------------------------
-
-    def getEclBase(self):
-        """ @rtype: str """
-        return self._get_eclbase()
-
-    def validateEclBase(self , eclbase_fmt):
-        return self._validate_eclbase(eclbase_fmt)
-
-    # Warning: You should probably use the EnkFMain.setEclBase() method to update the Eclipse basename format
-    def setEclBase(self , eclbase):
-        self._set_eclbase(eclbase)
-
-    #-----------------------------------------------------------------
 
     def getDataFile(self):
         return self._get_data_file()
