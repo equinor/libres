@@ -41,8 +41,6 @@ void               env_varlist_setenv(env_varlist_type * list, const char * var,
 void               env_varlist_fprintf_json(env_varlist_type * list);
 void               env_varlist_fprintf(env_varlist_type * list, FILE * stream);
 
-char *             env_varlist_get_str_json(env_varlist_type * list);
-
 void               env_varlist_free(env_varlist_type * list);
 
 #ifdef __cplusplus

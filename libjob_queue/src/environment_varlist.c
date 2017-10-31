@@ -55,14 +55,6 @@ const char * env_varlist_get_value(const env_varlist_type * list, const char * v
   return hash_get(list->varlist, var);
 }
 
-char * env_varlist_get_str_json(env_varlist_type * list) {
-  int size = hash_get_size(list->varlist);
-  if (size == 0)
-    return NULL;
-
-  char * str = util_alloc_sprintf("\"global_environment\" : {}");
-  return str;
-}
 
 void env_varlist_setenv(env_varlist_type * list, const char * var, const char * value) {
   util_interp_setenv(var, value);
