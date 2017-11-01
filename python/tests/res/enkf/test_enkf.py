@@ -232,33 +232,4 @@ class EnKFTest(ExtendedTestCase):
             arg0 = run_context[0]
             arg2 = run_context.iensGet( 2 )
             #self.assertEqual( arg0 , arg2 )
-    
-    
-    def test_run_context_from_external_folder(self):
-        with TestAreaContext('enkf_test') as work_area:
-            work_area.copy_directory(self.case_directory_custom_kw)
-            res_config = ResConfig('snake_oil/snake_oil.ert')
-            
-            base_path = os.getcwd()
-            print(base_path)
-            file_ert  = os.path.join(base_path, 'snake_oil/snake_oil.ert')
-            assert(   os.path.isfile(file_ert) )
 
-            main = EnKFMain(res_config)
-            fs_manager = main.getEnkfFsManager()
-            fs = fs_manager.getCurrentFileSystem( )
-            
-            mask = BoolVector(default_value = False , initial_size = 10)
-            mask[0] = True
-            run_context = main.getRunContextENSEMPLE_EXPERIMENT( fs , mask )
-
-            self.assertEqual( len(run_context) , 1 )
-            
-            job_queue = main.get_queue_config().create_job_queue()
-            main.getEnkfSimulationRunner().createRunPath( run_context )
-
-            #assert( os.path.isdir(   os.path.join(base_path, 'snake_oil', 'storage', 'snake_oil',  'runpath')  ))
-
-            num = main.getEnkfSimulationRunner().runEnsembleExperiment(job_queue, run_context)
-            
-            self.assertEqual( num , 1 )

@@ -15,6 +15,7 @@
 #  for more details.
 
 import os
+import sys
 import json
 import subprocess
 
@@ -42,25 +43,19 @@ class EnKFTestTransferEnv(ExtendedTestCase):
     pass
 
   def test_transfer_var(self):
+ 
     with TestAreaContext('enkf_test_transfer_env') as work_area:
       base_path = os.getcwd()
-      source_path = '/private/stefos/ert/libres/test-data/local/transfer_env'
+      source_path = self.createTestPath('local/snake_oil_no_data')
+      
       work_area.copy_directory(source_path)
-
-      print(base_path);
-      dir_ert = os.path.join(base_path, 'transfer_env');
-      print(dir_ert)
+      dir_ert = os.path.join(base_path, 'snake_oil_no_data');
       assert(os.path.isdir(  dir_ert  )  )
 
-      #os.chdir(dir_ert);
-      #os.chdir('jobs');
-      #subprocess.call(["ls", "-l"])
-
-      file_ert = os.path.join(dir_ert, 'transfer_env.ert')
-      print(file_ert)
+      file_ert = os.path.join(dir_ert, 'snake_oil.ert')
       assert(  os.path.isfile(file_ert)  )
 
-      with ErtTestContext( "transfer_env", model_config = file_ert, store_area = True) as ctx:
+      with ErtTestContext( "transfer_env_var", model_config = file_ert, store_area = True) as ctx:
         ert = ctx.getErt( )
         fs_manager = ert.getEnkfFsManager()
         result_fs = fs_manager.getCurrentFileSystem( )
@@ -72,19 +67,17 @@ class EnKFTestTransferEnv(ExtendedTestCase):
         mask = BoolVector( default_value = True, initial_size = 1 )
         run_context = ErtRunContext.ensemble_experiment( result_fs, mask, runpath_fmt, subst_list, itr)
         ert.getEnkfSimulationRunner().createRunPath( run_context )
-        job_queue = ert.get_queue_config().create_job_queue()
-        num = ert.getEnkfSimulationRunner().runEnsembleExperiment(job_queue, run_context)
-        assert(num == 1)
-        os.chdir('storage')
-        os.chdir('transfer_env')
-        os.chdir('runpath')
-        os.chdir('realisation-0')
-        os.chdir('iter-0')
+
+        os.chdir('storage/snake_oil/runpath/realisation-0/iter-0')
         assert(   os.path.isfile('jobs.json')   )
         subprocess.call(["more", "jobs.json"])
         with open("jobs.json", "r") as f:
           data = json.load(f)
-          env_data = data["global_environment"]
+          #env_data = data["global_environment"]
+          #assertEqual('FirstValue', env_data["FIRST"])
+          #assertEqual('SecondValue', env_data["SECOND"])
+ 
+          
       
       
       
