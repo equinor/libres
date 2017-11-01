@@ -56,9 +56,7 @@ class ForwardModel(BaseCClass):
     def free(self):
         self._free( )
 
-    def formatted_fprintf(self, run_id, path, data_root, global_args, umask, env_varlist = None):
-        if (not env_varlist):
-          env_varlist = EnvironmentVarlist()
+    def formatted_fprintf(self, run_id, path, data_root, global_args, umask, env_varlist):
         self._formatted_fprintf(run_id, path, data_root, global_args, umask, env_varlist)
 
     def __repr__(self):

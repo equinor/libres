@@ -342,12 +342,14 @@ class ForwardModelFormattedPrintTest(ExtendedTestCase):
             run_id = "test_no_jobs_id"
             umask = 4
             global_args = SubstitutionList()
+            varlist = EnvironmentVarlist()
             forward_model.formatted_fprintf(
                 run_id,
                 os.getcwd(),
                 "data_root",
                 global_args,
-                umask)
+                umask,
+                varlist)
 
             self.verify_json_dump([], global_args, umask, run_id)
 
@@ -391,12 +393,14 @@ class ForwardModelFormattedPrintTest(ExtendedTestCase):
                 run_id = "test_one_job"
                 umask = 11
                 global_args = SubstitutionList()
+                varlist = EnvironmentVarlist()
                 forward_model.formatted_fprintf(
                     run_id,
                     os.getcwd(),
                     "data_root",
                     global_args,
-                    umask)
+                    umask,
+                    varlist)
 
                 self.verify_json_dump([i], global_args, umask, run_id)
 
@@ -405,12 +409,14 @@ class ForwardModelFormattedPrintTest(ExtendedTestCase):
         umask = 0
         run_id = "run_all"
         global_args = SubstitutionList()
+        varlist = EnvironmentVarlist()
         forward_model.formatted_fprintf(
             run_id,
             os.getcwd(),
             "data_root",
             global_args,
-            umask)
+            umask,
+            varlist)
 
         self.verify_json_dump(range(len(joblist)), global_args, umask, run_id)
 
