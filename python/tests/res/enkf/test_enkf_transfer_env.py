@@ -15,6 +15,7 @@
 #  for more details.
 
 import os
+import json
 import subprocess
 
 from ecl.test import ExtendedTestCase, TestAreaContext
@@ -81,6 +82,9 @@ class EnKFTestTransferEnv(ExtendedTestCase):
         os.chdir('iter-0')
         assert(   os.path.isfile('jobs.json')   )
         subprocess.call(["more", "jobs.json"])
+        with open("jobs.json", "r") as f:
+          data = json.load(f)
+          env_data = data["global_environment"]
       
       
       

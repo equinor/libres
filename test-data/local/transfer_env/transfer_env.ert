@@ -8,6 +8,8 @@ RUNPATH_FILE directory/test_runpath_list.txt
 RUNPATH <STORAGE>/runpath/realisation-%d/iter-%d
 ENSPATH <STORAGE>/ensemble
 
+SETENV FIRST FirstValue
+SETENV SECOND SecondValue
 
 ECLBASE TRANSFER_ENV
 
