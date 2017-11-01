@@ -39,15 +39,6 @@ void env_varlist_setenv(env_varlist_type * list, const char * key, const char * 
   hash_insert_string(list->varlist, key, value);
 }
 
-void env_varlist_fprintf_json(env_varlist_type * list) {
-  FILE * stream    = util_fopen("jobs.json", "w");
-  fprintf(stream, "{\n");
-  fprintf(stream, "   ");
-  env_varlist_fprintf(list, stream);
-  fprintf(stream, "\n}");
-  fclose(stream);
-}
-
 void env_varlist_fprintf(env_varlist_type * list, FILE * stream) {
   int size = hash_get_size(list->varlist);
   fprintf(stream, "\"%s\" : {", ENV_VAR_KEY_STRING);

@@ -24,7 +24,6 @@ class EnvironmentVarlist(BaseCClass):
   _alloc                    = QueuePrototype("void* env_varlist_alloc()", bind=False)
   _free                     = QueuePrototype("void env_varlist_free( env_varlist )")
   _setenv                   = QueuePrototype("void env_varlist_setenv(env_varlist, char*, char*)")
-  _fprintf_json             = QueuePrototype("void env_varlist_fprintf_json(env_varlist)")
 
   def __init__(self):
     c_ptr = self._alloc()
@@ -33,10 +32,6 @@ class EnvironmentVarlist(BaseCClass):
 
   def SetEnv(self, var, value):
     self._setenv(var, value)
-
-  def WriteJson(self):
-    self._fprintf_json();
-
 
   def free(self):
     self._free( )
