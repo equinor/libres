@@ -87,8 +87,8 @@ from .job_queue_manager import JobQueueManager
 from .driver import QueueDriverEnum, Driver, LSFDriver, RSHDriver, LocalDriver
 from .ext_job import ExtJob
 from .ext_joblist import ExtJoblist
-from .forward_model import ForwardModel
 from .environment_varlist import EnvironmentVarlist
+from .forward_model import ForwardModel
 
 from .ert_script import ErtScript
 from .ert_plugin import ErtPlugin, CancelPluginException

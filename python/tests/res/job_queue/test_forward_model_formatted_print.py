@@ -4,6 +4,7 @@ import json
 from ecl.test import TestAreaContext, ExtendedTestCase
 from ecl.util import EclVersion, Version
 from res.util.substitution_list import SubstitutionList
+from res.job_queue.environment_varlist import EnvironmentVarlist
 from res.job_queue.forward_model import ForwardModel
 from res.job_queue.ext_job import ExtJob
 from res.job_queue.ext_joblist import ExtJoblist
@@ -350,6 +351,33 @@ class ForwardModelFormattedPrintTest(ExtendedTestCase):
 
             self.verify_json_dump([], global_args, umask, run_id)
 
+    def test_env_varlist(self):
+        varlist_string = "global_environment"
+        first = "FIRST"
+        second = "SECOND"
+        first_value = "TheFirstValue"
+        second_value = "TheSecondValue"
+        varlist = EnvironmentVarlist()
+        varlist.SetEnv(first, first_value)
+        varlist.SetEnv(second, second_value)
+        with TestAreaContext("python/job_queue/env_varlist"):
+            forward_model = self.set_up_forward_model([])
+            run_id = "test_no_jobs_id"
+            umask = 4
+            global_args = SubstitutionList()
+            forward_model.formatted_fprintf(
+                run_id,
+                os.getcwd(),
+                "data_root",
+                global_args,
+                umask,
+                varlist)
+            config = load_configs(self.JOBS_JSON_FILE)
+            env_config = config[varlist_string]
+            self.assertEqual(first_value, env_config[first]  )
+            self.assertEqual(second_value, env_config[second] )
+            
+            
 
     def test_repr(self):
         with TestAreaContext("python/job_queue/forward_model_one_job"):
