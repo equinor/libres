@@ -57,6 +57,10 @@ void env_varlist_json_fprintf(env_varlist_type * list, FILE * stream) {
   fprintf(stream, "}");
 }
 
+int env_varlist_get_size(env_varlist_type * list) {
+  return hash_get_size(list->varlist);
+}
+
 void env_varlist_free(env_varlist_type * list) {
   hash_free(list->varlist);
   free(list);
