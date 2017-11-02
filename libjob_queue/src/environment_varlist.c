@@ -33,24 +33,27 @@ env_varlist_type * env_varlist_alloc() {
   return list;
 }
 
-
-void env_varlist_setenv(env_varlist_type * list, const char * key, const char * value) {
-  util_interp_setenv(key, value);
-  hash_insert_string(list->varlist, key, value);
+void env_varlist_update_path(env_varlist_type * list, const char * path_var, const char * new_path)  {
+  hash_insert_string( list->varlist, path_var , util_update_path_var( path_var , new_path , false));
 }
 
-void env_varlist_fprintf(env_varlist_type * list, FILE * stream) {
+void env_varlist_setenv(env_varlist_type * list, const char * key, const char * value) {
+  char * _value = util_interp_setenv(key, value);
+  hash_insert_string(list->varlist, key, _value);
+}
+
+void env_varlist_json_fprintf(env_varlist_type * list, FILE * stream) {
   int size = hash_get_size(list->varlist);
   fprintf(stream, "\"%s\" : {", ENV_VAR_KEY_STRING);
-  char ** keylist = hash_alloc_keylist(list->varlist);
+  stringlist_type * stringlist = hash_alloc_stringlist(list->varlist);
   int i_max = size - 1;
   for (int i = 0; i < size; i++) {
-    fprintf(stream, "\"%s\" : \"%s\"", keylist[i], (char*)hash_get(list->varlist, keylist[i])   );
+    char * key = stringlist_iget(stringlist, i);
+    fprintf(stream, "\"%s\" : \"%s\"", key, (char*)hash_get(list->varlist, key)   );
     if (i < i_max)
       fprintf(stream, ", ");
-    free(keylist[i]);
   }
-  free(keylist);
+  stringlist_free(stringlist);
   fprintf(stream, "}");
 }
 

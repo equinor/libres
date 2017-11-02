@@ -357,11 +357,15 @@ class ForwardModelFormattedPrintTest(ExtendedTestCase):
         varlist_string = "global_environment"
         first = "FIRST"
         second = "SECOND"
+        third = "THIRD"
         first_value = "TheFirstValue"
         second_value = "TheSecondValue"
+        third_value = "$FIRST:$SECOND"
+        third_value_correct = "%s:%s" % (first_value, second_value)
         varlist = EnvironmentVarlist()
         varlist.SetEnv(first, first_value)
         varlist.SetEnv(second, second_value)
+        varlist.SetEnv(third, third_value)
         with TestAreaContext("python/job_queue/env_varlist"):
             forward_model = self.set_up_forward_model([])
             run_id = "test_no_jobs_id"
@@ -378,6 +382,7 @@ class ForwardModelFormattedPrintTest(ExtendedTestCase):
             env_config = config[varlist_string]
             self.assertEqual(first_value, env_config[first]  )
             self.assertEqual(second_value, env_config[second] )
+            self.assertEqual(third_value_correct, env_config[third])
             
             
 

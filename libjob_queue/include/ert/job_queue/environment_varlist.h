@@ -28,8 +28,9 @@ typedef struct env_varlist_struct env_varlist_type;
 
 env_varlist_type * env_varlist_alloc();
 
+void               env_varlist_update_path(env_varlist_type * list, const char * path_var, const char * new_path);
 void               env_varlist_setenv(env_varlist_type * list, const char * var, const char * value);
-void               env_varlist_fprintf(env_varlist_type * list, FILE * stream);
+void               env_varlist_json_fprintf(env_varlist_type * list, FILE * stream);
 
 void               env_varlist_free(env_varlist_type * list);
 
