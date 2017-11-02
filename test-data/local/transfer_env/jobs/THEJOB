@@ -1,6 +1,0 @@
-STDOUT tran.stdout
-STDERR tran.stderr
-
-EXECUTABLE ls
-
-ARGLIST -l
