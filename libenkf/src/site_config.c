@@ -33,6 +33,7 @@
 #include <ert/job_queue/rsh_driver.h>
 #include <ert/job_queue/local_driver.h>
 #include <ert/job_queue/queue_driver.h>
+#include <ert/job_queue/environment_varlist.h>
 
 #include <ert/config/config_parser.h>
 #include <ert/config/config_content_item.h>
@@ -91,6 +92,8 @@ struct site_config_struct {
                                                      These jobs will be the parts of the forward model. */
   hash_type * env_variables_user; /* The environment variables set in the user config file. */ //REPLACE
   hash_type * env_variables_site; /* The environment variables set in site_config file - not exported. */ //REMOVE
+
+  env_varlist_type * env_varlist; //Container for the environment variables set in the user config file.
 
   mode_t umask;
 
@@ -165,8 +168,10 @@ static site_config_type * site_config_alloc_empty() {
   site_config->user_mode = false;  
 
 
-  site_config->env_variables_user = hash_alloc();
-  site_config->env_variables_site = hash_alloc();
+  site_config->env_variables_user = hash_alloc();  //REMOVE
+  site_config->env_variables_site = hash_alloc();  //REMOVE
+
+  site_config->env_varlist = env_varlist_alloc();
 
   site_config->path_variables_user = stringlist_alloc_new();
   site_config->path_values_user = stringlist_alloc_new();
@@ -546,7 +551,9 @@ static void site_config_init_env(site_config_type * site_config, const config_co
         const char * var = config_content_node_iget(setenv_node, 0);
         const char * value = config_content_node_iget(setenv_node, 1);
 
-        site_config_setenv(site_config, var, value);
+        //env_varlist_setenv(site_config->env_varlist, var, value);
+        site_config_setenv(site_config, var, value);  //REMOVE
+        
       }
     }
   }
@@ -625,6 +632,8 @@ void site_config_free(site_config_type * site_config) {
 
   hash_free(site_config->env_variables_site);
   hash_free(site_config->env_variables_user);
+
+  env_varlist_free(site_config->env_varlist);
 
   if (site_config->__license_root_path != NULL)
     util_clear_directory(site_config->__license_root_path, true, true);

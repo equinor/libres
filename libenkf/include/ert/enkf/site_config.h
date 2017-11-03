@@ -32,6 +32,7 @@ extern "C" {
 #include <ert/job_queue/job_queue.h>
 #include <ert/job_queue/ext_joblist.h>
 #include <ert/job_queue/forward_model.h>
+#include <ert/job_queue/environment_varlist.h>
 
 #include <ert/enkf/queue_config.h>
 
@@ -63,7 +64,7 @@ typedef struct site_config_struct site_config_type;
   void                     site_config_set_max_running_local( site_config_type * site_config , int max_running_local);
   int                      site_config_get_max_running_local( const site_config_type * site_config );
   void                     site_config_setenv( site_config_type * site_config , const char * variable, const char * value);  //REPLACE
-  hash_type              * site_config_get_env_hash( const site_config_type * site_config );  //REMOVE
+  hash_type              * site_config_get_env_hash( const site_config_type * site_config );  //REPLACE
   void                     site_config_clear_pathvar( site_config_type * site_config );
   stringlist_type        * site_config_get_path_variables( const site_config_type * site_config );
   stringlist_type        * site_config_get_path_values( const site_config_type * site_config );
