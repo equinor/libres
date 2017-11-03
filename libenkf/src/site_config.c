@@ -514,7 +514,7 @@ void site_config_set_default_browser(site_config_type * site_config, const char 
 
 
 
-env_varlist_type * site_config_get_env_varlist(const site_config_type * site_config) {
+const env_varlist_type * site_config_get_env_varlist(const site_config_type * site_config) {
   return site_config->env_varlist;
 }
 
