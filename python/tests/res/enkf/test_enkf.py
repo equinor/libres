@@ -35,7 +35,7 @@ from res.enkf.observations.summary_observation import SummaryObservation
 class EnKFTest(ExtendedTestCase):
     def setUp(self):
         self.case_directory = self.createTestPath("local/simple_config/")
-        self.case_directory_custom_kw = self.createTestPath("local/snake_oil/")
+        #self.case_directory_custom_kw = self.createTestPath("local/snake_oil/")
 
 
     def test_repr( self ):

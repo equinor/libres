@@ -89,8 +89,8 @@ struct site_config_struct {
 
   ext_joblist_type * joblist; /* The list of external jobs which have been installed.
                                                      These jobs will be the parts of the forward model. */
-  hash_type * env_variables_user; /* The environment variables set in the user config file. */
-  hash_type * env_variables_site; /* The environment variables set in site_config file - not exported. */
+  hash_type * env_variables_user; /* The environment variables set in the user config file. */ //REPLACE
+  hash_type * env_variables_site; /* The environment variables set in site_config file - not exported. */ //REMOVE
 
   mode_t umask;
 
