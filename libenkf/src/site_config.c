@@ -90,8 +90,6 @@ struct site_config_struct {
 
   ext_joblist_type * joblist; /* The list of external jobs which have been installed.
                                                      These jobs will be the parts of the forward model. */
-  hash_type * env_variables_user; /* The environment variables set in the user config file. */ //REPLACE
-  hash_type * env_variables_site; /* The environment variables set in site_config file - not exported. */ //REMOVE
 
   env_varlist_type * env_varlist; //Container for the environment variables set in the user config file.
 
@@ -166,10 +164,6 @@ static site_config_type * site_config_alloc_empty() {
   site_config->manual_url = NULL;
   site_config->default_browser = NULL;
   site_config->user_mode = false;  
-
-
-  site_config->env_variables_user = hash_alloc();  //REMOVE
-  site_config->env_variables_site = hash_alloc();  //REMOVE
 
   site_config->env_varlist = env_varlist_alloc();
 
@@ -319,10 +313,6 @@ static void site_config_add_jobs(site_config_type * site_config, const config_co
 
 }
 
-hash_type * site_config_get_env_hash(const site_config_type * site_config) {
-  return site_config->env_variables_user;
-}
-
 /**
    Will only return the user-set variables. The variables set in the
    site config are hidden.
@@ -341,19 +331,6 @@ stringlist_type * site_config_get_path_values(const site_config_type * site_conf
    interpolated value returned from util_interp_setenv(), where $VAR
    expressions have been expanded.
  */
-
-void site_config_setenv(site_config_type * site_config, const char * variable, const char * __value) {
-  const char * value = util_interp_setenv(variable, __value);
-
-  if (site_config->user_mode) {
-    /* In the table meant for user-export we store the literal $var strings. */
-    hash_insert_hash_owned_ref(site_config->env_variables_user, variable, util_alloc_string_copy(__value), free);
-
-    if (!hash_has_key(site_config->env_variables_site, variable))
-      hash_insert_ref(site_config->env_variables_site, variable, NULL); /* We insert a NULL so we can recover a unsetenv() in _clear_env(). */
-  } else
-    hash_insert_hash_owned_ref(site_config->env_variables_site, variable, util_alloc_string_copy(value), free);
-}
 
 
 void site_config_clear_pathvar(site_config_type * site_config) {
@@ -554,8 +531,6 @@ static void site_config_init_env(site_config_type * site_config, const config_co
         const char * value = config_content_node_iget(setenv_node, 1);
 
         env_varlist_setenv(site_config->env_varlist, var, value);
-        //site_config_setenv(site_config, var, value);  //REMOVE
-        
       }
     }
   }
@@ -631,9 +606,6 @@ void site_config_free(site_config_type * site_config) {
   stringlist_free(site_config->path_variables_user);
   stringlist_free(site_config->path_values_user);
   hash_free(site_config->path_variables_site);
-
-  hash_free(site_config->env_variables_site);
-  hash_free(site_config->env_variables_user);
 
   env_varlist_free(site_config->env_varlist);
 
