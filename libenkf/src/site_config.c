@@ -350,45 +350,6 @@ void site_config_setenv(site_config_type * site_config, const char * variable, c
     hash_insert_hash_owned_ref(site_config->env_variables_site, variable, util_alloc_string_copy(value), free);
 }
 
-/**
-   Clears all the environment variables set by the user. This is done
-   is follows:
-
-     1. Iterate through the table config->env_variables_user and call
-        unsetenv() on all of them
-
-     2. Iterate through the table config->env_variables_site and call
-        setenv() on all of them.
-
-   This way the environment should be identical to what it is after
-   the site parsing is completed.
- */
-
-
-void site_config_clear_env(site_config_type * site_config) {
-  /* 1: Clearing the user_set variables. */
-  {
-    hash_iter_type * hash_iter = hash_iter_alloc(site_config->env_variables_user);
-    while (!hash_iter_is_complete(hash_iter)) {
-      const char * var = hash_iter_get_next_key(hash_iter);
-      util_unsetenv(var);
-    }
-    hash_iter_free(hash_iter);
-    hash_clear(site_config->env_variables_user);
-  }
-
-
-  /* 2: Recovering the site_set variables. */
-  {
-    hash_iter_type * hash_iter = hash_iter_alloc(site_config->env_variables_site);
-    while (!hash_iter_is_complete(hash_iter)) {
-      const char * var = hash_iter_get_next_key(hash_iter);
-      const char * value = hash_get(site_config->env_variables_site, var);
-      util_interp_setenv(var, value); /* Will call unsetenv if value == NULL */
-    }
-    hash_iter_free(hash_iter);
-  }
-}
 
 void site_config_clear_pathvar(site_config_type * site_config) {
   stringlist_clear(site_config->path_variables_user);

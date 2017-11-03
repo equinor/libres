@@ -45,7 +45,6 @@ class SiteConfig(BaseCClass):
     _get_license_root_path = EnkfPrototype("char* site_config_get_license_root_path(site_config)")
     _set_license_root_path = EnkfPrototype("void site_config_set_license_root_path(site_config, char*)")
     _get_env_hash          = EnkfPrototype("string_hash_ref site_config_get_env_hash(site_config)")
-    _clear_env             = EnkfPrototype("void site_config_clear_env(site_config)")
     _setenv                = EnkfPrototype("void site_config_setenv(site_config, char*, char*)")
     _get_path_variables    = EnkfPrototype("stringlist_ref site_config_get_path_variables(site_config)")
     _get_path_values       = EnkfPrototype("stringlist_ref site_config_get_path_values(site_config)")
@@ -148,9 +147,6 @@ class SiteConfig(BaseCClass):
 
     def setenv(self, var, value):
         self._setenv( var, value)
-
-    def clear_env(self):
-        self._clear_env(  )
 
     def get_path_variables(self):
         """ @rtype: StringList """
