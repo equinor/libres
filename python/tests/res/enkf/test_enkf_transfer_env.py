@@ -67,15 +67,13 @@ class EnKFTestTransferEnv(ExtendedTestCase):
         mask = BoolVector( default_value = True, initial_size = 1 )
         run_context = ErtRunContext.ensemble_experiment( result_fs, mask, runpath_fmt, subst_list, itr)
         ert.getEnkfSimulationRunner().createRunPath( run_context )
-
         os.chdir('storage/snake_oil/runpath/realisation-0/iter-0')
         assert(   os.path.isfile('jobs.json')   )
-        subprocess.call(["more", "jobs.json"])
         with open("jobs.json", "r") as f:
           data = json.load(f)
-          #env_data = data["global_environment"]
-          #assertEqual('FirstValue', env_data["FIRST"])
-          #assertEqual('SecondValue', env_data["SECOND"])
+          env_data = data["global_environment"]
+          self.assertEqual('TheFirstValue', env_data["FIRST"])
+          self.assertEqual('TheSecondValue', env_data["SECOND"])
  
           
       

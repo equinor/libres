@@ -65,6 +65,7 @@ typedef struct site_config_struct site_config_type;
   int                      site_config_get_max_running_local( const site_config_type * site_config );
   void                     site_config_setenv( site_config_type * site_config , const char * variable, const char * value);  //REPLACE
   hash_type              * site_config_get_env_hash( const site_config_type * site_config );  //REPLACE
+  env_varlist_type       * site_config_get_env_varlist(const site_config_type * site_config);
   void                     site_config_clear_pathvar( site_config_type * site_config );
   stringlist_type        * site_config_get_path_variables( const site_config_type * site_config );
   stringlist_type        * site_config_get_path_values( const site_config_type * site_config );

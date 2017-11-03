@@ -537,7 +537,9 @@ void site_config_set_default_browser(site_config_type * site_config, const char 
 
 
 
-
+env_varlist_type * site_config_get_env_varlist(const site_config_type * site_config) {
+  return site_config->env_varlist;
+}
 
 
 
@@ -551,8 +553,8 @@ static void site_config_init_env(site_config_type * site_config, const config_co
         const char * var = config_content_node_iget(setenv_node, 0);
         const char * value = config_content_node_iget(setenv_node, 1);
 
-        //env_varlist_setenv(site_config->env_varlist, var, value);
-        site_config_setenv(site_config, var, value);  //REMOVE
+        env_varlist_setenv(site_config->env_varlist, var, value);
+        //site_config_setenv(site_config, var, value);  //REMOVE
         
       }
     }
