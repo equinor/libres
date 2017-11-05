@@ -295,7 +295,7 @@ class JobManagerTest(TestCase):
             self.assertTrue(os.path.isfile(executable))
 
             exit_status, msg = jobm.runJob(jobm[0])
-            self.assertEqual(exit_status, 1)            
+            self.assertEqual(exit_status, 1)
 
     def test_verify_executable(self):
         for create_jobs in [create_jobs_py, create_jobs_json]:
