@@ -21,20 +21,23 @@
 #include <ert/util/util_env.h>
 #include <ert/util/hash.h>
 
-#define ENV_VAR_KEY_STRING "global_environment"
+#define ENV_VAR_KEY_STRING     "global_environment"
+#define UPDATE_PATH_KEY_STRING "global_update_path"
 
 struct env_varlist_struct {
   hash_type * varlist;
+  hash_type * updatelist;
 };
 
 env_varlist_type * env_varlist_alloc() {
   env_varlist_type * list = util_malloc( sizeof * list );
   list->varlist = hash_alloc();
+  list->updatelist = hash_alloc();
   return list;
 }
 
 void env_varlist_update_path(env_varlist_type * list, const char * path_var, const char * new_path)  {
-  hash_insert_string( list->varlist, path_var , util_update_path_var( path_var , new_path , false));
+  hash_insert_string( list->updatelist, path_var , util_update_path_var( path_var , new_path , false));
 }
 
 void env_varlist_setenv(env_varlist_type * list, const char * key, const char * value) {
@@ -42,7 +45,12 @@ void env_varlist_setenv(env_varlist_type * list, const char * key, const char * 
   hash_insert_string(list->varlist, key, _value);
 }
 
-void env_varlist_json_fprintf(env_varlist_type * list, FILE * stream) {
+static void env_varlist_fprintf_hash(hash_type * list, FILE * stream) {
+  
+}
+
+//REFACTOR this function
+void env_varlist_json_fprintf(env_varlist_type * list, FILE * stream) { 
   int size = hash_get_size(list->varlist);
   fprintf(stream, "\"%s\" : {", ENV_VAR_KEY_STRING);
   stringlist_type * stringlist = hash_alloc_stringlist(list->varlist);
@@ -53,8 +61,22 @@ void env_varlist_json_fprintf(env_varlist_type * list, FILE * stream) {
     if (i < i_max)
       fprintf(stream, ", ");
   }
+  fprintf(stream, "},\n");
   stringlist_free(stringlist);
+
+
+  size = hash_get_size(list->updatelist);
+  fprintf(stream, "\"%s\" : {", UPDATE_PATH_KEY_STRING);
+  stringlist = hash_alloc_stringlist(list->updatelist);
+  i_max = size - 1;
+  for (int i = 0; i < size; i++) {
+    char * key = stringlist_iget(stringlist, i);
+    fprintf(stream, "\"%s\" : \"%s\"", key, (char*)hash_get(list->updatelist, key)   );
+    if (i < i_max)
+      fprintf(stream, ", ");
+  }
   fprintf(stream, "}");
+  stringlist_free(stringlist);
 }
 
 int env_varlist_get_size(env_varlist_type * list) {
@@ -63,5 +85,6 @@ int env_varlist_get_size(env_varlist_type * list) {
 
 void env_varlist_free(env_varlist_type * list) {
   hash_free(list->varlist);
+  hash_free(list->updatelist);
   free(list);
 }
