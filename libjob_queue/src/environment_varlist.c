@@ -45,38 +45,24 @@ void env_varlist_setenv(env_varlist_type * list, const char * key, const char * 
   hash_insert_string(list->varlist, key, _value);
 }
 
-static void env_varlist_fprintf_hash(hash_type * list, FILE * stream) {
-  
-}
-
-//REFACTOR this function
-void env_varlist_json_fprintf(env_varlist_type * list, FILE * stream) { 
-  int size = hash_get_size(list->varlist);
-  fprintf(stream, "\"%s\" : {", ENV_VAR_KEY_STRING);
-  stringlist_type * stringlist = hash_alloc_stringlist(list->varlist);
+static void env_varlist_fprintf_hash(hash_type * list, char * keystring, FILE * stream) {
+  int size = hash_get_size(list);
+  fprintf(stream, "\"%s\" : {", keystring);
+  stringlist_type * stringlist = hash_alloc_stringlist(list);
   int i_max = size - 1;
   for (int i = 0; i < size; i++) {
     char * key = stringlist_iget(stringlist, i);
-    fprintf(stream, "\"%s\" : \"%s\"", key, (char*)hash_get(list->varlist, key)   );
-    if (i < i_max)
-      fprintf(stream, ", ");
-  }
-  fprintf(stream, "},\n");
-  stringlist_free(stringlist);
-
-
-  size = hash_get_size(list->updatelist);
-  fprintf(stream, "\"%s\" : {", UPDATE_PATH_KEY_STRING);
-  stringlist = hash_alloc_stringlist(list->updatelist);
-  i_max = size - 1;
-  for (int i = 0; i < size; i++) {
-    char * key = stringlist_iget(stringlist, i);
-    fprintf(stream, "\"%s\" : \"%s\"", key, (char*)hash_get(list->updatelist, key)   );
+    fprintf(stream, "\"%s\" : \"%s\"", key, (char*)hash_get(list, key)   );
     if (i < i_max)
       fprintf(stream, ", ");
   }
   fprintf(stream, "}");
   stringlist_free(stringlist);
+}
+
+void env_varlist_json_fprintf(env_varlist_type * list, FILE * stream) { 
+  env_varlist_fprintf_hash(list->varlist,    ENV_VAR_KEY_STRING,     stream); fprintf(stream, ",\n");
+  env_varlist_fprintf_hash(list->updatelist, UPDATE_PATH_KEY_STRING, stream);
 }
 
 int env_varlist_get_size(env_varlist_type * list) {
