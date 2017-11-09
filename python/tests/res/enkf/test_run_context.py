@@ -15,6 +15,7 @@ class ErtRunContextTest(ExtendedTestCase):
             target_fs = None
 
             mask = BoolVector( initial_size = 100 , default_value = True )
+            mask[50] = False
             runpath_fmt = PathFormat( "path/to/sim%d" )
             subst_list = SubstitutionList( )
             itr = 0
@@ -29,3 +30,6 @@ class ErtRunContextTest(ExtendedTestCase):
             run_id2 = run_context2.get_id( )
 
             self.assertFalse( run_id1 == run_id2 )
+
+            self.assertTrue( run_context1.is_active( 49 ))
+            self.assertFalse( run_context1.is_active( 50 ))
