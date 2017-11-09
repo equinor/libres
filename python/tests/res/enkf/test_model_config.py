@@ -93,7 +93,7 @@ class ModelConfigTest(ExtendedTestCase):
             ecl_config = res_config.ecl_config
 
             self.assertTrue( ecl_config.active( ) )
-            self.assertEqual( "JOBNAME%d" , model_config.getJobnameFmt( ))
+            self.assertEqual( "JOBNAME%d" , model_config.getJobnameFormat())
 
 
 
@@ -107,7 +107,7 @@ class ModelConfigTest(ExtendedTestCase):
             ecl_config = res_config.ecl_config
 
             self.assertTrue( ecl_config.active( ) )
-            self.assertEqual( "ECLBASE%d" , model_config.getJobnameFmt( ))
+            self.assertEqual( "ECLBASE%d" , model_config.getJobnameFormat( ))
 
 
     def test_jobname(self):
@@ -115,10 +115,10 @@ class ModelConfigTest(ExtendedTestCase):
         with TestAreaContext("test_jobname") as work_area:
             work_area.copy_directory(case_directory)
 
-            res_config = ResConfig(config=self.config_eclbase)
+            res_config = ResConfig(config=self.config_jobname)
             model_config = res_config.model_config
             ecl_config = res_config.ecl_config
 
             self.assertFalse( ecl_config.active( ) )
-            self.assertEqual( "JOBNAME%d" , model_config.getJobnameFmt( ))
+            self.assertEqual( "JOBNAME%d" , model_config.getJobnameFormat( ))
 
