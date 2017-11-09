@@ -31,7 +31,7 @@ class SimulationContext(object):
 
 
     def addSimulation(self, iens, geo_id):
-        if iens >= len(self._run_context):
+        if not (0 <= iens < len(self._run_context)):
             raise UserWarning("Realization number out of range: %d >= %d" % (iens, len(self._run_context)))
 
         if not self._mask[iens]:
