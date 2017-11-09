@@ -842,12 +842,12 @@ void ecl_config_add_config_items(config_parser_type * config)
   config_schema_item_type * item;
 
   item = config_add_schema_item(config, SCHEDULE_FILE_KEY, false);
-  config_schema_item_set_argc_minmax(item, 1, 2);
+  config_schema_item_set_argc_minmax(item, 1, 1);
   config_schema_item_iset_type(item, 0, CONFIG_EXISTING_PATH);
   /*
    Observe that SCHEDULE_PREDICTION_FILE - which is implemented as a
    GEN_KW is added in ensemble_config.c
-   */
+  */
 
   item = config_add_schema_item(config, IGNORE_SCHEDULE_KEY, false);
   config_schema_item_set_argc_minmax(item, 1, 1);

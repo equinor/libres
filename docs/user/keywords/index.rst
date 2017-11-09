@@ -235,15 +235,13 @@ These keywords must be set to make the enkf function properly.
     of the ECLIPSE data file. It should be prepared in accordance with the
     guidelines given in Preparing an ECLIPSE reservoir model for use with
     enkf. This SCHEDULE section will be used to control the ECLIPSE
-    simulations. You can optionally give a second filename, which is the name of
-    file which will be written into the directories for running ECLIPSE.
+    simulations.
 
     *Example:*
 
     ::
 
-        -- Parse MY_SCHEDULE.SCH, call the generated file ECLIPSE_SCHEDULE.SCH
-        SCHEDULE_FILE MY_SCHEDULE.SCH ECLIPSE_SCHEDULE.SCH
+        SCHEDULE_FILE MY_SCHEDULE.SCH
 
     Observe that the SCHEDULE_FILE keyword is only required when you need ERT to
     stop and restart your simulations; i.e. when you are using the EnKF
