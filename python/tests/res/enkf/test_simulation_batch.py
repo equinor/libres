@@ -18,7 +18,7 @@ class SimulationBatchTest(ExtendedTestCase):
     def test_run(self):
         ens_size = 2
         config_file = self.createTestPath("local/config/simulatio_batch/config.ert")
-        with ErtTestContext( "simulation_batch", model_config = config_file, store_area = True) as ctx:
+        with ErtTestContext( "simulation_batch", model_config = config_file) as ctx:
             ert = ctx.getErt( )
             ens_config = ert.ensembleConfig( )
 
