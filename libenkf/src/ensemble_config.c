@@ -839,13 +839,8 @@ bool ensemble_config_GEN_DATA_require_summary(const  ensemble_config_type * conf
 
 
 bool ensemble_config_require_summary(const  ensemble_config_type * ens_config) {
-  if (ensemble_config_has_impl_type(ens_config, SUMMARY))
-    return true;
-
-  if (ensemble_config_GEN_DATA_require_summary(ens_config))
-    return true;
-
-  return false;
+  return (ensemble_config_has_impl_type(ens_config, SUMMARY) ||
+          ensemble_config_GEN_DATA_require_summary(ens_config));
 }
 
 
