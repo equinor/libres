@@ -48,6 +48,7 @@ class EclConfig(BaseCClass):
     _get_depth_unit         = EnkfPrototype("char* ecl_config_get_depth_unit(ecl_config)")
     _get_pressure_unit      = EnkfPrototype("char* ecl_config_get_pressure_unit(ecl_config)")
     _get_start_date         = EnkfPrototype("time_t ecl_config_get_start_date(ecl_config)")
+    _active                 = EnkfPrototype("bool ecl_config_active(ecl_config)")
 
     def __init__(self):
         c_ptr = self._alloc(None)
@@ -145,3 +146,10 @@ class EclConfig(BaseCClass):
 
     def getStartDate(self):
         return self._get_start_date()
+
+
+    def active(self):
+        """
+        Has ECLIPSE been configured?"
+        """
+        return self._active( )

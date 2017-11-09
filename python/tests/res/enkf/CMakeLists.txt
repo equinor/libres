@@ -1,6 +1,7 @@
 set(TEST_SOURCES
     __init__.py
     test_simulation_batch.py
+    test_model_config.py 
     test_active_list.py
     test_analysis_config.py
     test_analysis_iter_config.py
@@ -84,6 +85,7 @@ addPythonTest(tests.res.enkf.test_programmatic_res_config.ProgrammaticResConfigT
 addPythonTest(tests.res.enkf.test_enkf.EnKFTest)
 addPythonTest(tests.res.enkf.test_enkf_transfer_env.EnKFTestTransferEnv)
 addPythonTest(tests.res.enkf.test_simulation_batch.SimulationBatchTest)
+addPythonTest(tests.res.enkf.test_model_config.ModelConfigTest)
 
 
 if (STATOIL_TESTDATA_ROOT)
