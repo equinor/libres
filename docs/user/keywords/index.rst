@@ -187,13 +187,17 @@ These keywords must be set to make the enkf function properly.
         -- and so on.
         ECLBASE MY_VERY_OWN_OIL_FIELD-%d
 
+    In addition to setting the name for jobs the ``ECLBASE`` keyword
+    will signal to ERT that Eclipse is indeed active for this
+    particular run and ERT will try to load the Eclipse summary
+    results at the end.
+
 .. _jobname:
 .. topic::  JOBNAME
 
     As an alternative to the ``ECLBASE`` keyword you can use the JOBNAME
     keyword; in particular in cases where your forward model does not include
-    ECLIPSE at all that makes more sense.  If JOBNAME is used instead of
-    ``ECLBASE`` the same rules of no-mixed-case apply.
+    ECLIPSE at all that makes more sense.
 
 .. _grid:
 .. topic:: GRID
