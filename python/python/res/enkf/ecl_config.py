@@ -45,9 +45,6 @@ class EclConfig(BaseCClass):
     _load_refcase           = EnkfPrototype("void  ecl_config_load_refcase(ecl_config, char*)")
     _validate_refcase       = EnkfPrototype("ui_return_obj ecl_config_validate_refcase(ecl_config, char*)")
     _has_refcase            = EnkfPrototype("bool  ecl_config_has_refcase(ecl_config)")
-    _get_static_kw_list     = EnkfPrototype("stringlist_ref ecl_config_get_static_kw_list(ecl_config)")
-    _clear_static_kw        = EnkfPrototype("void  ecl_config_clear_static_kw(ecl_config)")
-    _add_static_kw          = EnkfPrototype("void  ecl_config_add_static_kw(ecl_config, char*)")
     _get_depth_unit         = EnkfPrototype("char* ecl_config_get_depth_unit(ecl_config)")
     _get_pressure_unit      = EnkfPrototype("char* ecl_config_get_pressure_unit(ecl_config)")
     _get_start_date         = EnkfPrototype("time_t ecl_config_get_start_date(ecl_config)")
@@ -135,18 +132,6 @@ class EclConfig(BaseCClass):
     def hasRefcase(self):
         """ @rtype: bool """
         return self._has_refcase()
-
-    #-----------------------------------------------------------------
-
-    def get_static_kw_list(self):
-        """ @rtype: StringList """
-        return self._get_static_kw_list().setParent(self)
-
-    def clear_static_kw(self):
-        self._clear_static_kw()
-
-    def add_static_kw(self, kw):
-        self._add_static_kw(kw)
 
     #-----------------------------------------------------------------
 
