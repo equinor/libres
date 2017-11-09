@@ -79,24 +79,23 @@ static void enkf_state_internalize_eclipse_state(const ensemble_config_type * en
       if (!enkf_config_node_use_forward_init(config_node))
         continue;
 
-      if (true) {
-        enkf_node_type * enkf_node = enkf_node_alloc( config_node );
-        if (enkf_node_forward_load(enkf_node , load_context)) {
-          node_id_type node_id = {.report_step = report_step ,
-                                  .iens = iens };
-          enkf_node_store( enkf_node , sim_fs, store_vectors , node_id );
-        } else {
-          forward_load_context_update_result(load_context, LOAD_FAILURE);
-          res_log_add_fmt_message(LOG_ERROR, NULL , "[%03d:%04d] Failed load data for FIELD node:%s.",iens , report_step , enkf_node_get_key( enkf_node ));
+      enkf_node_type * enkf_node = enkf_node_alloc( config_node );
+      if (enkf_node_forward_load(enkf_node , load_context)) {
+        node_id_type node_id = {.report_step = report_step ,
+                                .iens = iens };
+        enkf_node_store( enkf_node , sim_fs, store_vectors , node_id );
+      } else {
+        forward_load_context_update_result(load_context, LOAD_FAILURE);
+        res_log_add_fmt_message(LOG_ERROR, NULL , "[%03d:%04d] Failed load data for FIELD node:%s.",iens , report_step , enkf_node_get_key( enkf_node ));
 
-          if (forward_load_context_accept_messages(load_context)) {
-            char * msg = util_alloc_sprintf("Failed to load: %s at step:%d" , enkf_node_get_key( enkf_node ) , report_step);
-            forward_load_context_add_message(load_context, msg);
-            free( msg );
-          }
+        if (forward_load_context_accept_messages(load_context)) {
+          char * msg = util_alloc_sprintf("Failed to load: %s at step:%d" , enkf_node_get_key( enkf_node ) , report_step);
+          forward_load_context_add_message(load_context, msg);
+          free( msg );
         }
-        enkf_node_free( enkf_node );
       }
+      enkf_node_free( enkf_node );
+
     }
     hash_iter_free(iter);
   }
