@@ -1,6 +1,6 @@
 set(TEST_SOURCES
     __init__.py
-    test_everest.py
+    test_simulation_batch.py
     test_active_list.py
     test_analysis_config.py
     test_analysis_iter_config.py
@@ -83,7 +83,7 @@ addPythonTest(tests.res.enkf.test_enkf_runpath.EnKFRunpathTest)
 addPythonTest(tests.res.enkf.test_programmatic_res_config.ProgrammaticResConfigTest)
 addPythonTest(tests.res.enkf.test_enkf.EnKFTest)
 addPythonTest(tests.res.enkf.test_enkf_transfer_env.EnKFTestTransferEnv)
-addPythonTest(tests.res.enkf.test_everest.EverestTest)
+addPythonTest(tests.res.enkf.test_simulation_batch.SimulationBatchTest)
 
 
 if (STATOIL_TESTDATA_ROOT)
