@@ -1366,7 +1366,6 @@ static void * enkf_main_create_run_path__( enkf_main_type * enkf_main,
                                            const ert_run_context_type * run_context) {
 
   int iens;
-  fprintf(stderr,"  [%d,%d)  \n",0, ert_run_context_get_size( run_context ));
   for (iens = 0; iens < ert_run_context_get_size( run_context ); iens++) {
     if (ert_run_context_iactive( run_context , iens)) {
       run_arg_type * run_arg = ert_run_context_iget_arg( run_context , iens);
@@ -1490,7 +1489,6 @@ static void enkf_main_start_queue(enkf_main_type * enkf_main,
                                   bool verbose_queue) {
 
   job_queue_manager_type * queue_manager = job_queue_manager_alloc( job_queue );
-  fprintf(stderr,"Starting ququq %s \n",__func__);
   job_queue_manager_start_queue( queue_manager , job_size , verbose_queue );
   enkf_main_submit_jobs( enkf_main , run_context, job_queue);
   job_queue_submit_complete( job_queue );

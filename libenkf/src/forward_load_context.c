@@ -65,7 +65,6 @@ static void forward_load_context_load_ecl_sum(forward_load_context_type * load_c
     stringlist_type * data_files           = stringlist_alloc_new();
 
 
-    printf("Looking for: %s \n",eclbase);
     /* Should we load from a unified summary file, or from several non-unified files? */
     if (unified_file != NULL)
       /* Use unified file: */

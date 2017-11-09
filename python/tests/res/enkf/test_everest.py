@@ -66,9 +66,6 @@ class EverestTest(ExtendedTestCase):
             subst_list = ert.getDataKW( )
             itr = 0
             run_context = ErtRunContext.ensemble_experiment( sim_fs, mask, runpath_fmt, jobname_fmt, subst_list, itr)
-            print ens_size, batch_size
-            for arg in run_context:
-                sys.stderr.write("%s\n" % str(arg))
             ert.getEnkfSimulationRunner().createRunPath( run_context )
             job_queue = ert.get_queue_config().create_job_queue()
 
