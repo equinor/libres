@@ -696,26 +696,6 @@ static void __fprintf_python_argList(FILE * stream,
   fprintf(stream, "%s", suffix);
 }
 
-void ext_job_python_fprintf(const ext_job_type * ext_job, FILE * stream, const subst_list_type * global_args) {
-  const char * null_value = "None";
-  fprintf(stream," {");
-  {
-    __fprintf_python_string(  stream, "",   "name",                ext_job->name,                ",\n", ext_job->private_args, NULL,        null_value);
-    __fprintf_python_string(  stream, "  ", "executable",          ext_job->executable,          ",\n", ext_job->private_args, global_args, null_value);
-    __fprintf_python_string(  stream, "  ", "target_file",         ext_job->target_file,         ",\n", ext_job->private_args, global_args, null_value);
-    __fprintf_python_string(  stream, "  ", "error_file",          ext_job->error_file,          ",\n", ext_job->private_args, global_args, null_value);
-    __fprintf_python_string(  stream, "  ", "start_file",          ext_job->start_file,          ",\n", ext_job->private_args, global_args, null_value);
-    __fprintf_python_string(  stream, "  ", "stdout",              ext_job->stdout_file,         ",\n", ext_job->private_args, global_args, null_value);
-    __fprintf_python_string(  stream, "  ", "stderr",              ext_job->stderr_file,         ",\n", ext_job->private_args, global_args, null_value);
-    __fprintf_python_string(  stream, "  ", "stdin",               ext_job->stdin_file,          ",\n", ext_job->private_args, global_args, null_value);
-    __fprintf_python_argList( stream, "  ",                        ext_job,                      ",\n",                        global_args            );
-    __fprintf_python_hash(    stream, "  ", "environment",         ext_job->environment,         ",\n", ext_job->private_args, global_args, null_value);
-    __fprintf_python_string(  stream, "  ", "license_path",        ext_job->license_path,        ",\n", ext_job->private_args, global_args, null_value);
-    __fprintf_python_int(     stream, "  ", "max_running_minutes", ext_job->max_running_minutes, ",\n",                                     null_value);
-    __fprintf_python_int(     stream, "  ", "max_running",         ext_job->max_running,         ",\n",                                     null_value);
-  }
-  fprintf(stream,"}");
-}
 
 void ext_job_json_fprintf(const ext_job_type * ext_job, FILE * stream, const subst_list_type * global_args) {
   const char * null_value = "null";
