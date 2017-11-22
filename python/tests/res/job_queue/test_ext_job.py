@@ -43,6 +43,8 @@ class ExtJobTest(ExtendedTestCase):
             create_valid_config("CONFIG")
             job = ExtJob("CONFIG" , True)
             self.assertEqual( job.name() , "CONFIG")
+            self.assertEqual( job.get_stdout_file(), job.name() + ".stdout")
+            #self.assertEqual( job.get_stderr_file(), job.name() + ".stderr")
 
             self.assertEqual( job.get_executable() , os.path.join( os.getcwd() , "script.sh"))
             self.assertTrue( os.access( job.get_executable() , os.X_OK ))
