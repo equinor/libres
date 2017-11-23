@@ -78,9 +78,15 @@
       COPY_FILE(SRC_FILE = file2 , TARGET_FILE = /tmp/file2)
 
 */
+/* 
+  More on STDOUT/STDERR
+  ---------------------
+  If STDOUT/STDERR is is not defined, output is directed to:
+  JOB_NAME.stdout.x or JOB_NAME.stderr.x, respectively
 
-
-
+  STDOUT null   directs output to screen
+  STDERR null   directs error messages to screen
+*/
 /*
 
 
@@ -98,8 +104,9 @@ jobList = [
 
 #define EXT_JOB_TYPE_ID 763012
 
-#define EXT_JOB_STDOUT "stdout"
-#define EXT_JOB_STDERR "stderr"
+#define EXT_JOB_STDOUT        "stdout"
+#define EXT_JOB_STDERR        "stderr"
+#define EXT_JOB_NO_STD_FILE   "null"    //Setting STDOUT null or STDERR null in forward model directs output to screen
 
 
 struct ext_job_struct {
@@ -516,7 +523,8 @@ const char * ext_job_get_stdin_file(const ext_job_type * ext_job) {
 }
 
 void ext_job_set_stdout_file(ext_job_type * ext_job, const char * stdout_file) {
-  ext_job->stdout_file = util_realloc_string_copy(ext_job->stdout_file , stdout_file);
+  if (strcmp(stdout_file, EXT_JOB_NO_STD_FILE) != 0)
+    ext_job->stdout_file = util_realloc_string_copy(ext_job->stdout_file , stdout_file);
 }
 
 const char * ext_job_get_stdout_file(const ext_job_type * ext_job) {
@@ -524,7 +532,8 @@ const char * ext_job_get_stdout_file(const ext_job_type * ext_job) {
 }
 
 void ext_job_set_stderr_file(ext_job_type * ext_job, const char * stderr_file) {
-  ext_job->stderr_file = util_realloc_string_copy(ext_job->stderr_file , stderr_file);
+  if (strcmp(stderr_file, EXT_JOB_NO_STD_FILE) != 0)
+    ext_job->stderr_file = util_realloc_string_copy(ext_job->stderr_file , stderr_file);
 }
 
 const char * ext_job_get_stderr_file(const ext_job_type * ext_job) {
@@ -711,15 +720,6 @@ void ext_job_json_fprintf(const ext_job_type * ext_job, FILE * stream, const sub
     __fprintf_python_string(  stream, "  ", "start_file",          ext_job->start_file,          ",\n", ext_job->private_args, global_args, null_value);
     __fprintf_python_string(  stream, "  ", "stdout",              ext_job->stdout_file,         ",\n", ext_job->private_args, global_args, null_value);
     __fprintf_python_string(  stream, "  ", "stderr",              ext_job->stderr_file,         ",\n", ext_job->private_args, global_args, null_value);
-    /*if (ext_job->stderr_file)
-      __fprintf_python_string(  stream, "  ", "stderr",            ext_job->stderr_file,              ",\n", ext_job->private_args, global_args, null_value);
-    else {
-      char stderr_filename[strlen(ext_job->name) + 7];
-      strcpy(stderr_filename, "");
-      strcat(stderr_filename, ext_job->name);
-      strcat(stderr_filename, ".stderr");
-      __fprintf_python_string(  stream, "  ", "stderr",              stderr_filename,              ",\n", ext_job->private_args, global_args, null_value);
-    }*/
     __fprintf_python_string(  stream, "  ", "stdin",               ext_job->stdin_file,          ",\n", ext_job->private_args, global_args, null_value);
     __fprintf_python_argList( stream, "  ",                        ext_job,                      ",\n",                        global_args            );
     __fprintf_python_hash(    stream, "  ", "environment",         ext_job->environment,         ",\n", ext_job->private_args, global_args, null_value);
@@ -809,7 +809,7 @@ void ext_job_fprintf_config(const ext_job_type * ext_job , const char * fmt , FI
 }
 
 
-static char * ext_job_alloc_std_filename(ext_job_type * ext_job, char * filetype) {
+static char * ext_job_alloc_std_filename(ext_job_type * ext_job, const char * filetype) {
   char * new_std_file = util_malloc(strlen(ext_job->name) + strlen(filetype) + 2);
   strcpy(new_std_file, ext_job->name);
   strcat(new_std_file, ".");
