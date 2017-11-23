@@ -809,21 +809,20 @@ void ext_job_fprintf_config(const ext_job_type * ext_job , const char * fmt , FI
 }
 
 
-static void ext_job_set_default_stdout_file(ext_job_type * ext_job) {
-
-  char * new_std_file = util_malloc(strlen(ext_job->name) + 8);
+static char * ext_job_alloc_std_filename(ext_job_type * ext_job, char * filetype) {
+  char * new_std_file = util_malloc(strlen(ext_job->name) + strlen(filetype) + 2);
   strcpy(new_std_file, ext_job->name);
-  strcat(new_std_file, ".stdout");
-  ext_job->stdout_file = new_std_file;
+  strcat(new_std_file, ".");
+  strcat(new_std_file, filetype);
+  return new_std_file;
+}
+
+static void ext_job_set_default_stdout_file(ext_job_type * ext_job) {
+  ext_job->stdout_file = ext_job_alloc_std_filename(ext_job, EXT_JOB_STDOUT);
 }
 
 static void ext_job_set_default_stderr_file(ext_job_type * ext_job) {
-
-  char * new_std_file = util_malloc(strlen(ext_job->name) + 8);
-  strcpy(new_std_file, ext_job->name);
-  strcat(new_std_file, ".stdout");
-  strcat(new_std_file, EXT_JOB_STDERR);
-  ext_job->stderr_file = new_std_file;
+  ext_job->stderr_file = ext_job_alloc_std_filename(ext_job, EXT_JOB_STDERR);
 }
 
 
@@ -863,14 +862,12 @@ ext_job_type * ext_job_fscanf_alloc(const char * name , const char * license_roo
 
 
         if (config_content_has_item(content , "STDIN"))                 ext_job_set_stdin_file(ext_job       , config_content_iget(content  , "STDIN" , 0,0));
-        if (config_content_has_item(content , "STDOUT"))                
-             ext_job_set_stdout_file(ext_job , config_content_iget(content  , "STDOUT" , 0,0));
-        else {
-             
-             ext_job_set_default_stdout_file(ext_job);
-        }
+        if (config_content_has_item(content , "STDOUT"))                ext_job_set_stdout_file(ext_job , config_content_iget(content  , "STDOUT" , 0,0));
+           else                                                         ext_job_set_default_stdout_file(ext_job);
 
         if (config_content_has_item(content , "STDERR"))                ext_job_set_stderr_file(ext_job      , config_content_iget(content  , "STDERR" , 0,0));
+           else                                                         ext_job_set_default_stderr_file(ext_job);
+
         if (config_content_has_item(content , "ERROR_FILE"))            ext_job_set_error_file(ext_job       , config_content_iget(content  , "ERROR_FILE" , 0,0));
         if (config_content_has_item(content , "TARGET_FILE"))           ext_job_set_target_file(ext_job      , config_content_iget(content  , "TARGET_FILE" , 0,0));
         if (config_content_has_item(content , "START_FILE"))            ext_job_set_start_file(ext_job       , config_content_iget(content  , "START_FILE" , 0,0));
