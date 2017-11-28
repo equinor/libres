@@ -34,6 +34,7 @@
 #include <ert/config/config_content.h>
 #include <ert/config/config_error.h>
 
+#include <ert/job_queue/job_kw_definitions.h>
 #include <ert/job_queue/ext_job.h>
 
 
@@ -110,16 +111,8 @@ jobList = [
 #define EXT_JOB_STDERR        "stderr"
 #define EXT_JOB_NO_STD_FILE   "null"    //Setting STDOUT null or STDERR null in forward model directs output to screen
 
-#define MIN_ARG_KEY    "MIN_ARG"
-#define MAX_ARG_KEY    "MAX_ARG"
-#define ARG_TYPE_KEY   "ARG_TYPE"
-#define EXECUTABLE_KEY "EXECUTABLE"
 
-#define NULL_STRING         "NULL"
-#define WORKFLOW_JOB_STRING_TYPE "STRING"
-#define WORKFLOW_JOB_INT_TYPE    "INT"
-#define WORKFLOW_JOB_FLOAT_TYPE  "FLOAT"
-#define WORKFLOW_JOB_BOOL_TYPE    "BOOL"
+
 
 
 
@@ -856,13 +849,13 @@ config_item_types ext_job_iget_argtype( const ext_job_type * ext_job, int index)
 static void ext_job_iset_argtype_string( ext_job_type * ext_job , int iarg , const char * arg_type) {
   config_item_types type = CONFIG_INVALID;
 
-  if (strcmp( arg_type , WORKFLOW_JOB_STRING_TYPE) == 0)
+  if (strcmp( arg_type , JOB_STRING_TYPE) == 0)
     type = CONFIG_STRING;
-  else if (strcmp( arg_type , WORKFLOW_JOB_INT_TYPE) == 0)
+  else if (strcmp( arg_type , JOB_INT_TYPE) == 0)
     type = CONFIG_INT;
-  else if (strcmp( arg_type , WORKFLOW_JOB_FLOAT_TYPE) == 0)
+  else if (strcmp( arg_type , JOB_FLOAT_TYPE) == 0)
     type = CONFIG_FLOAT;
-  else if (strcmp( arg_type , WORKFLOW_JOB_BOOL_TYPE) == 0)
+  else if (strcmp( arg_type , JOB_BOOL_TYPE) == 0)
     type = CONFIG_BOOL;
 
   if (type != CONFIG_INVALID)
@@ -886,7 +879,7 @@ ext_job_type * ext_job_fscanf_alloc(const char * name , const char * license_roo
       item = config_add_schema_item(config , "STDIN"               , false ); config_schema_item_set_argc_minmax(item  , 1 , 1 );
       item = config_add_schema_item(config , "STDOUT"              , false ); config_schema_item_set_argc_minmax(item  , 1 , 1 );
       item = config_add_schema_item(config , "STDERR"              , false ); config_schema_item_set_argc_minmax(item  , 1 , 1 );
-      item = config_add_schema_item(config , "EXECUTABLE"          , true ); config_schema_item_set_argc_minmax(item  , 1 , 1 ); config_schema_item_iset_type(item, 0, CONFIG_PATH);
+      item = config_add_schema_item(config , EXECUTABLE_KEY        , true ); config_schema_item_set_argc_minmax(item  , 1 , 1 ); config_schema_item_iset_type(item, 0, CONFIG_PATH);
       item = config_add_schema_item(config , "TARGET_FILE"         , false ); config_schema_item_set_argc_minmax(item  , 1 , 1 );
       item = config_add_schema_item(config , "ERROR_FILE"          , false ); config_schema_item_set_argc_minmax(item  , 1 , 1 );
       item = config_add_schema_item(config , "START_FILE"          , false ); config_schema_item_set_argc_minmax(item  , 1 , 1 );
@@ -898,7 +891,7 @@ ext_job_type * ext_job_fscanf_alloc(const char * name , const char * license_roo
       item = config_add_schema_item(config , MAX_ARG_KEY           , false ); config_schema_item_set_argc_minmax(item  , 1 , 1 ); config_schema_item_iset_type( item , 0 , CONFIG_INT );
       item = config_add_schema_item(config , ARG_TYPE_KEY          , false ); config_schema_item_set_argc_minmax( item , 2 , 2 ); config_schema_item_iset_type( item , 0 , CONFIG_INT );
 
-      config_schema_item_set_indexed_selection_set( item , 1 , 4 , (const char *[4]) {WORKFLOW_JOB_STRING_TYPE , WORKFLOW_JOB_INT_TYPE , WORKFLOW_JOB_FLOAT_TYPE, WORKFLOW_JOB_BOOL_TYPE});
+      config_schema_item_set_indexed_selection_set( item , 1 , 4 , (const char *[4]) {JOB_STRING_TYPE , JOB_INT_TYPE , JOB_FLOAT_TYPE, JOB_BOOL_TYPE});
                                                                               
       
     }
@@ -932,17 +925,10 @@ ext_job_type * ext_job_fscanf_alloc(const char * name , const char * license_roo
 
           ext_job_iset_argtype_string( ext_job , iarg , arg_type );
         }
-        /*int i;
-        for (i=0; i < config_content_get_occurences( content , ARG_TYPE_KEY); i++) {
-          int iarg = config_content_iget_as_int( content , ARG_TYPE_KEY , i , 0 );
-          const char * arg_type = config_content_iget( content , ARG_TYPE_KEY , i , 1 );
-
-          workflow_job_iset_argtype_string( workflow_job , iarg , arg_type );
-        }*/
 
         {
-          const char * executable     = config_content_get_value_as_executable(content  , "EXECUTABLE");
-          const char * executable_raw = config_content_iget(content  , "EXECUTABLE" , 0,0);
+          const char * executable     = config_content_get_value_as_executable(content  , EXECUTABLE_KEY);
+          const char * executable_raw = config_content_iget(content  , EXECUTABLE_KEY , 0,0);
           ext_job_set_executable(ext_job , executable, executable_raw, search_path);
         }
 
