@@ -523,7 +523,7 @@ const char * ext_job_get_stdin_file(const ext_job_type * ext_job) {
 }
 
 void ext_job_set_stdout_file(ext_job_type * ext_job, const char * stdout_file) {
-  if (strcmp(stdout_file, EXT_JOB_NO_STD_FILE) != 0)
+  if (!util_string_equal(stdout_file, EXT_JOB_NO_STD_FILE))
     ext_job->stdout_file = util_realloc_string_copy(ext_job->stdout_file , stdout_file);
 }
 
@@ -809,24 +809,6 @@ void ext_job_fprintf_config(const ext_job_type * ext_job , const char * fmt , FI
 }
 
 
-static char * ext_job_alloc_std_filename(ext_job_type * ext_job, const char * filetype) {
-  char * new_std_file = util_malloc(strlen(ext_job->name) + strlen(filetype) + 2);
-  strcpy(new_std_file, ext_job->name);
-  strcat(new_std_file, ".");
-  strcat(new_std_file, filetype);
-  return new_std_file;
-}
-
-static void ext_job_set_default_stdout_file(ext_job_type * ext_job) {
-  ext_job->stdout_file = ext_job_alloc_std_filename(ext_job, EXT_JOB_STDOUT);
-}
-
-static void ext_job_set_default_stderr_file(ext_job_type * ext_job) {
-  ext_job->stderr_file = ext_job_alloc_std_filename(ext_job, EXT_JOB_STDERR);
-}
-
-
-
 ext_job_type * ext_job_fscanf_alloc(const char * name , const char * license_root_path , bool private_job , const char * config_file, bool search_path) {
   {
     mode_t target_mode = S_IRUSR + S_IWUSR + S_IRGRP + S_IWGRP + S_IROTH;  /* u+rw  g+rw  o+r */
@@ -863,10 +845,10 @@ ext_job_type * ext_job_fscanf_alloc(const char * name , const char * license_roo
 
         if (config_content_has_item(content , "STDIN"))                 ext_job_set_stdin_file(ext_job       , config_content_iget(content  , "STDIN" , 0,0));
         if (config_content_has_item(content , "STDOUT"))                ext_job_set_stdout_file(ext_job , config_content_iget(content  , "STDOUT" , 0,0));
-           else                                                         ext_job_set_default_stdout_file(ext_job);
+           else                                                         ext_job->stdout_file = util_alloc_filename( NULL, ext_job->name, EXT_JOB_STDOUT);
 
         if (config_content_has_item(content , "STDERR"))                ext_job_set_stderr_file(ext_job      , config_content_iget(content  , "STDERR" , 0,0));
-           else                                                         ext_job_set_default_stderr_file(ext_job);
+           else                                                         ext_job->stderr_file = util_alloc_filename( NULL, ext_job->name, EXT_JOB_STDERR);
 
         if (config_content_has_item(content , "ERROR_FILE"))            ext_job_set_error_file(ext_job       , config_content_iget(content  , "ERROR_FILE" , 0,0));
         if (config_content_has_item(content , "TARGET_FILE"))           ext_job_set_target_file(ext_job      , config_content_iget(content  , "TARGET_FILE" , 0,0));
