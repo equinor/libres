@@ -298,6 +298,7 @@ void ext_job_free(ext_job_type * ext_job) {
 
   hash_free( ext_job->default_mapping);
   hash_free( ext_job->environment );
+  stringlist_free(ext_job->argv);
   stringlist_free(ext_job->deprecated_argv);
   subst_list_free( ext_job->private_args );
   free(ext_job);
