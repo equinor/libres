@@ -110,6 +110,17 @@ jobList = [
 #define EXT_JOB_STDERR        "stderr"
 #define EXT_JOB_NO_STD_FILE   "null"    //Setting STDOUT null or STDERR null in forward model directs output to screen
 
+#define MIN_ARG_KEY    "MIN_ARG"
+#define MAX_ARG_KEY    "MAX_ARG"
+#define ARG_TYPE_KEY   "ARG_TYPE"
+#define EXECUTABLE_KEY "EXECUTABLE"
+
+#define NULL_STRING         "NULL"
+#define WORKFLOW_JOB_STRING_TYPE "STRING"
+#define WORKFLOW_JOB_INT_TYPE    "INT"
+#define WORKFLOW_JOB_FLOAT_TYPE  "FLOAT"
+#define WORKFLOW_JOB_BOOL_TYPE    "BOOL"
+
 
 
 struct ext_job_struct {
@@ -839,6 +850,23 @@ void ext_job_fprintf_config(const ext_job_type * ext_job , const char * fmt , FI
 
 config_item_types ext_job_iget_argtype( const ext_job_type * ext_job, int index) {
   return int_vector_safe_iget( ext_job->arg_types , index );
+}
+
+
+static void ext_job_iset_argtype_string( ext_job_type * ext_job , int iarg , const char * arg_type) {
+  config_item_types type = CONFIG_INVALID;
+
+  if (strcmp( arg_type , WORKFLOW_JOB_STRING_TYPE) == 0)
+    type = CONFIG_STRING;
+  else if (strcmp( arg_type , WORKFLOW_JOB_INT_TYPE) == 0)
+    type = CONFIG_INT;
+  else if (strcmp( arg_type , WORKFLOW_JOB_FLOAT_TYPE) == 0)
+    type = CONFIG_FLOAT;
+  else if (strcmp( arg_type , WORKFLOW_JOB_BOOL_TYPE) == 0)
+    type = CONFIG_BOOL;
+
+  if (type != CONFIG_INVALID)
+    int_vector_iset( ext_job->arg_types , iarg , type );
 }
 
 
