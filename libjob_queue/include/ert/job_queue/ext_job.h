@@ -78,7 +78,7 @@ const char *            ext_job_get_stderr_file(const ext_job_type * ext_job);
 
 int                     ext_job_get_min_arg(const ext_job_type * ext_job);
 int                     ext_job_get_max_arg(const ext_job_type * ext_job);
-config_item_types       ext_job_iget_argtype( const ext_job_type * workflow_job, int index);
+config_item_types       ext_job_iget_argtype( const ext_job_type * ext_job, int index);
 
 void                    ext_job_set_max_running( ext_job_type * ext_job , int max_running);
 int                     ext_job_get_max_running( const ext_job_type * ext_job );

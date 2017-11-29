@@ -848,17 +848,7 @@ config_item_types ext_job_iget_argtype( const ext_job_type * ext_job, int index)
 
 
 static void ext_job_iset_argtype_string( ext_job_type * ext_job , int iarg , const char * arg_type) {
-  config_item_types type = CONFIG_INVALID;
-
-  if (strcmp( arg_type , JOB_STRING_TYPE) == 0)
-    type = CONFIG_STRING;
-  else if (strcmp( arg_type , JOB_INT_TYPE) == 0)
-    type = CONFIG_INT;
-  else if (strcmp( arg_type , JOB_FLOAT_TYPE) == 0)
-    type = CONFIG_FLOAT;
-  else if (strcmp( arg_type , JOB_BOOL_TYPE) == 0)
-    type = CONFIG_BOOL;
-
+  config_item_types type = job_kw_get_type(arg_type);
   if (type != CONFIG_INVALID)
     int_vector_iset( ext_job->arg_types , iarg , type );
 }

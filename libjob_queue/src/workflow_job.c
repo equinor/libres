@@ -227,20 +227,9 @@ config_item_types workflow_job_iget_argtype( const workflow_job_type * workflow_
 
 
 static void workflow_job_iset_argtype_string( workflow_job_type * workflow_job , int iarg , const char * arg_type) {
-  config_item_types type = CONFIG_INVALID;
-
-  if (strcmp( arg_type , JOB_STRING_TYPE) == 0)
-    type = CONFIG_STRING;
-  else if (strcmp( arg_type , JOB_INT_TYPE) == 0)
-    type = CONFIG_INT;
-  else if (strcmp( arg_type , JOB_FLOAT_TYPE) == 0)
-    type = CONFIG_FLOAT;
-  else if (strcmp( arg_type , JOB_BOOL_TYPE) == 0)
-    type = CONFIG_BOOL;
-
+  config_item_types type = job_kw_get_type(arg_type);
   if (type != CONFIG_INVALID)
     workflow_job_iset_argtype( workflow_job , iarg , type );
-
 }
 
 

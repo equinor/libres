@@ -1,5 +1,5 @@
 /*
-   Copyright (C) 2012  Statoil ASA, Norway.
+   Copyright (C) 2017  Statoil ASA, Norway.
 
    The file 'job_kw_definitions.h' is part of ERT - Ensemble based Reservoir Tool.
 
@@ -32,7 +32,7 @@ extern "C" {
 #define JOB_FLOAT_TYPE   "FLOAT"
 #define JOB_BOOL_TYPE    "BOOL"
 
-
+config_item_types job_kw_get_type(const char * arg_type);
 
 
 #ifdef __cplusplus
