@@ -845,6 +845,11 @@ ext_job_type * ext_job_fscanf_alloc(const char * name , const char * license_roo
       item = config_add_schema_item(config , "DEFAULT"             , false ); config_schema_item_set_argc_minmax(item  , 2 , 2 );
       item = config_add_schema_item(config , "ARGLIST"             , false ); config_schema_item_set_argc_minmax(item  , 1 , CONFIG_DEFAULT_ARG_MAX );
       item = config_add_schema_item(config , "MAX_RUNNING_MINUTES" , false ); config_schema_item_set_argc_minmax(item  , 1 , 1 ); config_schema_item_iset_type( item , 0 , CONFIG_INT );
+
+      /* These are added in version 2.2 just to silence warnings about unknown keywords. */
+      item = config_add_schema_item(config , "MIN_ARG", false ); config_schema_item_set_argc_minmax(item , 1 , 1 ); config_schema_item_iset_type( item , 0 , CONFIG_INT );
+      item = config_add_schema_item(config , "MAX_ARG", false ); config_schema_item_set_argc_minmax(item , 1 , 1 ); config_schema_item_iset_type( item , 0 , CONFIG_INT );
+      item = config_add_schema_item(config , "ARG_TYPE", false ); config_schema_item_set_argc_minmax(item , 2 , 2 ); config_schema_item_iset_type( item , 0 , CONFIG_INT );
     }
     config_add_alias(config , "EXECUTABLE" , "PORTABLE_EXE");
 
