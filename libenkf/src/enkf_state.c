@@ -525,7 +525,10 @@ static void enkf_state_internalize_GEN_DATA(const ensemble_config_type * ens_con
 
   if (stringlist_get_size( keylist_GEN_DATA) > 0)
     if (last_report <= 0)
-      res_log_add_message( LOG_WARNING, NULL , "Trying to load GEN_DATA without properly set last_report - will only look for step 0 data.", false);
+      res_log_add_message(LOG_WARNING,
+                          NULL,
+                          "Trying to load GEN_DATA without properly "
+                          "set last_report - will only look for step 0 data.");
 
   const run_arg_type * run_arg            = forward_load_context_get_run_arg( load_context );
   enkf_fs_type * sim_fs                   = run_arg_get_sim_fs( run_arg );

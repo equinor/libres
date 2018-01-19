@@ -317,7 +317,7 @@ static void lsf_driver_internal_error( const lsf_driver_type * driver ) {
   fprintf(stderr , "** a value for LSF_SERVER. Set this and try again.             **\n");
 #endif
   fprintf(stderr , "*****************************************************************\n\n");
-  res_log_add_message_str(LOG_ERROR,"In lsf_driver, attempt at submitting without setting a value for LSF_SERVER.");
+  res_log_error("In lsf_driver, attempt at submitting without setting a value for LSF_SERVER.");
   exit(1);
 }
 
@@ -813,10 +813,14 @@ static int lsf_driver_get_job_status_shell(void * __driver , void * __job) {
            it has completed/exited and fallen out of the bjobs status
            table maintained by LSF. We try calling bhist to get the status.
         */
-        res_log_add_message_str(LOG_ERROR,"In lsf_driver we found that job was not in the status cache,  this *might* mean that it has completed/exited and fallen out of the bjobs status table maintained by LSF.  ");
+        res_log_warning(
+                                "In lsf_driver we found that job was not in the "
+                                "status cache, this *might* mean that it has "
+                                "completed/exited and fallen out of the bjobs "
+                                "status table maintained by LSF.");
         if (!driver->debug_output) {
           driver->debug_output = true;
-          res_log_add_fmt_message(LOG_INFO, stdout , "Have turned lsf debug info ON.");
+          res_log_info("Have turned lsf debug info ON.");
         }
         status = lsf_driver_get_bhist_status_shell( driver , job );
         if (status != JOB_STAT_UNKWN)
@@ -973,15 +977,11 @@ void * lsf_driver_submit_job(void * __driver ,
       lsf_submit_method_enum submit_method = driver->submit_method;
       pthread_mutex_lock( &driver->submit_lock );
 
-      if (driver->debug_output){
-        printf("LSF DRIVER submitting using method:%d \n",submit_method); //TODO: remove?
-        }
       res_log_add_fmt_message(LOG_INFO, NULL ,"LSF DRIVER submitting using method:%d \n",submit_method);
 
       if (submit_method == LSF_SUBMIT_INTERNAL) {
         if (stringlist_get_size(driver->exclude_hosts) > 0){
-          res_log_add_message_str(LOG_WARNING,"EXCLUDE_HOST is not supported with submit method LSF_SUBMIT_INTERNAL");
-          printf("WARNING:  EXCLUDE_HOST is not supported with submit method LSF_SUBMIT_INTERNAL"); //TODO: remove?
+          res_log_warning("EXCLUDE_HOST is not supported with submit method LSF_SUBMIT_INTERNAL");
         }
         job->lsf_jobnr = lsf_driver_submit_internal_job( driver , lsf_stdout , job_name , submit_cmd , num_cpu , argc, argv);
       } else {
