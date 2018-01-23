@@ -569,13 +569,13 @@ void * enkf_main_pre_simulation_copy_JOB( void * self , const stringlist_type * 
   util_make_path( target_path );
   if (util_is_directory( source_path )) {
     util_copy_directory( source_path , target_path );
-    res_log_add_fmt_message( LOG_INFO, NULL, "Copying directory %s -> %s" , source_path, target_path );
+    res_log_finfo("Copying directory %s -> %s", source_path, target_path);
   } else {
     char * base_name = util_split_alloc_filename( source_path );
     char * target_file = util_alloc_filename( target_path, base_name, NULL );
 
     util_copy_file( source_path , target_file);
-    res_log_add_fmt_message( LOG_INFO, NULL, "Copying file %s -> %s" , source_path, target_path );
+    res_log_finfo("Copying file %s -> %s", source_path, target_path);
 
     free( base_name );
     free( target_file );
