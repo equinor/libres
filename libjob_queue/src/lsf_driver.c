@@ -558,7 +558,7 @@ static int lsf_driver_submit_shell_job(lsf_driver_type * driver ,
 
       if (driver->debug_output)
         printf("Submitting: %s %s %s \n",driver->rsh_cmd , argv[0] , argv[1]);
-      res_log_add_fmt_message(LOG_DEBUG,NULL, "Submitting: %s %s %s \n",driver->rsh_cmd , argv[0] , argv[1]);
+      res_log_fdebug("Submitting: %s %s %s \n", driver->rsh_cmd, argv[0], argv[1]);
 
       util_spawn_blocking(driver->rsh_cmd, 2, (const char **) argv, tmp_file, NULL);
 
@@ -813,11 +813,10 @@ static int lsf_driver_get_job_status_shell(void * __driver , void * __job) {
            it has completed/exited and fallen out of the bjobs status
            table maintained by LSF. We try calling bhist to get the status.
         */
-        res_log_warning(
-                                "In lsf_driver we found that job was not in the "
-                                "status cache, this *might* mean that it has "
-                                "completed/exited and fallen out of the bjobs "
-                                "status table maintained by LSF.");
+        res_log_warning("In lsf_driver we found that job was not in the "
+                        "status cache, this *might* mean that it has "
+                        "completed/exited and fallen out of the bjobs "
+                        "status table maintained by LSF.");
         if (!driver->debug_output) {
           driver->debug_output = true;
           res_log_info("Have turned lsf debug info ON.");
@@ -977,7 +976,7 @@ void * lsf_driver_submit_job(void * __driver ,
       lsf_submit_method_enum submit_method = driver->submit_method;
       pthread_mutex_lock( &driver->submit_lock );
 
-      res_log_add_fmt_message(LOG_INFO, NULL ,"LSF DRIVER submitting using method:%d \n",submit_method);
+      res_log_finfo("LSF DRIVER submitting using method:%d \n", submit_method);
 
       if (submit_method == LSF_SUBMIT_INTERNAL) {
         if (stringlist_get_size(driver->exclude_hosts) > 0){

@@ -63,7 +63,7 @@ void res_log_critical(const char* msg) {
   res_log_add_message(LOG_CRITICAL, NULL, msg);
 }
 
-static void res_log_vl(message_level_type level, const char * fmt, va_list args) {
+static void res_log_va(message_level_type level, const char * fmt, va_list args) {
   char * message = util_alloc_sprintf_va(fmt, args);
   res_log_add_message(level, NULL, message);
   free(message);
@@ -72,35 +72,35 @@ static void res_log_vl(message_level_type level, const char * fmt, va_list args)
 void res_log_fdebug(const char * fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
-  res_log_vl(LOG_DEBUG, fmt, ap);
+  res_log_va(LOG_DEBUG, fmt, ap);
   va_end(ap);
 }
 
 void res_log_finfo(const char * fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
-  res_log_vl(LOG_INFO, fmt, ap);
+  res_log_va(LOG_INFO, fmt, ap);
   va_end(ap);
 }
 
 void res_log_fwarning(const char * fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
-  res_log_vl(LOG_WARNING, fmt, ap);
+  res_log_va(LOG_WARNING, fmt, ap);
   va_end(ap);
 }
 
 void res_log_ferror(const char * fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
-  res_log_vl(LOG_ERROR, fmt, ap);
+  res_log_va(LOG_ERROR, fmt, ap);
   va_end(ap);
 }
 
 void res_log_fcritical(const char * fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
-  res_log_vl(LOG_CRITICAL, fmt, ap);
+  res_log_va(LOG_CRITICAL, fmt, ap);
   va_end(ap);
 }
 
@@ -111,7 +111,9 @@ void res_log_fcritical(const char * fmt, ...) {
  *
  * if log_file_name=NULL then DEFAULT_LOG_FILE is used
  */
-void res_log_init_log( message_level_type log_level , const char * log_file_name, bool verbose){
+void res_log_init_log(message_level_type log_level,
+                      const char * log_file_name,
+                      bool verbose) {
   // If a log is already open, close it
   if(logh)
      log_close(logh);
@@ -185,9 +187,9 @@ void res_log_add_fmt_message(message_level_type message_level,
     return;
   va_list ap;
   va_start(ap , fmt);
-  const char * message = util_alloc_sprintf_va( fmt , ap );
+  char * message = util_alloc_sprintf_va(fmt, ap);
   log_add_message(logh, message_level, dup_stream, message);
-  free((char*)message);
+  free(message);
   va_end(ap);
 }
 

@@ -33,9 +33,6 @@ void test_open() {
     log_type * logh = log_open( NULL , 0 );
     test_assert_int_equal( 0 , log_get_msg_count( logh ));
     test_assert_false( log_is_open( logh ));
-    log_reopen( logh , LOG_FILE );
-    test_assert_true( log_is_open( logh ));
-
     log_close( logh );
   }
 
@@ -69,7 +66,6 @@ void test_delete_empty() {
 
   {
     log_type * logh = log_open( LOG_FILE , 0 );
-    log_reopen( logh , "LOG2.txt");
     log_close( logh );
 
     test_assert_false( util_file_exists( LOG_FILE ));

@@ -358,11 +358,13 @@ static void enkf_state_check_for_missing_eclipse_summary_data(const ensemble_con
 
     const enkf_config_node_type *config_node = ensemble_config_get_node(ens_config, key);
     if (enkf_config_node_get_num_obs(config_node) == 0) {
-      res_log_add_fmt_message(LOG_INFO, NULL, "[%03d:----] Unable to find Eclipse data for summary key: %s, but have no observations either, so will continue.",
-                              iens, key);
+      res_log_finfo("[%03d:----] Unable to find Eclipse data for summary key: "
+                    "%s, but have no observations either, so will continue.",
+                    iens, key);
     } else {
-      res_log_add_fmt_message(LOG_ERROR, NULL, "[%03d:----] Unable to find Eclipse data for summary key: %s, but have observation for this, job will fail.",
-                              iens, key);
+      res_log_ferror("[%03d:----] Unable to find Eclipse data for summary key: "
+                     "%s, but have observation for this, job will fail.",
+                     iens, key);
       forward_load_context_update_result(load_context, LOAD_FAILURE);
       if (forward_load_context_accept_messages(load_context)) {
         char *msg = util_alloc_sprintf("Failed to load vector: %s", key);
@@ -449,7 +451,9 @@ static bool enkf_state_internalize_dynamic_eclipse_results(ensemble_config_type 
 
         return true;
       } else {
-        res_log_add_fmt_message(LOG_WARNING, NULL, "Could not load ECLIPSE summary data from %s - this will probably fail later ... ",run_arg_get_runpath( run_arg ));
+        res_log_fwarning("Could not load ECLIPSE summary data from %s - "
+                         "this will probably fail later ... ",
+                         run_arg_get_runpath(run_arg));
         return false;
       }
     }

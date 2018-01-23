@@ -62,7 +62,7 @@ static void log_delete_empty(const log_type * logh) {
   }
 }
 
-void log_reopen(log_type *logh , const char *filename) {
+static void log_reopen(log_type *logh , const char *filename) {
   if (logh->stream != NULL)  { /* Close the existing file descriptor. */
     fclose( logh->stream );
     log_delete_empty( logh );
@@ -111,10 +111,10 @@ void log_set_level( log_type * logh , message_level_type log_level) {
 
 
 
-log_type * log_open( const char * filename , message_level_type log_level) {
-  log_type   *logh;
+log_type * log_open(const char * filename , message_level_type log_level) {
+  log_type * logh;
 
-  logh = (log_type*)util_malloc(sizeof *logh );
+  logh = (log_type*)util_malloc(sizeof *logh);
 
   logh->msg_count     = 0;
   logh->log_level     = log_level;
@@ -124,7 +124,7 @@ log_type * log_open( const char * filename , message_level_type log_level) {
   pthread_mutex_init( &logh->mutex , NULL );
 #endif
   if (filename != NULL)
-    log_reopen( logh , filename);
+    log_reopen(logh, filename);
 
   return logh;
 }
