@@ -160,10 +160,8 @@ void res_log_init_log_default( bool verbose){
 
 void res_log_close() {
     if (log_is_open(logh))
-      log_add_message(logh,
-                      false,
-                      NULL,
-                      "Exiting ert application normally - all is fine(?)");
+      log_add_message(logh, false, NULL, "Exiting ert application normally - "
+                                          "all is fine(?)");
     log_close( logh );
     logh = NULL;
 }
