@@ -1014,8 +1014,8 @@ static void enkf_main_update__(enkf_main_type * enkf_main, const int_vector_type
                                       meas_data,
                                       obs_data);
         else if (target_fs != source_fs)
-          res_log_add_fmt_message(LOG_ERROR, stderr, "No active observations/parameters for MINISTEP: %s.",
-                                  local_ministep_get_name(ministep));
+          res_log_ferror("No active observations/parameters for MINISTEP: %s.",
+                         local_ministep_get_name(ministep));
       }
 
       enkf_main_inflate(enkf_main, source_fs, target_fs, current_step, use_count);

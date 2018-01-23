@@ -28,16 +28,15 @@ extern "C" {
 
 #include <ert/res_util/log.h>
 
-void res_log_add_message_str(message_level_type message_level, const char* message);
 void res_log_init_log(message_level_type log_level,const char * log_file_name, bool verbose);
 void res_log_init_log_default_log_level(const char * log_file_name, bool verbose);
 void res_log_init_log_default( bool verbose);
-void res_log_add_fmt_message(message_level_type message_level , FILE * dup_stream , const char * fmt , ...);
-void res_log_add_message(message_level_type message_level, FILE * dup_stream, const char* message);
 void res_log_close();
 int res_log_get_log_level();
 const char * res_log_get_filename();
 void res_log_open_empty();
+
+void res_log_add_message(message_level_type message_level, const char* message);
 
 void res_log_debug(const char* msg);
 void res_log_info(const char* msg);

@@ -500,9 +500,8 @@ static void enkf_state_internalize_custom_kw(const ensemble_config_type * ens_co
         enkf_state_log_custom_kw_load(node, report_step, load_context);
       } else {
         forward_load_context_update_result(load_context, LOAD_FAILURE);
-        res_log_add_fmt_message(LOG_ERROR, stderr,
-                                "[%03d:%04d] Failed load data for CUSTOM_KW node: %s.",
-                                iens, report_step, enkf_node_get_key(node));
+        res_log_ferror("[%03d:%04d] Failed load data for CUSTOM_KW node: %s.",
+                       iens, report_step, enkf_node_get_key(node));
 
         if (forward_load_context_accept_messages(load_context)) {
           char * msg = util_alloc_sprintf("Failed to load: %s at step: %d", enkf_node_get_key(node), report_step);
@@ -559,9 +558,8 @@ static void enkf_state_internalize_GEN_DATA(const ensemble_config_type * ens_con
         enkf_state_log_GEN_DATA_load( node , report_step , load_context);
       } else {
         forward_load_context_update_result(load_context, LOAD_FAILURE);
-        res_log_add_fmt_message(LOG_ERROR, stderr,
-                                "[%03d:%04d] Failed load data for GEN_DATA node:%s.",
-                                iens, report_step, enkf_node_get_key(node));
+        res_log_ferror("[%03d:%04d] Failed load data for GEN_DATA node:%s.",
+                       iens, report_step, enkf_node_get_key(node));
 
         if (forward_load_context_accept_messages(load_context)) {
           char * msg = util_alloc_sprintf("Failed to load: %s at step:%d",

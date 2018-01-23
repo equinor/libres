@@ -42,7 +42,7 @@
 #include <ert/res_util/log.h>
 
 struct log_struct {
-  const char       * filename;
+  char             * filename;
   FILE             * stream;
   int                fd;
   message_level_type log_level;
@@ -68,7 +68,7 @@ static void log_reopen(log_type *logh , const char *filename) {
     log_delete_empty( logh );
   }
 
-  logh->filename = (const char*) util_realloc_string_copy( logh->filename , filename );
+  logh->filename = util_realloc_string_copy( logh->filename , filename );
 #ifdef HAVE_PTHREAD
   pthread_mutex_lock( &logh->mutex );
 #endif
@@ -145,8 +145,7 @@ bool log_include_message(const log_type *logh , message_level_type message_level
  * string literal.
  */
 void log_add_message_str(log_type *logh, message_level_type message_level, const char* message) {
-  //The conversion to (char*) is safe since free_message=false
-  log_add_message(logh,message_level, NULL, message);
+  log_add_message(logh, message_level, NULL, message);
 }
 
 

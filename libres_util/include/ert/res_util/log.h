@@ -46,10 +46,7 @@ typedef enum {
   LOG_INFO     = 20,
 
   // Detailed information, typically of interest only when diagnosing problems.
-  LOG_DEBUG    = 10,
-
-  // Should not be used.
-  LOG_NOTSET   = 0
+  LOG_DEBUG    = 10
 } message_level_type;
 
 

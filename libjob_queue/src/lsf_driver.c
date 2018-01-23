@@ -759,7 +759,10 @@ static int lsf_driver_get_bhist_status_shell( lsf_driver_type * driver , lsf_job
   int sleep_time = 4;
   int run_time1, run_time2, pend_time1 , pend_time2;
 
-  res_log_add_fmt_message(LOG_ERROR, stderr , "** Warning: could not find status of job:%s/%s using \'bjobs\' - trying with \'bhist\'.\n" , job->lsf_jobnr_char , job->job_name);
+  res_log_ferror("** Warning: could not find status of job:%s/%s using \'bjobs\'"
+                 " - trying with \'bhist\'.\n",
+                 job->lsf_jobnr_char,
+                 job->job_name);
   if (!lsf_driver_run_bhist( driver , job ,  &pend_time1 , &run_time1))
     return status;
 
@@ -908,11 +911,15 @@ static void lsf_driver_node_failure(lsf_driver_type * driver, const lsf_job_type
   stringlist_type * hosts = lsf_job_alloc_parse_hostnames(fname);
   char* hostnames = stringlist_alloc_joined_string(hosts, ", ");
 
-  res_log_add_fmt_message(LOG_ERROR, stderr , "The job:%ld/%s never started - the nodes: %s will be excluded, the job will be resubmitted to LSF.\n", lsf_job_id , job->job_name, hostnames);
+  res_log_ferror("The job:%ld/%s never started - the nodes: "
+                 "%s will be excluded, the job will be resubmitted to LSF.\n",
+                 lsf_job_id,
+                 job->job_name,
+                 hostnames);
   lsf_driver_add_exclude_hosts(driver, hostnames);
   if (!driver->debug_output) {
     driver->debug_output = true;
-    res_log_add_fmt_message(LOG_INFO, stdout , "Have turned lsf debug info ON.");
+    res_log_info("Have turned lsf debug info ON.");
   }
   util_free(hostnames);
   stringlist_free(hosts);
@@ -1005,10 +1012,10 @@ void * lsf_driver_submit_job(void * __driver ,
       if (driver->error_count >= driver->max_error_count)
         util_exit("Maximum number of submit errors exceeded - giving up\n");
       else {
-        res_log_add_fmt_message(LOG_ERROR,stderr, "** ERROR ** Failed when submitting to LSF - will try again.");
+        res_log_error("** ERROR ** Failed when submitting to LSF - will try again.");
         if (!driver->debug_output) {
           driver->debug_output = true;
-          res_log_add_fmt_message(LOG_INFO, stdout , "Have turned lsf debug info ON.");
+          res_log_finfo("Have turned lsf debug info ON.");
         }
         usleep( driver->submit_error_sleep );
       }

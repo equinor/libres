@@ -29,7 +29,7 @@ class LogConfigTest(ResTest):
         self.config_file = "simple_config/minimum_config"
 
         self.log_files = [
-                            (None, "simple_config/log"),
+                            (None, "simple_config/log.txt"),
                             ("file_loglog", "simple_config/file_loglog"),
                             ("this/is/../my/log/file.loglog", "simple_config/this/my/log/file.loglog")
                          ]
@@ -92,7 +92,6 @@ class LogConfigTest(ResTest):
     def test_log_config(self):
         test_cases = itertools.product(self.log_files, self.log_levels)
 
-        print(test_cases)
 
         for log_file_data, log_level_data in test_cases:
             self.assert_log_config_load(

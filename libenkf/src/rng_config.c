@@ -185,9 +185,8 @@ void rng_config_init(rng_config_type * rng_config, const config_content_type * c
 
   if(config_content_has_item(config_content, STORE_SEED_KEY)) {
     if(rng_config->random_seed)
-      res_log_add_fmt_message(LOG_WARNING, stdout,
-                              "Cannot have both RANDOM_SEED and STORE_SEED "
-                              "keywords. STORE_SEED will be ignored.");
+      res_log_warning("Cannot have both RANDOM_SEED and STORE_SEED "
+                      "keywords. STORE_SEED will be ignored.");
     else
       rng_config_set_seed_store_file(rng_config,
                                      config_content_iget(config_content,
@@ -196,9 +195,8 @@ void rng_config_init(rng_config_type * rng_config, const config_content_type * c
 
   if(config_content_has_item(config_content, LOAD_SEED_KEY)) {
     if(rng_config->random_seed)
-      res_log_add_fmt_message(LOG_WARNING, stdout,
-                              "Cannot have both RANDOM_SEED and LOAD_SEED "
-                              "keywords. LOAD_SEED will be ignored.");
+      res_log_warning("Cannot have both RANDOM_SEED and LOAD_SEED "
+                      "keywords. LOAD_SEED will be ignored.");
     else
       rng_config_set_seed_load_file(rng_config,
                                     config_content_iget(config_content,
