@@ -8,13 +8,20 @@ Status = namedtuple("Status", "waiting pending running complete failed")
 class BatchContext(SimulationContext):
 
 
-    def __init__(self, result_keys, ert, fs, mask, itr):
+    def __init__(self, result_keys, ert, fs_name, mask, itr):
         """
         Handle which can be used to query status and results for batch simulation.
         """
-        super(BatchContext, self).__init__(ert, fs, mask, itr)
+        super(BatchContext, self).__init__(ert, None, mask, itr)
+        self.fs_name = fs_name
         self.result_keys = result_keys
         self.res_config = ert.resConfig( )
+
+
+    def get_sim_fs(self):
+        fsm = self.ert.getEnkfFsManager( )
+        fs = fsm.getFileSystem(self.fs_name)
+
 
 
     def join(self):
@@ -70,11 +77,12 @@ class BatchContext(SimulationContext):
 
         res = []
         nodes = [ EnkfNode(self.res_config.ensemble_config[key]) for key in self.result_keys ]
+        sim_fs = self.get_sim_fs()
         for sim_id in range(len(self)):
             node_id = NodeId( 0, sim_id)
             d = {}
             for node in nodes:
-                node.load(self.get_sim_fs(), node_id)
+                node.load(sim_fs, node_id)
                 gen_data = node.asGenData( )
                 d[node.name()] = gen_data.getData( )
             res.append(d)
