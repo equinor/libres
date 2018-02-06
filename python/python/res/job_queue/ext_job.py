@@ -17,7 +17,7 @@ import os.path
 
 from cwrap import BaseCClass
 from res.job_queue import QueuePrototype
-from ecl.util import StringList, Hash
+from ecl.util import StringList
 from res.config import ContentTypeEnum
 
 class ExtJob(BaseCClass):
@@ -53,7 +53,6 @@ class ExtJob(BaseCClass):
     _max_arg                    = QueuePrototype("int ext_job_get_max_arg(ext_job)")
     _arg_type                   = QueuePrototype("config_content_type_enum ext_job_iget_argtype(ext_job, int)")
 
-    _get_environment            = QueuePrototype("string_hash_ref ext_job_get_environment(ext_job)")
     _set_environment            = QueuePrototype("void ext_job_add_environment(ext_job, char*, char*)")
     _get_license_path           = QueuePrototype("char* ext_job_get_license_path(ext_job)")
     _get_arglist                = QueuePrototype("stringlist_ref ext_job_get_arglist(ext_job)") 
@@ -168,9 +167,6 @@ class ExtJob(BaseCClass):
           if not arg_type.valid_string(arg, runtime):
                 return False
           return True
-
-    def get_environment(self):
-        return self._get_environment( )
 
     def set_environment(self, key, value):
         self._set_environment( key, value)
