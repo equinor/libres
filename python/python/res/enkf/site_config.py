@@ -36,7 +36,6 @@ class SiteConfig(BaseCClass):
     _set_rsh_command       = EnkfPrototype("void site_config_set_rsh_command(site_config, char*)")
     _get_max_running_rsh   = EnkfPrototype("int site_config_get_max_running_rsh(site_config)")
     _set_max_running_rsh   = EnkfPrototype("void site_config_set_max_running_rsh(site_config, int)")
-    _get_rsh_host_list     = EnkfPrototype("integer_hash_ref site_config_get_rsh_host_list(site_config)")
     _clear_rsh_host_list   = EnkfPrototype("void site_config_clear_rsh_host_list(site_config)")
     _add_rsh_host          = EnkfPrototype("void site_config_add_rsh_host(site_config, char*, int)")
     _get_max_running_local = EnkfPrototype("int site_config_get_max_running_local(site_config)")
@@ -167,11 +166,6 @@ class SiteConfig(BaseCClass):
     def isQueueRunning(self):
         """ @rtype: bool """
         return self._queue_is_running( )
-
-    def getRshHostList(self):
-        """ @rtype: IntegerHash """
-        host_list = self._get_rsh_host_list()
-        return host_list
 
     def addRshHost(self, host, max_running):
         self._add_rsh_host(host, max_running)
