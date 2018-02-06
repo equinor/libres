@@ -30,7 +30,7 @@ class ConfigParser(BaseCClass):
     _alloc = ConfigPrototype("void* config_alloc()", bind=False)
     _add   = ConfigPrototype("schema_item_ref config_add_schema_item(config_parser, char*, bool)")
     _free  = ConfigPrototype("void config_free(config_parser)")
-    _parse = ConfigPrototype("config_content_obj config_parse(config_parser, char*, char*, char*, char*, hash, config_unrecognized_enum, bool)")
+    _parse = ConfigPrototype("config_content_obj config_parse(config_parser, char*, char*, char*, char*, void* , config_unrecognized_enum, bool)")
     _size  = ConfigPrototype("int config_get_schema_size(config_parser)");
     _get_schema_item = ConfigPrototype("schema_item_ref config_get_schema_item(config_parser, char*)")
     _has_schema_item = ConfigPrototype("bool config_has_schema_item(config_parser, char*)")
@@ -77,7 +77,6 @@ class ConfigParser(BaseCClass):
               comment_string="--",
               include_kw="INCLUDE",
               define_kw="DEFINE",
-              pre_defined_kw_map=None,
               unrecognized=UnrecognizedEnum.CONFIG_UNRECOGNIZED_WARN,
               validate=True):
         """ @rtype: ConfigContent """
@@ -90,7 +89,7 @@ class ConfigParser(BaseCClass):
                                      comment_string,
                                      include_kw,
                                      define_kw,
-                                     pre_defined_kw_map,
+                                     None,
                                      unrecognized,
                                      validate)
         config_content.setParser(self)
