@@ -44,7 +44,7 @@ static log_type * logh = NULL;               /* Handle to an open log file. */
 void res_log_add_message(message_level_type message_level,
                          const char* message) {
   if (!logh)
-    res_log_init_log_default(true);
+    res_log_init_log_default(false);
   log_add_message(logh, message_level, NULL, message);
 }
 
@@ -142,7 +142,7 @@ void res_log_init_log(message_level_type log_level,
  * Initializes the log with log level DEFAULT_LOG_LEVEL.
  * If log_file_name=NULL then DEFAULT_LOG_FILE is used
  */
-void res_log_init_log_default_log_level(const char * log_file_name, bool verbose){
+void res_log_init_log_default_log_level(const char * log_file_name, bool verbose) {
   res_log_init_log(DEFAULT_LOG_LEVEL, log_file_name, verbose);
 }
 
@@ -150,8 +150,8 @@ void res_log_init_log_default_log_level(const char * log_file_name, bool verbose
 /**
  * Initializes the log with default filename and default log level.
  */
-void res_log_init_log_default( bool verbose){
-  res_log_init_log(DEFAULT_LOG_LEVEL, DEFAULT_LOG_FILE,verbose);
+void res_log_init_log_default(bool verbose) {
+  res_log_init_log(DEFAULT_LOG_LEVEL, DEFAULT_LOG_FILE, verbose);
 }
 
 
@@ -163,21 +163,21 @@ void res_log_close() {
     logh = NULL;
 }
 
-void res_log_set_log_level(message_level_type log_level){
+void res_log_set_log_level(message_level_type log_level) {
     if(logh==NULL)
-      res_log_init_log_default(true);
+      res_log_init_log_default(false);
     log_set_level(logh, log_level);
 }
 
-int res_log_get_log_level(){
+int res_log_get_log_level() {
   if(logh==NULL)
-    res_log_init_log_default(true);
+    res_log_init_log_default(false);
   return log_get_level(logh);
 }
 
 const char * res_log_get_filename() {
   if(logh==NULL)
-    res_log_init_log_default(true);
+    res_log_init_log_default(false);
   return log_get_filename(logh);
 }
 
