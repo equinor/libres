@@ -55,7 +55,7 @@ class EnKFMain(BaseCClass):
         else:
             return None
 
-    def __init__(self, config, strict=True, verbose=True):
+    def __init__(self, config, strict=True, verbose=False):
         """ Initializes an instance of EnkfMain.
 
         Note: @config ought to be the ResConfig instance holding the
@@ -77,7 +77,7 @@ class EnKFMain(BaseCClass):
         self.__simulation_runner = EnkfSimulationRunner(self)
         self.__fs_manager = EnkfFsManager(self)
         self.__es_update = ESUpdate(self)
-    
+
     def _real_enkf_main(self):
         return self.parent()
 
@@ -140,7 +140,7 @@ class _RealEnKFMain(BaseCClass):
     So, in order to avoid circular dependencies, we make _RealEnKF main
     the only "owner" of the C object, and all the classes that need to
     access it set _RealEnKFMain as parent.
-    
+
     The situation can be summarized as follows (show only EnkfFSManager,
     classes EnkfSimulationRunner and ESUpdate are treated analogously)
      ------------------------------------
@@ -158,7 +158,7 @@ class _RealEnKFMain(BaseCClass):
     (parent)                |       (c_ptr)
        |                    v          |
         ------------ EnkfFSManager ----
-    
+
     """
 
     _alloc = EnkfPrototype("void* enkf_main_alloc(res_config, bool, bool)", bind = False)
@@ -205,7 +205,7 @@ class _RealEnKFMain(BaseCClass):
     _init_run = EnkfPrototype("void enkf_main_init_run(enkf_main, ert_run_context)")
 
 
-    def __init__(self, config, strict=True, verbose=True):
+    def __init__(self, config, strict=True, verbose=False):
         """ Please don't use this class directly. See EnKFMain instead """
 
         res_config = self._init_res_config(config)
@@ -420,4 +420,3 @@ class _RealEnKFMain(BaseCClass):
 
     def addNode(self, enkf_config_node):
         self._add_node(enkf_config_node)
-

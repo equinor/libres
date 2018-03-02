@@ -1450,12 +1450,11 @@ void enkf_main_submit_jobs( enkf_main_type * enkf_main ,
 
 static void enkf_main_start_queue(enkf_main_type * enkf_main,
                                   const ert_run_context_type * run_context,
-                                  job_queue_type * job_queue,
-                                  bool verbose_queue) {
+                                  job_queue_type * job_queue) {
 
   job_queue_manager_type * queue_manager = job_queue_manager_alloc( job_queue );
   int job_size = ert_run_context_get_active_size(run_context);
-  job_queue_manager_start_queue( queue_manager , job_size , verbose_queue );
+  job_queue_manager_start_queue(queue_manager, job_size, enkf_main->verbose);
   enkf_main_submit_jobs( enkf_main , run_context, job_queue);
   job_queue_submit_complete( job_queue );
   res_log_info("All jobs submitted to internal queue - waiting for completion.");
@@ -1481,72 +1480,72 @@ static int enkf_main_run_step(enkf_main_type * enkf_main,
   if (ert_run_context_get_step1(run_context))
     ecl_config_assert_restart( enkf_main_get_ecl_config( enkf_main ) );
 
-  {
-    bool verbose_queue    = enkf_main->verbose;
-    {
-      bool_vector_type * iactive = ert_run_context_alloc_iactive( run_context );
-      state_map_deselect_matching( enkf_fs_get_state_map( ert_run_context_get_sim_fs( run_context )) ,
-                                   iactive,
-                                   STATE_LOAD_FAILURE | STATE_PARENT_FAILURE);
-      bool_vector_free( iactive );
-    }
-    enkf_main_start_queue(enkf_main, run_context, job_queue, verbose_queue);
 
-    /* This should be carefully checked for the situation where only a
-       subset (with offset > 0) of realisations are simulated. */
+  bool_vector_type * iactive = ert_run_context_alloc_iactive( run_context );
+  state_map_deselect_matching(enkf_fs_get_state_map(ert_run_context_get_sim_fs(run_context)),
+                              iactive,
+                              STATE_LOAD_FAILURE | STATE_PARENT_FAILURE);
+  bool_vector_free(iactive);
 
-    int totalOK = 0;
-    int totalFailed = 0;
-    for (int iens = 0; iens < ert_run_context_get_size( run_context ); iens++) {
-      if (ert_run_context_iactive(run_context , iens)) {
-        const run_arg_type * run_arg = ert_run_context_iget_arg( run_context , iens );
-        run_status_type run_status = run_arg_get_run_status( run_arg );
+  enkf_main_start_queue(enkf_main, run_context, job_queue);
 
-        if ((run_status == JOB_LOAD_FAILURE) || (run_status == JOB_RUN_FAILURE)) {
-          ert_run_context_deactivate_realization(run_context, iens);
-          totalFailed++;
-        }
-        else {
-          totalOK++;
-        }
-      }
-    }
+  /* This should be carefully checked for the situation where only a
+     subset (with offset > 0) of realisations are simulated. */
+  int success = 0;
+  int fail = 0;
+  for (int iens = 0; iens < ert_run_context_get_size( run_context ); iens++) {
+    if (!ert_run_context_iactive(run_context , iens))
+      continue;
 
-    enkf_fs_fsync( ert_run_context_get_sim_fs( run_context ) );
-    if (totalFailed == 0)
-      res_log_info("All jobs complete and data loaded.");
+    const run_arg_type * run_arg = ert_run_context_iget_arg( run_context , iens );
+    run_status_type run_status = run_arg_get_run_status( run_arg );
 
-
-    return totalOK;
+    if ((run_status == JOB_LOAD_FAILURE) || (run_status == JOB_RUN_FAILURE)) {
+      ert_run_context_deactivate_realization(run_context, iens);
+      fail++;
+    } else
+      success++;
   }
+
+  enkf_fs_fsync( ert_run_context_get_sim_fs( run_context ) );
+  if (fail == 0)
+    res_log_finfo("All %d active jobs complete and data loaded.", success);
+  else
+    res_log_fwarning("%d active job(s) failed.", fail);
+
+  return success;
 }
 
 /**
    The special value stride == 0 means to just include step2.
 */
-int_vector_type * enkf_main_update_alloc_step_list( const enkf_main_type * enkf_main , int load_start , int step2 , int stride) {
-  int_vector_type * step_list = int_vector_alloc( 0 , 0 );
+int_vector_type * enkf_main_update_alloc_step_list(const enkf_main_type * enkf_main,
+                                                   int load_start,
+                                                   int step2,
+                                                   int stride) {
+  int_vector_type * step_list = int_vector_alloc(0, 0);
 
   if (step2 < load_start)
-    util_abort("%s: fatal internal error: Tried to make step list %d ... %d \n",__func__ , load_start , step2);
+    util_abort("%s: fatal internal error: Tried to make step list %d ... %d\n",
+               __func__, load_start, step2);
 
-  if (stride == 0)
+  if (stride == 0) {
     int_vector_append( step_list , step2 );
-  else {
-    int step = util_int_max( 1 , load_start );
-    while (true) {
-      int_vector_append( step_list , step );
+    return step_list;
+  }
 
-      if (step == step2)
+  int step = util_int_max( 1 , load_start );
+  while (true) {
+    int_vector_append( step_list , step );
+
+    if (step == step2)
+      break;
+    else {
+      step += stride;
+      if (step >= step2) {
+        int_vector_append( step_list , step2 );
         break;
-      else {
-        step += stride;
-        if (step >= step2) {
-          int_vector_append( step_list , step2 );
-          break;
-        }
       }
-
     }
   }
   return step_list;
@@ -1894,7 +1893,7 @@ static enkf_main_type * enkf_main_alloc_empty( ) {
   enkf_main->obs                = NULL;
   enkf_main->local_config       = local_config_alloc( );
 
-  enkf_main_set_verbose( enkf_main , true );
+  enkf_main_set_verbose( enkf_main , false );
   enkf_main_init_fs( enkf_main );
 
   return enkf_main;
