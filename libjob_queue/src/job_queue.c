@@ -644,7 +644,9 @@ static bool job_queue_check_node_status_files( const job_queue_type * job_queue 
         if (util_file_exists( ok_file )) {
           return true;
           break;
-        } else {
+        } else if (exit_file && util_file_exists(exit_file)) {
+          return false;  // job has failed
+
           if (total_wait_time <  job_queue->max_ok_wait_time) {
             sleep( ok_sleep_time );
             total_wait_time += ok_sleep_time;
