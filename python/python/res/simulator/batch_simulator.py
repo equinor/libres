@@ -1,3 +1,5 @@
+import weakref
+
 from ecl.util.util import BoolVector
 
 from res.enkf import ResConfig, EnKFMain, EnkfConfigNode, EnkfNode, NodeId
@@ -65,7 +67,9 @@ class BatchSimulator(object):
         self.ert = EnKFMain(self.res_config)
         self.control_keys = tuple(controls.keys())
         self.result_keys = tuple(results)
-        self.callback = callback
+
+        # must be weakref to avoid circular references
+        self._callback = weakref.ref(callback) if callback else None
 
         ens_config = self.res_config.ensemble_config
         for control_name, variable_names in controls.items():
@@ -74,6 +78,10 @@ class BatchSimulator(object):
         for key in results:
             ens_config.addNode(EnkfConfigNode.create_gen_data(key, "{}_%d".format(key)))
 
+    @property
+    def callback(self):
+        if self._callback is not None:
+            return self._callback()
 
     def _setup_case(self, case, file_system):
         for sim_id, (geo_id, controls)  in enumerate(case):
@@ -166,6 +174,8 @@ class BatchSimulator(object):
         for sim_id, (geo_id, _) in enumerate(case_data):
             sim_context.addSimulation(sim_id, geo_id)
 
-        if self.callback:
-            self.callback(sim_context)
+        cb = self.callback
+        if cb is not None:
+            cb(sim_context)
+
         return sim_context
