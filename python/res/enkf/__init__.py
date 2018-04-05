@@ -27,21 +27,10 @@ import ecl.gravimetry
 import ecl.summary
 import ecl.rft
 
-import res.rms
 import res.analysis
 import res.sched
 import res.config
 import res.job_queue
-
-class EnkfPrototype(Prototype):
-    lib = res.load("libenkf")
-
-    def __init__(self, prototype, bind=True):
-        super(EnkfPrototype, self).__init__(EnkfPrototype.lib, prototype, bind=bind)
-
-        
-
-ENKF_LIB = res.load("libenkf")
 
 from .enums import *
 
