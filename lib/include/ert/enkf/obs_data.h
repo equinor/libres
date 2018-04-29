@@ -52,7 +52,7 @@ bool   obs_block_iget_active( const obs_block_type * obs_block , int iobs);
 obs_block_type       * obs_data_iget_block( obs_data_type * obs_data , int index );
 const obs_block_type *     obs_data_iget_block_const( const obs_data_type * obs_data , int block_nr);
 obs_block_type *     obs_data_get_block( obs_data_type * obs_data , const char * obs_key );
-obs_block_type *     obs_data_add_block( obs_data_type * obs_data , const char * obs_key , int obs_size , matrix_type * error_covar , bool error_covar_owner);
+obs_block_type *     obs_data_add_block( obs_data_type * obs_data , const char * obs_key , int report_step, int obs_size , matrix_type * error_covar , bool error_covar_owner);
 
 obs_data_type      * obs_data_alloc(double global_std_scaling);
 void                 obs_data_free(obs_data_type *);

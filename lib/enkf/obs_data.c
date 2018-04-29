@@ -80,6 +80,7 @@ Matrices: S, D, E and various internal variables.
 struct obs_block_struct {
   UTIL_TYPE_ID_DECLARATION;
   char               * obs_key;
+  int                  report_step;
   int                  size;
   double             * value;
   double             * std;
@@ -102,12 +103,13 @@ struct obs_data_struct {
 
 static UTIL_SAFE_CAST_FUNCTION(obs_block , OBS_BLOCK_TYPE_ID )
 
-obs_block_type * obs_block_alloc( const char * obs_key , int obs_size , matrix_type * error_covar , bool error_covar_owner, double global_std_scaling) {
+obs_block_type * obs_block_alloc( const char * obs_key , int report_step, int obs_size , matrix_type * error_covar , bool error_covar_owner, double global_std_scaling) {
   obs_block_type * obs_block = util_malloc( sizeof * obs_block );
 
   UTIL_TYPE_ID_INIT( obs_block , OBS_BLOCK_TYPE_ID );
   obs_block->size        = obs_size;
   obs_block->obs_key     = util_alloc_string_copy( obs_key );
+  obs_block->report_step = report_step;
   obs_block->value       = util_calloc( obs_size , sizeof * obs_block->value       );
   obs_block->std         = util_calloc( obs_size , sizeof * obs_block->std         );
   obs_block->active_mode = util_calloc( obs_size , sizeof * obs_block->active_mode );
@@ -356,8 +358,8 @@ void obs_data_reset(obs_data_type * obs_data) {
 }
 
 
-obs_block_type * obs_data_add_block( obs_data_type * obs_data , const char * obs_key , int obs_size , matrix_type * error_covar, bool error_covar_owner) {
-  obs_block_type * new_block = obs_block_alloc( obs_key , obs_size , error_covar , error_covar_owner, obs_data->global_std_scaling);
+obs_block_type * obs_data_add_block( obs_data_type * obs_data , const char * obs_key, int report_step, int obs_size , matrix_type * error_covar, bool error_covar_owner) {
+  obs_block_type * new_block = obs_block_alloc( obs_key , report_step, obs_size , error_covar , error_covar_owner, obs_data->global_std_scaling);
   vector_append_owned_ref( obs_data->data , new_block , obs_block_free__ );
   return new_block;
 }

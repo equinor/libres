@@ -57,6 +57,7 @@ struct meas_block_struct {
   int          ens_stride;
   int          obs_stride;
   int          data_size;
+  int          report_step;
   char       * obs_key;
   double     * data;
   bool       * active;
@@ -80,13 +81,14 @@ UTIL_SAFE_CAST_FUNCTION( meas_block , MEAS_BLOCK_TYPE_ID )
    value.
 */
 
-meas_block_type * meas_block_alloc( const char * obs_key , const bool_vector_type * ens_mask , int obs_size) {
+meas_block_type * meas_block_alloc( const char * obs_key , int report_step, const bool_vector_type * ens_mask , int obs_size) {
   meas_block_type * meas_block = util_malloc( sizeof * meas_block );
   UTIL_TYPE_ID_INIT( meas_block , MEAS_BLOCK_TYPE_ID );
   meas_block->active_ens_size    = bool_vector_count_equal( ens_mask , true );
   meas_block->ens_mask    = ens_mask;
   meas_block->obs_size    = obs_size;
   meas_block->obs_key     = util_alloc_string_copy( obs_key );
+  meas_block->report_step = report_step;
   meas_block->data        = util_calloc( (meas_block->active_ens_size + 2)     * obs_size , sizeof * meas_block->data   );
   meas_block->active      = util_calloc(                                  obs_size , sizeof * meas_block->active );
   meas_block->ens_stride  = 1;
@@ -336,7 +338,7 @@ meas_block_type * meas_data_add_block( meas_data_type * matrix , const char * ob
   pthread_mutex_lock( &matrix->data_mutex );
   {
     if (!hash_has_key( matrix->blocks , lookup_key )) {
-      meas_block_type  * new_block = meas_block_alloc(obs_key , matrix->ens_mask , obs_size);
+      meas_block_type  * new_block = meas_block_alloc(obs_key , report_step, matrix->ens_mask , obs_size);
       vector_append_owned_ref( matrix->data , new_block , meas_block_free__ );
       hash_insert_ref( matrix->blocks , lookup_key , new_block );
     }

@@ -265,7 +265,7 @@ void block_obs_get_observations(const block_obs_type * block_obs,  obs_data_type
   int obs_size                 = block_obs_get_size( block_obs );
   int active_size              = active_list_get_active_size( __active_list , obs_size);
   active_mode_type active_mode = active_list_get_mode( __active_list );
-  obs_block_type * obs_block   = obs_data_add_block( obs_data , block_obs->obs_key , obs_size , NULL , false );
+  obs_block_type * obs_block   = obs_data_add_block( obs_data , report_step, block_obs->obs_key , obs_size , NULL , false );
 
   if (active_mode == ALL_ACTIVE) {
     for (i=0; i < obs_size; i++) {
