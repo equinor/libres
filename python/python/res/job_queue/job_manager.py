@@ -458,6 +458,12 @@ class JobManager(object):
     def runJob(self, job):
         assert_file_executable(job.get('executable'))
         self.addLogLine(job)
+
+        exec_env = job.get("exec_env")
+        if exec_env:
+            with open("%s_exec_env.json" % job.get("name"), "w") as f:
+                f.write(json.dumps(exec_env))
+
         pid = os.fork()
         exit_status, err_msg = 0, ''
         if pid == 0:
