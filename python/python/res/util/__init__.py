@@ -22,5 +22,8 @@ class ResUtilPrototype(Prototype):
     def __init__(self, prototype, bind=True):
         super(ResUtilPrototype, self).__init__(ResUtilPrototype.lib, prototype, bind=bind)
 
+from .substitution_list import SubstitutionList
+from .enums import LLSQResultEnum
+from .log import Log
 from .res_version import ResVersion
 from .res_log import ResLog
