@@ -20,7 +20,7 @@
 #include <ert/util/stringlist.h>
 #include <ert/util/double_vector.h>
 
-#include <ert/enkf/value_export.h>
+#include <ert/enkf/value_export.hpp>
 
 #define VALUE_EXPORT_TYPE_ID     5741761
 

@@ -43,29 +43,29 @@
 
 #include <ert/config/config_parser.h>
 
-#include <ert/enkf/enkf_config_node.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/field_config.h>
-#include <ert/enkf/gen_data_config.h>
-#include <ert/enkf/surface_config.h>
-#include <ert/enkf/meas_data.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/gen_kw_config.h>
-#include <ert/enkf/summary.h>
-#include <ert/enkf/summary_config.h>
-#include <ert/enkf/gen_data.h>
-#include <ert/enkf/gen_kw_config.h>
-#include <ert/enkf/gen_data_config.h>
-#include <ert/enkf/ensemble_config.h>
-#include <ert/enkf/gen_data_config.h>
-#include <ert/enkf/field_trans.h>
-#include <ert/enkf/enkf_obs.h>
-#include <ert/enkf/ecl_config.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/summary_key_matcher.h>
-#include <ert/enkf/custom_kw_config_set.h>
-#include <ert/enkf/ensemble_config.h>
+#include <ert/enkf/enkf_config_node.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/field_config.hpp>
+#include <ert/enkf/gen_data_config.hpp>
+#include <ert/enkf/surface_config.hpp>
+#include <ert/enkf/meas_data.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/gen_kw_config.hpp>
+#include <ert/enkf/summary.hpp>
+#include <ert/enkf/summary_config.hpp>
+#include <ert/enkf/gen_data.hpp>
+#include <ert/enkf/gen_kw_config.hpp>
+#include <ert/enkf/gen_data_config.hpp>
+#include <ert/enkf/ensemble_config.hpp>
+#include <ert/enkf/gen_data_config.hpp>
+#include <ert/enkf/field_trans.hpp>
+#include <ert/enkf/enkf_obs.hpp>
+#include <ert/enkf/ecl_config.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/summary_key_matcher.hpp>
+#include <ert/enkf/custom_kw_config_set.hpp>
+#include <ert/enkf/ensemble_config.hpp>
 
 
 #define ENSEMBLE_CONFIG_TYPE_ID 8825306

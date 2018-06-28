@@ -23,11 +23,11 @@
 #include <ert/util/util.h>
 #include <ert/util/hash.h>
 
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/local_ministep.h>
-#include <ert/enkf/local_config.h>
-#include <ert/enkf/active_list.h>
-#include <ert/enkf/local_dataset.h>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/local_ministep.hpp>
+#include <ert/enkf/local_config.hpp>
+#include <ert/enkf/active_list.hpp>
+#include <ert/enkf/local_dataset.hpp>
 
 
 #define LOCAL_DATASET_TYPE_ID  6615409

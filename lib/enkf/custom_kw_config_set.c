@@ -7,8 +7,8 @@
 #include <ert/util/stringlist.h>
 #include <ert/util/type_macros.h>
 
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/custom_kw_config_set.h>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/custom_kw_config_set.hpp>
 
 
 #define CUSTOM_KW_CONFIG_SET_TYPE_ID 701622133

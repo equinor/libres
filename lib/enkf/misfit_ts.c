@@ -23,7 +23,7 @@
 #include <ert/util/double_vector.h>
 #include <ert/util/int_vector.h>
 
-#include <ert/enkf/misfit_ts.h>
+#include <ert/enkf/misfit_ts.hpp>
 
 
 #define MISFIT_TS_TYPE_ID         641066

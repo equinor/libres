@@ -17,9 +17,9 @@
  */
 
 #include <ert/util/test_util.h>
-#include <ert/enkf/obs_vector.h>
-#include <ert/enkf/summary_obs.h>
-#include <ert/enkf/block_obs.h>
+#include <ert/enkf/obs_vector.hpp>
+#include <ert/enkf/summary_obs.hpp>
+#include <ert/enkf/block_obs.hpp>
 
 #include "ert/enkf/gen_obs.h"
 

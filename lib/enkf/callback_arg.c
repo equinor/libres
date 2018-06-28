@@ -17,7 +17,7 @@
 */
 #include <stdlib.h>
 
-#include <ert/enkf/callback_arg.h>
+#include <ert/enkf/callback_arg.hpp>
 
 #define CALLBACK_ARG_TYPE_ID 7814509
 

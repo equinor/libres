@@ -26,7 +26,7 @@
 
 #include <ert/ecl/ecl_sum.h>
 
-#include <ert/enkf/ecl_refcase_list.h>
+#include <ert/enkf/ecl_refcase_list.hpp>
 
 
 /*

@@ -21,7 +21,7 @@
 #include <ert/util/util.h>
 #include <ert/util/int_vector.h>
 
-#include <ert/enkf/local_obsdata_node.h>
+#include <ert/enkf/local_obsdata_node.hpp>
 
 #define LOCAL_OBSDATA_NODE_TYPE_ID 84441309
 

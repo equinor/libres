@@ -28,14 +28,14 @@
 #include <ert/util/buffer.h>
 #include <ert/util/type_macros.h>
 
-#include <ert/enkf/enkf_obs.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/ranking_common.h>
-#include <ert/enkf/data_ranking.h>
-#include <ert/enkf/misfit_ranking.h>
-#include <ert/enkf/misfit_ensemble.h>
-#include <ert/enkf/ranking_table.h>
+#include <ert/enkf/enkf_obs.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/ranking_common.hpp>
+#include <ert/enkf/data_ranking.hpp>
+#include <ert/enkf/misfit_ranking.hpp>
+#include <ert/enkf/misfit_ensemble.hpp>
+#include <ert/enkf/ranking_table.hpp>
 
 
 #define RANKING_TABLE_TYPE_ID 78420651

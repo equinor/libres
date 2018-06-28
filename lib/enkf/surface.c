@@ -24,14 +24,14 @@
 
 #include <ert/geometry/geo_surface.h>
 
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/surface.h>
-#include <ert/enkf/surface_config.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/enkf_serialize.h>
-#include <ert/enkf/value_export.h>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/surface.hpp>
+#include <ert/enkf/surface_config.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/enkf_serialize.hpp>
+#include <ert/enkf/value_export.hpp>
 
 
 /*****************************************************************/

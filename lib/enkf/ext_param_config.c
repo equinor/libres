@@ -24,8 +24,8 @@
 #include <ert/util/util.h>
 #include <ert/util/type_macros.h>
 
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/ext_param_config.h>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/ext_param_config.hpp>
 
 #define EXT_PARAM_CONFIG_ID 97124451
 struct ext_param_config_struct {

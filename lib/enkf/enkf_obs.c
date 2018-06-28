@@ -32,20 +32,20 @@
 
 #include <ert/analysis/enkf_linalg.h>
 
-#include <ert/enkf/summary_obs.h>
-#include <ert/enkf/block_obs.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/time_map.h>
-#include <ert/enkf/obs_vector.h>
-#include <ert/enkf/enkf_state.h>
-#include <ert/enkf/local_ministep.h>
-#include <ert/enkf/local_config.h>
-#include <ert/enkf/meas_data.h>
-#include <ert/enkf/enkf_obs.h>
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/local_obsdata_node.h>
-#include <ert/enkf/local_obsdata.h>
+#include <ert/enkf/summary_obs.hpp>
+#include <ert/enkf/block_obs.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/time_map.hpp>
+#include <ert/enkf/obs_vector.hpp>
+#include <ert/enkf/enkf_state.hpp>
+#include <ert/enkf/local_ministep.hpp>
+#include <ert/enkf/local_config.hpp>
+#include <ert/enkf/meas_data.hpp>
+#include <ert/enkf/enkf_obs.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/local_obsdata_node.hpp>
+#include <ert/enkf/local_obsdata.hpp>
 
 /*
 

@@ -28,9 +28,9 @@
 #include <ert/res_util/subst_list.h>
 #include <ert/res_util/path_fmt.h>
 
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/run_arg.h>
-#include <ert/enkf/ert_run_context.h>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/run_arg.hpp>
+#include <ert/enkf/ert_run_context.hpp>
 
 
 #define ERT_RUN_CONTEXT_TYPE_ID 55534132

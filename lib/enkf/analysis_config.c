@@ -31,13 +31,13 @@
 
 #include <ert/analysis/analysis_module.h>
 
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/analysis_config.h>
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/analysis_iter_config.h>
-#include <ert/enkf/site_config.h>
-#include <ert/enkf/model_config.h>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/analysis_config.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/analysis_iter_config.hpp>
+#include <ert/enkf/site_config.hpp>
+#include <ert/enkf/model_config.hpp>
 
 
 #define UPDATE_OVERLAP_KEY      "OVERLAP_LIMIT"

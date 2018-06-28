@@ -23,8 +23,8 @@
 #include <ert/util/util.h>
 #include <ert/util/vector.h>
 
-#include <ert/enkf/pca_plot_data.h>
-#include <ert/enkf/pca_plot_vector.h>
+#include <ert/enkf/pca_plot_data.hpp>
+#include <ert/enkf/pca_plot_vector.hpp>
 
 #define PCA_PLOT_DATA_TYPE_ID 61442098
 

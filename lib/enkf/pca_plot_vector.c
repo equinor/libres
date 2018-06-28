@@ -22,7 +22,7 @@
 #include <ert/res_util/matrix.h>
 #include <ert/util/util.h>
 
-#include <ert/enkf/pca_plot_vector.h>
+#include <ert/enkf/pca_plot_vector.hpp>
 
 #define PCA_PLOT_VECTOR_TYPE_ID 61743098
 

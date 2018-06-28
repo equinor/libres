@@ -29,20 +29,20 @@
 
 #include <ert/res_util/path_fmt.h>
 
-#include <ert/enkf/enkf_node.h>
-#include <ert/enkf/enkf_config_node.h>
-#include <ert/enkf/container_config.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/field.h>
-#include <ert/enkf/surface.h>
-#include <ert/enkf/summary.h>
-#include <ert/enkf/custom_kw.h>
-#include <ert/enkf/gen_kw.h>
-#include <ert/enkf/gen_data.h>
-#include <ert/enkf/ext_param.h>
-#include <ert/enkf/container.h>
-#include <ert/enkf/enkf_serialize.h>
-#include <ert/enkf/value_export.h>
+#include <ert/enkf/enkf_node.hpp>
+#include <ert/enkf/enkf_config_node.hpp>
+#include <ert/enkf/container_config.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/field.hpp>
+#include <ert/enkf/surface.hpp>
+#include <ert/enkf/summary.hpp>
+#include <ert/enkf/custom_kw.hpp>
+#include <ert/enkf/gen_kw.hpp>
+#include <ert/enkf/gen_data.hpp>
+#include <ert/enkf/ext_param.hpp>
+#include <ert/enkf/container.hpp>
+#include <ert/enkf/enkf_serialize.hpp>
+#include <ert/enkf/value_export.hpp>
 
 /**
    A small illustration (says more than thousand words ...) of how the

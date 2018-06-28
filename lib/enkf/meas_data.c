@@ -34,7 +34,7 @@
 #include <ert/util/int_vector.h>
 #include <ert/util/type_vector_functions.h>
 
-#include <ert/enkf/meas_data.h>
+#include <ert/enkf/meas_data.hpp>
 
 #define MEAS_BLOCK_TYPE_ID 661936407
 #define MEAS_DATA_TYPE_ID  561000861

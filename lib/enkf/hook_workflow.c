@@ -27,8 +27,8 @@
 
 #include <ert/job_queue/workflow.h>
 
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/hook_workflow.h>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/hook_workflow.hpp>
 
 #define RUN_MODE_PRE_SIMULATION_NAME     "PRE_SIMULATION"
 #define RUN_MODE_POST_SIMULATION_NAME    "POST_SIMULATION"

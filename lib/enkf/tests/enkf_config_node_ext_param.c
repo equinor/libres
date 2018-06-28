@@ -20,12 +20,12 @@
 #include <ert/util/test_work_area.h>
 #include <ert/util/test_util.h>
 
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/enkf_config_node.h>
-#include <ert/enkf/enkf_node.h>
-#include <ert/enkf/ext_param.h>
-#include <ert/enkf/ext_param_config.h>
-#include <ert/enkf/enkf_types.h>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/enkf_config_node.hpp>
+#include <ert/enkf/enkf_node.hpp>
+#include <ert/enkf/ext_param.hpp>
+#include <ert/enkf/ext_param_config.hpp>
+#include <ert/enkf/enkf_types.hpp>
 
 enkf_config_node_type * create_config_node__( const char * outfile)
 {

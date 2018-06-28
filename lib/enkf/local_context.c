@@ -27,7 +27,7 @@
 
 #include <ert/ecl/ecl_grid.h>
 
-#include <ert/enkf/local_context.h>
+#include <ert/enkf/local_context.hpp>
 
 struct local_context_struct {
   hash_type * ecl_regions;

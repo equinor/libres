@@ -26,12 +26,12 @@
 
 #include <ert/res_util/thread_pool.h>
 
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/block_obs.h>
-#include <ert/enkf/obs_vector.h>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/block_obs.hpp>
+#include <ert/enkf/obs_vector.hpp>
 #include <ert/util/double_vector.h>
-#include <ert/enkf/gen_data.h>
-#include <ert/enkf/enkf_plot_genvector.h>
+#include <ert/enkf/gen_data.hpp>
+#include <ert/enkf/enkf_plot_genvector.hpp>
 
 #define ENKF_PLOT_GENVECTOR_TYPE_ID 66862669
 

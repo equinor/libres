@@ -28,10 +28,10 @@
 #include <ert/res_util/path_fmt.h>
 #include <ert/res_util/thread_pool.h>
 
-#include <ert/enkf/fs_types.h>
-#include <ert/enkf/fs_driver.h>
-#include <ert/enkf/block_fs_driver.h>
-#include <ert/enkf/enkf_types.h>
+#include <ert/enkf/fs_types.hpp>
+#include <ert/enkf/fs_driver.hpp>
+#include <ert/enkf/block_fs_driver.hpp>
+#include <ert/enkf/enkf_types.hpp>
 
 
 typedef struct bfs_struct bfs_type;

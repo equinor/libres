@@ -23,10 +23,10 @@
 #include <ert/util/int_vector.h>
 
 #include <ert/res_util/res_log.h>
-#include <ert/enkf/enkf_main.h>
-#include <ert/enkf/field_config.h>
-#include <ert/enkf/local_obsdata.h>
-#include <ert/enkf/local_obsdata_node.h>
+#include <ert/enkf/enkf_main.hpp>
+#include <ert/enkf/field_config.hpp>
+#include <ert/enkf/local_obsdata.hpp>
+#include <ert/enkf/local_obsdata_node.hpp>
 
 
 

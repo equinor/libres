@@ -29,10 +29,10 @@
 
 #include <ert/res_util/thread_pool.h>
 
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/obs_vector.h>
-#include <ert/enkf/enkf_config_node.h>
-#include <ert/enkf/enkf_plot_gendata.h>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/obs_vector.hpp>
+#include <ert/enkf/enkf_config_node.hpp>
+#include <ert/enkf/enkf_plot_gendata.hpp>
 
 
 #define ENKF_PLOT_GENDATA_TYPE_ID 377626666

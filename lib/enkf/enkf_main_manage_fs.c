@@ -16,8 +16,8 @@
    for more details.
 */
 
-#include <ert/enkf/summary_key_set.h>
-#include <ert/enkf/custom_kw_config_set.h>
+#include <ert/enkf/summary_key_set.hpp>
+#include <ert/enkf/custom_kw_config_set.hpp>
 
 
 /*

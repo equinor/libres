@@ -27,15 +27,15 @@
 #include <ert/ecl/ecl_smspec.h>
 #include <ert/ecl/ecl_file.h>
 
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/enkf_serialize.h>
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/summary.h>
-#include <ert/enkf/summary_config.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/forward_load_context.h>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/enkf_serialize.hpp>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/summary.hpp>
+#include <ert/enkf/summary_config.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/forward_load_context.hpp>
 
 /*****************************************************************/
 

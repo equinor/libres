@@ -24,12 +24,12 @@
 #include <ert/util/hash.h>
 #include <ert/util/util.h>
 
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/local_config.h>
-#include <ert/enkf/local_ministep.h>
-#include <ert/enkf/local_dataset.h>
-#include <ert/enkf/local_obsdata.h>
-#include <ert/enkf/local_obsdata_node.h>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/local_config.hpp>
+#include <ert/enkf/local_ministep.hpp>
+#include <ert/enkf/local_dataset.hpp>
+#include <ert/enkf/local_obsdata.hpp>
+#include <ert/enkf/local_obsdata_node.hpp>
 
 /**
    This file implements a 'ministep' configuration for active /

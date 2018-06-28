@@ -15,14 +15,14 @@
 #include <ert/ecl/ecl_util.h>
 
 #include <ert/res_util/matrix.h>
-#include <ert/enkf/enkf_serialize.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/custom_kw_config.h>
-#include <ert/enkf/custom_kw.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/value_export.h>
+#include <ert/enkf/enkf_serialize.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/custom_kw_config.hpp>
+#include <ert/enkf/custom_kw.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/value_export.hpp>
 
 
 struct custom_kw_struct {

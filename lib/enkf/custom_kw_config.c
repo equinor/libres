@@ -14,13 +14,13 @@
 #include <ert/config/config_parser.h>
 #include <ert/ecl/ecl_util.h>
 
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/enkf_defaults.h>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
 
-#include <ert/enkf/custom_kw_config.h>
+#include <ert/enkf/custom_kw_config.hpp>
 
 
 #define CUSTOM_KW_CONFIG_ID 90051933

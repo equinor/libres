@@ -26,9 +26,9 @@
 
 #include <ert/config/config_parser.h>
 
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/analysis_iter_config.h>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/analysis_iter_config.hpp>
 
 
 struct analysis_iter_config_struct {

@@ -29,12 +29,12 @@
 
 #include <ert/ecl/fortio.h>
 
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/gen_kw_common.h>
-#include <ert/enkf/gen_kw_config.h>
-#include <ert/enkf/gen_kw.h>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/gen_kw_common.hpp>
+#include <ert/enkf/gen_kw_config.hpp>
+#include <ert/enkf/gen_kw.hpp>
 
 GET_DATA_SIZE_HEADER(gen_kw);
 

@@ -26,13 +26,13 @@
 #include <ert/config/config_parser.h>
 #include <ert/config/config_content.h>
 
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/gen_kw_common.h>
-#include <ert/enkf/gen_kw_config.h>
-#include <ert/enkf/trans_func.h>
-#include <ert/enkf/config_keys.h>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/gen_kw_common.hpp>
+#include <ert/enkf/gen_kw_config.hpp>
+#include <ert/enkf/trans_func.hpp>
+#include <ert/enkf/config_keys.hpp>
 
 #define GEN_KW_CONFIG_TYPE_ID     550761
 #define GEN_KW_PARAMETER_TYPE_ID  886201

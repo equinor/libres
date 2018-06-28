@@ -22,9 +22,9 @@
 #include <ert/res_util/subst_list.h>
 #include <ert/res_util/path_fmt.h>
 
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/run_arg.h>
-#include <ert/enkf/enkf_fs.h>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/run_arg.hpp>
+#include <ert/enkf/enkf_fs.hpp>
 
 
 #define RUN_ARG_TYPE_ID 66143287

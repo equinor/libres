@@ -41,11 +41,11 @@
 
 #include <ert/res_util/res_log.h>
 
-#include <ert/enkf/ert_workflow_list.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/site_config.h>
-#include <ert/enkf/model_config.h>
+#include <ert/enkf/ert_workflow_list.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/site_config.hpp>
+#include <ert/enkf/model_config.hpp>
 
 #define ERT_WORKFLOW_LIST_TYPE_ID 8856275
 

@@ -29,9 +29,9 @@
 #include <ert/config/config_parser.h>
 #include <ert/config/config_content.h>
 
-#include <ert/enkf/gen_data_config.h>
-#include <ert/enkf/enkf_config_node.h>
-#include <ert/enkf/config_keys.h>
+#include <ert/enkf/gen_data_config.hpp>
+#include <ert/enkf/enkf_config_node.hpp>
+#include <ert/enkf/config_keys.hpp>
 
 
 enkf_config_node_type * parse_alloc_GEN_PARAM( const char * config_string , bool parse_valid) {

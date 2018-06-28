@@ -34,11 +34,11 @@
 #include <ert/config/config_content_node.h>
 #include <ert/config/config_schema_item.h>
 
-#include <ert/enkf/queue_config.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/site_config.h>
-#include <ert/enkf/model_config.h>
+#include <ert/enkf/queue_config.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/site_config.hpp>
+#include <ert/enkf/model_config.hpp>
 
 struct queue_config_struct {
     job_driver_type driver_type;

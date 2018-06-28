@@ -26,9 +26,9 @@
 #include <ert/util/test_work_area.h>
 #include <ert/util/rng.h>
 
-#include <ert/enkf/enkf_main.h>
-#include <ert/enkf/ert_test_context.h>
-#include <ert/enkf/enkf_main.h>
+#include <ert/enkf/enkf_main.hpp>
+#include <ert/enkf/ert_test_context.hpp>
+#include <ert/enkf/enkf_main.hpp>
 
 
 #define ERT_TEST_CONTEXT_TYPE_ID 99671055

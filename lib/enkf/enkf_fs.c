@@ -35,19 +35,19 @@
 #include <ert/res_util/path_fmt.h>
 #include <ert/res_util/res_log.h>
 
-#include <ert/enkf/block_fs_driver.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/fs_driver.h>
-#include <ert/enkf/fs_types.h>
-#include <ert/enkf/plain_driver.h>
-#include <ert/enkf/gen_data.h>
-#include <ert/enkf/time_map.h>
-#include <ert/enkf/state_map.h>
-#include <ert/enkf/summary_key_set.h>
-#include <ert/enkf/misfit_ensemble.h>
-#include <ert/enkf/cases_config.h>
-#include <ert/enkf/custom_kw_config_set.h>
+#include <ert/enkf/block_fs_driver.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/fs_driver.hpp>
+#include <ert/enkf/fs_types.hpp>
+#include <ert/enkf/plain_driver.hpp>
+#include <ert/enkf/gen_data.hpp>
+#include <ert/enkf/time_map.hpp>
+#include <ert/enkf/state_map.hpp>
+#include <ert/enkf/summary_key_set.hpp>
+#include <ert/enkf/misfit_ensemble.hpp>
+#include <ert/enkf/cases_config.hpp>
+#include <ert/enkf/custom_kw_config_set.hpp>
 
 /**
 

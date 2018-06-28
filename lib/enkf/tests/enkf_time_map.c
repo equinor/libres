@@ -30,10 +30,10 @@
 #include <ert/ecl/ecl_sum.h>
 
 #include <ert/res_util/thread_pool.h>
-#include <ert/enkf/time_map.h>
-#include <ert/enkf/enkf_fs.h>
+#include <ert/enkf/time_map.hpp>
+#include <ert/enkf/enkf_fs.hpp>
 #include <ert/res_util/res_log.h>
-#include <ert/enkf/enkf_main.h>
+#include <ert/enkf/enkf_main.hpp>
 
 void ecl_test( const char * ecl_case ) {
   ecl_sum_type * ecl_sum  = ecl_sum_fread_alloc_case( ecl_case , ":");

@@ -27,11 +27,11 @@
 
 #include <ert/util/util.h>
 
-#include <ert/enkf/summary_obs.h>
-#include <ert/enkf/obs_data.h>
-#include <ert/enkf/meas_data.h>
-#include <ert/enkf/summary.h>
-#include <ert/enkf/active_list.h>
+#include <ert/enkf/summary_obs.hpp>
+#include <ert/enkf/obs_data.hpp>
+#include <ert/enkf/meas_data.hpp>
+#include <ert/enkf/summary.hpp>
+#include <ert/enkf/active_list.hpp>
 
 
 #define SUMMARY_OBS_TYPE_ID 66103

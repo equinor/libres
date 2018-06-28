@@ -21,7 +21,7 @@
 
 #include <ert/util/rng.h>
 #include <ert/util/vector.h>
-#include <ert/enkf/rng_manager.h>
+#include <ert/enkf/rng_manager.hpp>
 #include <ert/res_util/res_log.h>
 
 #define RNG_MANAGER_TYPE_ID 77250451

@@ -24,10 +24,10 @@
 
 #include <ert/res_util/thread_pool.h>
 
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/enkf_plot_tvector.h>
-#include <ert/enkf/enkf_plot_data.h>
-#include <ert/enkf/state_map.h>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/enkf_plot_tvector.hpp>
+#include <ert/enkf/enkf_plot_data.hpp>
+#include <ert/enkf/state_map.hpp>
 
 
 #define ENKF_PLOT_DATA_TYPE_ID 3331063

@@ -27,11 +27,11 @@
 
 #include <ert/job_queue/workflow.h>
 
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/hook_manager.h>
-#include <ert/enkf/ert_workflow_list.h>
-#include <ert/enkf/runpath_list.h>
-#include <ert/enkf/model_config.h>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/hook_manager.hpp>
+#include <ert/enkf/ert_workflow_list.hpp>
+#include <ert/enkf/runpath_list.hpp>
+#include <ert/enkf/model_config.hpp>
 
 #define HOOK_MANAGER_NAME             "HOOK MANAGER"
 #define QC_WORKFLOW_NAME              "QC WORKFLOW"

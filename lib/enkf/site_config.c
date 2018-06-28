@@ -42,12 +42,12 @@
 
 #include <ert/res_util/res_env.h>
 
-#include <ert/enkf/site_config.h>
-#include <ert/enkf/queue_config.h>
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/ert_workflow_list.h>
-#include <ert/enkf/model_config.h>
+#include <ert/enkf/site_config.hpp>
+#include <ert/enkf/queue_config.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/ert_workflow_list.hpp>
+#include <ert/enkf/model_config.hpp>
 
 /**
    This struct contains information which is specific to the site

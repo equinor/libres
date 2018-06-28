@@ -20,10 +20,10 @@
 #include <ert/util/time_t_vector.h>
 #include <ert/util/bool_vector.h>
 
-#include <ert/enkf/enkf_plot_tvector.h>
-#include <ert/enkf/enkf_config_node.h>
-#include <ert/enkf/enkf_node.h>
-#include <ert/enkf/summary.h>
+#include <ert/enkf/enkf_plot_tvector.hpp>
+#include <ert/enkf/enkf_config_node.hpp>
+#include <ert/enkf/enkf_node.hpp>
+#include <ert/enkf/summary.hpp>
 
 #define ENKF_PLOT_TVECTOR_ID 6111861
 

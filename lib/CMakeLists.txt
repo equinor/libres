@@ -113,102 +113,102 @@ add_library(res res_util/res_log.cpp
                 job_queue/job_kw_definitions.cpp
                 ${lsb}
 
-                enkf/active_list.c
-                enkf/time_map.c
-                enkf/analysis_config.c
-                enkf/analysis_iter_config.c
-                enkf/block_fs_driver.c
-                enkf/block_obs.c
-                enkf/callback_arg.c
-                enkf/cases_config.c
-                enkf/container.c
-                enkf/container_config.c
-                enkf/custom_kw.c
-                enkf/custom_kw_config.c
-                enkf/custom_kw_config_set.c
-                enkf/data_ranking.c
-                enkf/ecl_config.c
-                enkf/ecl_refcase_list.c
-                enkf/enkf_analysis.c
-                enkf/enkf_config_node.c
-                enkf/enkf_defaults.c
-                enkf/enkf_fs.c
-                enkf/enkf_main.c
-                enkf/enkf_main_jobs.c
-                enkf/enkf_node.c
-                enkf/enkf_obs.c
-                enkf/enkf_plot_data.c
-                enkf/enkf_plot_gendata.c
-                enkf/enkf_plot_gen_kw.c
-                enkf/enkf_plot_gen_kw_vector.c
-                enkf/enkf_plot_genvector.c
-                enkf/enkf_plot_tvector.c
-                enkf/enkf_serialize.c
-                enkf/enkf_state.c
-                enkf/enkf_types.c
-                enkf/enkf_util.c
-                enkf/ensemble_config.c
-                enkf/ert_run_context.c
-                enkf/ert_template.c
-                enkf/ert_test_context.c
-                enkf/ert_workflow_list.c
-                enkf/ext_param.c
-                enkf/ext_param_config.c
-                enkf/field.c
-                enkf/field_config.c
-                enkf/field_trans.c
-                enkf/forward_load_context.c
-                enkf/fs_driver.c
-                enkf/fs_types.c
-                enkf/gen_common.c
-                enkf/gen_data.c
-                enkf/gen_data_config.c
-                enkf/gen_kw.c
-                enkf/gen_kw_config.c
-                enkf/value_export.c
-                enkf/gen_obs.c
-                enkf/hook_manager.c
-                enkf/hook_workflow.c
-                enkf/local_config.c
-                enkf/local_context.c
-                enkf/local_dataset.c
-                enkf/local_ministep.c
-                enkf/local_obsdata.c
-                enkf/local_obsdata_node.c
-                enkf/local_updatestep.c
-                enkf/meas_data.c
-                enkf/misfit_ensemble.c
-                enkf/misfit_member.c
-                enkf/misfit_ranking.c
-                enkf/misfit_ts.c
-                enkf/model_config.c
-                enkf/obs_data.c
-                enkf/obs_vector.c
-                enkf/pca_plot_data.c
-                enkf/pca_plot_vector.c
-                enkf/plain_driver.c
-                enkf/plot_settings.c
-                enkf/queue_config.c
-                enkf/ranking_table.c
-                enkf/rng_config.c
-                enkf/run_arg.c
-                enkf/runpath_list.c
-                enkf/site_config.c
-                enkf/rng_manager.c
-                enkf/res_config.c
-                enkf/state_map.c
-                enkf/state_map.c
-                enkf/summary.c
-                enkf/summary_config.c
-                enkf/summary_key_matcher.c
-                enkf/summary_key_set.c
-                enkf/summary_obs.c
-                enkf/surface.c
-                enkf/surface_config.c
-                enkf/trans_func.c
-                enkf/subst_config.c
-                enkf/log_config.c
-                enkf/config_keys.c
+enkf/active_list.cpp
+enkf/time_map.cpp
+enkf/analysis_config.cpp
+enkf/analysis_iter_config.cpp
+enkf/block_fs_driver.cpp
+enkf/block_obs.cpp
+enkf/callback_arg.cpp
+enkf/cases_config.cpp
+enkf/container.cpp
+enkf/container_config.cpp
+enkf/custom_kw.cpp
+enkf/custom_kw_config.cpp
+enkf/custom_kw_config_set.cpp
+enkf/data_ranking.cpp
+enkf/ecl_config.cpp
+enkf/ecl_refcase_list.cpp
+enkf/enkf_analysis.cpp
+enkf/enkf_config_node.cpp
+enkf/enkf_defaults.cpp
+enkf/enkf_fs.cpp
+enkf/enkf_main.cpp
+enkf/enkf_main_jobs.cpp
+enkf/enkf_node.cpp
+enkf/enkf_obs.cpp
+enkf/enkf_plot_data.cpp
+enkf/enkf_plot_gendata.cpp
+enkf/enkf_plot_gen_kw.cpp
+enkf/enkf_plot_gen_kw_vector.cpp
+enkf/enkf_plot_genvector.cpp
+enkf/enkf_plot_tvector.cpp
+enkf/enkf_serialize.cpp
+enkf/enkf_state.cpp
+enkf/enkf_types.cpp
+enkf/enkf_util.cpp
+enkf/ensemble_config.cpp
+enkf/ert_run_context.cpp
+enkf/ert_template.cpp
+enkf/ert_test_context.cpp
+enkf/ert_workflow_list.cpp
+enkf/ext_param.cpp
+enkf/ext_param_config.cpp
+enkf/field.cpp
+enkf/field_config.cpp
+enkf/field_trans.cpp
+enkf/forward_load_context.cpp
+enkf/fs_driver.cpp
+enkf/fs_types.cpp
+enkf/gen_common.cpp
+enkf/gen_data.cpp
+enkf/gen_data_config.cpp
+enkf/gen_kw.cpp
+enkf/gen_kw_config.cpp
+enkf/value_export.cpp
+enkf/gen_obs.cpp
+enkf/hook_manager.cpp
+enkf/hook_workflow.cpp
+enkf/local_config.cpp
+enkf/local_context.cpp
+enkf/local_dataset.cpp
+enkf/local_ministep.cpp
+enkf/local_obsdata.cpp
+enkf/local_obsdata_node.cpp
+enkf/local_updatestep.cpp
+enkf/meas_data.cpp
+enkf/misfit_ensemble.cpp
+enkf/misfit_member.cpp
+enkf/misfit_ranking.cpp
+enkf/misfit_ts.cpp
+enkf/model_config.cpp
+enkf/obs_data.cpp
+enkf/obs_vector.cpp
+enkf/pca_plot_data.cpp
+enkf/pca_plot_vector.cpp
+enkf/plain_driver.cpp
+enkf/plot_settings.cpp
+enkf/queue_config.cpp
+enkf/ranking_table.cpp
+enkf/rng_config.cpp
+enkf/run_arg.cpp
+enkf/runpath_list.cpp
+enkf/site_config.cpp
+enkf/rng_manager.cpp
+enkf/res_config.cpp
+enkf/state_map.cpp
+enkf/state_map.cpp
+enkf/summary.cpp
+enkf/summary_config.cpp
+enkf/summary_key_matcher.cpp
+enkf/summary_key_set.cpp
+enkf/summary_obs.cpp
+enkf/surface.cpp
+enkf/surface_config.cpp
+enkf/trans_func.cpp
+enkf/subst_config.cpp
+enkf/log_config.cpp
+enkf/config_keys.cpp
 )
 
 #-----------------------------------------------------------------

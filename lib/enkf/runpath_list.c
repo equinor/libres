@@ -26,7 +26,7 @@
 #include <ert/util/util.h>
 #include <ert/util/type_macros.h>
 
-#include <ert/enkf/runpath_list.h>
+#include <ert/enkf/runpath_list.hpp>
 
 #define RUNPATH_LIST_DIR  "<CWD>"   //<---- This does not work; I think
 

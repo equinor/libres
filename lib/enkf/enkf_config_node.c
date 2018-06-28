@@ -31,23 +31,23 @@
 
 #include <ert/res_util/path_fmt.h>
 
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/enkf_node.h>
-#include <ert/enkf/field_config.h>
-#include <ert/enkf/ext_param_config.h>
-#include <ert/enkf/gen_data_config.h>
-#include <ert/enkf/gen_kw_config.h>
-#include <ert/enkf/custom_kw_config.h>
-#include <ert/enkf/summary_config.h>
-#include <ert/enkf/surface_config.h>
-#include <ert/enkf/container_config.h>
-#include <ert/enkf/enkf_obs.h>
-#include <ert/enkf/gen_obs.h>
-#include <ert/enkf/enkf_config_node.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/config_keys.h>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/enkf_node.hpp>
+#include <ert/enkf/field_config.hpp>
+#include <ert/enkf/ext_param_config.hpp>
+#include <ert/enkf/gen_data_config.hpp>
+#include <ert/enkf/gen_kw_config.hpp>
+#include <ert/enkf/custom_kw_config.hpp>
+#include <ert/enkf/summary_config.hpp>
+#include <ert/enkf/surface_config.hpp>
+#include <ert/enkf/container_config.hpp>
+#include <ert/enkf/enkf_obs.hpp>
+#include <ert/enkf/gen_obs.hpp>
+#include <ert/enkf/enkf_config_node.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/config_keys.hpp>
 
 #define ENKF_CONFIG_NODE_TYPE_ID 776104
 

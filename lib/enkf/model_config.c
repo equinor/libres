@@ -42,21 +42,21 @@
 
 #include <ert/res_util/res_log.h>
 
-#include <ert/enkf/model_config.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/fs_types.h>
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/time_map.h>
-#include <ert/enkf/ert_workflow_list.h>
-#include <ert/enkf/plot_settings.h>
-#include <ert/enkf/analysis_config.h>
-#include <ert/enkf/ensemble_config.h>
-#include <ert/enkf/ecl_config.h>
-#include <ert/enkf/rng_config.h>
-#include <ert/enkf/hook_manager.h>
-#include <ert/enkf/site_config.h>
-#include <ert/enkf/model_config.h>
+#include <ert/enkf/model_config.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/fs_types.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/time_map.hpp>
+#include <ert/enkf/ert_workflow_list.hpp>
+#include <ert/enkf/plot_settings.hpp>
+#include <ert/enkf/analysis_config.hpp>
+#include <ert/enkf/ensemble_config.hpp>
+#include <ert/enkf/ecl_config.hpp>
+#include <ert/enkf/rng_config.hpp>
+#include <ert/enkf/hook_manager.hpp>
+#include <ert/enkf/site_config.hpp>
+#include <ert/enkf/model_config.hpp>
 
 /**
    This struct contains configuration which is specific to this

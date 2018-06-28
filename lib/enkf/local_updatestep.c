@@ -20,10 +20,10 @@
 #include <ert/util/hash.h>
 #include <ert/util/vector.h>
 
-#include <ert/enkf/local_ministep.h>
-#include <ert/enkf/local_updatestep.h>
-#include <ert/enkf/local_config.h>
-#include <ert/enkf/enkf_macros.h>
+#include <ert/enkf/local_ministep.hpp>
+#include <ert/enkf/local_updatestep.hpp>
+#include <ert/enkf/local_config.hpp>
+#include <ert/enkf/enkf_macros.hpp>
 
 /**
    One enkf update is described/configured by the data structure in

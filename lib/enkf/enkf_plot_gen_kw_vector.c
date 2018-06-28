@@ -25,10 +25,10 @@
 
 #include <ert/res_util/thread_pool.h>
 
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/enkf_node.h>
-#include <ert/enkf/enkf_plot_gen_kw_vector.h>
-#include <ert/enkf/gen_kw.h>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/enkf_node.hpp>
+#include <ert/enkf/enkf_plot_gen_kw_vector.hpp>
+#include <ert/enkf/gen_kw.hpp>
 
 
 #define ENKF_PLOT_GEN_KW_VECTOR_TYPE_ID 88362064

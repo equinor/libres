@@ -25,8 +25,8 @@
 #include <ert/util/stringlist.h>
 #include <ert/util/type_macros.h>
 
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/summary_key_set.h>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/summary_key_set.hpp>
 
 
 #define SUMMARY_KEY_SET_TYPE_ID 700672133

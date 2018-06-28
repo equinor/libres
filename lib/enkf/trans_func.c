@@ -25,7 +25,7 @@
 #include <ert/util/stringlist.h>
 #include <ert/util/double_vector.h>
 
-#include <ert/enkf/trans_func.h>
+#include <ert/enkf/trans_func.hpp>
 
 
 

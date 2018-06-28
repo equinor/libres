@@ -21,9 +21,9 @@
 
 #include <ert/geometry/geo_surface.h>
 
-#include <ert/enkf/surface_config.h>
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/enkf_types.h>
+#include <ert/enkf/surface_config.hpp>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/enkf_types.hpp>
 
 #define SURFACE_CONFIG_TYPE_ID 853317
 

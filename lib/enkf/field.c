@@ -36,11 +36,11 @@
 #include <ert/rms/rms_type.h>
 #include <ert/rms/rms_util.h>
 
-#include <ert/enkf/field.h>
-#include <ert/enkf/field_config.h>
-#include <ert/enkf/enkf_serialize.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/forward_load_context.h>
+#include <ert/enkf/field.hpp>
+#include <ert/enkf/field_config.hpp>
+#include <ert/enkf/enkf_serialize.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/forward_load_context.hpp>
 
 
 GET_DATA_SIZE_HEADER(field);

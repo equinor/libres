@@ -29,11 +29,11 @@
 #include <ert/util/type_macros.h>
 #include <ert/util/perm_vector.h>
 
-#include <ert/enkf/enkf_obs.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/ranking_common.h>
-#include <ert/enkf/data_ranking.h>
+#include <ert/enkf/enkf_obs.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/ranking_common.hpp>
+#include <ert/enkf/data_ranking.hpp>
 
 
 #define DATA_RANKING_TYPE_ID 71420672

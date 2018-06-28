@@ -27,11 +27,11 @@
 
 #include <ert/res_util/res_log.h>
 
-#include <ert/enkf/rng_config.h>
-#include <ert/enkf/rng_manager.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/model_config.h>
+#include <ert/enkf/rng_config.hpp>
+#include <ert/enkf/rng_manager.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/model_config.hpp>
 
 
 struct rng_config_struct {

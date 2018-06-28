@@ -38,12 +38,12 @@
 #include <ert/ecl/ecl_io_config.h>
 #include <ert/ecl/ecl_util.h>
 
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/ecl_config.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/ecl_refcase_list.h>
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/model_config.h>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/ecl_config.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/ecl_refcase_list.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/model_config.hpp>
 
 /**
  This file implements a struct which holds configuration information

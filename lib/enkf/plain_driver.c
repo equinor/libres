@@ -25,10 +25,10 @@
 
 #include <ert/res_util/path_fmt.h>
 
-#include <ert/enkf/fs_driver.h>
-#include <ert/enkf/plain_driver.h>
-#include <ert/enkf/enkf_node.h>
-#include <ert/enkf/fs_types.h>
+#include <ert/enkf/fs_driver.hpp>
+#include <ert/enkf/plain_driver.hpp>
+#include <ert/enkf/enkf_node.hpp>
+#include <ert/enkf/fs_types.hpp>
 
 
 /**

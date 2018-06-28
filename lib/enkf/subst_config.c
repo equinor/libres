@@ -22,11 +22,11 @@
 #include <ert/res_util/subst_func.h>
 #include <ert/res_util/subst_list.h>
 
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/subst_config.h>
-#include <ert/enkf/model_config.h>
-#include <ert/enkf/runpath_list.h>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/subst_config.hpp>
+#include <ert/enkf/model_config.hpp>
+#include <ert/enkf/runpath_list.hpp>
 
 struct subst_config_struct {
 

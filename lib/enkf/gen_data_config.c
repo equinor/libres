@@ -31,14 +31,14 @@
 #include <ert/config/config_parser.h>
 #include <ert/ecl/ecl_util.h>
 
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/gen_data_config.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/gen_data_common.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/forward_load_context.h>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/gen_data_config.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/gen_data_common.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/forward_load_context.hpp>
 
 /**
    About deactivating by the forward model

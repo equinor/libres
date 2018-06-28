@@ -23,10 +23,10 @@
 #include <ert/res_util/template.h>
 #include <ert/res_util/subst_list.h>
 
-#include <ert/enkf/ert_template.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/model_config.h>
+#include <ert/enkf/ert_template.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/model_config.hpp>
 
 
 #define ERT_TEMPLATE_TYPE_ID  7731963

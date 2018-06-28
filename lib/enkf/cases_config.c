@@ -26,9 +26,9 @@
 
 #include <ert/config/config_parser.h>
 
-#include <ert/enkf/enkf_defaults.h>
-#include <ert/enkf/config_keys.h>
-#include <ert/enkf/cases_config.h>
+#include <ert/enkf/enkf_defaults.hpp>
+#include <ert/enkf/config_keys.hpp>
+#include <ert/enkf/cases_config.hpp>
 
 
 struct cases_config_struct {

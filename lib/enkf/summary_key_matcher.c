@@ -1,4 +1,4 @@
-#include <ert/enkf/summary_key_matcher.h>
+#include <ert/enkf/summary_key_matcher.hpp>
 
 #include <stdlib.h>
 #include <stdbool.h>
@@ -8,7 +8,7 @@
 #include <ert/util/stringlist.h>
 #include <ert/util/type_macros.h>
 
-#include <ert/enkf/enkf_types.h>
+#include <ert/enkf/enkf_types.hpp>
 
 
 

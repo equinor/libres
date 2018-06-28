@@ -25,8 +25,8 @@
 #include <ert/ecl/fortio.h>
 #include <ert/ecl/ecl_type.h>
 
-#include <ert/enkf/gen_data_config.h>
-#include <ert/enkf/gen_common.h>
+#include <ert/enkf/gen_data_config.hpp>
+#include <ert/enkf/gen_common.hpp>
 
 /**
    This file implements some (very basic) functionality which is used

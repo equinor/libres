@@ -25,8 +25,8 @@
 #include <ert/util/bool_vector.h>
 #include <ert/util/type_macros.h>
 
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/state_map.h>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/state_map.hpp>
 
 
 #define STATE_MAP_TYPE_ID 500672132

@@ -23,11 +23,11 @@
 
 #include <ert/util/util.h>
 
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/ext_param_config.h>
-#include <ert/enkf/ext_param.h>
-#include <ert/enkf/value_export.h>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/ext_param_config.hpp>
+#include <ert/enkf/ext_param.hpp>
+#include <ert/enkf/value_export.hpp>
 
 GET_DATA_SIZE_HEADER(ext_param);
 
