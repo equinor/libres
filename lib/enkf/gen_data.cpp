@@ -87,7 +87,7 @@ int gen_data_get_size( const gen_data_type * gen_data ) {
 */
 void gen_data_realloc_data(gen_data_type * gen_data) {
   int byte_size  = gen_data_config_get_byte_size(gen_data->config , gen_data->current_report_step );
-  gen_data->data = util_realloc(gen_data->data , byte_size );
+  gen_data->data = (char *) util_realloc(gen_data->data , byte_size );
 }
 
 
@@ -109,7 +109,7 @@ void gen_data_copy(const gen_data_type * src , gen_data_type * target) {
 
     if (src->data != NULL) {
       int byte_size  = gen_data_config_get_byte_size( src->config , src->current_report_step );
-      target->data   = util_realloc_copy(target->data , src->data , byte_size );
+      target->data   = (char *) util_realloc_copy(target->data , src->data , byte_size );
     }
   } else
     util_abort("%s: do not share config object \n",__func__);
@@ -170,7 +170,7 @@ void gen_data_read_from_buffer(gen_data_type * gen_data , buffer_type * buffer ,
   {
     size_t byte_size       = size * ecl_type_get_sizeof_ctype( gen_data_config_get_internal_data_type ( gen_data->config ));
     size_t compressed_size = buffer_get_remaining_size( buffer );
-    gen_data->data         = util_realloc( gen_data->data , byte_size );
+    gen_data->data         = (char *) util_realloc( gen_data->data , byte_size );
     buffer_fread_compressed( buffer , compressed_size , gen_data->data , byte_size );
   }
   gen_data_assert_size( gen_data , size , report_step );
@@ -218,7 +218,7 @@ static void gen_data_set_data__(gen_data_type * gen_data , int size, const forwa
   gen_data_assert_size(gen_data , size, forward_load_context_get_load_step( load_context ));
   if (gen_data_config_is_dynamic( gen_data->config ))
     gen_data_config_update_active( gen_data->config ,  load_context , gen_data->active_mask);
-  
+
   gen_data_realloc_data(gen_data);
 
   if (size > 0) {
@@ -229,9 +229,9 @@ static void gen_data_set_data__(gen_data_type * gen_data , int size, const forwa
       memcpy(gen_data->data , data , byte_size );
     else {
       if (ecl_type_is_float(load_data_type))
-        util_float_to_double((double *) gen_data->data , data , size);
+        util_float_to_double((double *) gen_data->data , (const float *) data , size);
       else
-        util_double_to_float((float *) gen_data->data , data , size);
+        util_double_to_float((float *) gen_data->data , (const double *) data , size);
     }
   }
 }
@@ -305,9 +305,8 @@ static bool gen_data_fload_active__(gen_data_type * gen_data, const char * filen
 bool gen_data_fload_with_report_step( gen_data_type * gen_data , const char * filename , const forward_load_context_type * load_context) {
   bool   file_exists  = util_file_exists(filename);
   void * buffer   = NULL;
-  ecl_data_type load_type;
-
   if ( file_exists ) {
+    ecl_type_enum load_type;
     ecl_data_type internal_type            = gen_data_config_get_internal_data_type(gen_data->config);
     gen_data_file_format_type input_format = gen_data_config_get_input_format( gen_data->config );
     int    size     = 0;
@@ -319,7 +318,7 @@ bool gen_data_fload_with_report_step( gen_data_type * gen_data , const char * fi
     } else {
       bool_vector_reset( gen_data->active_mask );
     }
-    gen_data_set_data__(gen_data , size , load_context , load_type , buffer );
+    gen_data_set_data__(gen_data , size , load_context , ecl_type_create_from_type(load_type) , buffer );
     free(buffer);
   } else
     res_log_fwarning("GEN_DATA(%s): missing file: %s",
@@ -454,7 +453,7 @@ void gen_data_export(const gen_data_type * gen_data , const char * full_path , g
 */
 
 
-void gen_data_ecl_write(const gen_data_type * gen_data , const char * run_path , const char * eclfile , value_export_type * export) {
+void gen_data_ecl_write(const gen_data_type * gen_data , const char * run_path , const char * eclfile , value_export_type * export_value) {
   if (eclfile != NULL) {
     char * full_path = util_alloc_filename( run_path , eclfile  , NULL);
 
@@ -531,8 +530,8 @@ bool gen_data_user_get(const gen_data_type * gen_data, const char * index_key, i
   *value = 0.0;
 
   if (index_key != NULL) {
-    if (util_sscanf_int(index_key , &index)) {
-      if (index < gen_data_config_get_data_size( gen_data->config , gen_data->current_report_step )) {
+  if (util_sscanf_int(index_key , &index)) {
+    if (index < gen_data_config_get_data_size( gen_data->config , gen_data->current_report_step )) {
         *value = gen_data_iget_double( gen_data , index );
         return true;
       }

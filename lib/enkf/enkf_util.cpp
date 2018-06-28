@@ -101,7 +101,7 @@ void enkf_util_truncate(void * void_data , int size , ecl_data_type data_type , 
 
 void enkf_util_assert_buffer_type(buffer_type * buffer, ert_impl_type target_type) {
   ert_impl_type file_type = INVALID;
-  file_type = buffer_fread_int(buffer);
+  file_type = (ert_impl_type) buffer_fread_int(buffer);
   if (file_type != target_type)
     util_abort("%s: wrong target type in file (expected:%d  got:%d) - aborting \n",
                __func__, target_type, file_type);
@@ -189,7 +189,7 @@ void enkf_util_fprintf_data(const int * index_column ,
   }
 
   {
-    util_fprintf_string(index_name , width[0] - 1 , true , stream); fprintf(stream , "|");
+    util_fprintf_string(index_name , width[0] - 1 , left_pad, stream); fprintf(stream , "|");
     for (int column_nr = 0; column_nr < num_columns; column_nr++) {
       if (active[column_nr]) {
         util_fprintf_string(column_names[column_nr] , width[column_nr + 1] , center_pad , stream);
@@ -202,7 +202,7 @@ void enkf_util_fprintf_data(const int * index_column ,
 
     if(summarize)
     {
-      util_fprintf_string("Mean" , width[0] - 1 , true , stream);
+      util_fprintf_string("Mean" , width[0] - 1 ,left_pad , stream);
       fprintf(stream , "|");
       {
         for (int column_nr = 0; column_nr < num_columns; column_nr++) {

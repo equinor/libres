@@ -76,9 +76,8 @@ void enkf_plot_genvector_load( enkf_plot_genvector_type * vector , enkf_fs_type 
                              .iens        = vector->iens };
 
     if (enkf_node_try_load( work_node , fs , node_id )) {
-        gen_data_type * node = enkf_node_value_ptr( work_node );
+        const gen_data_type * node = (const gen_data_type * ) enkf_node_value_ptr( work_node );
         gen_data_copy_to_double_vector( node , vector->data );
-
     }
     enkf_node_free( work_node );
 }
@@ -86,8 +85,8 @@ void enkf_plot_genvector_load( enkf_plot_genvector_type * vector , enkf_fs_type 
 
 void * enkf_plot_genvector_load__( void * arg ){
     arg_pack_type * arg_pack = arg_pack_safe_cast( arg );
-    enkf_plot_genvector_type * vector  = arg_pack_iget_ptr( arg_pack , 0);
-    enkf_fs_type * fs = arg_pack_iget_ptr( arg_pack , 1 );
+    enkf_plot_genvector_type * vector  = (enkf_plot_genvector_type * ) arg_pack_iget_ptr( arg_pack , 0);
+    enkf_fs_type * fs = (enkf_fs_type * ) arg_pack_iget_ptr( arg_pack , 1 );
     int report_step = arg_pack_iget_int( arg_pack , 2 );
 
     enkf_plot_genvector_load( vector , fs , report_step );

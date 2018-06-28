@@ -196,7 +196,7 @@ void * enkf_main_init_case_from_existing_JOB( void * self , const stringlist_typ
 static void * enkf_main_load_results_JOB__( enkf_main_type * enkf_main , int iter , const stringlist_type * args) {
   bool_vector_type * iactive = alloc_iactive_vector_from_range(args, 0, stringlist_get_size(args), enkf_main_get_ensemble_size(enkf_main));
   int ens_size = enkf_main_get_ensemble_size(enkf_main);
-  stringlist_type ** realizations_msg_list = util_calloc(ens_size, sizeof * realizations_msg_list); // CXX_CAST_ERROR
+  stringlist_type ** realizations_msg_list = (stringlist_type **) util_calloc(ens_size, sizeof * realizations_msg_list);
   for (int iens = 0; iens < ens_size; ++iens)
     realizations_msg_list[iens] = stringlist_alloc_new();
 

@@ -53,8 +53,8 @@ static void enkf_plot_data_resize( enkf_plot_data_type * plot_data , int new_siz
       }
     }
 
-    plot_data->ensemble = util_realloc( plot_data->ensemble , new_size * sizeof * plot_data->ensemble);
-    plot_data->work_arg = util_realloc( plot_data->work_arg , new_size * sizeof * plot_data->work_arg);
+    plot_data->ensemble = (enkf_plot_tvector_type **) util_realloc( plot_data->ensemble , new_size * sizeof * plot_data->ensemble);
+    plot_data->work_arg = (arg_pack_type **) util_realloc( plot_data->work_arg , new_size * sizeof * plot_data->work_arg);
 
     if (new_size > plot_data->size) {
       for (iens = plot_data->size; iens < new_size; iens++) {

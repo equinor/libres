@@ -72,7 +72,7 @@ typedef enum { GEN_DATA_UNDEFINED = 0,
   const char  *                gen_data_config_get_key( const gen_data_config_type * config);
   int                          gen_data_config_get_byte_size( const gen_data_config_type * config , int report_step);
   int                          gen_data_config_get_data_size( const gen_data_config_type * config , int report_step);
-  gen_data_file_format_type    gen_data_config_check_format( const void * format_string );
+  gen_data_file_format_type    gen_data_config_check_format( const char * format_string );
 
   const int_vector_type     * gen_data_config_get_active_report_steps( const gen_data_config_type *config);
   int                         gen_data_config_iget_report_step( const gen_data_config_type *config , int index);

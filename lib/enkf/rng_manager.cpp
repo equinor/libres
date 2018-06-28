@@ -122,7 +122,7 @@ rng_type * rng_manager_iget(rng_manager_type * rng_manager, int index) {
   if (index >= vector_get_size( rng_manager->rng_list ))
     rng_manager_grow( rng_manager, index + 1);
 
-  return vector_iget( rng_manager->rng_list , index ); // CXX_CAST_ERROR
+  return (rng_type * ) vector_iget( rng_manager->rng_list , index );
 }
 
 

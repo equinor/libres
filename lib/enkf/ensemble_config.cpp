@@ -122,7 +122,7 @@ void ensemble_config_set_gen_kw_format( ensemble_config_type * ensemble_config ,
     ensemble_config->gen_kw_format_string = util_realloc_string_copy( ensemble_config->gen_kw_format_string , gen_kw_format_string );
     for (i=0; i < stringlist_get_size( gen_kw_keys ); i++) {
       enkf_config_node_type * config_node = ensemble_config_get_node( ensemble_config , stringlist_iget( gen_kw_keys , i ));
-      gen_kw_config_update_tag_format( enkf_config_node_get_ref( config_node ) , gen_kw_format_string ); // CXX_CAST_ERROR
+      gen_kw_config_update_tag_format( (gen_kw_config_type * ) enkf_config_node_get_ref( config_node ) , gen_kw_format_string ); // CXX_CAST_ERROR
     }
     stringlist_free( gen_kw_keys );
   }
@@ -286,7 +286,7 @@ void ensemble_config_add_obs_key(ensemble_config_type * ensemble_config , const 
 void ensemble_config_clear_obs_keys(ensemble_config_type * ensemble_config) {
   hash_iter_type * iter = hash_iter_alloc( ensemble_config->config_nodes );
   while (!hash_iter_is_complete( iter )) {
-    enkf_config_node_type * config_node = hash_iter_get_next_value( iter );
+    enkf_config_node_type * config_node = (enkf_config_node_type * ) hash_iter_get_next_value( iter );
     enkf_config_node_clear_obs_keys( config_node );
   }
   hash_iter_free( iter );
@@ -425,7 +425,7 @@ void ensemble_config_init_GEN_KW(ensemble_config_type * ensemble_config, const c
 
       config_content_node_init_opt_hash( node , opt_hash , 4 );
       {
-        const char *  forward_string = hash_safe_get( opt_hash , FORWARD_INIT_KEY );
+        const char *  forward_string = (const char * ) hash_safe_get( opt_hash , FORWARD_INIT_KEY );
         enkf_config_node_type * config_node;
         bool forward_init = false;
 
@@ -439,8 +439,8 @@ void ensemble_config_init_GEN_KW(ensemble_config_type * ensemble_config, const c
                                         enkf_outfile ,
                                         template_file ,
                                         parameter_file ,
-                                        hash_safe_get( opt_hash , MIN_STD_KEY ) ,
-                                        hash_safe_get( opt_hash , INIT_FILES_KEY));
+                                        (const char *) hash_safe_get( opt_hash , MIN_STD_KEY ) ,
+                                        (const char *) hash_safe_get( opt_hash , INIT_FILES_KEY));
       }
       hash_free( opt_hash );
     }
@@ -481,11 +481,11 @@ void ensemble_config_init_SURFACE( ensemble_config_type * ensemble_config , cons
 
         config_content_node_init_opt_hash( node , options , 1 );
         {
-          const char * init_file_fmt   = hash_safe_get( options , INIT_FILES_KEY );
-          const char * output_file     = hash_safe_get( options , OUTPUT_FILE_KEY);
-          const char * base_surface    = hash_safe_get( options , BASE_SURFACE_KEY);
-          const char * min_std_file    = hash_safe_get( options , MIN_STD_KEY);
-          const char *  forward_string = hash_safe_get( options , FORWARD_INIT_KEY );
+          const char * init_file_fmt   = (const char *) hash_safe_get( options , INIT_FILES_KEY );
+          const char * output_file     = (const char *) hash_safe_get( options , OUTPUT_FILE_KEY);
+          const char * base_surface    = (const char *) hash_safe_get( options , BASE_SURFACE_KEY);
+          const char * min_std_file    = (const char *) hash_safe_get( options , MIN_STD_KEY);
+          const char *  forward_string = (const char *) hash_safe_get( options , FORWARD_INIT_KEY );
           bool forward_init = false;
 
           if (forward_string) {
@@ -564,22 +564,22 @@ void ensemble_config_init_FIELD( ensemble_config_type * ensemble_config , const 
         config_content_node_init_opt_hash( node , options , 2 );
         if (hash_has_key( options , MIN_KEY)) {
           truncation |= TRUNCATE_MIN;
-          value_min   = atof(hash_get( options , MIN_KEY));
+          value_min   = atof((const char * ) hash_get( options , MIN_KEY));
         }
 
         if (hash_has_key( options , MAX_KEY)) {
           truncation |= TRUNCATE_MAX;
-          value_max   = atof(hash_get( options , MAX_KEY));
+          value_max   = atof((const char * ) hash_get( options , MAX_KEY));
         }
 
 
         if (strcmp(var_type_string , PARAMETER_KEY) == 0) {
           const char *  ecl_file          = config_content_node_iget( node , 2 );
-          const char *  init_file_fmt     = hash_safe_get( options , INIT_FILES_KEY );
-          const char *  init_transform    = hash_safe_get( options , INIT_TRANSFORM_KEY );
-          const char *  output_transform  = hash_safe_get( options , OUTPUT_TRANSFORM_KEY );
-          const char *  min_std_file      = hash_safe_get( options , MIN_STD_KEY );
-          const char *  forward_string    = hash_safe_get( options , FORWARD_INIT_KEY );
+          const char *  init_file_fmt     = (const char *) hash_safe_get( options , INIT_FILES_KEY );
+          const char *  init_transform    = (const char *) hash_safe_get( options , INIT_TRANSFORM_KEY );
+          const char *  output_transform  = (const char *) hash_safe_get( options , OUTPUT_TRANSFORM_KEY );
+          const char *  min_std_file      = (const char *) hash_safe_get( options , MIN_STD_KEY );
+          const char *  forward_string    = (const char *) hash_safe_get( options , FORWARD_INIT_KEY );
           bool forward_init = false;
 
           if (forward_string) {
@@ -600,12 +600,12 @@ void ensemble_config_init_FIELD( ensemble_config_type * ensemble_config , const 
           /* General - not really interesting .. */
           const char *  ecl_file          = config_content_node_iget( node , 2 );
           const char *  enkf_infile       = config_content_node_iget( node , 3 );
-          const char *  init_file_fmt     = hash_safe_get( options , INIT_FILES_KEY );
-          const char *  init_transform    = hash_safe_get( options , INIT_TRANSFORM_KEY );
-          const char *  output_transform  = hash_safe_get( options , OUTPUT_TRANSFORM_KEY );
-          const char *  input_transform   = hash_safe_get( options , INPUT_TRANSFORM_KEY );
-          const char *  min_std_file      = hash_safe_get( options , MIN_STD_KEY );
-          const char *  forward_string    = hash_safe_get( options , FORWARD_INIT_KEY );
+          const char *  init_file_fmt     = (const char *) hash_safe_get( options , INIT_FILES_KEY );
+          const char *  init_transform    = (const char *) hash_safe_get( options , INIT_TRANSFORM_KEY );
+          const char *  output_transform  = (const char *) hash_safe_get( options , OUTPUT_TRANSFORM_KEY );
+          const char *  input_transform   = (const char *) hash_safe_get( options , INPUT_TRANSFORM_KEY );
+          const char *  min_std_file      = (const char *) hash_safe_get( options , MIN_STD_KEY );
+          const char *  forward_string    = (const char *) hash_safe_get( options , FORWARD_INIT_KEY );
           bool forward_init = false;
 
           if (forward_string) {
@@ -650,9 +650,9 @@ static void ensemble_config_init_PRED(ensemble_config_type * ensemble_config, co
 
   hash_type * opt_hash = hash_alloc();
   config_content_node_init_opt_hash(pred_node, opt_hash, 1);
-  const char * parameters = hash_safe_get(opt_hash, PARAMETER_KEY);
-  const char * min_std    = hash_safe_get(opt_hash, MIN_STD_KEY);
-  const char * init_files = hash_safe_get(opt_hash, INIT_FILES_KEY);
+  const char * parameters = (const char *) hash_safe_get(opt_hash, PARAMETER_KEY);
+  const char * min_std    = (const char *) hash_safe_get(opt_hash, MIN_STD_KEY);
+  const char * init_files = (const char *) hash_safe_get(opt_hash, INIT_FILES_KEY);
   hash_free(opt_hash);
 
   char * base;
@@ -775,7 +775,7 @@ stringlist_type * ensemble_config_alloc_keylist_from_var_type(const ensemble_con
 
   while (!hash_iter_is_complete( iter )) {
     const char * key       = hash_iter_get_next_key(iter);
-    enkf_var_type var_type = enkf_config_node_get_var_type( hash_get(config->config_nodes , key)); // CXX_CAST_ERROR
+    enkf_var_type var_type = enkf_config_node_get_var_type( (enkf_config_node_type * ) hash_get(config->config_nodes , key));
 
     if (var_type & var_mask)
       stringlist_append_copy( key_list , key );
@@ -792,7 +792,7 @@ stringlist_type * ensemble_config_alloc_keylist_from_impl_type(const ensemble_co
   hash_iter_type * iter = hash_iter_alloc(config->config_nodes);
   while (!hash_iter_is_complete( iter )) {
     const char * key = hash_iter_get_next_key(iter);
-    if (enkf_config_node_get_impl_type( hash_get(config->config_nodes , key)) == impl_type) // CXX_CAST_ERROR
+    if (enkf_config_node_get_impl_type( (enkf_config_node_type * ) hash_get(config->config_nodes , key)) == impl_type)
       stringlist_append_copy( key_list , key );
 
   }
@@ -806,7 +806,7 @@ bool ensemble_config_has_impl_type(const  ensemble_config_type * config, const e
   hash_iter_type * iter = hash_iter_alloc(config->config_nodes);
   while (!hash_iter_is_complete( iter )) {
     const char * key = hash_iter_get_next_key(iter);
-    if (enkf_config_node_get_impl_type( hash_get(config->config_nodes , key)) == impl_type) { // CXX_CAST_ERROR
+    if (enkf_config_node_get_impl_type( (enkf_config_node_type * ) hash_get(config->config_nodes , key)) == impl_type) {
       ret = true;
       break;
     }
@@ -935,7 +935,7 @@ enkf_config_node_type * ensemble_config_add_summary(ensemble_config_type * ensem
   enkf_config_node_type * config_node = NULL;
 
   if (hash_has_key(ensemble_config->config_nodes, key)) {
-    config_node = hash_get(ensemble_config->config_nodes, key); // CXX_CAST_ERROR
+    config_node = (enkf_config_node_type * ) hash_get(ensemble_config->config_nodes, key);
     if (enkf_config_node_get_impl_type( config_node ) != SUMMARY) {
       util_abort("%s: ensemble key:%s already exists - but it is not of summary type\n",__func__ , key);
     }
@@ -974,7 +974,7 @@ enkf_config_node_type * ensemble_config_add_container( ensemble_config_type * en
   char * local_key = (char *) key;
   bool  random_key = false;
   if (key == NULL) {
-    local_key = util_calloc( 11 , sizeof * local_key  ); // CXX_CAST_ERROR
+    local_key = (char * ) util_calloc( 11 , sizeof * local_key  );
     sprintf(local_key , "%ld" , random() % 10000000 );
     random_key = true;
   }
@@ -1078,7 +1078,7 @@ int ensemble_config_forward_init(const ensemble_config_type * ens_config,
     int iens = run_arg_get_iens( run_arg );
     hash_iter_type * iter = ensemble_config_alloc_hash_iter( ens_config );
     while ( !hash_iter_is_complete(iter) ) {
-      enkf_config_node_type * config_node = hash_iter_get_next_value(iter);
+      enkf_config_node_type * config_node = (enkf_config_node_type * ) hash_iter_get_next_value(iter);
       if (enkf_config_node_use_forward_init(config_node)) {
 	enkf_node_type * node = enkf_node_alloc( config_node );
         enkf_fs_type * sim_fs = run_arg_get_sim_fs( run_arg );

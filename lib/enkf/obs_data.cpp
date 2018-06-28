@@ -108,9 +108,9 @@ obs_block_type * obs_block_alloc( const char * obs_key , int obs_size , matrix_t
   UTIL_TYPE_ID_INIT( obs_block , OBS_BLOCK_TYPE_ID );
   obs_block->size        = obs_size;
   obs_block->obs_key     = util_alloc_string_copy( obs_key );
-  obs_block->value       = util_calloc( obs_size , sizeof * obs_block->value       ); // CXX_CAST_ERROR
-  obs_block->std         = util_calloc( obs_size , sizeof * obs_block->std         ); // CXX_CAST_ERROR
-  obs_block->active_mode = util_calloc( obs_size , sizeof * obs_block->active_mode ); // CXX_CAST_ERROR
+  obs_block->value       = (double *) util_calloc( obs_size , sizeof * obs_block->value       );
+  obs_block->std         = (double *) util_calloc( obs_size , sizeof * obs_block->std         );
+  obs_block->active_mode = (active_type *) util_calloc( obs_size , sizeof * obs_block->active_mode );
   obs_block->error_covar = error_covar;
   obs_block->error_covar_owner = error_covar_owner;
   obs_block->global_std_scaling = global_std_scaling;
@@ -364,12 +364,12 @@ obs_block_type * obs_data_add_block( obs_data_type * obs_data , const char * obs
 
 
 obs_block_type * obs_data_iget_block( obs_data_type * obs_data , int index ) {
-  return vector_iget( obs_data->data , index); // CXX_CAST_ERROR
+  return (obs_block_type * ) vector_iget( obs_data->data , index); // CXX_CAST_ERROR
 }
 
 
 const obs_block_type * obs_data_iget_block_const( const obs_data_type * obs_data , int index ) {
-  return vector_iget_const( obs_data->data , index ); // CXX_CAST_ERROR
+  return (const obs_block_type * ) vector_iget_const( obs_data->data , index ); // CXX_CAST_ERROR
 }
 
 
@@ -388,8 +388,8 @@ matrix_type * obs_data_allocE(const obs_data_type * obs_data , rng_type * rng , 
 
   E         = matrix_alloc( active_obs_size , active_ens_size);
 
-  pert_mean = util_calloc(active_obs_size , sizeof * pert_mean ); // CXX_CAST_ERROR
-  pert_var  = util_calloc(active_obs_size , sizeof * pert_var  ); // CXX_CAST_ERROR
+  pert_mean = (double *) util_calloc(active_obs_size , sizeof * pert_mean );
+  pert_var  = (double *) util_calloc(active_obs_size , sizeof * pert_var  );
   {
     double * tmp = (double *)util_calloc( active_obs_size * active_ens_size , sizeof * tmp );
     int i,j;
@@ -721,7 +721,7 @@ static const obs_block_type * obs_data_lookup_block( const obs_data_type * obs_d
 
 
       while (true) {
-        obs_block   = vector_iget_const( obs_data->data , block_index ); // CXX_CAST_ERROR
+        obs_block   = (const obs_block_type * ) vector_iget_const( obs_data->data , block_index );
         block_size = obs_block->size;
         if ((block_size + total_offset) > total_index)
           break;

@@ -20,8 +20,7 @@
 #include <ert/enkf/obs_vector.hpp>
 #include <ert/enkf/summary_obs.hpp>
 #include <ert/enkf/block_obs.hpp>
-
-#include "ert/enkf/gen_obs.h"
+#include <ert/enkf/gen_obs.hpp>
 
 bool alloc_strippedparameters_noerrors() {
   obs_vector_type * obs_vector = obs_vector_alloc(SUMMARY_OBS, "WHAT", NULL, 0);

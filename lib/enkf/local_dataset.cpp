@@ -60,7 +60,7 @@ local_dataset_type * local_dataset_alloc_copy( local_dataset_type * src_dataset 
 
   while (!hash_iter_is_complete( node_iter )) {
     const char * key = hash_iter_get_next_key( node_iter );
-    active_list_type * active_list = (active_list_type *)active_list_alloc_copy( hash_get( src_dataset->nodes , key ) );
+    active_list_type * active_list = active_list_alloc_copy( (const active_list_type *) hash_get( src_dataset->nodes , key ) );
     hash_insert_hash_owned_ref( copy_dataset->nodes , key , active_list , active_list_free__);
   }
 
@@ -90,7 +90,7 @@ void local_dataset_add_node(local_dataset_type * dataset, const char *node_key) 
   if (hash_has_key( dataset->nodes , node_key ))
     util_abort("%s: tried to add existing node key:%s \n",__func__ , node_key);
 
-  hash_insert_hash_owned_ref( dataset->nodes , node_key , active_list_alloc( ALL_ACTIVE ) , active_list_free__);
+  hash_insert_hash_owned_ref( dataset->nodes , node_key , active_list_alloc( ) , active_list_free__);
 }
 
 bool local_dataset_has_key(const local_dataset_type * dataset, const char * key) {
@@ -109,7 +109,7 @@ void local_dataset_clear( local_dataset_type * dataset) {
 
 
 active_list_type * local_dataset_get_node_active_list(const local_dataset_type * dataset , const char * node_key ) {
-  return hash_get( dataset->nodes , node_key );  /* Fails hard if you do not have the key ... */ // CXX_CAST_ERROR
+  return (active_list_type *) hash_get( dataset->nodes , node_key );  /* Fails hard if you do not have the key ... */
 }
 
 stringlist_type * local_dataset_alloc_keys( const local_dataset_type * dataset ) {

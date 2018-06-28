@@ -63,7 +63,7 @@ void misfit_ranking_display( const misfit_ranking_type * misfit_ranking , FILE *
     // The ensemble vector can contain invalid nodes with NULL.
     int index = 0;
     while ((obs_hash == NULL) && (index < vector_get_size( misfit_ranking->ensemble))) {
-      obs_hash = vector_iget( misfit_ranking->ensemble , index ); // CXX_CAST_ERROR
+      obs_hash = (hash_type *) vector_iget( misfit_ranking->ensemble , index );
       index++;
     }
     if (obs_hash == NULL) {

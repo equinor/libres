@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2012  Statoil ASA, Norway. 
-    
-   The file 'misfit_member.c' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2012  Statoil ASA, Norway.
+
+   The file 'misfit_member.c' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 #include <stdlib.h>
@@ -68,12 +68,12 @@ static void misfit_member_install_vector( misfit_member_type * node , const char
 static misfit_ts_type * misfit_member_safe_get_vector( misfit_member_type * node , const char * obs_key , int history_length) {
   if (!hash_has_key( node->obs , obs_key ))
     misfit_member_install_vector(node , obs_key , misfit_ts_alloc( history_length ) );
-  return hash_get( node->obs , obs_key ); // CXX_CAST_ERROR
+  return (misfit_ts_type *) hash_get( node->obs , obs_key );
 }
 
 
 misfit_ts_type * misfit_member_get_ts( const misfit_member_type * node , const char * obs_key ) {
-  return hash_get( node->obs , obs_key ); // CXX_CAST_ERROR
+  return (misfit_ts_type *) hash_get( node->obs , obs_key );
 }
 
 bool misfit_member_has_ts( const misfit_member_type * node , const char * obs_key ) {
@@ -83,7 +83,7 @@ bool misfit_member_has_ts( const misfit_member_type * node , const char * obs_ke
 
 void misfit_member_update( misfit_member_type * node , const char * obs_key , int history_length , int iens , const double ** work_chi2) {
   misfit_ts_type * vector = misfit_member_safe_get_vector( node , obs_key , history_length );
-  for (int step = 0; step <= history_length; step++) 
+  for (int step = 0; step <= history_length; step++)
     misfit_ts_iset( vector , step , work_chi2[step][iens]);
 }
 

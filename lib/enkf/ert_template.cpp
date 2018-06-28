@@ -35,7 +35,7 @@
 /* Singular - one template. */
 struct ert_template_struct {
   UTIL_TYPE_ID_DECLARATION;
-  template_type * template;
+  template_type * tmpl;
   char          * target_file;
 };
 
@@ -56,12 +56,12 @@ void ert_template_set_target_file( ert_template_type * ert_template , const char
 
 
 void ert_template_set_template_file( ert_template_type * ert_template , const char * template_file ) {
-  template_set_template_file( ert_template->template , template_file );
+  template_set_template_file( ert_template->tmpl , template_file );
 }
 
 
 const char * ert_template_get_template_file( const ert_template_type * ert_template) {
-  return template_get_template_file( ert_template->template );
+  return template_get_template_file( ert_template->tmpl );
 }
 
 const char * ert_template_get_target_file( const ert_template_type * ert_template) {
@@ -69,45 +69,45 @@ const char * ert_template_get_target_file( const ert_template_type * ert_templat
 }
 
 const char * ert_template_get_args_as_string( const ert_template_type * ert_template ) {
-  return template_get_args_as_string( ert_template->template );
+  return template_get_args_as_string( ert_template->tmpl );
 }
 
 
 
 ert_template_type * ert_template_alloc( const char * template_file , const char * target_file , subst_list_type * parent_subst) {
-  ert_template_type * template = (ert_template_type *)util_malloc( sizeof * template);
-  UTIL_TYPE_ID_INIT(template , ERT_TEMPLATE_TYPE_ID);
-  template->template    = template_alloc( template_file , false , parent_subst);  /* The templates are instantiated with internalize_template == false;
+  ert_template_type * ert_template = (ert_template_type *) util_malloc( sizeof * ert_template);
+  UTIL_TYPE_ID_INIT(ert_template , ERT_TEMPLATE_TYPE_ID);
+  ert_template->tmpl    = template_alloc( template_file , false , parent_subst);  /* The templates are instantiated with internalize_template == false;
                                                                                      this means that substitutions are performed on the filename of the
                                                                                      template itself .*/
 
-  template->target_file = NULL;
-  ert_template_set_target_file( template , target_file );
-  return template;
+  ert_template->target_file = NULL;
+  ert_template_set_target_file( ert_template , target_file );
+  return ert_template;
 }
 
 
-void ert_template_free( ert_template_type * template ) {
-  free( template->target_file );
-  template_free( template->template );
-  free( template );
+void ert_template_free( ert_template_type * ert_template ) {
+  free( ert_template->target_file );
+  template_free( ert_template->tmpl );
+  free( ert_template );
 }
 
 
-void ert_template_instantiate( ert_template_type * template , const char * path , const subst_list_type * arg_list) {
-  char * target_file = util_alloc_filename( path , template->target_file , NULL );
-  template_instantiate( template->template , target_file , arg_list , true );
+void ert_template_instantiate( ert_template_type * ert_template , const char * path , const subst_list_type * arg_list) {
+  char * target_file = util_alloc_filename( path , ert_template->target_file , NULL );
+  template_instantiate( ert_template->tmpl , target_file , arg_list , true );
   free( target_file );
 }
 
 
-void ert_template_add_arg( ert_template_type * template , const char * key , const char * value ) {
-  template_add_arg( template->template , key , value );
+void ert_template_add_arg( ert_template_type * ert_template , const char * key , const char * value ) {
+  template_add_arg( ert_template->tmpl , key , value );
 }
 
-void ert_template_set_args_from_string( ert_template_type * template, const char * arg_string ) {
-  template_clear_args( template->template );
-  template_add_args_from_string( template->template , arg_string );
+void ert_template_set_args_from_string( ert_template_type * ert_template, const char * arg_string ) {
+  template_clear_args( ert_template->tmpl );
+  template_add_args_from_string( ert_template->tmpl , arg_string );
 }
 
 
@@ -118,12 +118,12 @@ void ert_template_free__(void * arg) {
 }
 
 
-static void ert_template_fprintf_config( const ert_template_type * template , FILE * stream ) {
+static void ert_template_fprintf_config( const ert_template_type * tmpl , FILE * stream ) {
   fprintf(stream , CONFIG_KEY_FORMAT   , RUN_TEMPLATE_KEY );
-  fprintf(stream , CONFIG_VALUE_FORMAT , ert_template_get_template_file( template ));
-  fprintf(stream , CONFIG_VALUE_FORMAT , template->target_file );
+  fprintf(stream , CONFIG_VALUE_FORMAT , ert_template_get_template_file( tmpl ));
+  fprintf(stream , CONFIG_VALUE_FORMAT , tmpl->target_file );
   {
-    const char * arg_string = ert_template_get_args_as_string( template );
+    const char * arg_string = ert_template_get_args_as_string( tmpl );
     if (arg_string != NULL)
       fprintf(stream , CONFIG_ENDVALUE_FORMAT , arg_string );
     else
@@ -184,8 +184,8 @@ void ert_templates_del_template( ert_templates_type * ert_templates , const char
 
 
 ert_template_type * ert_templates_add_template( ert_templates_type * ert_templates , const char * key , const char * template_file , const char * target_file, const char * arg_string) {
-  ert_template_type * template = ert_template_alloc( template_file ,  target_file , ert_templates->parent_subst);
-  ert_template_set_args_from_string( template , arg_string ); /* Arg_string can be NULL */
+  ert_template_type * tmpl = ert_template_alloc( template_file ,  target_file , ert_templates->parent_subst);
+  ert_template_set_args_from_string( tmpl , arg_string ); /* Arg_string can be NULL */
 
   /**
       If key == NULL the function will generate a key after the following algorithm:
@@ -206,20 +206,20 @@ ert_template_type * ert_templates_add_template( ert_templates_type * ert_templat
         new_key = util_realloc_sprintf( new_key , "%s.%d" , base_name , counter );
       counter++;
     } while (hash_has_key( ert_templates->templates , new_key));
-    hash_insert_hash_owned_ref( ert_templates->templates , new_key , template , ert_template_free__);
+    hash_insert_hash_owned_ref( ert_templates->templates , new_key , tmpl, ert_template_free__);
     free( new_key );
     free( base_name );
   } else
-    hash_insert_hash_owned_ref( ert_templates->templates , key , template , ert_template_free__);
+    hash_insert_hash_owned_ref( ert_templates->templates , key , tmpl, ert_template_free__);
 
-  return template;
+  return tmpl;
 }
 
 
 void ert_templates_instansiate( ert_templates_type * ert_templates , const char * path , const subst_list_type * arg_list) {
   hash_iter_type * iter = hash_iter_alloc( ert_templates->templates );
   while (!hash_iter_is_complete( iter )) {
-    ert_template_type * ert_template = hash_iter_get_next_value( iter );
+    ert_template_type * ert_template = (ert_template_type * ) hash_iter_get_next_value( iter );
     ert_template_instantiate( ert_template , path , arg_list);
   }
   hash_iter_free( iter );
@@ -232,7 +232,7 @@ void ert_templates_clear( ert_templates_type * ert_templates ) {
 }
 
 ert_template_type * ert_templates_get_template( ert_templates_type * ert_templates , const char * key) {
-  return hash_get( ert_templates->templates , key ); // CXX_CAST_ERROR
+  return (ert_template_type * ) hash_get( ert_templates->templates , key );
 }
 
 stringlist_type * ert_templates_alloc_list( ert_templates_type * ert_templates) {
@@ -248,7 +248,7 @@ void ert_templates_init( ert_templates_type * templates , const config_content_t
       const char * template_file = config_content_node_iget_as_abspath(template_node , 0 );
       const char * target_file   = config_content_node_iget( template_node , 1 );
 
-      ert_template_type * template = ert_templates_add_template( templates , NULL , template_file , target_file , NULL);
+      ert_template_type * tmpl = ert_templates_add_template( templates , NULL , template_file , target_file , NULL);
 
       for (int iarg = 2; iarg < config_content_node_get_size( template_node ); iarg++) {
         char * key , *value;
@@ -256,7 +256,7 @@ void ert_templates_init( ert_templates_type * templates , const config_content_t
         util_binary_split_string( key_value , "=:" , true , &key , &value);
 
         if (value != NULL)
-          ert_template_add_arg( template ,key , value );
+          ert_template_add_arg( tmpl,key , value );
         else
           fprintf(stderr,"** Warning - failed to parse argument:%s as key:value - ignored \n",config_content_iget( config , "RUN_TEMPLATE" , i , iarg ));
 
@@ -277,8 +277,8 @@ void ert_templates_fprintf_config( const ert_templates_type * ert_templates , FI
       hash_iter_type * iter = hash_iter_alloc( ert_templates->templates );
       while( !hash_iter_is_complete( iter )) {
         const char * key                   = hash_iter_get_next_key( iter );
-        const ert_template_type * template = (const ert_template_type *)hash_get( ert_templates->templates , key );
-        ert_template_fprintf_config( template , stream );
+        const ert_template_type * ert_template = (const ert_template_type *) hash_get( ert_templates->templates , key );
+        ert_template_fprintf_config( ert_template , stream );
       }
       hash_iter_free( iter );
     }

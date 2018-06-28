@@ -93,7 +93,7 @@ hook_run_mode_enum hook_workflow_run_mode_from_name( const char * run_mode ) {
     mode = POST_UPDATE;
   else {
     util_abort("%s: unrecognized run mode :%s \n",__func__ , run_mode);
-    mode = -1; /* Dummy */
+    mode = POST_UPDATE; /* Dummy */
   }
   return mode;
 }

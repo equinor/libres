@@ -72,7 +72,7 @@ surface_type * surface_alloc(const surface_config_type * surface_config) {
   surface->config         = (surface_config_type *) surface_config;
   {
     const int data_size = surface_config_get_data_size(surface_config);
-    surface->data       = util_calloc(data_size, sizeof * surface->data); // CXX_CAST_ERROR
+    surface->data       = (double * ) util_calloc(data_size, sizeof * surface->data);
   }
   return surface;
 }

@@ -121,22 +121,22 @@ ert_impl_type enkf_types_check_impl_type(const char * impl_type_string) {
 
 
 void enkf_types_set_truncate_min(truncation_type * __trunc) {
-  truncation_type trunc = *__trunc;
+  int trunc = (int) *__trunc;
 
   if (!(trunc & TRUNCATE_MIN))
     trunc += TRUNCATE_MIN;
 
-  *__trunc = trunc;
+  *__trunc = (truncation_type) trunc;
 }
 
 
 void enkf_types_set_truncate_max(truncation_type * __trunc) {
-  truncation_type trunc = *__trunc;
+  int trunc = *__trunc;
 
   if (!(trunc & TRUNCATE_MAX))
     trunc += TRUNCATE_MAX;
 
-  *__trunc = trunc;
+  *__trunc = (truncation_type) trunc;
 }
 
 

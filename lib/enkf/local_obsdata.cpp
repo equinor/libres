@@ -125,12 +125,12 @@ bool local_obsdata_add_node( local_obsdata_type * data , local_obsdata_node_type
 
 
 local_obsdata_node_type * local_obsdata_iget( const local_obsdata_type * data , int index) {
-  return vector_iget( data->nodes_list , index ); // CXX_CAST_ERROR
+  return (local_obsdata_node_type *) vector_iget( data->nodes_list , index );
 }
 
 
 local_obsdata_node_type * local_obsdata_get( const local_obsdata_type * data , const char * key) {
-  return hash_get( data->nodes_map , key ); // CXX_CAST_ERROR
+  return (local_obsdata_node_type *) hash_get( data->nodes_map , key );
 }
 
 

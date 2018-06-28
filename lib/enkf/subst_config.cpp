@@ -199,7 +199,7 @@ static void subst_config_install_data_kw(subst_config_type * subst_config, hash_
     hash_iter_type * iter = hash_iter_alloc(config_data_kw);
     const char * key = hash_iter_get_next_key(iter);
     while (key != NULL) {
-      subst_config_add_subst_kw(subst_config, key, hash_get(config_data_kw, key)); // CXX_CAST_ERROR
+      subst_config_add_subst_kw(subst_config, key, (const char * ) hash_get(config_data_kw, key));
       key = hash_iter_get_next_key(iter);
     }
     hash_iter_free(iter);

@@ -18,9 +18,8 @@
 
 #ifndef ERT_FIELD_CONFIG_H
 #define ERT_FIELD_CONFIG_H
-#ifdef __cplusplus
-extern "C" {
-#endif
+
+
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -33,13 +32,16 @@ extern "C" {
 
 #include <ert/rms/rms_file.h>
 
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/active_list.h>
-#include <ert/enkf/field_trans.h>
-#include <ert/enkf/field_common.h>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/active_list.hpp>
+#include <ert/enkf/field_trans.hpp>
+#include <ert/enkf/field_common.hpp>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
    This is purely a convenience structure used during initialization,

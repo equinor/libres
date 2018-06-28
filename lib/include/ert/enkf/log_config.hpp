@@ -20,8 +20,11 @@
 #define ERT_LOG_CONFIG_H
 
 #include <ert/config/config_content.h>
-
 #include <ert/res_util/log.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 #define LOG_CRITICAL_NAME "CRITICAL"
@@ -51,4 +54,7 @@ const message_level_type log_config_get_log_level(const log_config_type *);
 
 message_level_type log_config_level_parser(const char * level);
 
+#ifdef __cplusplus
+}
+#endif
 #endif

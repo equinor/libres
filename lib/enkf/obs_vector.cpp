@@ -499,7 +499,14 @@ obs_vector_type * obs_vector_alloc_from_GENERAL_OBSERVATION(const conf_instance_
           }
 
           /** The config system has ensured that we have either OBS_FILE or (VALUE and ERROR). */
-          gen_obs = gen_obs_alloc( enkf_config_node_get_ref( config_node ) , obs_key , obs_file , scalar_value , scalar_error , index_file , index_list , error_covar_file); // CXX_CAST_ERROR
+          gen_obs = gen_obs_alloc( (const gen_data_config_type * ) enkf_config_node_get_ref( config_node ) ,
+                                   obs_key ,
+                                   obs_file ,
+                                   scalar_value ,
+                                   scalar_error ,
+                                   index_file ,
+                                   index_list ,
+                                   error_covar_file);
           obs_vector_install_node( obs_vector , obs_restart_nr , gen_obs );
         } else
           fprintf(stderr,"** ERROR: The GEN_DATA node:%s is not configured to load from report step:%d - the observation:%s will be ignored\n", state_kw , obs_restart_nr , obs_key);

@@ -352,9 +352,9 @@ static field_type * __field_alloc(const field_config_type * field_config , void 
   field->private_config = false;
   if (shared_data == NULL) {
     field->shared_data = false;
-    field->data        = util_calloc(field_config_get_byte_size(field->config) , sizeof * field->data ); // CXX_CAST_ERROR
+    field->data        = (char * ) util_calloc(field_config_get_byte_size(field->config) , sizeof * field->data );
   } else {
-    field->data             = shared_data;
+    field->data             = (char * ) shared_data;
     field->shared_data      = true;
     field->shared_byte_size = shared_byte_size;
     if (shared_byte_size < field_config_get_byte_size(field->config))
@@ -659,7 +659,7 @@ for (int i=0; i < s; i++) {                    \
 
 
 static void field_apply_truncation(field_type * field) {
-  truncation_type   truncation = field_config_get_truncation_mode( field->config );
+  int truncation = field_config_get_truncation_mode( field->config );
   if (truncation != TRUNCATE_NONE) {
     double min_value = field_config_get_truncation_min( field->config );
     double max_value = field_config_get_truncation_max( field->config );
@@ -684,9 +684,9 @@ static void field_apply_truncation(field_type * field) {
 
 static void field_output_transform(field_type * field) {
   field_func_type * output_transform = field_config_get_output_transform(field->config);
-  truncation_type   truncation       = field_config_get_truncation_mode( field->config );
+  int truncation       = field_config_get_truncation_mode( field->config );
   if ((output_transform != NULL) || (truncation != TRUNCATE_NONE)) {
-    field->export_data = util_alloc_copy(field->data , field_config_get_byte_size(field->config) ); // CXX_CAST_ERROR
+    field->export_data = (char * ) util_alloc_copy(field->data , field_config_get_byte_size(field->config) );
     field->__data = field->data;  /* Storing a pointer to the original data. */
     field->data   = field->export_data;
 

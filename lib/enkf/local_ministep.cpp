@@ -74,7 +74,7 @@ local_ministep_type * local_ministep_alloc(const char * name, analysis_module_ty
   ministep->name         = util_alloc_string_copy( name );
 
   char* obsdata_name = "OBSDATA_";
-  char* result = malloc(strlen(obsdata_name)+strlen(name)+1);
+  char* result = (char *) util_malloc(strlen(obsdata_name)+strlen(name)+1);
   strcpy(result, obsdata_name);
   strcat(result, name);
   ministep->observations = local_obsdata_alloc(result);
@@ -95,7 +95,7 @@ local_ministep_type * local_ministep_alloc_copy( const local_ministep_type * src
   //  hash_iter_type * obs_iter = hash_iter_alloc( src->observations );
   //  while (!hash_iter_is_complete( obs_iter )) {
   //    const char * obs_key = hash_iter_get_next_key( obs_iter );
-    active_list_type * active_list_copy = (active_list_type *)active_list_alloc_copy( hash_get( src->observations , obs_key) );
+  //  active_list_type * active_list_copy = (active_list_type *) active_list_alloc_copy( hash_get( src->observations , obs_key) );
   //    hash_insert_hash_owned_ref( new->observations , obs_key , active_list_copy , active_list_free__);
   //  }
   //}
@@ -104,12 +104,13 @@ local_ministep_type * local_ministep_alloc_copy( const local_ministep_type * src
   //  hash_iter_type * nodeset_iter = hash_iter_alloc( src->datasets );
   //  while (!hash_iter_is_complete( nodeset_iter )) {
   //    const char * nodeset_key = hash_iter_get_next_key( nodeset_iter );
-    local_nodeset_type * new_nodeset = (local_nodeset_type *)local_nodeset_alloc_copy( hash_get( src->datasets , nodeset_key ));
+  // local_nodeset_type * new_nodeset = (local_nodeset_type *)local_nodeset_alloc_copy( hash_get( src->datasets , nodeset_key ));
   //    hash_insert_ref( new->datasets , nodeset_key , new_nodeset );
   //  }
   //}
   //
   //return new;
+  util_abort("%s: this function seems completely broken - internal error?\n",__func__);
   return NULL;
 }
 
@@ -175,7 +176,7 @@ int local_ministep_get_num_dataset( const local_ministep_type * ministep ) {
 }
 
 local_dataset_type * local_ministep_get_dataset( const local_ministep_type * ministep, const char * dataset_name) {
-  return hash_get( ministep->datasets, dataset_name ); // CXX_CAST_ERROR
+  return (local_dataset_type *) hash_get( ministep->datasets, dataset_name ); // CXX_CAST_ERROR
 }
 
 local_obsdata_type * local_ministep_get_obsdata( const local_ministep_type * ministep ) {
@@ -206,7 +207,7 @@ stringlist_type * local_ministep_alloc_data_keys( const local_ministep_type * mi
   {
     hash_iter_type * dataset_iter = hash_iter_alloc( ministep->datasets );
     while (!hash_iter_is_complete( dataset_iter )) {
-      const local_dataset_type * dataset = hash_iter_get_next_value( dataset_iter );
+      const local_dataset_type * dataset = (const local_dataset_type *) hash_iter_get_next_value( dataset_iter );
       stringlist_type * node_keys = local_dataset_alloc_keys( dataset );
       for (int i=0; i < stringlist_get_size( node_keys ); i++) {
         const char * data_key = stringlist_iget( node_keys , i );
@@ -227,7 +228,7 @@ bool local_ministep_has_data_key(const local_ministep_type * ministep , const ch
     hash_iter_type * dataset_iter = hash_iter_alloc( ministep->datasets );
 
     while (true) {
-      const local_dataset_type * dataset = hash_iter_get_next_value( dataset_iter );
+      const local_dataset_type * dataset = (const local_dataset_type *) hash_iter_get_next_value( dataset_iter );
       if (dataset) {
         if (local_dataset_has_key( dataset , key)) {
           has_key = true;
@@ -259,7 +260,7 @@ void local_ministep_summary_fprintf( const local_ministep_type * ministep , FILE
     {
      hash_iter_type * dataset_iter = hash_iter_alloc( ministep->datasets );
      while (!hash_iter_is_complete( dataset_iter )) {
-       const local_dataset_type * dataset = hash_iter_get_next_value( dataset_iter );
+       const local_dataset_type * dataset = (const local_dataset_type *) hash_iter_get_next_value( dataset_iter );
        local_dataset_summary_fprintf(dataset, stream);
      }
      hash_iter_free( dataset_iter );

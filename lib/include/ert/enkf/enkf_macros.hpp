@@ -286,9 +286,10 @@ void prefix ## _update_std_scale__( void * void_obs ,  double std_multiplier , c
 /*****************************************************************/
 
 #define VOID_CHI2(obs_prefix, state_prefix) \
-  double obs_prefix ## _chi2__(const void * void_obs ,  const void * void_state, node_id_type node_id) { \
-   const obs_prefix ## _type   * obs   = obs_prefix ## _safe_cast_const( void_obs );     \
-   return obs_prefix ## _chi2(obs , void_state , node_id);                           \
+double obs_prefix ## _chi2__(const void * void_obs ,  const void * void_state, node_id_type node_id) { \
+   const obs_prefix ## _type   * obs   = obs_prefix ## _safe_cast_const( void_obs );            \
+   const state_prefix ## _type * state = (const state_prefix ## _type *) void_state; \
+   return obs_prefix ## _chi2(obs , state , node_id);                                           \
 }
 
 #define VOID_CHI2_HEADER(obs_prefix) double obs_prefix ## _chi2__(const void * ,  const void *, node_id_type);

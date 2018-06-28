@@ -107,8 +107,8 @@ static void enkf_plot_gendata_resize( enkf_plot_gendata_type * plot_gendata , in
         }
       }
 
-      plot_gendata->ensemble = util_realloc( plot_gendata->ensemble , new_size * sizeof * plot_gendata->ensemble);
-      plot_gendata->work_arg = util_realloc( plot_gendata->work_arg , new_size * sizeof * plot_gendata->work_arg);
+      plot_gendata->ensemble = (enkf_plot_genvector_type **) util_realloc( plot_gendata->ensemble , new_size * sizeof * plot_gendata->ensemble);
+      plot_gendata->work_arg = (arg_pack_type **) util_realloc( plot_gendata->work_arg , new_size * sizeof * plot_gendata->work_arg);
 
       if (new_size > plot_gendata->size) {
         for (iens = plot_gendata->size; iens < new_size; iens++) {

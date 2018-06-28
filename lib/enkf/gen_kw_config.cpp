@@ -277,7 +277,7 @@ void gen_kw_config_update_tag_format(gen_kw_config_type * config , const char * 
 
   config->tag_fmt = tag_format;
   for (i=0; i < vector_get_size( config->parameters ); i++)
-    gen_kw_parameter_update_tagged_name( vector_iget( config->parameters , i ) , config->tag_fmt); // CXX_CAST_ERROR
+    gen_kw_parameter_update_tagged_name( (gen_kw_parameter_type *) vector_iget( config->parameters , i ) , config->tag_fmt);
 }
 
 

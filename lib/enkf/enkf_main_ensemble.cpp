@@ -42,7 +42,7 @@ void enkf_main_resize_ensemble( enkf_main_type * enkf_main , int new_ens_size ) 
       enkf_state_free( enkf_main->ensemble[iens] );
 
     /*2: Shrink the ensemble pointer. */
-    enkf_main->ensemble = util_realloc(enkf_main->ensemble , new_ens_size * sizeof * enkf_main->ensemble );
+    enkf_main->ensemble = (enkf_state_type **) util_realloc(enkf_main->ensemble , new_ens_size * sizeof * enkf_main->ensemble );
     enkf_main->ens_size = new_ens_size;
     return;
   }
@@ -51,7 +51,7 @@ void enkf_main_resize_ensemble( enkf_main_type * enkf_main , int new_ens_size ) 
   /* The ensemble is expanding */
   if (new_ens_size > enkf_main->ens_size) {
     /*1: Grow the ensemble pointer. */
-    enkf_main->ensemble = util_realloc(enkf_main->ensemble , new_ens_size * sizeof * enkf_main->ensemble );
+    enkf_main->ensemble = (enkf_state_type **) util_realloc(enkf_main->ensemble , new_ens_size * sizeof * enkf_main->ensemble );
 
     /*2: Allocate the new ensemble members. */
     for (iens = enkf_main->ens_size; iens < new_ens_size; iens++)

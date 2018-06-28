@@ -356,9 +356,9 @@ workflow_type *  ert_workflow_list_get_workflow(ert_workflow_list_type * workflo
   const char * lookup_name = workflow_name;
 
   if (hash_has_key( workflow_list->alias_map , workflow_name))
-    lookup_name = hash_get( workflow_list->alias_map , workflow_name ); // CXX_CAST_ERROR
+    lookup_name = (const char * ) hash_get( workflow_list->alias_map , workflow_name );
 
-  return hash_get( workflow_list->workflows , lookup_name ); // CXX_CAST_ERROR
+  return (workflow_type * ) hash_get( workflow_list->workflows , lookup_name );
 }
 
 bool  ert_workflow_list_has_workflow(ert_workflow_list_type * workflow_list , const char * workflow_name ) {

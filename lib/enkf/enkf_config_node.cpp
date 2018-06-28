@@ -190,7 +190,7 @@ bool enkf_config_node_vector_storage( const enkf_config_node_type * config_node)
 */
 
 static bool enkf_config_node_is_valid_GEN_KW( const enkf_config_node_type * config_node ) {
-  bool valid = gen_kw_config_is_valid( config_node->data );
+  bool valid = gen_kw_config_is_valid( (const gen_kw_config_type * ) config_node->data );
   valid = (valid && (config_node->enkf_outfile_fmt != NULL));
 
   return valid;
@@ -200,7 +200,7 @@ static bool enkf_config_node_is_valid_GEN_KW( const enkf_config_node_type * conf
 static bool enkf_config_node_is_valid_FIELD( const enkf_config_node_type * config_node ) {
   bool valid = false;
   if ( config_node->var_type != INVALID_VAR )
-    valid = field_config_is_valid( config_node->data );
+    valid = field_config_is_valid( (const field_config_type * ) config_node->data );
 
 
   return valid;
@@ -208,7 +208,7 @@ static bool enkf_config_node_is_valid_FIELD( const enkf_config_node_type * confi
 
 
 static bool enkf_config_node_is_valid_GEN_DATA( const enkf_config_node_type * config_node ) {
-  bool valid = gen_kw_config_is_valid( config_node->data );
+  bool valid = gen_kw_config_is_valid( (const gen_kw_config_type * ) config_node->data );
   valid = (valid && (config_node->enkf_outfile_fmt != NULL));
 
   return valid;
@@ -301,7 +301,7 @@ void enkf_config_node_update_gen_kw( enkf_config_node_type * config_node ,
                                      const char * init_file_fmt ) {
 
   /* 1: Update the low level gen_kw_config stuff. */
-  gen_kw_config_update( config_node->data , template_file , parameter_file );
+  gen_kw_config_update( (gen_kw_config_type * ) config_node->data , template_file , parameter_file );
 
   /* 2: Update the stuff which is owned by the upper-level enkf_config_node instance. */
   enkf_config_node_update( config_node , init_file_fmt , enkf_outfile_fmt , NULL , min_std_file);
@@ -344,7 +344,7 @@ enkf_config_node_type * enkf_config_node_new_surface( const char * key , bool fo
 void enkf_config_node_update_surface( enkf_config_node_type * config_node , const char * base_surface, const char * init_file_fmt , const char * output_file , const char * min_std_file ) {
 
   /* 1: Update the data owned by the surface node. */
-  surface_config_set_base_surface( config_node->data , base_surface );
+  surface_config_set_base_surface( (surface_config_type * ) config_node->data , base_surface );
 
   /* 2: Update the stuff which is owned by the upper-level enkf_config_node instance. */
   enkf_config_node_update( config_node , init_file_fmt , output_file , NULL , min_std_file);
@@ -461,7 +461,7 @@ enkf_config_node_type * enkf_config_node_new_container( const char * key ) {
 
 void enkf_config_node_update_container( enkf_config_node_type * config_node , const enkf_config_node_type * child_node) {
   vector_append_ref( config_node->container_nodes , child_node );
-  container_config_add_node( config_node->data , child_node );
+  container_config_add_node( (container_config_type * ) config_node->data , child_node );
 }
 
 const char * enkf_config_node_iget_container_key( const enkf_config_node_type * config_node , int index) {
@@ -495,7 +495,7 @@ void enkf_config_node_update_parameter_field( enkf_config_node_type * config_nod
                                               const char * output_transform ) {
 
   field_file_format_type export_format = field_config_default_export_format( enkf_outfile_fmt ); /* Purely based on extension, recognizes ROFF and GRDECL, the rest will be ecl_kw format. */
-  field_config_update_parameter_field( config_node->data , truncation , value_min , value_max ,
+  field_config_update_parameter_field( (field_config_type * ) config_node->data , truncation , value_min , value_max ,
                                        export_format ,
                                        init_transform ,
                                        output_transform );
@@ -536,7 +536,7 @@ void enkf_config_node_update_general_field( enkf_config_node_type * config_node 
     }
     config_node->var_type = var_type;
   }
-  field_config_update_general_field( config_node->data ,
+  field_config_update_general_field( (field_config_type * ) config_node->data ,
                                      truncation , value_min , value_max ,
                                      export_format ,
                                      init_transform ,
@@ -555,7 +555,7 @@ void enkf_config_node_update_general_field( enkf_config_node_type * config_node 
 
 
 enkf_config_node_type * enkf_config_node_container_iget( const enkf_config_node_type * node , int index) {
-  return vector_iget( node->container_nodes , index ); // CXX_CAST_ERROR
+  return (enkf_config_node_type *) vector_iget( node->container_nodes , index );
 }
 
 int enkf_config_node_container_size( const enkf_config_node_type * node ) {
@@ -571,7 +571,7 @@ int enkf_config_node_container_size( const enkf_config_node_type * node ) {
 
 int enkf_config_node_get_data_size( const enkf_config_node_type * node , int report_step) {
   if (node->impl_type == GEN_DATA)
-    return gen_data_config_get_data_size( node->data , report_step);
+    return gen_data_config_get_data_size( (const gen_data_config_type * ) node->data , report_step);
   else
     return node->get_data_size( node->data );
 }
@@ -814,7 +814,7 @@ int enkf_config_node_load_obs( const enkf_config_node_type * config_node , enkf_
         */
 
         if (impl_type == GEN_DATA)
-          gen_obs_user_get_with_data_index( obs_vector_iget_node( obs_vector , report_step ) , key_index , &value , &std1 , &valid);
+          gen_obs_user_get_with_data_index( (gen_obs_type *) obs_vector_iget_node( obs_vector , report_step ) , key_index , &value , &std1 , &valid);
         else
           obs_vector_user_get( obs_vector , key_index , report_step , &value , &std1 , &valid);
 
@@ -870,12 +870,12 @@ void enkf_config_node_fprintf_config( const enkf_config_node_type * config_node 
   case(GEN_KW):
     fprintf( stream , CONFIG_KEY_FORMAT   , GEN_KW_KEY );
     fprintf( stream , CONFIG_VALUE_FORMAT , config_node->key );
-    gen_kw_config_fprintf_config( config_node->data , path_fmt_get_fmt( config_node->enkf_outfile_fmt ) , config_node->min_std_file , stream );
+    gen_kw_config_fprintf_config( (const gen_kw_config_type * ) config_node->data , path_fmt_get_fmt( config_node->enkf_outfile_fmt ) , config_node->min_std_file , stream );
     break;
   case(FIELD):
     fprintf( stream , CONFIG_KEY_FORMAT   , FIELD_KEY );
     fprintf( stream , CONFIG_VALUE_FORMAT , config_node->key );
-    field_config_fprintf_config( config_node->data     ,
+    field_config_fprintf_config( (field_config_type * ) config_node->data     ,
                                  config_node->var_type ,
                                  path_fmt_get_fmt( config_node->enkf_outfile_fmt ) ,
                                  path_fmt_get_fmt( config_node->enkf_infile_fmt ) ,
@@ -889,7 +889,7 @@ void enkf_config_node_fprintf_config( const enkf_config_node_type * config_node 
     else
       fprintf( stream , CONFIG_KEY_FORMAT , GEN_DATA_KEY );
 
-    gen_data_config_fprintf_config( config_node->data     ,
+    gen_data_config_fprintf_config( (const gen_data_config_type * )config_node->data     ,
                                     config_node->var_type ,
                                     path_fmt_get_fmt( config_node->enkf_outfile_fmt ) ,
                                     path_fmt_get_fmt( config_node->enkf_infile_fmt ) ,
@@ -932,14 +932,14 @@ enkf_config_node_type * enkf_config_node_alloc_GEN_DATA_from_config( const confi
 
     config_content_node_init_opt_hash( node , options , 1 );
     {
-      gen_data_file_format_type input_format  = gen_data_config_check_format( hash_safe_get( options , INPUT_FORMAT_KEY));
-      const char * init_file_fmt              = hash_safe_get( options , INIT_FILES_KEY);
-      const char * ecl_file                   = hash_safe_get( options , ECL_FILE_KEY);
-      const char * template_file              = hash_safe_get( options , TEMPLATE_KEY);
-      const char * data_key                   = hash_safe_get( options , KEY_KEY);
-      const char * result_file                = hash_safe_get( options , RESULT_FILE_KEY);
-      const char * forward_string             = hash_safe_get( options , FORWARD_INIT_KEY );
-      const char * report_steps_string        = hash_safe_get( options , REPORT_STEPS_KEY );
+      gen_data_file_format_type input_format  = gen_data_config_check_format( (const char *) hash_safe_get( options , INPUT_FORMAT_KEY));
+      const char * init_file_fmt              = (const char *) hash_safe_get( options , INIT_FILES_KEY);
+      const char * ecl_file                   = (const char *) hash_safe_get( options , ECL_FILE_KEY);
+      const char * template_file              = (const char *) hash_safe_get( options , TEMPLATE_KEY);
+      const char * data_key                   = (const char *) hash_safe_get( options , KEY_KEY);
+      const char * result_file                = (const char *) hash_safe_get( options , RESULT_FILE_KEY);
+      const char * forward_string             = (const char *) hash_safe_get( options , FORWARD_INIT_KEY );
+      const char * report_steps_string        = (const char *) hash_safe_get( options , REPORT_STEPS_KEY );
       int_vector_type * report_steps          = int_vector_alloc(0,0);
       bool forward_init = false;
       bool valid_input = true;
@@ -1021,13 +1021,13 @@ enkf_config_node_type * enkf_config_node_alloc_GEN_PARAM_from_config( const conf
 
     config_content_node_init_opt_hash( node , options , 2 );
     {
-      gen_data_file_format_type input_format  = gen_data_config_check_format( hash_safe_get( options , INPUT_FORMAT_KEY));
-      gen_data_file_format_type output_format = gen_data_config_check_format( hash_safe_get( options , OUTPUT_FORMAT_KEY));
-      const char * init_file_fmt              = hash_safe_get( options , INIT_FILES_KEY);
-      const char * template_file              = hash_safe_get( options , TEMPLATE_KEY);
-      const char * data_key                   = hash_safe_get( options , KEY_KEY);
-      const char * min_std_file               = hash_safe_get( options , MIN_STD_KEY);
-      const char * forward_string             = hash_safe_get( options , FORWARD_INIT_KEY );
+      gen_data_file_format_type input_format  = gen_data_config_check_format( (const char *) hash_safe_get( options , INPUT_FORMAT_KEY));
+      gen_data_file_format_type output_format = gen_data_config_check_format( (const char *) hash_safe_get( options , OUTPUT_FORMAT_KEY));
+      const char * init_file_fmt              = (const char *) hash_safe_get( options , INIT_FILES_KEY);
+      const char * template_file              = (const char *) hash_safe_get( options , TEMPLATE_KEY);
+      const char * data_key                   = (const char *) hash_safe_get( options , KEY_KEY);
+      const char * min_std_file               = (const char *) hash_safe_get( options , MIN_STD_KEY);
+      const char * forward_string             = (const char *) hash_safe_get( options , FORWARD_INIT_KEY );
       bool forward_init = false;
       bool valid_input = true;
 
@@ -1054,7 +1054,7 @@ enkf_config_node_type * enkf_config_node_alloc_GEN_PARAM_from_config( const conf
         config_node = enkf_config_node_alloc_GEN_PARAM( node_key , forward_init , input_format , output_format , init_file_fmt , ecl_file);
 
         if (template_file) {
-          bool template_set_ok = gen_data_config_set_template( enkf_config_node_get_ref( config_node ) , template_file , data_key); // CXX_CAST_ERROR
+          bool template_set_ok = gen_data_config_set_template( (gen_data_config_type *) enkf_config_node_get_ref( config_node ) , template_file , data_key);
           if (!template_set_ok)
             fprintf(stderr,"** Warning: the template settings were not applied correctly - ignored\n");
         }

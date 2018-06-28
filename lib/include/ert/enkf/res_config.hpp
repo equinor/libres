@@ -33,6 +33,11 @@
 #include <ert/enkf/model_config.h>
 #include <ert/enkf/log_config.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 typedef struct res_config_struct res_config_type;
 
 res_config_type * res_config_alloc_load(const char *);
@@ -56,4 +61,7 @@ const char * res_config_get_config_directory(const res_config_type *);
 const char * res_config_get_user_config_file(const res_config_type *);
 const char * res_config_get_site_config_file(const res_config_type *);
 
+#ifdef __cplusplus
+}
+#endif
 #endif

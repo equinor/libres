@@ -106,13 +106,14 @@ stringlist_type * enkf_main_alloc_caselist( const enkf_main_type * enkf_main ) {
 
 static void * enkf_main_initialize_from_scratch_mt(void * void_arg) {
   arg_pack_type * arg_pack           = arg_pack_safe_cast( void_arg );
-  enkf_main_type  * enkf_main        = arg_pack_iget_ptr( arg_pack , 0);
-  enkf_fs_type * init_fs             = arg_pack_iget_ptr( arg_pack , 1);
-  const stringlist_type * param_list = arg_pack_iget_const_ptr( arg_pack , 2 );
+  enkf_main_type  * enkf_main        = (enkf_main_type * ) arg_pack_iget_ptr( arg_pack , 0);
+  enkf_fs_type * init_fs             = (enkf_fs_type * ) arg_pack_iget_ptr( arg_pack , 1);
+  const stringlist_type * param_list = (const stringlist_type * ) arg_pack_iget_const_ptr( arg_pack , 2 );
   int iens                           = arg_pack_iget_int( arg_pack , 3 );
-  init_mode_type init_mode           = arg_pack_iget_int( arg_pack , 4 );
-  enkf_state_type * state = enkf_main_iget_state( enkf_main , iens);
+  init_mode_type init_mode           = (init_mode_type ) arg_pack_iget_int( arg_pack , 4 );
+  enkf_state_type * state            = enkf_main_iget_state( enkf_main , iens);
   rng_type * rng                     = rng_manager_iget( enkf_main->rng_manager, iens );
+
   enkf_state_initialize( state , rng, init_fs , param_list , init_mode);
   return NULL;
 }
@@ -123,7 +124,7 @@ void enkf_main_initialize_from_scratch(enkf_main_type * enkf_main ,
   int num_cpu = 4;
   int ens_size               = enkf_main_get_ensemble_size( enkf_main );
   thread_pool_type * tp     = thread_pool_alloc( num_cpu , true );
-  arg_pack_type ** arg_list = util_calloc( ens_size , sizeof * arg_list ); // CXX_CAST_ERROR
+  arg_pack_type ** arg_list = (arg_pack_type **) util_calloc( ens_size , sizeof * arg_list );
 
   for (int iens = 0; iens < ens_size; iens++) {
     arg_list[iens] = arg_pack_alloc();
@@ -168,7 +169,7 @@ static void enkf_main_copy_ensemble( const enkf_main_type * enkf_main,
       ranking_table_type * ranking_table = enkf_main_get_ranking_table( enkf_main );
       ranking_permutation = (int *) ranking_table_get_permutation( ranking_table , ranking_key );
     } else {
-      ranking_permutation = util_calloc( ens_size , sizeof * ranking_permutation ); // CXX_CAST_ERROR
+      ranking_permutation = (int * ) util_calloc( ens_size , sizeof * ranking_permutation );
       for (src_iens = 0; src_iens < ens_size; src_iens++)
         ranking_permutation[src_iens] = src_iens;
     }

@@ -150,8 +150,9 @@ void enkf_plot_tvector_load( enkf_plot_tvector_type * plot_tvector ,
     }
   } else {
     int step;
-    node_id_type node_id = {.iens        = plot_tvector->iens,
-                            .report_step = 0 };
+    node_id_type node_id;
+    node_id.iens = plot_tvector->iens;
+    node_id.report_step = 0;
 
     for (step = step1 ; step <= step2; step++) {
       double value;
@@ -171,9 +172,9 @@ void enkf_plot_tvector_load( enkf_plot_tvector_type * plot_tvector ,
 
 void * enkf_plot_tvector_load__( void * arg ) {
   arg_pack_type * arg_pack = arg_pack_safe_cast( arg );
-  enkf_plot_tvector_type * tvector = arg_pack_iget_ptr( arg_pack , 0 );
-  enkf_fs_type * fs = arg_pack_iget_ptr( arg_pack , 1 );
-  const char * index_key = arg_pack_iget_ptr( arg_pack , 2 );
+  enkf_plot_tvector_type * tvector = (enkf_plot_tvector_type * ) arg_pack_iget_ptr( arg_pack , 0 );
+  enkf_fs_type * fs = (enkf_fs_type * ) arg_pack_iget_ptr( arg_pack , 1 );
+  const char * index_key = (const char * ) arg_pack_iget_ptr( arg_pack , 2 );
 
   enkf_plot_tvector_load( tvector , fs , index_key );
   return NULL;

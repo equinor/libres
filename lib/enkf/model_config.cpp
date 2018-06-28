@@ -159,7 +159,7 @@ void model_config_add_runpath( model_config_type * model_config , const char * p
 
 bool model_config_select_runpath( model_config_type * model_config , const char * path_key) {
   if (hash_has_key( model_config->runpath_map , path_key )) {
-    model_config->current_runpath = hash_get( model_config->runpath_map , path_key ); // CXX_CAST_ERROR
+    model_config->current_runpath = (path_fmt_type * ) hash_get( model_config->runpath_map , path_key );
     model_config->current_path_key = util_realloc_string_copy( model_config->current_path_key , path_key);
     return true;
   } else {
@@ -850,7 +850,7 @@ static void model_config_init_user_config(config_parser_type * config ) {
   config_schema_item_iset_type(item, 0, CONFIG_EXISTING_PATH);
 
   stringlist_type * refcase_dep = stringlist_alloc_new();
-  stringlist_append_ref(refcase_dep, "REFCASE_KEY");
+  stringlist_append_ref(refcase_dep, REFCASE_KEY);
   item = config_add_schema_item(config, HISTORY_SOURCE_KEY, false);
   config_schema_item_set_argc_minmax(item , 1 , 1);
   {
@@ -862,8 +862,8 @@ static void model_config_init_user_config(config_parser_type * config ) {
     config_schema_item_set_common_selection_set(item, argv );
     stringlist_free(argv);
   }
-  config_schema_item_set_required_children_on_value(item, refcase_dep);
-  config_schema_item_set_required_children_on_value(item, refcase_dep);
+  config_schema_item_set_required_children_on_value(item, "REFCASE_SIMULATED", refcase_dep);
+  config_schema_item_set_required_children_on_value(item, "REFCASE_HISTORY", refcase_dep);
 
   stringlist_free(refcase_dep);
 

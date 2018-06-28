@@ -341,14 +341,14 @@ int ert_run_context_get_step2( const ert_run_context_type * context ) {
 
 
 run_arg_type * ert_run_context_iget_arg( const ert_run_context_type * context , int index) {
-  return vector_iget( context->run_args , index ); // CXX_CAST_ERROR
+  return (run_arg_type * ) vector_iget( context->run_args , index );
 }
 
 
 run_arg_type * ert_run_context_iens_get_arg( const ert_run_context_type * context , int iens) {
   int index = int_vector_iget( context->iens_map , iens );
   if (index >= 0)
-    return vector_iget( context->run_args , index ); // CXX_CAST_ERROR
+    return (run_arg_type * ) vector_iget( context->run_args , index );
   else
     return NULL;
 }

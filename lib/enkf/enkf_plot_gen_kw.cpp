@@ -89,7 +89,7 @@ static void enkf_plot_gen_kw_resize( enkf_plot_gen_kw_type * plot_gen_kw , int n
       }
     }
 
-    plot_gen_kw->ensemble = util_realloc( plot_gen_kw->ensemble , new_size * sizeof * plot_gen_kw->ensemble);
+    plot_gen_kw->ensemble = (enkf_plot_gen_kw_vector_type **) util_realloc( plot_gen_kw->ensemble , new_size * sizeof * plot_gen_kw->ensemble);
 
     if (new_size > plot_gen_kw->size) {
       for (iens = plot_gen_kw->size; iens < new_size; iens++) {

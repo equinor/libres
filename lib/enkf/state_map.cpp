@@ -118,7 +118,7 @@ realisation_state_enum state_map_iget( state_map_type * map , int index) {
   realisation_state_enum state;
   pthread_rwlock_rdlock( &map->rw_lock );
   {
-    state = int_vector_safe_iget( map->state , index );
+    state = (realisation_state_enum) int_vector_safe_iget( map->state , index );
   }
   pthread_rwlock_unlock( &map->rw_lock );
   return state;
@@ -150,7 +150,7 @@ static void state_map_assert_writable( const state_map_type * map) {
 }
 
 static void state_map_iset__( state_map_type * map , int index , realisation_state_enum new_state) {
-  realisation_state_enum current_state = int_vector_safe_iget( map->state , index );
+  realisation_state_enum current_state = (realisation_state_enum ) int_vector_safe_iget( map->state , index );
 
   if (state_map_legal_transition( current_state , new_state ))
     int_vector_iset( map->state , index , new_state);

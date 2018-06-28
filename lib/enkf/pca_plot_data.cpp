@@ -56,7 +56,7 @@ pca_plot_data_type * pca_plot_data_alloc( const char * name,
   pca_plot_data_type * plot_data = NULL;
 
   if (pca_plot_assert_input( PC , PC_obs , singular_values)) {
-    plot_data = util_malloc( sizeof * plot_data ); // CXX_CAST_ERROR
+    plot_data = (pca_plot_data_type * ) util_malloc( sizeof * plot_data );
     UTIL_TYPE_ID_INIT( plot_data , PCA_PLOT_DATA_TYPE_ID );
     plot_data->name = util_alloc_string_copy( name );
     plot_data->pca_vectors = vector_alloc_new();
@@ -93,7 +93,7 @@ int pca_plot_data_get_ens_size( const pca_plot_data_type * plot_data ) {
 }
 
 const pca_plot_vector_type * pca_plot_data_iget_vector( const pca_plot_data_type * plot_data , int ivec) {
-  return vector_iget_const( plot_data->pca_vectors , ivec ); // CXX_CAST_ERROR
+  return (const pca_plot_vector_type * ) vector_iget_const( plot_data->pca_vectors , ivec );
 }
 
 

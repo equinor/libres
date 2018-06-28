@@ -62,6 +62,7 @@ void ranking_table_set_ens_size( ranking_table_type * table, int ens_size) {
 ranking_table_type * ranking_table_alloc( int ens_size ) {
   ranking_table_type * table = (ranking_table_type *)util_malloc( sizeof * table );
   table->ranking_table = hash_alloc();
+  ranking_table_set_ens_size(table, ens_size);
   return table;
 }
 

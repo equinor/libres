@@ -63,9 +63,9 @@ struct misfit_ensemble_struct {
 /*****************************************************************/
 
 static double ** __2d_malloc(int rows , int columns) {
-  double ** d = util_calloc( rows , sizeof * d ); // CXX_CAST_ERROR
+  double ** d = (double **) util_calloc( rows , sizeof * d );
   for (int i =0; i < rows; i++)
-    d[i] = util_calloc( columns , sizeof * d[i]); // CXX_CAST_ERROR
+    d[i] = (double *) util_calloc( columns , sizeof * d[i]);
   return d;
 }
 
@@ -139,7 +139,7 @@ void misfit_ensemble_fwrite( const misfit_ensemble_type * misfit_ensemble , FILE
   {
     int iens;
     for (iens = 0; iens < ens_size; iens++)
-      misfit_member_fwrite( vector_iget( misfit_ensemble->ensemble , iens ) , stream ); // CXX_CAST_ERROR
+      misfit_member_fwrite( (const misfit_member_type *) vector_iget( misfit_ensemble->ensemble , iens ) , stream );
   }
 
 }
@@ -213,7 +213,7 @@ misfit_ensemble_type * misfit_ensemble_alloc( ) {
 
 
 misfit_member_type * misfit_ensemble_iget_member( const misfit_ensemble_type * table , int iens) {
-  return vector_iget( table->ensemble , iens); // CXX_CAST_ERROR
+  return (misfit_member_type *) vector_iget( table->ensemble , iens);
 }
 
 

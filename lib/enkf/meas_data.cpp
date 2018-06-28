@@ -87,8 +87,8 @@ meas_block_type * meas_block_alloc( const char * obs_key , const bool_vector_typ
   meas_block->ens_mask    = ens_mask;
   meas_block->obs_size    = obs_size;
   meas_block->obs_key     = util_alloc_string_copy( obs_key );
-  meas_block->data        = util_calloc( (meas_block->active_ens_size + 2)     * obs_size , sizeof * meas_block->data   ); // CXX_CAST_ERROR
-  meas_block->active      = util_calloc(                                  obs_size , sizeof * meas_block->active ); // CXX_CAST_ERROR
+  meas_block->data        = (double *) util_calloc( (meas_block->active_ens_size + 2)     * obs_size , sizeof * meas_block->data   );
+  meas_block->active      = (bool *)   util_calloc(                                  obs_size , sizeof * meas_block->active );
   meas_block->ens_stride  = 1;
   meas_block->obs_stride  = meas_block->active_ens_size + 2;
   meas_block->data_size   = (meas_block->active_ens_size + 2) * obs_size;
@@ -343,7 +343,7 @@ meas_block_type * meas_data_add_block( meas_data_type * matrix , const char * ob
   }
   pthread_mutex_unlock( &matrix->data_mutex );
   free( lookup_key );
-  return vector_get_last( matrix->data ); // CXX_CAST_ERROR
+  return (meas_block_type * ) vector_get_last( matrix->data );
 }
 
 
@@ -355,17 +355,17 @@ bool meas_data_has_block( const meas_data_type * matrix , const char * lookup_ke
 }
 
 meas_block_type * meas_data_get_block( const meas_data_type * matrix , const char * lookup_key) {
-  return hash_get( matrix->blocks , lookup_key ); // CXX_CAST_ERROR
+  return (meas_block_type * ) hash_get( matrix->blocks , lookup_key );
 }
 
 
 meas_block_type * meas_data_iget_block( const meas_data_type * matrix , int block_nr) {
-  return vector_iget( matrix->data , block_nr); // CXX_CAST_ERROR
+  return (meas_block_type * ) vector_iget( matrix->data , block_nr);
 }
 
 
 const meas_block_type * meas_data_iget_block_const( const meas_data_type * matrix , int block_nr) {
-  return vector_iget_const( matrix->data , block_nr); // CXX_CAST_ERROR
+  return (const meas_block_type * ) vector_iget_const( matrix->data , block_nr);
 }
 
 

@@ -525,11 +525,11 @@ field_type_enum field_config_get_type( const field_config_type * config) {
 */
 
 
-inline int field_config_active_index(const field_config_type * config , int i , int j , int k) {
+int field_config_active_index(const field_config_type * config , int i , int j , int k) {
   return ecl_grid_get_active_index3( config->grid , i,j,k);
 }
 
-inline int field_config_global_index(const field_config_type * config, int i, int j, int k) {
+int field_config_global_index(const field_config_type * config, int i, int j, int k) {
   return ecl_grid_get_global_index3( config->grid , i,j,k);
 }
 

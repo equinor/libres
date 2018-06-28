@@ -444,7 +444,7 @@ static enkf_fs_type *  enkf_fs_mount_block_fs( FILE * fstab_stream , const char 
       fs_driver_enum driver_type;
       if (fread( &driver_type , sizeof driver_type , 1 , fstab_stream) == 1) {
         if (fs_types_valid( driver_type )) {
-          fs_driver_type * driver = block_fs_driver_open( fstab_stream , mount_point , driver_type , fs->read_only);
+          fs_driver_type * driver = (fs_driver_type * ) block_fs_driver_open( fstab_stream , mount_point , driver_type , fs->read_only);
           enkf_fs_assign_driver( fs , driver , driver_type );
         } else
           block_fs_driver_fskip( fstab_stream );
@@ -466,7 +466,7 @@ static enkf_fs_type *  enkf_fs_mount_plain( FILE * fstab_stream , const char * m
       fs_driver_enum driver_type;
       if (fread( &driver_type , sizeof driver_type , 1 , fstab_stream) == 1) {
         if (fs_types_valid( driver_type )) {
-          fs_driver_type * driver = plain_driver_open( fstab_stream , mount_point );
+          fs_driver_type * driver = (fs_driver_type * ) plain_driver_open( fstab_stream , mount_point );
           enkf_fs_assign_driver( fs , driver , driver_type );
         } else
           plain_driver_fskip( fstab_stream );
@@ -663,7 +663,7 @@ enkf_fs_type * enkf_fs_mount(const char * mount_point) {
   fs_driver_assert_magic(stream);
   fs_driver_assert_version(stream, mount_point);
 
-  fs_driver_impl driver_id = util_fread_int(stream);
+  fs_driver_impl driver_id = (fs_driver_impl) util_fread_int(stream);
 
   switch(driver_id) {
   case(BLOCK_FS_DRIVER_ID):
@@ -813,7 +813,7 @@ void enkf_fs_fread_node(enkf_fs_type * enkf_fs , buffer_type * buffer ,
                         int report_step,
                         int iens) {
 
-  fs_driver_type * driver = enkf_fs_select_driver(enkf_fs , var_type , node_key );
+  fs_driver_type * driver = (fs_driver_type * ) enkf_fs_select_driver(enkf_fs , var_type , node_key );
   if (var_type == PARAMETER)
     /* Parameters are *ONLY* stored at report_step == 0 */
     report_step = 0;
@@ -828,7 +828,7 @@ void enkf_fs_fread_vector(enkf_fs_type * enkf_fs , buffer_type * buffer ,
                           enkf_var_type var_type ,
                           int iens) {
 
-  fs_driver_type * driver = enkf_fs_select_driver(enkf_fs , var_type , node_key );
+  fs_driver_type * driver = (fs_driver_type * ) enkf_fs_select_driver(enkf_fs , var_type , node_key );
 
   buffer_rewind( buffer );
   driver->load_vector(driver , node_key ,  iens , buffer);

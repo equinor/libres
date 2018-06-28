@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2011  Statoil ASA, Norway. 
-    
-   The file 'gen_kw.h' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2011  Statoil ASA, Norway.
+
+   The file 'gen_kw.h' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 #ifndef ERT_GEN_KW_H
@@ -40,8 +40,8 @@ const double   * gen_kw_get_data_ref(const gen_kw_type * );
   //void             gen_kw_get_data(const gen_kw_type * , double * );
 
 void             gen_kw_free(gen_kw_type *);
-int              gen_kw_data_size( gen_kw_type * );
-double           gen_kw_data_iget( gen_kw_type * , int , bool );
+int              gen_kw_data_size( const gen_kw_type * );
+double           gen_kw_data_iget( const gen_kw_type * , int , bool );
 void             gen_kw_data_iset( gen_kw_type * , int , double );
 void             gen_kw_data_set_vector( gen_kw_type * gen_kw, const double_vector_type * values );
 double           gen_kw_data_get( gen_kw_type * , const char * , bool );

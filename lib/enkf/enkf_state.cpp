@@ -286,7 +286,7 @@ enkf_state_type * enkf_state_alloc(int iens,
 static void enkf_state_log_GEN_DATA_load( const enkf_node_type * enkf_node , int report_step , forward_load_context_type * load_context) {
   if (forward_load_context_accept_messages(load_context)) {
     char * load_file = enkf_config_node_alloc_infile(enkf_node_get_config( enkf_node ) , report_step);
-    int data_size = gen_data_get_size( enkf_node_value_ptr( enkf_node ));
+    int data_size = gen_data_get_size( (const gen_data_type * ) enkf_node_value_ptr( enkf_node ));
     char * msg = util_alloc_sprintf("Loaded GEN_DATA:%s instance for step:%d from file:%s size:%d" ,
                                     enkf_node_get_key( enkf_node ) ,
                                     report_step ,
@@ -701,11 +701,11 @@ int enkf_state_load_from_forward_model(enkf_state_type * enkf_state ,
 
 void * enkf_state_load_from_forward_model_mt( void * arg ) {
   arg_pack_type * arg_pack     = arg_pack_safe_cast( arg );
-  enkf_state_type * enkf_state = enkf_state_safe_cast(arg_pack_iget_ptr( arg_pack  , 0 ));
-  run_arg_type * run_arg       = arg_pack_iget_ptr( arg_pack  , 1 );
-  stringlist_type * msg_list   = arg_pack_iget_ptr( arg_pack  , 2 );
+  enkf_state_type * enkf_state = enkf_state_safe_cast((enkf_state_type * ) arg_pack_iget_ptr( arg_pack  , 0 ));
+  run_arg_type * run_arg       = (run_arg_type * ) arg_pack_iget_ptr( arg_pack  , 1 );
+  stringlist_type * msg_list   = (stringlist_type * ) arg_pack_iget_ptr( arg_pack  , 2 );
   bool manual_load             = arg_pack_iget_bool( arg_pack , 3 );
-  int * result                 = arg_pack_iget_ptr( arg_pack  , 4 );
+  int * result                 = (int * ) arg_pack_iget_ptr( arg_pack  , 4 );
   int iens                     = run_arg_get_iens( run_arg );
 
   if (manual_load)
@@ -996,9 +996,9 @@ void enkf_state_ecl_write(const ensemble_config_type * ens_config, const model_c
      T H I S  W I L L  D E A D L O C K  I F  T H E   H A S H _ I T E R  A P I   I S   U S E D.
      -----------------------------------------------------------------------------------------
   */
-  int iens                               = run_arg_get_iens( run_arg );
-  const char * base_name                 = model_config_get_gen_kw_export_name(model_config);
-  value_export_type * export             = value_export_alloc( run_arg_get_runpath( run_arg ), base_name );
+  int iens                         = run_arg_get_iens( run_arg );
+  const char * base_name           = model_config_get_gen_kw_export_name(model_config);
+  value_export_type * export_value = value_export_alloc( run_arg_get_runpath( run_arg ), base_name );
 
   stringlist_type * key_list = ensemble_config_alloc_keylist_from_var_type( ens_config , PARAMETER + EXT_PARAMETER);
   for (int ikey = 0; ikey < stringlist_get_size( key_list ); ikey++) {
@@ -1017,12 +1017,12 @@ void enkf_state_ecl_write(const ensemble_config_type * ens_config, const model_c
     } else
       enkf_node_load(enkf_node, fs, node_id);
 
-    enkf_node_ecl_write(enkf_node , run_arg_get_runpath( run_arg ) , export , run_arg_get_step1(run_arg));
+    enkf_node_ecl_write(enkf_node , run_arg_get_runpath( run_arg ) , export_value , run_arg_get_step1(run_arg));
     enkf_node_free(enkf_node);
   }
-  value_export( export );
+  value_export( export_value );
 
-  value_export_free( export );
+  value_export_free( export_value );
   stringlist_free( key_list );
 }
 

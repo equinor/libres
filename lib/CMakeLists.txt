@@ -113,102 +113,102 @@ add_library(res res_util/res_log.cpp
                 job_queue/job_kw_definitions.cpp
                 ${lsb}
 
-enkf/active_list.cpp
-enkf/time_map.cpp
-enkf/analysis_config.cpp
-enkf/analysis_iter_config.cpp
-enkf/block_fs_driver.cpp
-enkf/block_obs.cpp
-enkf/callback_arg.cpp
-enkf/cases_config.cpp
-enkf/container.cpp
-enkf/container_config.cpp
-enkf/custom_kw.cpp
-enkf/custom_kw_config.cpp
-enkf/custom_kw_config_set.cpp
-enkf/data_ranking.cpp
-enkf/ecl_config.cpp
-enkf/ecl_refcase_list.cpp
-enkf/enkf_analysis.cpp
-enkf/enkf_config_node.cpp
-enkf/enkf_defaults.cpp
-enkf/enkf_fs.cpp
-enkf/enkf_main.cpp
-enkf/enkf_main_jobs.cpp
-enkf/enkf_node.cpp
-enkf/enkf_obs.cpp
-enkf/enkf_plot_data.cpp
-enkf/enkf_plot_gendata.cpp
-enkf/enkf_plot_gen_kw.cpp
-enkf/enkf_plot_gen_kw_vector.cpp
-enkf/enkf_plot_genvector.cpp
-enkf/enkf_plot_tvector.cpp
-enkf/enkf_serialize.cpp
-enkf/enkf_state.cpp
-enkf/enkf_types.cpp
-enkf/enkf_util.cpp
-enkf/ensemble_config.cpp
-enkf/ert_run_context.cpp
-enkf/ert_template.cpp
-enkf/ert_test_context.cpp
-enkf/ert_workflow_list.cpp
-enkf/ext_param.cpp
-enkf/ext_param_config.cpp
-enkf/field.cpp
-enkf/field_config.cpp
-enkf/field_trans.cpp
-enkf/forward_load_context.cpp
-enkf/fs_driver.cpp
-enkf/fs_types.cpp
-enkf/gen_common.cpp
-enkf/gen_data.cpp
-enkf/gen_data_config.cpp
-enkf/gen_kw.cpp
-enkf/gen_kw_config.cpp
-enkf/value_export.cpp
-enkf/gen_obs.cpp
-enkf/hook_manager.cpp
-enkf/hook_workflow.cpp
-enkf/local_config.cpp
-enkf/local_context.cpp
-enkf/local_dataset.cpp
-enkf/local_ministep.cpp
-enkf/local_obsdata.cpp
-enkf/local_obsdata_node.cpp
-enkf/local_updatestep.cpp
-enkf/meas_data.cpp
-enkf/misfit_ensemble.cpp
-enkf/misfit_member.cpp
-enkf/misfit_ranking.cpp
-enkf/misfit_ts.cpp
-enkf/model_config.cpp
-enkf/obs_data.cpp
-enkf/obs_vector.cpp
-enkf/pca_plot_data.cpp
-enkf/pca_plot_vector.cpp
-enkf/plain_driver.cpp
-enkf/plot_settings.cpp
-enkf/queue_config.cpp
-enkf/ranking_table.cpp
-enkf/rng_config.cpp
-enkf/run_arg.cpp
-enkf/runpath_list.cpp
-enkf/site_config.cpp
-enkf/rng_manager.cpp
-enkf/res_config.cpp
-enkf/state_map.cpp
-enkf/state_map.cpp
-enkf/summary.cpp
-enkf/summary_config.cpp
-enkf/summary_key_matcher.cpp
-enkf/summary_key_set.cpp
-enkf/summary_obs.cpp
-enkf/surface.cpp
-enkf/surface_config.cpp
-enkf/trans_func.cpp
-enkf/subst_config.cpp
-enkf/log_config.cpp
-enkf/config_keys.cpp
+                enkf/active_list.cpp
+                enkf/time_map.cpp
+                enkf/analysis_config.cpp
+                enkf/analysis_iter_config.cpp
+                enkf/block_fs_driver.cpp
+                enkf/block_obs.cpp
+                enkf/callback_arg.cpp
+                enkf/cases_config.cpp
+                enkf/container.cpp
+                enkf/container_config.cpp
+                enkf/custom_kw.cpp
+                enkf/custom_kw_config.cpp
+                enkf/custom_kw_config_set.cpp
+                enkf/data_ranking.cpp
+                enkf/ecl_config.cpp
+                enkf/ecl_refcase_list.cpp
+                enkf/enkf_analysis.cpp
+                enkf/enkf_config_node.cpp
+                enkf/enkf_defaults.cpp
+                enkf/enkf_fs.cpp
+                enkf/enkf_main.cpp
+                enkf/enkf_main_jobs.cpp
+                enkf/enkf_node.cpp
+                enkf/enkf_obs.cpp
+                enkf/enkf_plot_data.cpp
+                enkf/enkf_plot_gendata.cpp
+                enkf/enkf_plot_gen_kw.cpp
+                enkf/enkf_plot_gen_kw_vector.cpp
+                enkf/enkf_plot_genvector.cpp
+                enkf/enkf_plot_tvector.cpp
+                enkf/enkf_serialize.cpp
+                enkf/enkf_state.cpp
+                enkf/enkf_types.cpp
+                enkf/enkf_util.cpp
+                enkf/ensemble_config.cpp
+                enkf/ert_run_context.cpp
+                enkf/ert_template.cpp
+                enkf/ert_test_context.cpp
+                enkf/ert_workflow_list.cpp
+                enkf/ext_param.cpp
+                enkf/ext_param_config.cpp
+                enkf/field.cpp
+                enkf/field_config.cpp
+                enkf/field_trans.cpp
+                enkf/forward_load_context.cpp
+                enkf/fs_driver.cpp
+                enkf/fs_types.cpp
+                enkf/gen_common.cpp
+                enkf/gen_data.cpp
+                enkf/gen_data_config.cpp
+                enkf/gen_kw.cpp
+                enkf/gen_kw_config.cpp
+                enkf/value_export.cpp
+                enkf/gen_obs.cpp
+                enkf/hook_manager.cpp
+                enkf/hook_workflow.cpp
+                enkf/local_config.cpp
+                enkf/local_context.cpp
+                enkf/local_dataset.cpp
+                enkf/local_ministep.cpp
+                enkf/local_obsdata.cpp
+                enkf/local_obsdata_node.cpp
+                enkf/local_updatestep.cpp
+                enkf/meas_data.cpp
+                enkf/misfit_ensemble.cpp
+                enkf/misfit_member.cpp
+                enkf/misfit_ranking.cpp
+                enkf/misfit_ts.cpp
+                enkf/model_config.cpp
+                enkf/obs_data.cpp
+                enkf/obs_vector.cpp
+                enkf/pca_plot_data.cpp
+                enkf/pca_plot_vector.cpp
+                enkf/plain_driver.cpp
+                enkf/plot_settings.cpp
+                enkf/queue_config.cpp
+                enkf/ranking_table.cpp
+                enkf/rng_config.cpp
+                enkf/run_arg.cpp
+                enkf/runpath_list.cpp
+                enkf/site_config.cpp
+                enkf/rng_manager.cpp
+                enkf/res_config.cpp
+                enkf/state_map.cpp
+                enkf/state_map.cpp
+                enkf/summary.cpp
+                enkf/summary_config.cpp
+                enkf/summary_key_matcher.cpp
+                enkf/summary_key_set.cpp
+                enkf/summary_obs.cpp
+                enkf/surface.cpp
+                enkf/surface_config.cpp
+                enkf/trans_func.cpp
+                enkf/subst_config.cpp
+                enkf/log_config.cpp
+                enkf/config_keys.cpp
 )
 
 #-----------------------------------------------------------------
@@ -354,7 +354,7 @@ target_link_libraries(sched_history_summary res)
 add_executable(rms_file_test rms/tests/rms_file_test.c)
 target_link_libraries(rms_file_test res)
 
-add_executable(analysis_external_module analysis/tests/analysis_test_external_module.c)
+add_executable(analysis_external_module analysis/tests/analysis_test_external_module.cpp)
 target_link_libraries(analysis_external_module res)
 
 add_test(NAME analysis_module_rml

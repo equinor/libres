@@ -308,7 +308,7 @@ const char * gen_data_config_get_template_key( const gen_data_config_type * conf
 */
 
 
-gen_data_file_format_type gen_data_config_check_format( const void * format_string ) {
+gen_data_file_format_type gen_data_config_check_format( const char * format_string ) {
   gen_data_file_format_type type = GEN_DATA_UNDEFINED;
 
   if (format_string != NULL) {

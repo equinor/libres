@@ -181,7 +181,7 @@ const char * runpath_list_get_line_fmt( const runpath_list_type * list ) {
 
 
 static const runpath_node_type * runpath_list_iget_node__( const runpath_list_type * list , int index) {
-  return vector_iget_const( list->list , index ); // CXX_CAST_ERROR
+  return (const runpath_node_type * ) vector_iget_const( list->list , index );
 }
 
 

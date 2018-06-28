@@ -314,7 +314,7 @@ void * enkf_node_value_ptr(const enkf_node_type * enkf_node) {
    spesific file.
 */
 
-void enkf_node_ecl_write(const enkf_node_type *enkf_node , const char *path , value_export_type * export , int report_step) {
+void enkf_node_ecl_write(const enkf_node_type *enkf_node , const char *path , value_export_type * export_value , int report_step) {
   if (enkf_node->ecl_write != NULL) {
     char * node_eclfile = enkf_config_node_alloc_outfile(enkf_node->config , report_step); /* Will return NULL if the node does not have any outfile format. */
     /*
@@ -323,7 +323,7 @@ void enkf_node_ecl_write(const enkf_node_type *enkf_node , const char *path , va
       is then the responsability of the low-level implementation to
       do "the right thing".
     */
-    enkf_node->ecl_write(enkf_node->data , path , node_eclfile , export);
+    enkf_node->ecl_write(enkf_node->data , path , node_eclfile , export_value);
     free( node_eclfile );
   }
 }
@@ -622,7 +622,7 @@ void enkf_node_copy(const enkf_config_node_type * config_node ,
     ert_impl_type impl_type = enkf_node_get_impl_type( enkf_node );
     if (impl_type == GEN_DATA) {
       /* Read the size at report_step_from */
-      gen_data_type * gen_data = enkf_node_value_ptr( enkf_node );
+      gen_data_type * gen_data = (gen_data_type * ) enkf_node_value_ptr( enkf_node );
       int size                 = gen_data_get_size( gen_data );
 
       /* Enforce the size at report_step_to */
@@ -688,7 +688,7 @@ void enkf_node_copy_ensemble(const enkf_config_node_type * config_node ,
 
 enkf_node_type ** enkf_node_load_alloc_ensemble( const enkf_config_node_type * config_node , enkf_fs_type * fs ,
                                                  int report_step , int iens1 , int iens2) {
-  enkf_node_type ** ensemble = util_calloc( (iens2 - iens1) , sizeof * ensemble ); // CXX_CAST_ERROR
+  enkf_node_type ** ensemble = (enkf_node_type **) util_calloc( (iens2 - iens1) , sizeof * ensemble );
   for (int iens = iens1; iens < iens2; iens++) {
     node_id_type node_id = {.report_step = report_step , .iens = iens };
     ensemble[iens - iens1] = NULL;
@@ -1038,12 +1038,12 @@ static enkf_node_type * enkf_node_alloc_container(const enkf_config_node_type * 
       enkf_node_type * child_node;
 
       if (shared)
-         child_node = hash_get( node_hash , enkf_config_node_get_key( child_config )); // CXX_CAST_ERROR
+         child_node = (enkf_node_type * ) hash_get( node_hash , enkf_config_node_get_key( child_config ));
       else
         child_node = enkf_node_alloc( child_config );
 
       enkf_node_container_add_node( container_node , child_node , shared);
-      container_add_node( enkf_node_value_ptr( container_node ) , enkf_node_value_ptr( child_node ));
+      container_add_node( (container_type * ) enkf_node_value_ptr( container_node ) , enkf_node_value_ptr( child_node ));
     }
   }
   return container_node;
@@ -1061,7 +1061,7 @@ enkf_node_type * enkf_node_alloc_private_container(const enkf_config_node_type *
 enkf_node_type * enkf_node_deep_alloc(const enkf_config_node_type * config) {
   if (enkf_config_node_get_impl_type( config ) == CONTAINER) {
     enkf_node_type * container = enkf_node_alloc_container( config , NULL , false );
-    container_assert_size( enkf_node_value_ptr( container ));
+    container_assert_size( (const container_type * ) enkf_node_value_ptr( container ));
     return container;
   } else
     return enkf_node_alloc( config );

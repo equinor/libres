@@ -240,7 +240,7 @@ void hook_manager_run_workflows( const hook_manager_type * hook_manager , hook_r
 }
 
 const hook_workflow_type * hook_manager_iget_hook_workflow(const hook_manager_type * hook_manager, int index){
- return vector_iget(hook_manager->hook_workflow_list, index); // CXX_CAST_ERROR
+ return (hook_workflow_type *) vector_iget(hook_manager->hook_workflow_list, index);
 }
 
 int hook_manager_get_size(const hook_manager_type * hook_manager){

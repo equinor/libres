@@ -378,7 +378,7 @@ void analysis_config_reload_module( analysis_config_type * config , const char *
 
 
 analysis_module_type * analysis_config_get_module(const analysis_config_type * config , const char * module_name ) {
-  return hash_get( config->analysis_modules , module_name ); // CXX_CAST_ERROR
+  return (analysis_module_type *) hash_get( config->analysis_modules , module_name );
 }
 
 bool analysis_config_has_module(const analysis_config_type * config , const char * module_name) {

@@ -268,7 +268,7 @@ local_updatestep_type * local_config_get_updatestep( const local_config_type * l
   local_updatestep_type * updatestep = local_config->default_updatestep;
 
   if (updatestep == NULL)
-    util_exit("%s: fatal error. No report step information for step:%d - and no default \n",__func__ , index);
+   util_abort("%s: fatal error. No default updatestep configured. \n",__func__ );
 
   return updatestep;
 }
@@ -283,7 +283,7 @@ void local_config_summary_fprintf( const local_config_type * local_config , cons
     hash_iter_type * hash_iter = hash_iter_alloc( local_config->ministep_storage );
 
     while (!hash_iter_is_complete( hash_iter )) {
-      const local_ministep_type * ministep = hash_iter_get_next_value( hash_iter );
+      const local_ministep_type * ministep = (const local_ministep_type *) hash_iter_get_next_value( hash_iter );
 
      fprintf(stream , "UPDATE_STEP:%s,", local_updatestep_get_name(updatestep));
 

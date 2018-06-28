@@ -65,7 +65,7 @@ gen_kw_type * gen_kw_alloc(const gen_kw_config_type * config) {
   gen_kw->__type_id     = GEN_KW;
   gen_kw->config        = config;
   gen_kw->subst_list    = subst_list_alloc( NULL );
-  gen_kw->data          = util_calloc( gen_kw_config_get_data_size( config ) , sizeof * gen_kw->data ); // CXX_CAST_ERROR
+  gen_kw->data          = (double *) util_calloc( gen_kw_config_get_data_size( config ) , sizeof * gen_kw->data );
   return gen_kw;
 }
 
@@ -88,13 +88,13 @@ void gen_kw_copy(const gen_kw_type * src , gen_kw_type * target) {
 
 
 
-int gen_kw_data_size( gen_kw_type * gen_kw ) {
+int gen_kw_data_size( const gen_kw_type * gen_kw ) {
   return gen_kw_config_get_data_size( gen_kw->config );
 }
 
 
 
-double gen_kw_data_iget( gen_kw_type * gen_kw, int index , bool do_transform )
+double gen_kw_data_iget( const gen_kw_type * gen_kw, int index , bool do_transform )
 {
   double value;
   int size = gen_kw_config_get_data_size( gen_kw->config );
@@ -175,7 +175,7 @@ bool gen_kw_write_to_buffer(const gen_kw_type *gen_kw , buffer_type * buffer,  i
 void gen_kw_read_from_buffer(gen_kw_type * gen_kw , buffer_type * buffer, enkf_fs_type * fs, int report_step) {
   const int data_size = gen_kw_config_get_data_size( gen_kw->config );
   ert_impl_type file_type;
-  file_type = buffer_fread_int(buffer);
+  file_type = (ert_impl_type) buffer_fread_int(buffer);
   if ((file_type == GEN_KW) || (file_type == MULTFLT))
     buffer_fread(buffer , gen_kw->data , sizeof *gen_kw->data , data_size);
 }
@@ -252,7 +252,7 @@ void gen_kw_filter_file(const gen_kw_type * gen_kw , const char * target_file) {
     util_abort("%s: internal error - tried to filter gen_kw instance without template file.\n",__func__);
 }
 
-void gen_kw_export_values(const gen_kw_type * gen_kw, value_export_type * export) {
+void gen_kw_export_values(const gen_kw_type * gen_kw, value_export_type * export_value) {
   const int size = gen_kw_config_get_data_size(gen_kw->config );
 
   for (int ikw = 0; ikw < size; ++ikw) {
@@ -261,23 +261,23 @@ void gen_kw_export_values(const gen_kw_type * gen_kw, value_export_type * export
     char * export_key         = util_alloc_sprintf("%s:%s" , key, parameter);
     double value              = gen_kw_config_transform( gen_kw->config , ikw , gen_kw->data[ikw] );
 
-    value_export_append( export, export_key , value );
+    value_export_append( export_value, export_key , value );
     free( export_key );
 
     if (gen_kw_config_should_use_log_scale(gen_kw->config, ikw)) {
       double log_value = log10(value);
       char * log_export_key = util_alloc_sprintf("LOG10_%s:%s", key , parameter);
-      value_export_append( export, log_export_key , log_value );
+      value_export_append( export_value, log_export_key , log_value );
       free( log_export_key );
     }
   }
 }
 
 void gen_kw_write_export_file(const gen_kw_type * gen_kw , const char * filename) {
-  value_export_type * export = value_export_alloc( NULL, filename );
-  gen_kw_export_values( gen_kw, export );
-  value_export_txt__( export , filename );
-  value_export_free( export );
+  value_export_type * export_value = value_export_alloc( NULL, filename );
+  gen_kw_export_values( gen_kw, export_value );
+  value_export_txt__( export_value , filename );
+  value_export_free( export_value );
 }
 
 
@@ -286,7 +286,7 @@ void gen_kw_ecl_write_template(const gen_kw_type * gen_kw , const char * file_na
 }
 
 
-void gen_kw_ecl_write(const gen_kw_type * gen_kw , const char * run_path , const char * base_file , value_export_type * export) {
+void gen_kw_ecl_write(const gen_kw_type * gen_kw , const char * run_path , const char * base_file , value_export_type * export_value) {
   char * target_file;
   if (run_path)
     target_file = util_alloc_filename( run_path , base_file  , NULL);
@@ -296,8 +296,8 @@ void gen_kw_ecl_write(const gen_kw_type * gen_kw , const char * run_path , const
   gen_kw_filter_file(gen_kw , target_file);
   free( target_file );
 
-  if (export)
-    gen_kw_export_values(gen_kw, export);
+  if (export_value)
+    gen_kw_export_values(gen_kw, export_value);
 }
 
 

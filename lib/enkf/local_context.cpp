@@ -48,7 +48,7 @@ local_context_type * local_context_alloc( const ecl_grid_type * ecl_grid ) {
   context->polygons  = hash_alloc();
   context->grids     = hash_alloc();
   context->surfaces  = hash_alloc();
-  
+
   hash_insert_ref( context->grids , GLOBAL_GRID , ecl_grid );
   return context;
 }
@@ -66,11 +66,11 @@ void local_context_free( local_context_type * context) {
 
 
 ecl_region_type * local_context_get_ecl_region( local_context_type * context , const char * region_name) {
-  return hash_get( context->ecl_regions , region_name ); // CXX_CAST_ERROR
+  return (ecl_region_type *) hash_get( context->ecl_regions , region_name );
 }
 
 void local_context_create_ecl_region( local_context_type * context , const char * grid_name , const char * region_name , bool preselect ) {
-  ecl_grid_type * grid = (ecl_grid_type *)hash_get( context->grids , grid_name);
+  ecl_grid_type * grid = (ecl_grid_type *) hash_get( context->grids , grid_name);
   ecl_region_type * new_region = ecl_region_alloc( grid , preselect );
   hash_insert_hash_owned_ref( context->ecl_regions , region_name , new_region , ecl_region_free__ );
 }
@@ -78,11 +78,11 @@ void local_context_create_ecl_region( local_context_type * context , const char 
 /*************************/
 
 geo_region_type * local_context_get_surface_region( local_context_type * context , const char * region_name) {
-  return hash_get( context->surface_regions , region_name ); // CXX_CAST_ERROR
+  return (geo_region_type *) hash_get( context->surface_regions , region_name );
 }
 
 void local_context_create_surface_region( local_context_type * context , const char * surface_name , const char * region_name , bool preselect ) {
-  geo_surface_type * base_surface = (geo_surface_type *)hash_get( context->surfaces , surface_name );
+  geo_surface_type * base_surface = (geo_surface_type *) hash_get( context->surfaces , surface_name );
   geo_region_type * new_region = geo_region_alloc( geo_surface_get_pointset( base_surface ) , preselect );
   hash_insert_hash_owned_ref( context->surface_regions , region_name , new_region , geo_region_free__ );
 }
@@ -96,7 +96,7 @@ void local_context_load_file( local_context_type * context , const char * filena
 
 
 ecl_file_type * local_context_get_file( local_context_type * context , const char * file_key ) {
-  return hash_get( context->files , file_key ); // CXX_CAST_ERROR
+  return (ecl_file_type *) hash_get( context->files , file_key );
 }
 
 /*************************/
@@ -117,7 +117,7 @@ void local_context_load_polygon( local_context_type * context , const char * pol
 
 
 geo_polygon_type * local_context_get_polygon( local_context_type * context , const char * polygon_name ) {
-  return hash_get( context->polygons , polygon_name ); // CXX_CAST_ERROR
+  return (geo_polygon_type *) hash_get( context->polygons , polygon_name );
 }
 
 /*************************/
@@ -128,5 +128,5 @@ void local_context_load_surface( local_context_type * context , const char * sur
 }
 
 geo_surface_type * local_context_get_surface( local_context_type * context , const char * surface_name) {
-  return hash_get( context->surfaces , surface_name ); // CXX_CAST_ERROR
+  return (geo_surface_type *) hash_get( context->surfaces , surface_name );
 }

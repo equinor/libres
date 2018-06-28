@@ -399,7 +399,7 @@ static void enkf_main_node_mean( const vector_type * ensemble , enkf_node_type *
     int iens;
     enkf_node_clear( mean );
     for (iens = 0; iens < vector_get_size( ensemble ); iens++)
-      enkf_node_iadd( mean , vector_iget_const( ensemble , iens) ); // CXX_CAST_ERROR
+      enkf_node_iadd( mean , (const enkf_node_type * ) vector_iget_const( ensemble , iens) );
 
     enkf_node_scale( mean , 1.0 / vector_get_size( ensemble ) );
   }
@@ -420,7 +420,7 @@ static void enkf_main_node_std( const vector_type * ensemble , const enkf_node_t
     int iens;
     enkf_node_clear( std );
     for (iens = 0; iens < vector_get_size( ensemble ); iens++)
-      enkf_node_iaddsqr( std , vector_iget_const( ensemble, iens) ); // CXX_CAST_ERROR
+      enkf_node_iaddsqr( std , (const enkf_node_type * ) vector_iget_const( ensemble, iens) );
     enkf_node_scale(std , 1.0 / vector_get_size( ensemble ));
 
     if (mean != NULL) {
@@ -437,8 +437,8 @@ static void enkf_main_node_std( const vector_type * ensemble , const enkf_node_t
 void enkf_main_inflate_node(enkf_main_type * enkf_main , enkf_fs_type * src_fs , enkf_fs_type * target_fs , int report_step , const char * key , const enkf_node_type * min_std) {
   int ens_size                              = enkf_main_get_ensemble_size(enkf_main);
   vector_type * ensemble                    = enkf_main_alloc_node_ensemble( enkf_main , src_fs , key , report_step );  // Was ANALYZED
-  enkf_node_type * mean = (enkf_node_type *)enkf_node_copyc( vector_iget_const( ensemble, 0) );
-  enkf_node_type * std                      = enkf_node_copyc( mean );
+  enkf_node_type * mean = enkf_node_copyc( (const enkf_node_type * ) vector_iget_const( ensemble, 0) );
+  enkf_node_type * std  = enkf_node_copyc( mean );
   int iens;
 
   /* Shifting away the mean */
@@ -446,7 +446,8 @@ void enkf_main_inflate_node(enkf_main_type * enkf_main , enkf_fs_type * src_fs ,
   enkf_main_node_std( ensemble , mean , std);
   enkf_node_scale( mean , -1 );
   for (iens = 0; iens < ens_size; iens++)
-    enkf_node_iadd( vector_iget(ensemble,iens), mean ); // CXX_CAST_ERROR
+    enkf_node_iadd( (enkf_node_type * ) vector_iget(ensemble,iens), mean );
+
   enkf_node_scale( mean , -1 );
 
   /*****************************************************************/
@@ -460,7 +461,7 @@ void enkf_main_inflate_node(enkf_main_type * enkf_main , enkf_fs_type * src_fs ,
     enkf_node_set_inflation( inflation , std , min_std  );
 
     for (iens = 0; iens < vector_get_size( ensemble ); iens++)
-      enkf_node_imul( vector_iget( ensemble, iens) , inflation ); // CXX_CAST_ERROR
+      enkf_node_imul( (enkf_node_type * ) vector_iget( ensemble, iens) , inflation );
 
     enkf_node_free( inflation );
   }
@@ -469,8 +470,8 @@ void enkf_main_inflate_node(enkf_main_type * enkf_main , enkf_fs_type * src_fs ,
   /* Add the mean back in - and store the updated node to disk.*/
   for (iens = 0; iens < ens_size; iens++) {
     node_id_type node_id = {.report_step = report_step , .iens = iens };
-    enkf_node_iadd( vector_iget( ensemble, iens) , mean ); // CXX_CAST_ERROR
-    enkf_node_store( vector_iget( ensemble, iens) , target_fs , true , node_id); // CXX_CAST_ERROR
+    enkf_node_iadd( (enkf_node_type * ) vector_iget( ensemble, iens) , mean );
+    enkf_node_store( (enkf_node_type * ) vector_iget( ensemble, iens) , target_fs , true , node_id);
   }
 
   enkf_node_free( mean );
@@ -961,7 +962,10 @@ static void enkf_main_update__(enkf_main_type * enkf_main, const int_vector_type
         enkf_config_node_type * config_node = ensemble_config_get_node(ensemble_config, key);
         enkf_node_type * data_node = enkf_node_alloc(config_node);
         for (int j = 0; j < int_vector_size(ens_active_list); j++) {
-          node_id_type node_id = { .iens = int_vector_iget(ens_active_list, j), .report_step = 0 };
+          node_id_type node_id;
+          node_id.iens = int_vector_iget(ens_active_list, j);
+          node_id.report_step = 0;
+
           enkf_node_load(data_node, source_fs, node_id);
           enkf_node_store(data_node, target_fs, false, node_id);
         }
@@ -1325,6 +1329,7 @@ void enkf_main_isubmit_job( enkf_main_type * enkf_main , run_arg_type * run_arg 
                                                          run_arg,
                                                          rng_manager_iget( enkf_main->rng_manager, run_arg_get_iens(run_arg)));
   {
+    const char * argv = run_path;
     int queue_index = job_queue_add_job( job_queue ,
                                          job_script ,
                                          enkf_state_complete_forward_modelOK__,
@@ -1335,7 +1340,7 @@ void enkf_main_isubmit_job( enkf_main_type * enkf_main , run_arg_type * run_arg 
                                          run_path ,
                                          run_arg_get_job_name( run_arg ),
                                          1,
-                                         (const char *[1]) { run_path } );
+                                         &argv);
     run_arg_set_queue_index( run_arg , queue_index );
     run_arg_increase_submit_count( run_arg );
   }
@@ -1432,7 +1437,7 @@ void enkf_main_submit_jobs( enkf_main_type * enkf_main ,
                             const ert_run_context_type * run_context, job_queue_type * job_queue) {
 
   int run_size = ert_run_context_get_size( run_context );
-  arg_pack_type ** arg_pack_list = util_malloc( run_size * sizeof * arg_pack_list ); // CXX_CAST_ERROR
+  arg_pack_type ** arg_pack_list = (arg_pack_type **) util_malloc( run_size * sizeof * arg_pack_list );
   thread_pool_type * submit_threads = thread_pool_alloc( 4 , true );
   runpath_list_type * runpath_list = enkf_main_get_runpath_list(enkf_main);
   int iens;
@@ -2262,7 +2267,7 @@ void enkf_main_run_workflows( enkf_main_type * enkf_main , const stringlist_type
 
 int enkf_main_load_from_forward_model_from_gui(enkf_main_type * enkf_main, int iter , bool_vector_type * iactive, enkf_fs_type * fs){
   const int ens_size         = enkf_main_get_ensemble_size( enkf_main );
-  stringlist_type ** realizations_msg_list = util_calloc( ens_size , sizeof * realizations_msg_list ); // CXX_CAST_ERROR
+  stringlist_type ** realizations_msg_list = (stringlist_type **) util_calloc( ens_size , sizeof * realizations_msg_list ); // CXX_CAST_ERROR
   for (int iens = 0; iens < ens_size; ++iens)
     realizations_msg_list[iens] = stringlist_alloc_new();
 
@@ -2293,7 +2298,7 @@ int enkf_main_load_from_forward_model_with_fs(enkf_main_type * enkf_main, int it
                                                                                   model_config_get_jobname_fmt( model_config ),
                                                                                   enkf_main_get_data_kw(enkf_main),
                                                                                   iter );
-  arg_pack_type ** arg_list = util_calloc( ens_size , sizeof * arg_list ); // CXX_CAST_ERROR
+  arg_pack_type ** arg_list = (arg_pack_type **) util_calloc( ens_size , sizeof * arg_list ); // CXX_CAST_ERROR
   thread_pool_type * tp     = thread_pool_alloc( 4 , true );  /* num_cpu - HARD coded. */
 
   for (int iens = 0; iens < ens_size; ++iens) {
@@ -2400,7 +2405,7 @@ bool enkf_main_export_field_with_fs(const enkf_main_type * enkf_main,
       free(path);
     }
 
-    const field_type * field = enkf_node_value_ptr(node);
+    const field_type * field = (const field_type * ) enkf_node_value_ptr(node);
     field_export(field,
                  filename,
                  NULL,
@@ -2476,5 +2481,5 @@ rng_manager_type * enkf_main_get_rng_manager(const enkf_main_type * enkf_main ) 
   return enkf_main->rng_manager;
 }
 
-#include "enkf_main_ensemble.c"
-#include "enkf_main_manage_fs.c"
+#include "enkf_main_ensemble.cpp"
+#include "enkf_main_manage_fs.cpp"

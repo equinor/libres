@@ -420,7 +420,7 @@ static block_fs_driver_type * block_fs_driver_alloc(int num_fs) {
   driver->__id          = BLOCK_FS_DRIVER_ID;
   driver->num_fs        = num_fs;
 
-  driver->fs_list       = util_calloc( driver->num_fs , sizeof * driver->fs_list ); // CXX_CAST_ERROR
+  driver->fs_list       = (bfs_type **) util_calloc( driver->num_fs , sizeof * driver->fs_list );
   return driver;
 }
 
@@ -493,7 +493,7 @@ void * block_fs_driver_open(FILE * fstab_stream , const char * mount_point , fs_
   char * mountfile_fmt        = util_alloc_sprintf("%s%c%s" , mount_point , UTIL_PATH_SEP_CHAR , tmp_fmt );
   const bool block_level_lock = false;
 
-  block_fs_driver_type * driver = block_fs_driver_alloc_new( driver_type , read_only , num_fs , mountfile_fmt, block_level_lock );
+  block_fs_driver_type * driver = (block_fs_driver_type * ) block_fs_driver_alloc_new( driver_type , read_only , num_fs , mountfile_fmt, block_level_lock );
 
   block_fs_driver_mount( driver );
 

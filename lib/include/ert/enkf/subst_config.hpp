@@ -19,6 +19,10 @@
 #ifndef ERT_SUBST_CONFIG_H
 #define ERT_SUBST_CONFIG_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct subst_config_struct subst_config_type;
 
 subst_config_type * subst_config_alloc_load(const char * user_config_file, const char * working_dir);
@@ -34,4 +38,7 @@ void subst_config_clear(subst_config_type * subst_config);
 
 void subst_config_fprintf(const subst_config_type * subst_config, FILE * stream);
 
+#ifdef __cplusplus
+}
+#endif
 #endif

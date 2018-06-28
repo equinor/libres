@@ -123,10 +123,10 @@ static double IGET_SCALED_STD(const gen_obs_type * gen_obs, int index) {
 
 static void gen_obs_set_data(gen_obs_type * gen_obs, int buffer_size , const double * buffer) {
   gen_obs->obs_size    	   = buffer_size / 2;
-  gen_obs->obs_data    	   = util_realloc(gen_obs->obs_data , gen_obs->obs_size * sizeof * gen_obs->obs_data );
-  gen_obs->obs_std     	   = util_realloc(gen_obs->obs_std  , gen_obs->obs_size * sizeof * gen_obs->obs_std  );
-  gen_obs->std_scaling 	   = util_realloc(gen_obs->std_scaling  , gen_obs->obs_size * sizeof * gen_obs->std_scaling  );
-  gen_obs->data_index_list = util_realloc(gen_obs->data_index_list , gen_obs->obs_size * sizeof * gen_obs->data_index_list );
+  gen_obs->obs_data    	   = (double *) util_realloc(gen_obs->obs_data , gen_obs->obs_size * sizeof * gen_obs->obs_data );
+  gen_obs->obs_std     	   = (double *) util_realloc(gen_obs->obs_std  , gen_obs->obs_size * sizeof * gen_obs->obs_std  );
+  gen_obs->std_scaling 	   = (double *) util_realloc(gen_obs->std_scaling  , gen_obs->obs_size * sizeof * gen_obs->std_scaling  );
+  gen_obs->data_index_list = (int *) util_realloc(gen_obs->data_index_list , gen_obs->obs_size * sizeof * gen_obs->data_index_list );
   {
     int iobs;
     double * double_buffer = (double * ) buffer;
@@ -142,20 +142,20 @@ static void gen_obs_set_data(gen_obs_type * gen_obs, int buffer_size , const dou
 
 
 void gen_obs_load_observation(gen_obs_type * gen_obs, const char * obs_file) {
-  ecl_data_type load_type;
+  ecl_type_enum load_type;
   void * buffer;
   int buffer_size = 0;
   buffer = gen_common_fload_alloc(obs_file , gen_obs->obs_format , ECL_DOUBLE , &load_type , &buffer_size);
-  
+
   /** Ensure that the data is of type double. */
-  if (ecl_type_is_float(load_type)) {
+  if (load_type == ECL_FLOAT_TYPE) {
     double * double_data = (double *)util_calloc(gen_obs->obs_size , sizeof * double_data );
     util_float_to_double(double_data , (const float *) buffer , buffer_size);
     free(buffer);
     buffer = double_data;
   }
-  
-  gen_obs_set_data( gen_obs , buffer_size , buffer );
+
+  gen_obs_set_data( gen_obs , buffer_size , (double *) buffer );
   free(buffer);
 }
 
@@ -176,9 +176,9 @@ void gen_obs_attach_data_index( gen_obs_type * obs , const int_vector_type * dat
 void gen_obs_load_data_index( gen_obs_type * obs , const char * data_index_file) {
   /* Parsing an a file with integers. */
   free( obs->data_index_list );
-  obs->data_index_list = gen_common_fscanf_alloc( data_index_file , ECL_INT , &obs->obs_size);
+  obs->data_index_list = (int *) gen_common_fscanf_alloc( data_index_file , ECL_INT , &obs->obs_size);
   obs->observe_all_data = false;
-}  
+}
 
 
 void gen_obs_parse_data_index( gen_obs_type * obs , const char * data_index_string) {
@@ -191,7 +191,7 @@ void gen_obs_parse_data_index( gen_obs_type * obs , const char * data_index_stri
 
 
 
-gen_obs_type * gen_obs_alloc__(gen_data_config_type * data_config , const char * obs_key) {
+gen_obs_type * gen_obs_alloc__(const gen_data_config_type * data_config , const char * obs_key) {
   gen_obs_type * obs = (gen_obs_type *)util_malloc(sizeof * obs);
   UTIL_TYPE_ID_INIT( obs , GEN_OBS_TYPE_ID );
   obs->obs_data         = NULL;
@@ -200,7 +200,7 @@ gen_obs_type * gen_obs_alloc__(gen_data_config_type * data_config , const char *
   obs->data_index_list  = NULL;
   obs->obs_format       = ASCII;  /* Hardcoded for now. */
   obs->obs_key          = util_alloc_string_copy( obs_key );
-  obs->data_config      = data_config;
+  obs->data_config      = (gen_data_config_type *) data_config;  // casting away the const ...
   obs->observe_all_data = true;
   obs->error_covar = NULL;
   return obs;
@@ -225,20 +225,20 @@ gen_obs_type * gen_obs_alloc__(gen_data_config_type * data_config , const char *
 */
 
 
-gen_obs_type * gen_obs_alloc(gen_data_config_type * data_config , const char * obs_key , const char * obs_file , double scalar_value , double scalar_error , const char * data_index_file , const char * data_index_string , const char * error_covar_file) {
+gen_obs_type * gen_obs_alloc(const gen_data_config_type * data_config , const char * obs_key , const char * obs_file , double scalar_value , double scalar_error , const char * data_index_file , const char * data_index_string , const char * error_covar_file) {
   gen_obs_type * obs = gen_obs_alloc__( data_config , obs_key );
   if (obs_file)
     gen_obs_load_observation(obs , obs_file ); /* The observation data is loaded - and internalized at boot time - even though it might not be needed for a long time. */
-  else 
+  else
     gen_obs_set_scalar( obs , scalar_value , scalar_error );
 
-  
-  if (data_index_file) 
+
+  if (data_index_file)
     gen_obs_load_data_index( obs , data_index_file );
-  else if (data_index_string) 
+  else if (data_index_string)
     gen_obs_parse_data_index( obs , data_index_string );
 
-  
+
   if (error_covar_file != NULL) {
     FILE * stream = util_fopen( error_covar_file , "r");
 

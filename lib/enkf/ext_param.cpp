@@ -57,7 +57,7 @@ ext_param_type * ext_param_alloc(const ext_param_config_type * config) {
   ext_param->__type_id     = EXT_PARAM;
   ext_param->config        = config;
   ext_param->size          = ext_param_config_get_data_size( config );
-  ext_param->data          = util_calloc( ext_param->size , sizeof * ext_param->data ); // CXX_CAST_ERROR
+  ext_param->data          = (double * ) util_calloc( ext_param->size , sizeof * ext_param->data );
   return ext_param;
 }
 
@@ -124,7 +124,7 @@ void ext_param_json_export(const ext_param_type * ext_param, const char * json_f
   fclose( stream );
 }
 
-void ext_param_ecl_write(const ext_param_type * ext_param , const char * run_path , const char * base_file , value_export_type * export) {
+void ext_param_ecl_write(const ext_param_type * ext_param , const char * run_path , const char * base_file , value_export_type * export_value) {
   char * target_file;
 
   if (run_path)

@@ -119,7 +119,7 @@ void custom_kw_read_from_buffer(const custom_kw_type * custom_kw, buffer_type * 
 }
 
 
-void custom_kw_ecl_write(const custom_kw_type * custom_kw, const char * run_path, const char * base_file, value_export_type * export) {
+void custom_kw_ecl_write(const custom_kw_type * custom_kw, const char * run_path, const char * base_file, value_export_type * export_kw) {
 }
 
 

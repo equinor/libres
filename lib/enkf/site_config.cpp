@@ -444,7 +444,7 @@ void site_config_set_rsh_command(site_config_type * site_config, const char * rs
 
 const char * site_config_get_rsh_command(const site_config_type * site_config) {
   queue_driver_type * rsh_driver = site_config_get_queue_driver(site_config, RSH_DRIVER_NAME);
-  return queue_driver_get_option(rsh_driver, RSH_CMD); // CXX_CAST_ERROR
+  return (const char * ) queue_driver_get_option(rsh_driver, RSH_CMD); // CXX_CAST_ERROR
 }
 
 /*****************************************************************/
@@ -456,7 +456,7 @@ void site_config_set_lsf_queue(site_config_type * site_config, const char * lsf_
 
 const char * site_config_get_lsf_queue(const site_config_type * site_config) {
   queue_driver_type * lsf_driver = site_config_get_queue_driver(site_config, LSF_DRIVER_NAME);
-  return queue_driver_get_option(lsf_driver, LSF_QUEUE); // CXX_CAST_ERROR
+  return (const char * ) queue_driver_get_option(lsf_driver, LSF_QUEUE); // CXX_CAST_ERROR
 }
 
 void site_config_set_lsf_server(site_config_type * site_config, const char * lsf_server) {
@@ -472,7 +472,7 @@ void site_config_set_lsf_request(site_config_type * site_config, const char * ls
 
 const char * site_config_get_lsf_request(const site_config_type * site_config) {
   queue_driver_type * lsf_driver = site_config_get_queue_driver(site_config, LSF_DRIVER_NAME);
-  return queue_driver_get_option(lsf_driver, LSF_RESOURCE); // CXX_CAST_ERROR
+  return (const char * ) queue_driver_get_option(lsf_driver, LSF_RESOURCE);
 }
 
 /*****************************************************************/

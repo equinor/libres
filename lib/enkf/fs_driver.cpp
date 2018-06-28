@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2011  Statoil ASA, Norway. 
-    
-   The file 'fs_driver.c' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2011  Statoil ASA, Norway.
+
+   The file 'fs_driver.c' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 #include <ert/util/util.h>
@@ -21,7 +21,7 @@
 #include <ert/enkf/fs_types.hpp>
 #include <ert/enkf/fs_driver.hpp>
 
-/* 
+/*
    The underlying base types (abstract - with no accompanying
    implementation); these two type ID's are not exported outside this
    file. They are not stored to disk, and only used in an attempt
@@ -36,7 +36,7 @@
 
 void fs_driver_init(fs_driver_type * driver) {
   driver->type_id = FS_DRIVER_ID;
-  
+
   driver->load_node   = NULL;
   driver->save_node   = NULL;
   driver->has_node    = NULL;
@@ -46,13 +46,13 @@ void fs_driver_init(fs_driver_type * driver) {
   driver->save_vector   = NULL;
   driver->has_vector    = NULL;
   driver->unlink_vector = NULL;
-  
+
   driver->free_driver   = NULL;
   driver->fsync_driver  = NULL;
 }
 
 void fs_driver_assert_cast(const fs_driver_type * driver) {
-  if (driver->type_id != FS_DRIVER_ID) 
+  if (driver->type_id != FS_DRIVER_ID)
     util_abort("%s: internal error - incorrect cast() - aborting \n" , __func__);
 }
 
@@ -145,12 +145,12 @@ void fs_driver_assert_version( FILE * stream , const char * mount_point) {
       fprintf(stderr,"-----------------------------------------------------------------------------------------------------\n");
     }
   }
-  
+
 }
 
 
 fs_driver_impl fs_driver_fread_type( FILE * stream ) {
-  fs_driver_impl impl = util_fread_int( stream );
+  fs_driver_impl impl = (fs_driver_impl) util_fread_int( stream );
   return impl;
 }
 

@@ -216,7 +216,7 @@ static void queue_config_add_queue_driver(queue_config_type * queue_config, cons
 
 
 queue_driver_type * queue_config_get_queue_driver(const queue_config_type * queue_config, const char * driver_name) {
-  return hash_get(queue_config->queue_drivers, driver_name); // CXX_CAST_ERROR
+  return (queue_driver_type * ) hash_get(queue_config->queue_drivers, driver_name);
 }
 
 

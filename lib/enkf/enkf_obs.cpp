@@ -313,11 +313,11 @@ bool enkf_obs_has_key(const enkf_obs_type * obs , const char * key) {
 }
 
 obs_vector_type * enkf_obs_get_vector(const enkf_obs_type * obs, const char * key) {
-  return hash_get(obs->obs_hash , key); // CXX_CAST_ERROR
+  return (obs_vector_type * ) hash_get(obs->obs_hash , key);
 }
 
 obs_vector_type * enkf_obs_iget_vector(const enkf_obs_type * obs, int index) {
-  return vector_iget( obs->obs_vector , index ); // CXX_CAST_ERROR
+  return (obs_vector_type * ) vector_iget( obs->obs_vector , index );
 }
 
 int enkf_obs_get_size( const enkf_obs_type * obs ) {
@@ -354,7 +354,7 @@ static void enkf_obs_get_obs_and_measure_summary(const enkf_obs_type      * enkf
     if (local_obsdata_node_tstep_active(obs_node, step)
         && obs_vector_iget_active( obs_vector , step )
         && active_list_iget( active_list , 0 /* Index into the scalar summary observation */)) {
-      const summary_obs_type * summary_obs = obs_vector_iget_node( obs_vector , step );
+      const summary_obs_type * summary_obs = (const summary_obs_type * ) obs_vector_iget_node( obs_vector , step );
       double_vector_iset( obs_std   , active_count , summary_obs_get_std( summary_obs ) * summary_obs_get_std_scaling( summary_obs ));
       double_vector_iset( obs_value , active_count , summary_obs_get_value( summary_obs ));
       last_step = step;
@@ -396,7 +396,7 @@ static void enkf_obs_get_obs_and_measure_summary(const enkf_obs_type      * enkf
                                   .iens        = iens};
           enkf_node_load( work_node , fs , node_id );
 
-          int smlength   = summary_length( enkf_node_value_ptr( work_node ) );
+          int smlength   = summary_length( (const summary_type * ) enkf_node_value_ptr( work_node ) );
           if (step >= smlength) {
             // if obs vector and sim vector have different length
             // deactivate and continue to next
@@ -407,7 +407,7 @@ static void enkf_obs_get_obs_and_measure_summary(const enkf_obs_type      * enkf
             break;
           } else {
             meas_block_iset(meas_block , iens , active_count ,
-                            summary_get( enkf_node_value_ptr( work_node ),
+                            summary_get( (const summary_type * ) enkf_node_value_ptr( work_node ),
                                          node_id.report_step ));
           }
         }

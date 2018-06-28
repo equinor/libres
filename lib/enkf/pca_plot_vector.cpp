@@ -65,11 +65,11 @@ pca_plot_vector_type * pca_plot_vector_alloc( int component ,
 
   if (pca_plot_assert_input( PC , PC_obs , singular_values ) && (component < matrix_get_rows( PC ))) {
 
-    plot_vector = util_malloc( sizeof * plot_vector ); // CXX_CAST_ERROR
+    plot_vector = (pca_plot_vector_type * ) util_malloc( sizeof * plot_vector );
     UTIL_TYPE_ID_INIT( plot_vector , PCA_PLOT_VECTOR_TYPE_ID );
     plot_vector->obs_value = matrix_iget( PC_obs , component , 0 );
     plot_vector->size = matrix_get_columns( PC );
-    plot_vector->sim_data = util_calloc( plot_vector->size , sizeof * plot_vector->sim_data ); // CXX_CAST_ERROR
+    plot_vector->sim_data = (double * ) util_calloc( plot_vector->size , sizeof * plot_vector->sim_data );
     pca_plot_vector_init_data( plot_vector , component , PC , PC_obs , singular_values);
   }
 

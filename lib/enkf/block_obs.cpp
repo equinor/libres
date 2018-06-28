@@ -138,12 +138,12 @@ static double point_obs_iget_data( const point_obs_type * point_obs , const void
 
 
 static const point_obs_type * block_obs_iget_point_const( const block_obs_type * block_obs , int index) {
-  return vector_iget_const( block_obs->point_list , index ); // CXX_CAST_ERROR
+  return (const point_obs_type *) vector_iget_const( block_obs->point_list , index );
 }
 
 
 static point_obs_type * block_obs_iget_point( const block_obs_type * block_obs , int index) {
-  return vector_iget( block_obs->point_list , index ); // CXX_CAST_ERROR
+  return (point_obs_type *) vector_iget( block_obs->point_list , index );
 }
 
 

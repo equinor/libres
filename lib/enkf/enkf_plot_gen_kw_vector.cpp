@@ -83,7 +83,7 @@ void enkf_plot_gen_kw_vector_load( enkf_plot_gen_kw_vector_type * vector , enkf_
     enkf_node_type * data_node = enkf_node_alloc( vector->config_node );
 
     if (enkf_node_try_load( data_node , fs , node_id )) {
-      gen_kw_type * gen_kw = enkf_node_value_ptr( data_node );
+      const gen_kw_type * gen_kw = (const gen_kw_type * ) enkf_node_value_ptr( data_node );
       int n_kw = gen_kw_data_size( gen_kw );
       int i_kw;
 
