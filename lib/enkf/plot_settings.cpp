@@ -18,12 +18,12 @@
 
 #include <stdlib.h>
 
-#include <ert/util/util.h>
+#include <ert/util/util.hpp>
 
-#include <ert/config/config_settings.h>
-#include <ert/config/config_parser.h>
-#include <ert/config/config_schema_item.h>
-#include <ert/config/config_content.h>
+#include <ert/config/config_settings.hpp>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_schema_item.hpp>
+#include <ert/config/config_content.hpp>
 
 #include <ert/enkf/plot_settings.hpp>
 #include <ert/enkf/enkf_defaults.hpp>

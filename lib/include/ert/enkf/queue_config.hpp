@@ -23,12 +23,12 @@
 extern "C" {
 #endif
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content_item.h>
-#include <ert/config/config_content_node.h>
-#include <ert/config/config_schema_item.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content_item.hpp>
+#include <ert/config/config_content_node.hpp>
+#include <ert/config/config_schema_item.hpp>
 
-#include <ert/job_queue/job_queue.h>
+#include <ert/job_queue/job_queue.hpp>
 
 #define LSF_DRIVER_NAME    "LSF"
 #define LOCAL_DRIVER_NAME  "LOCAL"

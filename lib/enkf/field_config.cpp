@@ -20,17 +20,17 @@
 #include <string.h>
 #include <math.h>
 
-#include <ert/util/util.h>
-#include <ert/util/string_util.h>
+#include <ert/util/util.hpp>
+#include <ert/util/string_util.hpp>
 
-#include <ert/ecl/ecl_grid.h>
-#include <ert/ecl/ecl_kw.h>
-#include <ert/ecl/ecl_util.h>
-#include <ert/ecl/ecl_endian_flip.h>
-#include <ert/ecl/ecl_type.h>
+#include <ert/ecl/ecl_grid.hpp>
+#include <ert/ecl/ecl_kw.hpp>
+#include <ert/ecl/ecl_util.hpp>
+#include <ert/ecl/ecl_endian_flip.hpp>
+#include <ert/ecl/ecl_type.hpp>
 
-#include <ert/rms/rms_file.h>
-#include <ert/rms/rms_util.h>
+#include <ert/rms/rms_file.hpp>
+#include <ert/rms/rms_util.hpp>
 
 #include <ert/enkf/enkf_types.hpp>
 #include <ert/enkf/field_config.hpp>

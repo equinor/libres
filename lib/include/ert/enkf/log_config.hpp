@@ -19,8 +19,8 @@
 #ifndef ERT_LOG_CONFIG_H
 #define ERT_LOG_CONFIG_H
 
-#include <ert/config/config_content.h>
-#include <ert/res_util/log.h>
+#include <ert/config/config_content.hpp>
+#include <ert/res_util/log.hpp>
 
 #ifdef __cplusplus
 extern "C" {

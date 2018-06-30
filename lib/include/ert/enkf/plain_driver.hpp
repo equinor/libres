@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/enkf/fs_types.h>
+#include <ert/enkf/fs_types.hpp>
 
 typedef struct plain_driver_struct plain_driver_type;
 

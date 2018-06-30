@@ -20,10 +20,10 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#include <ert/util/util.h>
-#include <ert/util/buffer.h>
+#include <ert/util/util.hpp>
+#include <ert/util/buffer.hpp>
 
-#include <ert/res_util/path_fmt.h>
+#include <ert/res_util/path_fmt.hpp>
 
 #include <ert/enkf/fs_driver.hpp>
 #include <ert/enkf/plain_driver.hpp>

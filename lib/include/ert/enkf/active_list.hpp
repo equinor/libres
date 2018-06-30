@@ -22,9 +22,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <ert/util/type_macros.h>
+#include <ert/util/type_macros.hpp>
 
-#include <ert/enkf/enkf_types.h>
+#include <ert/enkf/enkf_types.hpp>
 
 
 typedef struct active_list_struct active_list_type;

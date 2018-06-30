@@ -20,19 +20,19 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include <ert/util/test_work_area.h>
-#include <ert/util/test_util.h>
-#include <ert/util/util.h>
-#include <ert/util/arg_pack.h>
-#include <ert/util/vector.h>
-#include <ert/util/test_work_area.h>
+#include <ert/util/test_work_area.hpp>
+#include <ert/util/test_util.hpp>
+#include <ert/util/util.hpp>
+#include <ert/util/arg_pack.hpp>
+#include <ert/util/vector.hpp>
+#include <ert/util/test_work_area.hpp>
 
-#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_sum.hpp>
 
-#include <ert/res_util/thread_pool.h>
+#include <ert/res_util/thread_pool.hpp>
 #include <ert/enkf/time_map.hpp>
 #include <ert/enkf/enkf_fs.hpp>
-#include <ert/res_util/res_log.h>
+#include <ert/res_util/res_log.hpp>
 #include <ert/enkf/enkf_main.hpp>
 
 void ecl_test( const char * ecl_case ) {

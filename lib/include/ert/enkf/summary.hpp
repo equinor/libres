@@ -18,14 +18,14 @@
 
 #ifndef ERT_SUMMARY_H
 #define ERT_SUMMARY_H
-#include <ert/util/double_vector.h>
+#include <ert/util/double_vector.hpp>
 
-#include <ert/ecl/ecl_sum.h>
-#include <ert/ecl/ecl_file.h>
+#include <ert/ecl/ecl_sum.hpp>
+#include <ert/ecl/ecl_file.hpp>
 
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/summary_config.h>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/summary_config.hpp>
 
 #ifdef __cplusplus
 extern "C" {

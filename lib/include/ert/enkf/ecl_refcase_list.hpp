@@ -24,7 +24,7 @@
 extern "C" {
 #endif
 
-#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_sum.hpp>
 
 
   typedef struct ecl_refcase_list_struct ecl_refcase_list_type;

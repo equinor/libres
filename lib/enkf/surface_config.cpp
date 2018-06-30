@@ -17,9 +17,9 @@
 */
 
 
-#include <ert/util/util.h>
+#include <ert/util/util.hpp>
 
-#include <ert/geometry/geo_surface.h>
+#include <ert/geometry/geo_surface.hpp>
 
 #include <ert/enkf/surface_config.hpp>
 #include <ert/enkf/enkf_macros.hpp>

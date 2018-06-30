@@ -20,13 +20,13 @@
 #include <pthread.h>
 #include <stdbool.h>
 
-#include <ert/util/util.h>
-#include <ert/util/time_t_vector.h>
-#include <ert/util/type_macros.h>
+#include <ert/util/util.hpp>
+#include <ert/util/time_t_vector.hpp>
+#include <ert/util/type_macros.hpp>
 
-#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_sum.hpp>
 
-#include <ert/res_util/res_log.h>
+#include <ert/res_util/res_log.hpp>
 #include <ert/enkf/time_map.hpp>
 
 #define DEFAULT_TIME  -1

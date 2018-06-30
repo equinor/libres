@@ -21,8 +21,8 @@
 #include <string.h>
 #include <stdarg.h>
 
-#include <ert/util/hash.h>
-#include <ert/util/util.h>
+#include <ert/util/hash.hpp>
+#include <ert/util/util.hpp>
 
 #include <ert/enkf/enkf_macros.hpp>
 #include <ert/enkf/local_config.hpp>

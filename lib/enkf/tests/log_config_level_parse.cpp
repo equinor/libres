@@ -16,8 +16,8 @@
    for more details.
 */
 #include <stdlib.h>
-#include <ert/util/test_util.h>
-#include <ert/util/string_util.h>
+#include <ert/util/test_util.hpp>
+#include <ert/util/string_util.hpp>
 #include <ert/enkf/log_config.hpp>
 
 typedef struct {

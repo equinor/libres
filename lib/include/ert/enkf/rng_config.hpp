@@ -23,10 +23,10 @@
 extern "C" {
 #endif
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content.hpp>
 
-#include <ert/enkf/rng_manager.h>
+#include <ert/enkf/rng_manager.hpp>
 
 typedef struct rng_config_struct rng_config_type;
 

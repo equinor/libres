@@ -25,7 +25,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <ert/util/util.h>
+#include <ert/util/util.hpp>
 
 #include <ert/enkf/summary_obs.hpp>
 #include <ert/enkf/obs_data.hpp>

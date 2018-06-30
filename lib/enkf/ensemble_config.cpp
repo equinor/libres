@@ -25,23 +25,23 @@
 #include <time.h>
 #include <pthread.h>                /* must have rw locking on the config_nodes ... */
 
-#include <ert/util/util.h>
-#include <ert/util/hash.h>
-#include <ert/util/set.h>
-#include <ert/util/stringlist.h>
-#include <ert/util/type_macros.h>
+#include <ert/util/util.hpp>
+#include <ert/util/hash.hpp>
+#include <ert/util/set.hpp>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/type_macros.hpp>
 
-#include <ert/ecl/ecl_grid.h>
+#include <ert/ecl/ecl_grid.hpp>
 
-#include <ert/job_queue/job_queue.h>
-#include <ert/job_queue/lsf_driver.h>
-#include <ert/job_queue/local_driver.h>
-#include <ert/job_queue/rsh_driver.h>
-#include <ert/job_queue/ext_joblist.h>
+#include <ert/job_queue/job_queue.hpp>
+#include <ert/job_queue/lsf_driver.hpp>
+#include <ert/job_queue/local_driver.hpp>
+#include <ert/job_queue/rsh_driver.hpp>
+#include <ert/job_queue/ext_joblist.hpp>
 
-#include <ert/sched/sched_file.h>
+#include <ert/sched/sched_file.hpp>
 
-#include <ert/config/config_parser.h>
+#include <ert/config/config_parser.hpp>
 
 #include <ert/enkf/enkf_config_node.hpp>
 #include <ert/enkf/enkf_types.hpp>

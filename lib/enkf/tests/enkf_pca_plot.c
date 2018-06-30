@@ -17,10 +17,10 @@
 */
 #include <stdlib.h>
 
-#include <ert/util/test_util.h>
-#include <ert/util/rng.h>
+#include <ert/util/test_util.hpp>
+#include <ert/util/rng.hpp>
 
-#include <ert/res_util/matrix.h>
+#include <ert/res_util/matrix.hpp>
 #include <ert/enkf/pca_plot_data.hpp>
 #include <ert/enkf/pca_plot_vector.hpp>
 

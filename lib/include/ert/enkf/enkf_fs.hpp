@@ -23,21 +23,21 @@ extern "C" {
 #endif
 #include <stdbool.h>
 
-#include <ert/util/stringlist.h>
-#include <ert/util/type_macros.h>
-#include <ert/util/buffer.h>
-#include <ert/util/stringlist.h>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/buffer.hpp>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/enkf/fs_driver.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/fs_types.h>
-#include <ert/enkf/enkf_fs_type.h>
-#include <ert/enkf/time_map.h>
-#include <ert/enkf/cases_config.h>
-#include <ert/enkf/state_map.h>
-#include <ert/enkf/misfit_ensemble_typedef.h>
-#include <ert/enkf/summary_key_set.h>
-#include <ert/enkf/custom_kw_config_set.h>
+#include <ert/enkf/fs_driver.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/fs_types.hpp>
+#include <ert/enkf/enkf_fs_type.hpp>
+#include <ert/enkf/time_map.hpp>
+#include <ert/enkf/cases_config.hpp>
+#include <ert/enkf/state_map.hpp>
+#include <ert/enkf/misfit_ensemble_typedef.hpp>
+#include <ert/enkf/summary_key_set.hpp>
+#include <ert/enkf/custom_kw_config_set.hpp>
 
   const      char * enkf_fs_get_mount_point( const enkf_fs_type * fs );
   const      char * enkf_fs_get_root_path( const enkf_fs_type * fs );

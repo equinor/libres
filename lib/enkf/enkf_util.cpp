@@ -22,10 +22,10 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/util.h>
-#include <ert/util/rng.h>
+#include <ert/util/util.hpp>
+#include <ert/util/rng.hpp>
 
-#include <ert/ecl/ecl_util.h>
+#include <ert/ecl/ecl_util.hpp>
 
 #include <ert/enkf/enkf_util.hpp>
 #include <ert/enkf/enkf_defaults.hpp>

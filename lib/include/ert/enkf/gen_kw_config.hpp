@@ -25,12 +25,12 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/stringlist.h>
-#include <ert/util/util.h>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/util.hpp>
 
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/gen_kw_common.h>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/gen_kw_common.hpp>
 
 
 bool                        gen_kw_config_is_valid( const gen_kw_config_type * config );

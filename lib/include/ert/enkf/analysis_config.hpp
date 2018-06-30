@@ -26,15 +26,15 @@ extern "C" {
 
 #include <stdbool.h>
 
-#include <ert/util/stringlist.h>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content.hpp>
 
-#include <ert/analysis/analysis_module.h>
+#include <ert/analysis/analysis_module.hpp>
 
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/analysis_iter_config.h>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/analysis_iter_config.hpp>
 
 
 

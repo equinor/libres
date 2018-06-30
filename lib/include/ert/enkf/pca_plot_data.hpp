@@ -22,11 +22,11 @@
 extern "C" {
 #endif
 
-#include <ert/util/type_macros.h>
-#include <ert/res_util/matrix.h>
-#include <ert/util/double_vector.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/res_util/matrix.hpp>
+#include <ert/util/double_vector.hpp>
 
-#include <ert/enkf/pca_plot_vector.h>
+#include <ert/enkf/pca_plot_vector.hpp>
 
   typedef struct pca_plot_data_struct pca_plot_data_type;
 

@@ -22,15 +22,15 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <ert/util/type_macros.h>
-#include <ert/util/stringlist.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/ecl/ecl_sum.h>
-#include <ert/ecl/ecl_file.h>
+#include <ert/ecl/ecl_sum.hpp>
+#include <ert/ecl/ecl_file.hpp>
 
-#include <ert/enkf/enkf_fs_type.h>
-#include <ert/enkf/run_arg_type.h>
-#include <ert/enkf/ecl_config.h>
+#include <ert/enkf/enkf_fs_type.hpp>
+#include <ert/enkf/run_arg_type.hpp>
+#include <ert/enkf/ecl_config.hpp>
 
   typedef struct forward_load_context_struct forward_load_context_type;
 

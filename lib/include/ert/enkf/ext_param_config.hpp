@@ -21,7 +21,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <ert/enkf/enkf_macros.h>
+#include <ert/enkf/enkf_macros.hpp>
 
 typedef struct ext_param_config_struct ext_param_config_type;
 

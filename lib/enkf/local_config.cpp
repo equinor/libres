@@ -20,15 +20,15 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <ert/util/vector.h>
-#include <ert/util/util.h>
-#include <ert/util/int_vector.h>
+#include <ert/util/vector.hpp>
+#include <ert/util/util.hpp>
+#include <ert/util/int_vector.hpp>
 
-#include <ert/geometry/geo_polygon.h>
-#include <ert/geometry/geo_region.h>
+#include <ert/geometry/geo_polygon.hpp>
+#include <ert/geometry/geo_region.hpp>
 
-#include <ert/ecl/ecl_grid.h>
-#include <ert/ecl/ecl_region.h>
+#include <ert/ecl/ecl_grid.hpp>
+#include <ert/ecl/ecl_region.hpp>
 
 
 #include <ert/enkf/local_ministep.hpp>

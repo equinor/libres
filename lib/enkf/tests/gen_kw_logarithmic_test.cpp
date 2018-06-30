@@ -20,14 +20,14 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include <ert/util/test_util.h>
+#include <ert/util/test_util.hpp>
 #include <ert/enkf/ert_test_context.hpp>
-#include <ert/util/util.h>
-#include <ert/util/stringlist.h>
+#include <ert/util/util.hpp>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/ecl/fortio.h>
-#include <ert/util/type_macros.h>
-#include <ert/ecl/ecl_endian_flip.h>
+#include <ert/ecl/fortio.hpp>
+#include <ert/util/type_macros.hpp>
+#include <ert/ecl/ecl_endian_flip.hpp>
 
 #include <ert/enkf/enkf_main.hpp>
 #include <ert/enkf/enkf_node.hpp>

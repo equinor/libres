@@ -22,11 +22,11 @@
 
 #include <stdbool.h>
 
-#include <ert/util/type_macros.h>
-#include <ert/util/test_work_area.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/test_work_area.hpp>
 
-#include <ert/enkf/res_config.h>
-#include <ert/enkf/enkf_main.h>
+#include <ert/enkf/res_config.hpp>
+#include <ert/enkf/enkf_main.hpp>
 
 #ifdef __cplusplus
 extern "C" {

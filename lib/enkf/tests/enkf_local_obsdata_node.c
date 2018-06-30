@@ -20,8 +20,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include <ert/util/test_util.h>
-#include <ert/util/int_vector.h>
+#include <ert/util/test_util.hpp>
+#include <ert/util/int_vector.hpp>
 
 #include <ert/enkf/local_obsdata_node.hpp>
 #include <ert/enkf/active_list.hpp>

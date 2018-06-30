@@ -25,13 +25,13 @@ extern "C" {
 #endif
 #include <stdbool.h>
 
-#include <ert/util/bool_vector.h>
-#include <ert/util/type_macros.h>
+#include <ert/util/bool_vector.hpp>
+#include <ert/util/type_macros.hpp>
 
-#include <ert/enkf/enkf_config_node.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_plot_tvector.h>
+#include <ert/enkf/enkf_config_node.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_plot_tvector.hpp>
 
   typedef struct enkf_plot_data_struct enkf_plot_data_type;
 

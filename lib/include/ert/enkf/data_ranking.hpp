@@ -25,10 +25,10 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/type_macros.h>
-#include <ert/util/perm_vector.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/perm_vector.hpp>
 
-#include <ert/enkf/enkf_fs.h>
+#include <ert/enkf/enkf_fs.hpp>
 
   typedef struct data_ranking_struct data_ranking_type;
 

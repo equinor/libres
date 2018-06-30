@@ -5,10 +5,10 @@
 extern "C" {
 #endif
 
-#include <ert/util/type_macros.h>
-#include <ert/util/stringlist.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/enkf/enkf_types.h>
+#include <ert/enkf/enkf_types.hpp>
 
   typedef struct summary_key_matcher_struct summary_key_matcher_type;
 

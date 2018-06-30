@@ -23,8 +23,8 @@
 extern "C" {
 #endif
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content.hpp>
 
 typedef struct analysis_iter_config_struct analysis_iter_config_type;
 

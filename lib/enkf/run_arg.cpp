@@ -17,10 +17,10 @@
 */
 
 
-#include <ert/util/type_macros.h>
+#include <ert/util/type_macros.hpp>
 
-#include <ert/res_util/subst_list.h>
-#include <ert/res_util/path_fmt.h>
+#include <ert/res_util/subst_list.hpp>
+#include <ert/res_util/path_fmt.hpp>
 
 #include <ert/enkf/enkf_types.hpp>
 #include <ert/enkf/run_arg.hpp>

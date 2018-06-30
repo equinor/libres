@@ -21,18 +21,18 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <ert/sched/history.h>
+#include <ert/sched/history.hpp>
 
-#include <ert/config/conf.h>
+#include <ert/config/conf.hpp>
 
-#include <ert/ecl/ecl_sum.h>
-#include <ert/ecl/ecl_grid.h>
+#include <ert/ecl/ecl_sum.hpp>
+#include <ert/ecl/ecl_grid.hpp>
 
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/obs_data.h>
-#include <ert/enkf/field_config.h>
-#include <ert/enkf/field.h>
-#include <ert/enkf/active_list.h>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/obs_data.hpp>
+#include <ert/enkf/field_config.hpp>
+#include <ert/enkf/field.hpp>
+#include <ert/enkf/active_list.hpp>
 
 
 

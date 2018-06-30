@@ -23,20 +23,20 @@ extern "C" {
 #endif
 #include <stdbool.h>
 
-#include <ert/util/stringlist.h>
-#include <ert/util/hash.h>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/hash.hpp>
 
-#include <ert/ecl/ecl_grid.h>
-#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_grid.hpp>
+#include <ert/ecl/ecl_sum.hpp>
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content.hpp>
 
-#include <ert/enkf/summary_config.h>
-#include <ert/enkf/enkf_config_node.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/summary_key_matcher.h>
-#include <ert/enkf/custom_kw_config_set.h>
+#include <ert/enkf/summary_config.hpp>
+#include <ert/enkf/enkf_config_node.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/summary_key_matcher.hpp>
+#include <ert/enkf/custom_kw_config_set.hpp>
 
 
 

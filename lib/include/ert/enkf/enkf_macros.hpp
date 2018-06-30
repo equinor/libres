@@ -25,22 +25,22 @@ extern "C" {
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <ert/util/rng.h>
-#include <ert/util/double_vector.h>
-#include <ert/util/int_vector.h>
+#include <ert/util/rng.hpp>
+#include <ert/util/double_vector.hpp>
+#include <ert/util/int_vector.hpp>
 
-#include <ert/ecl/ecl_file.h>
-#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_file.hpp>
+#include <ert/ecl/ecl_sum.hpp>
 
-#include <ert/res_util/matrix.h>
+#include <ert/res_util/matrix.hpp>
 
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_serialize.h>
-#include <ert/enkf/active_list.h>
-#include <ert/enkf/meas_data.h>
-#include <ert/enkf/enkf_fs_type.h>
-#include <ert/enkf/forward_load_context.h>
-#include <ert/enkf/value_export.h>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_serialize.hpp>
+#include <ert/enkf/active_list.hpp>
+#include <ert/enkf/meas_data.hpp>
+#include <ert/enkf/enkf_fs_type.hpp>
+#include <ert/enkf/forward_load_context.hpp>
+#include <ert/enkf/value_export.hpp>
 
 
 

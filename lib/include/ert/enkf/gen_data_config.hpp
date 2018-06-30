@@ -23,15 +23,15 @@ extern "C" {
 #endif
 #include <stdbool.h>
 
-#include <ert/util/stringlist.h>
-#include <ert/util/util.h>
-#include <ert/util/bool_vector.h>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/util.hpp>
+#include <ert/util/bool_vector.hpp>
 
-#include <ert/enkf/forward_load_context.h>
-#include <ert/enkf/enkf_fs_type.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/gen_data_common.h>
+#include <ert/enkf/forward_load_context.hpp>
+#include <ert/enkf/enkf_fs_type.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/gen_data_common.hpp>
 
 typedef enum { GEN_DATA_UNDEFINED = 0,
                ASCII              = 1,   /*   The file is ASCII file with a vector of numbers formatted with "%g".       */

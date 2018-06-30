@@ -20,14 +20,14 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include <ert/util/test_util.h>
-#include <ert/util/util.h>
-#include <ert/util/arg_pack.h>
+#include <ert/util/test_util.hpp>
+#include <ert/util/util.hpp>
+#include <ert/util/arg_pack.hpp>
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content.hpp>
 
-#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_sum.hpp>
 
 #include <ert/enkf/ensemble_config.hpp>
 #include <ert/enkf/time_map.hpp>

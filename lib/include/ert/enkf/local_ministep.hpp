@@ -23,15 +23,15 @@
 extern "C" {
 #endif
 
-#include <ert/util/hash.h>
-#include <ert/util/stringlist.h>
+#include <ert/util/hash.hpp>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/analysis/analysis_module.h>
+#include <ert/analysis/analysis_module.hpp>
 
-#include <ert/enkf/active_list.h>
-#include <ert/enkf/local_dataset.h>
-#include <ert/enkf/local_obsdata.h>
-#include <ert/enkf/local_obsdata_node.h>
+#include <ert/enkf/active_list.hpp>
+#include <ert/enkf/local_dataset.hpp>
+#include <ert/enkf/local_obsdata.hpp>
+#include <ert/enkf/local_obsdata_node.hpp>
 
 typedef struct local_ministep_struct local_ministep_type;
 

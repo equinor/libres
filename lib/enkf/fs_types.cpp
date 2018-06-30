@@ -19,7 +19,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include <ert/util/util.h>
+#include <ert/util/util.hpp>
 
 #include <ert/enkf/fs_types.hpp>
 

@@ -19,10 +19,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <ert/util/rng.h>
-#include <ert/util/vector.h>
+#include <ert/util/rng.hpp>
+#include <ert/util/vector.hpp>
 #include <ert/enkf/rng_manager.hpp>
-#include <ert/res_util/res_log.h>
+#include <ert/res_util/res_log.hpp>
 
 #define RNG_MANAGER_TYPE_ID 77250451
 

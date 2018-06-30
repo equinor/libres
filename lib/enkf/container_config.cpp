@@ -18,8 +18,8 @@
 
 #include <stdlib.h>
 
-#include <ert/util/vector.h>
-#include <ert/util/util.h>
+#include <ert/util/vector.hpp>
+#include <ert/util/util.hpp>
 
 #include <ert/enkf/container_config.hpp>
 #include <ert/enkf/enkf_macros.hpp>

@@ -19,11 +19,11 @@
 #ifndef CALLBACK_ARG_H
 #define CALLBACK_ARG_H
 
-#include <ert/util/type_macros.h>
-#include <ert/util/rng.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/rng.hpp>
 
-#include <ert/enkf/run_arg.h>
-#include <ert/enkf/res_config.h>
+#include <ert/enkf/run_arg.hpp>
+#include <ert/enkf/res_config.hpp>
 
 #ifdef __cplusplus
 extern "C" {

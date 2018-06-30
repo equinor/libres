@@ -24,15 +24,15 @@
 extern "C" {
 #endif
 
-#include <ert/util/type_macros.h>
-#include <ert/res_util/subst_list.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/res_util/subst_list.hpp>
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content.h>
-#include <ert/config/config_error.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content.hpp>
+#include <ert/config/config_error.hpp>
 
-#include <ert/job_queue/workflow.h>
-#include <ert/job_queue/workflow_job.h>
+#include <ert/job_queue/workflow.hpp>
+#include <ert/job_queue/workflow_job.hpp>
 
 
   typedef struct ert_workflow_list_struct ert_workflow_list_type;

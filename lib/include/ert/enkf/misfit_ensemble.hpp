@@ -26,13 +26,13 @@
 extern "C" {
 #endif
 
-#include <ert/enkf/enkf_obs.h>
-#include <ert/enkf/ensemble_config.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/misfit_member.h>
+#include <ert/enkf/enkf_obs.hpp>
+#include <ert/enkf/ensemble_config.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/misfit_member.hpp>
 
 #define MISFIT_DEFAULT_RANKING_KEY "DEFAULT"
-#include <ert/enkf/misfit_ensemble_typedef.h>
+#include <ert/enkf/misfit_ensemble_typedef.hpp>
 
 
 

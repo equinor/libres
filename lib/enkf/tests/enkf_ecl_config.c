@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include <ert/util/test_util.h>
+#include <ert/util/test_util.hpp>
 
 #include <ert/enkf/ecl_config.hpp>
 #include <ert/enkf/ecl_refcase_list.hpp>

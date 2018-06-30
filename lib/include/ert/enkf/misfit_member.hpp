@@ -25,7 +25,7 @@ extern "C" {
 
 #include <stdio.h>
 
-#include <ert/enkf/misfit_ts.h>
+#include <ert/enkf/misfit_ts.hpp>
 
   typedef struct misfit_member_struct    misfit_member_type;
   misfit_ts_type     * misfit_member_get_ts( const misfit_member_type * member , const char * obs_key );

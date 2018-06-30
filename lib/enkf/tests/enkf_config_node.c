@@ -16,9 +16,9 @@
    for more details.
 */
 
-#include <ert/util/test_util.h>
+#include <ert/util/test_util.hpp>
 
-#include <ert/ecl/ecl_grid.h>
+#include <ert/ecl/ecl_grid.hpp>
 
 #include <ert/enkf/field_config.hpp>
 #include <ert/enkf/enkf_config_node.hpp>

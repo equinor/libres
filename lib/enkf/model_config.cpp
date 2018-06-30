@@ -22,25 +22,25 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <ert/util/type_macros.h>
-#include <ert/util/util.h>
-#include <ert/res_util/path_fmt.h>
-#include <ert/util/hash.h>
-#include <ert/util/bool_vector.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/util.hpp>
+#include <ert/res_util/path_fmt.hpp>
+#include <ert/util/hash.hpp>
+#include <ert/util/bool_vector.hpp>
 
-#include <ert/sched/history.h>
-#include <ert/sched/sched_file.h>
+#include <ert/sched/history.hpp>
+#include <ert/sched/sched_file.hpp>
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content.hpp>
 
-#include <ert/ecl/ecl_sum.h>
-#include <ert/ecl/ecl_util.h>
-#include <ert/ecl/ecl_grid.h>
+#include <ert/ecl/ecl_sum.hpp>
+#include <ert/ecl/ecl_util.hpp>
+#include <ert/ecl/ecl_grid.hpp>
 
-#include <ert/job_queue/forward_model.h>
+#include <ert/job_queue/forward_model.hpp>
 
-#include <ert/res_util/res_log.h>
+#include <ert/res_util/res_log.hpp>
 
 #include <ert/enkf/model_config.hpp>
 #include <ert/enkf/enkf_types.hpp>

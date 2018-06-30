@@ -24,8 +24,8 @@
 extern "C" {
 #endif
 
-#include <ert/enkf/enkf_config_node.h>
-#include <ert/enkf/enkf_macros.h>
+#include <ert/enkf/enkf_config_node.hpp>
+#include <ert/enkf/enkf_macros.hpp>
 
   typedef struct container_config_struct container_config_type;
 

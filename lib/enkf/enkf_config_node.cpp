@@ -21,15 +21,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <ert/util/stringlist.h>
-#include <ert/util/string_util.h>
-#include <ert/util/util.h>
-#include <ert/util/bool_vector.h>
-#include <ert/util/vector.h>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/string_util.hpp>
+#include <ert/util/util.hpp>
+#include <ert/util/bool_vector.hpp>
+#include <ert/util/vector.hpp>
 
-#include <ert/ecl/ecl_grid.h>
+#include <ert/ecl/ecl_grid.hpp>
 
-#include <ert/res_util/path_fmt.h>
+#include <ert/res_util/path_fmt.hpp>
 
 #include <ert/enkf/enkf_macros.hpp>
 #include <ert/enkf/enkf_node.hpp>

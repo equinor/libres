@@ -23,13 +23,13 @@
 extern "C" {
 #endif
 
-#include <ert/util/type_macros.h>
-#include <ert/util/double_vector.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/double_vector.hpp>
 
-#include <ert/enkf/obs_vector.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/enkf_config_node.h>
-#include <ert/enkf/enkf_plot_genvector.h>
+#include <ert/enkf/obs_vector.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/enkf_config_node.hpp>
+#include <ert/enkf/enkf_plot_genvector.hpp>
 
 
 

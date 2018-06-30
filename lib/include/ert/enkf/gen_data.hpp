@@ -22,18 +22,18 @@
 extern "C" {
 #endif
 
-#include <ert/util/util.h>
-#include <ert/util/bool_vector.h>
-#include <ert/util/double_vector.h>
-#include <ert/util/buffer.h>
+#include <ert/util/util.hpp>
+#include <ert/util/bool_vector.hpp>
+#include <ert/util/double_vector.hpp>
+#include <ert/util/buffer.hpp>
 
-#include <ert/ecl/ecl_sum.h>
-#include <ert/ecl/ecl_file.h>
+#include <ert/ecl/ecl_sum.hpp>
+#include <ert/ecl/ecl_file.hpp>
 
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/gen_data_common.h>
-#include <ert/enkf/gen_data_config.h>
-#include <ert/enkf/forward_load_context.h>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/gen_data_common.hpp>
+#include <ert/enkf/gen_data_config.hpp>
+#include <ert/enkf/forward_load_context.hpp>
 
 void                      gen_data_assert_size( gen_data_type * gen_data , int size , int report_step);
 bool                      gen_data_forward_load(gen_data_type * gen_data , const char * ecl_file , const forward_load_context_type * load_context);

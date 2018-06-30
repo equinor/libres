@@ -22,8 +22,8 @@
 #include <string.h>
 
 #include <ert/enkf/ert_test_context.hpp>
-#include <ert/util/test_util.h>
-#include <ert/util/util.h>
+#include <ert/util/test_util.hpp>
+#include <ert/util/util.hpp>
 #include <ert/enkf/enkf_main.hpp>
 #include <ert/enkf/run_arg.hpp>
 

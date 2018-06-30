@@ -16,10 +16,10 @@
    for more details.
 */
 
-#include <ert/res_util/subst_func.h>
-#include <ert/res_util/subst_list.h>
+#include <ert/res_util/subst_func.hpp>
+#include <ert/res_util/subst_list.hpp>
 
-#include <ert/config/config_settings.h>
+#include <ert/config/config_settings.hpp>
 
 #include <ert/enkf/config_keys.hpp>
 #include <ert/enkf/res_config.hpp>

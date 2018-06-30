@@ -20,9 +20,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include <ert/util/test_util.h>
-#include <ert/util/int_vector.h>
-#include <ert/util/type_vector_functions.h>
+#include <ert/util/test_util.hpp>
+#include <ert/util/int_vector.hpp>
+#include <ert/util/type_vector_functions.hpp>
 
 #include <ert/enkf/meas_data.hpp>
 

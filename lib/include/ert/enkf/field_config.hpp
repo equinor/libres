@@ -23,14 +23,14 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/stringlist.h>
-#include <ert/util/type_macros.h>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/type_macros.hpp>
 
-#include <ert/ecl/ecl_kw.h>
-#include <ert/ecl/ecl_grid.h>
-#include <ert/ecl/ecl_type.h>
+#include <ert/ecl/ecl_kw.hpp>
+#include <ert/ecl/ecl_grid.hpp>
+#include <ert/ecl/ecl_type.hpp>
 
-#include <ert/rms/rms_file.h>
+#include <ert/rms/rms_file.hpp>
 
 #include <ert/enkf/enkf_util.hpp>
 #include <ert/enkf/enkf_macros.hpp>

@@ -24,17 +24,17 @@ extern "C" {
 
 #include <stdbool.h>
 
-#include <ert/util/stringlist.h>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content.hpp>
 
-#include <ert/job_queue/job_queue.h>
-#include <ert/job_queue/ext_joblist.h>
-#include <ert/job_queue/forward_model.h>
-#include <ert/job_queue/environment_varlist.h>
+#include <ert/job_queue/job_queue.hpp>
+#include <ert/job_queue/ext_joblist.hpp>
+#include <ert/job_queue/forward_model.hpp>
+#include <ert/job_queue/environment_varlist.hpp>
 
-#include <ert/enkf/queue_config.h>
+#include <ert/enkf/queue_config.hpp>
 
 
 typedef struct site_config_struct site_config_type;

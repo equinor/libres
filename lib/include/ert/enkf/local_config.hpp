@@ -19,16 +19,16 @@
 #ifndef ERT_LOCAL_CONFIG_H
 #define ERT_LOCAL_CONFIG_H
 
-#include <ert/util/stringlist.h>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/ecl/ecl_grid.h>
+#include <ert/ecl/ecl_grid.hpp>
 
-#include <ert/analysis/analysis_module.h>
+#include <ert/analysis/analysis_module.hpp>
 
-#include <ert/enkf/local_updatestep.h>
-#include <ert/enkf/local_ministep.h>
-#include <ert/enkf/ensemble_config.h>
-#include <ert/enkf/enkf_obs.h>
+#include <ert/enkf/local_updatestep.hpp>
+#include <ert/enkf/local_ministep.hpp>
+#include <ert/enkf/ensemble_config.hpp>
+#include <ert/enkf/enkf_obs.hpp>
 
 
 #ifdef __cplusplus

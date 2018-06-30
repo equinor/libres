@@ -22,14 +22,14 @@
 extern "C" {
 #endif
 
-#include <ert/util/double_vector.h>
-#include <ert/res_util/subst_list.h>
+#include <ert/util/double_vector.hpp>
+#include <ert/res_util/subst_list.hpp>
 
-#include <ert/enkf/gen_kw_config.h>
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/enkf_serialize.h>
-#include <ert/enkf/gen_kw_common.h>
+#include <ert/enkf/gen_kw_config.hpp>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/enkf_serialize.hpp>
+#include <ert/enkf/gen_kw_common.hpp>
 
 
 

@@ -19,14 +19,14 @@
 #include <sys/types.h>
 #include <time.h>
 
-#include <ert/util/type_macros.h>
-#include <ert/util/vector.h>
-#include <ert/util/int_vector.h>
-#include <ert/util/stringlist.h>
-#include <ert/util/type_vector_functions.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/vector.hpp>
+#include <ert/util/int_vector.hpp>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/type_vector_functions.hpp>
 
-#include <ert/res_util/subst_list.h>
-#include <ert/res_util/path_fmt.h>
+#include <ert/res_util/subst_list.hpp>
+#include <ert/res_util/path_fmt.hpp>
 
 #include <ert/enkf/enkf_types.hpp>
 #include <ert/enkf/run_arg.hpp>

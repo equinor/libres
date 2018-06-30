@@ -21,11 +21,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <ert/util/buffer.h>
-#include <ert/util/stringlist.h>
+#include <ert/util/buffer.hpp>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/enkf/enkf_node.h>
-#include <ert/enkf/fs_types.h>
+#include <ert/enkf/enkf_node.hpp>
+#include <ert/enkf/fs_types.hpp>
 
 #define FS_MAGIC_ID              123998L
 #define FSTAB_FILE              "ert_fstab"

@@ -24,9 +24,9 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/double_vector.h>
+#include <ert/util/double_vector.hpp>
 
-#include <ert/enkf/enkf_types.h>
+#include <ert/enkf/enkf_types.hpp>
 
 
 typedef struct trans_func_struct  trans_func_type;

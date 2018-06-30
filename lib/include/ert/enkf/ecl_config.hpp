@@ -23,20 +23,20 @@ extern "C" {
 #endif
 #include <time.h>
 
-#include <ert/res_util/ui_return.h>
+#include <ert/res_util/ui_return.hpp>
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content.hpp>
 
-#include <ert/ecl/ecl_grid.h>
-#include <ert/ecl/ecl_sum.h>
-#include <ert/ecl/ecl_io_config.h>
+#include <ert/ecl/ecl_grid.hpp>
+#include <ert/ecl/ecl_sum.hpp>
+#include <ert/ecl/ecl_io_config.hpp>
 
-#include <ert/sched/sched_file.h>
+#include <ert/sched/sched_file.hpp>
 
-#include <ert/res_util/path_fmt.h>
+#include <ert/res_util/path_fmt.hpp>
 
-#include <ert/enkf/ecl_refcase_list.h>
+#include <ert/enkf/ecl_refcase_list.hpp>
 
 
   typedef struct ecl_config_struct ecl_config_type;

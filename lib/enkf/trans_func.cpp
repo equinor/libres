@@ -21,9 +21,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <ert/util/util.h>
-#include <ert/util/stringlist.h>
-#include <ert/util/double_vector.h>
+#include <ert/util/util.hpp>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/double_vector.hpp>
 
 #include <ert/enkf/trans_func.hpp>
 

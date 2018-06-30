@@ -20,9 +20,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include <ert/util/test_util.h>
-#include <ert/util/test_work_area.h>
-#include <ert/util/ui_return.h>
+#include <ert/util/test_util.hpp>
+#include <ert/util/test_work_area.hpp>
+#include <ert/util/ui_return.hpp>
 
 #include <ert/enkf/enkf_main.hpp>
 #include <ert/enkf/ert_test_context.hpp>

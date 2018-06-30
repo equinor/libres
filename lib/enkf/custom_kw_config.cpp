@@ -3,16 +3,16 @@
 #include <string.h>
 #include <pthread.h>
 
-#include <ert/util/util.h>
-#include <ert/util/int_vector.h>
-#include <ert/util/bool_vector.h>
-#include <ert/util/string_util.h>
-#include <ert/util/type_macros.h>
-#include <ert/util/hash.h>
-#include <ert/util/stringlist.h>
+#include <ert/util/util.hpp>
+#include <ert/util/int_vector.hpp>
+#include <ert/util/bool_vector.hpp>
+#include <ert/util/string_util.hpp>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/hash.hpp>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/config/config_parser.h>
-#include <ert/ecl/ecl_util.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/ecl/ecl_util.hpp>
 
 #include <ert/enkf/enkf_macros.hpp>
 #include <ert/enkf/enkf_types.hpp>

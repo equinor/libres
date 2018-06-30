@@ -21,10 +21,10 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#include <ert/util/util.h>
-#include <ert/util/type_macros.h>
-#include <ert/util/test_work_area.h>
-#include <ert/util/rng.h>
+#include <ert/util/util.hpp>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/test_work_area.hpp>
+#include <ert/util/rng.hpp>
 
 #include <ert/enkf/enkf_main.hpp>
 #include <ert/enkf/ert_test_context.hpp>

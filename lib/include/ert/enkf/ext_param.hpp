@@ -21,7 +21,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <ert/util/type_macros.h>
+#include <ert/util/type_macros.hpp>
 
 typedef struct ext_param_struct ext_param_type;
 

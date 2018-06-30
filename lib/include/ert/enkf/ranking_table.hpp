@@ -26,9 +26,9 @@ extern "C" {
 
 #include <stdbool.h>
 
-#include <ert/util/perm_vector.h>
+#include <ert/util/perm_vector.hpp>
 
-#include <ert/enkf/misfit_ensemble_typedef.h>
+#include <ert/enkf/misfit_ensemble_typedef.hpp>
 
   typedef struct ranking_table_struct ranking_table_type;
 

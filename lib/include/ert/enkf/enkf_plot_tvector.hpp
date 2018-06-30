@@ -26,11 +26,11 @@ extern "C" {
 #include <time.h>
 #include <stdbool.h>
 
-#include <ert/util/util.h>
+#include <ert/util/util.hpp>
 
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_config_node.h>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_config_node.hpp>
 
   typedef struct enkf_plot_tvector_struct enkf_plot_tvector_type;
 

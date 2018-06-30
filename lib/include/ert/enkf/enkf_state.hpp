@@ -24,34 +24,34 @@ extern "C" {
 
 #include <stdbool.h>
 
-#include <ert/util/hash.h>
-#include <ert/util/rng.h>
-#include <ert/util/stringlist.h>
-#include <ert/util/rng.h>
-#include <ert/res_util/subst_list.h>
-#include <ert/res_util/matrix.h>
+#include <ert/util/hash.hpp>
+#include <ert/util/rng.hpp>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/rng.hpp>
+#include <ert/res_util/subst_list.hpp>
+#include <ert/res_util/matrix.hpp>
 
-#include <ert/sched/sched_file.h>
+#include <ert/sched/sched_file.hpp>
 
-#include <ert/ecl/fortio.h>
-#include <ert/ecl/ecl_file.h>
+#include <ert/ecl/fortio.hpp>
+#include <ert/ecl/ecl_file.hpp>
 
-#include <ert/job_queue/forward_model.h>
-#include <ert/job_queue/ext_joblist.h>
-#include <ert/job_queue/job_queue.h>
+#include <ert/job_queue/forward_model.hpp>
+#include <ert/job_queue/ext_joblist.hpp>
+#include <ert/job_queue/job_queue.hpp>
 
-#include <ert/enkf/model_config.h>
-#include <ert/enkf/site_config.h>
-#include <ert/enkf/ecl_config.h>
-#include <ert/enkf/ensemble_config.h>
-#include <ert/enkf/res_config.h>
-#include <ert/enkf/ert_template.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_node.h>
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/enkf_serialize.h>
-#include <ert/enkf/run_arg.h>
+#include <ert/enkf/model_config.hpp>
+#include <ert/enkf/site_config.hpp>
+#include <ert/enkf/ecl_config.hpp>
+#include <ert/enkf/ensemble_config.hpp>
+#include <ert/enkf/res_config.hpp>
+#include <ert/enkf/ert_template.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_node.hpp>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/enkf_serialize.hpp>
+#include <ert/enkf/run_arg.hpp>
 
 typedef struct enkf_state_struct    enkf_state_type;
 

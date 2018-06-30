@@ -23,11 +23,11 @@
 extern "C" {
 #endif
 
-#include <ert/util/stringlist.h>
-#include <ert/res_util/subst_list.h>
+#include <ert/util/stringlist.hpp>
+#include <ert/res_util/subst_list.hpp>
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content.hpp>
 
 typedef struct ert_template_struct  ert_template_type;
 typedef struct ert_templates_struct ert_templates_type;

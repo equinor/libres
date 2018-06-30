@@ -23,9 +23,9 @@ extern "C" {
 #endif
 #include <stdbool.h>
 
-#include <ert/util/type_macros.h>
+#include <ert/util/type_macros.hpp>
 
-#include <ert/enkf/local_obsdata_node.h>
+#include <ert/enkf/local_obsdata_node.hpp>
 
 typedef struct local_obsdata_struct local_obsdata_type;
 

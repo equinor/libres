@@ -22,18 +22,18 @@
 extern "C" {
 #endif
 
-#include <ert/util/stringlist.h>
-#include <ert/util/hash.h>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/hash.hpp>
 
-#include <ert/config/config_parser.h>
+#include <ert/config/config_parser.hpp>
 
-#include <ert/ecl/ecl_grid.h>
+#include <ert/ecl/ecl_grid.hpp>
 
-#include <ert/enkf/field_trans.h>
-#include <ert/enkf/gen_data_config.h>
-#include <ert/enkf/summary_config.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_macros.h>
+#include <ert/enkf/field_trans.hpp>
+#include <ert/enkf/gen_data_config.hpp>
+#include <ert/enkf/summary_config.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_macros.hpp>
 
   typedef void   (config_free_ftype)    (void *);
   typedef int    (get_data_size_ftype)  (const void *);

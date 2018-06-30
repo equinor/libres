@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include <ert/util/test_util.h>
+#include <ert/util/test_util.hpp>
 #include <ert/enkf/ert_test_context.hpp>
 
 #include <ert/enkf/site_config.hpp>

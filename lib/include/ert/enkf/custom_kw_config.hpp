@@ -5,14 +5,14 @@ extern "C" {
 #endif
 #include <stdbool.h>
 
-#include <ert/util/stringlist.h>
-#include <ert/util/util.h>
-#include <ert/util/bool_vector.h>
-#include <ert/util/hash.h>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/util.hpp>
+#include <ert/util/bool_vector.hpp>
+#include <ert/util/hash.hpp>
 
-#include <ert/enkf/enkf_fs_type.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_macros.h>
+#include <ert/enkf/enkf_fs_type.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_macros.hpp>
 
     typedef struct custom_kw_config_struct custom_kw_config_type;
 

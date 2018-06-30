@@ -19,8 +19,8 @@
 #ifndef ERT_PLOT_SETTINGS_H
 #define ERT_PLOT_SETTINGS_H
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_settings.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_settings.hpp>
 
 config_settings_type * plot_settings_alloc_load(const char * config_file);
 config_settings_type * plot_settings_alloc(const config_content_type * config_content);

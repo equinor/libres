@@ -16,11 +16,11 @@
    for more details.
 */
 
-#include <ert/config/config_content.h>
+#include <ert/config/config_content.hpp>
 
-#include <ert/util/rng.h>
-#include <ert/res_util/subst_func.h>
-#include <ert/res_util/subst_list.h>
+#include <ert/util/rng.hpp>
+#include <ert/res_util/subst_func.hpp>
+#include <ert/res_util/subst_list.hpp>
 
 #include <ert/enkf/enkf_defaults.hpp>
 #include <ert/enkf/config_keys.hpp>

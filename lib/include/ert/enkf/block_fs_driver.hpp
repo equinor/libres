@@ -25,7 +25,7 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/enkf/fs_types.h>
+#include <ert/enkf/fs_types.hpp>
 
   typedef struct block_fs_driver_struct block_fs_driver_type;
 

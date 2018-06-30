@@ -17,9 +17,9 @@
 */
 #include <stdlib.h>
 
-#include <ert/util/type_macros.h>
-#include <ert/util/util.h>
-#include <ert/util/int_vector.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/util.hpp>
+#include <ert/util/int_vector.hpp>
 
 #include <ert/enkf/local_obsdata_node.hpp>
 

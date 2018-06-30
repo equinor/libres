@@ -22,12 +22,12 @@
 extern "C" {
 #endif
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content.hpp>
 
-#include <ert/enkf/hook_workflow.h>
-#include <ert/enkf/ert_workflow_list.h>
-#include <ert/enkf/runpath_list.h>
+#include <ert/enkf/hook_workflow.hpp>
+#include <ert/enkf/ert_workflow_list.hpp>
+#include <ert/enkf/runpath_list.hpp>
 
   typedef struct hook_manager_struct hook_manager_type;
 

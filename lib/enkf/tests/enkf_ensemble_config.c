@@ -23,7 +23,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include <ert/util/test_util.h>
+#include <ert/util/test_util.hpp>
 
 #include <ert/enkf/ensemble_config.hpp>
 

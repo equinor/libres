@@ -23,23 +23,23 @@
 #include <sys/types.h>
 #include <dirent.h>
 
-#include <ert/util/hash.h>
-#include <ert/util/set.h>
-#include <ert/util/ecl_version.h>
-#include <ert/util/stringlist.h>
-#include <ert/util/util.h>
-#include <ert/util/type_macros.h>
-#include <ert/res_util/subst_list.h>
+#include <ert/util/hash.hpp>
+#include <ert/util/set.hpp>
+#include <ert/util/ecl_version.hpp>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/util.hpp>
+#include <ert/util/type_macros.hpp>
+#include <ert/res_util/subst_list.hpp>
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_error.h>
-#include <ert/config/config_schema_item.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_error.hpp>
+#include <ert/config/config_schema_item.hpp>
 
-#include <ert/job_queue/workflow.h>
-#include <ert/job_queue/workflow_job.h>
-#include <ert/job_queue/workflow_joblist.h>
+#include <ert/job_queue/workflow.hpp>
+#include <ert/job_queue/workflow_job.hpp>
+#include <ert/job_queue/workflow_joblist.hpp>
 
-#include <ert/res_util/res_log.h>
+#include <ert/res_util/res_log.hpp>
 
 #include <ert/enkf/ert_workflow_list.hpp>
 #include <ert/enkf/config_keys.hpp>

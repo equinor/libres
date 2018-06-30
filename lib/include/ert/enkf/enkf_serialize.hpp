@@ -25,11 +25,11 @@ extern "C" {
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include <ert/res_util/matrix.h>
+#include <ert/res_util/matrix.hpp>
 
-#include <ert/ecl/ecl_util.h>
+#include <ert/ecl/ecl_util.hpp>
 
-#include <ert/enkf/active_list.h>
+#include <ert/enkf/active_list.hpp>
 
 
 

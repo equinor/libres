@@ -23,26 +23,26 @@ extern "C" {
 #endif
 #include <time.h>
 
-#include <ert/util/hash.h>
-#include <ert/util/stringlist.h>
-#include <ert/util/int_vector.h>
-#include <ert/util/type_macros.h>
+#include <ert/util/hash.hpp>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/int_vector.hpp>
+#include <ert/util/type_macros.hpp>
 
-#include <ert/config/conf.h>
+#include <ert/config/conf.hpp>
 
-#include <ert/sched/history.h>
+#include <ert/sched/history.hpp>
 
-#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_sum.hpp>
 
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/enkf_state.h>
-#include <ert/enkf/meas_data.h>
-#include <ert/enkf/obs_data.h>
-#include <ert/enkf/time_map.h>
-#include <ert/enkf/obs_vector.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/local_obsdata_node.h>
-#include <ert/enkf/local_obsdata.h>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/enkf_state.hpp>
+#include <ert/enkf/meas_data.hpp>
+#include <ert/enkf/obs_data.hpp>
+#include <ert/enkf/time_map.hpp>
+#include <ert/enkf/obs_vector.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/local_obsdata_node.hpp>
+#include <ert/enkf/local_obsdata.hpp>
 
   bool enkf_obs_have_obs(const enkf_obs_type * enkf_obs);
   bool enkf_obs_is_valid(const enkf_obs_type*);

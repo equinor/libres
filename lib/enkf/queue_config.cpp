@@ -18,21 +18,21 @@
 
 #include <stdlib.h>
 
-#include <ert/util/util.h>
+#include <ert/util/util.hpp>
 
-#include <ert/job_queue/job_queue.h>
-#include <ert/job_queue/job_node.h>
-#include <ert/job_queue/ext_job.h>
-#include <ert/job_queue/ext_joblist.h>
-#include <ert/job_queue/lsf_driver.h>
-#include <ert/job_queue/rsh_driver.h>
-#include <ert/job_queue/local_driver.h>
-#include <ert/job_queue/queue_driver.h>
+#include <ert/job_queue/job_queue.hpp>
+#include <ert/job_queue/job_node.hpp>
+#include <ert/job_queue/ext_job.hpp>
+#include <ert/job_queue/ext_joblist.hpp>
+#include <ert/job_queue/lsf_driver.hpp>
+#include <ert/job_queue/rsh_driver.hpp>
+#include <ert/job_queue/local_driver.hpp>
+#include <ert/job_queue/queue_driver.hpp>
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content_item.h>
-#include <ert/config/config_content_node.h>
-#include <ert/config/config_schema_item.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content_item.hpp>
+#include <ert/config/config_content_node.hpp>
+#include <ert/config/config_schema_item.hpp>
 
 #include <ert/enkf/queue_config.hpp>
 #include <ert/enkf/config_keys.hpp>

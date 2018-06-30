@@ -22,8 +22,8 @@
 */
 #include <stdlib.h>
 
-#include <ert/util/util.h>
-#include <ert/util/string_util.h>
+#include <ert/util/util.hpp>
+#include <ert/util/string_util.hpp>
 
 #include <ert/enkf/enkf_util.hpp>
 #include <ert/enkf/enkf_types.hpp>
@@ -38,7 +38,7 @@
 #include <ert/enkf/gen_common.hpp>
 #include <ert/enkf/active_list.hpp>
 
-#include <ert/ecl/ecl_type.h>
+#include <ert/ecl/ecl_type.hpp>
 
 
 /**

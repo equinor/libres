@@ -22,11 +22,11 @@
 extern "C" {
 #endif
 
-#include <ert/config/config_parser.h>
+#include <ert/config/config_parser.hpp>
 
-#include <ert/job_queue/workflow.h>
+#include <ert/job_queue/workflow.hpp>
 
-#include <ert/enkf/ert_workflow_list.h>
+#include <ert/enkf/ert_workflow_list.hpp>
 
 
   typedef enum {PRE_SIMULATION  = 0,

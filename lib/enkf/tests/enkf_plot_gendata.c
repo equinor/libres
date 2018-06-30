@@ -17,9 +17,9 @@
 */
 #include <stdlib.h>
 
-#include <ert/util/test_util.h>
+#include <ert/util/test_util.hpp>
 
-#include <ert/ecl/ecl_grid.h>
+#include <ert/ecl/ecl_grid.hpp>
 
 #include <ert/enkf/block_obs.hpp>
 #include <ert/enkf/enkf_plot_gendata.hpp>

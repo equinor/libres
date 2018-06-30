@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <ert/util/util.h>
+#include <ert/util/util.hpp>
 
 #include <ert/enkf/enkf_types.hpp>
 

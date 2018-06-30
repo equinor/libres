@@ -24,10 +24,10 @@
 extern "C" {
 #endif
 
-#include <ert/util/stringlist.h>
-#include <ert/util/type_macros.h>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/type_macros.hpp>
 
-#include <ert/enkf/enkf_config_node.h>
+#include <ert/enkf/enkf_config_node.hpp>
 
   typedef struct enkf_plot_gen_kw_vector_struct enkf_plot_gen_kw_vector_type;
 

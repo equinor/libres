@@ -26,13 +26,13 @@ extern "C" {
 
 #include <stdbool.h>
 
-#include <ert/geometry/geo_polygon.h>
-#include <ert/geometry/geo_surface.h>
-#include <ert/geometry/geo_region.h>
+#include <ert/geometry/geo_polygon.hpp>
+#include <ert/geometry/geo_surface.hpp>
+#include <ert/geometry/geo_region.hpp>
 
-#include <ert/ecl/ecl_region.h>
-#include <ert/ecl/ecl_file.h>
-#include <ert/ecl/ecl_grid.h>
+#include <ert/ecl/ecl_region.hpp>
+#include <ert/ecl/ecl_file.hpp>
+#include <ert/ecl/ecl_grid.hpp>
 
 #define  GLOBAL_GRID  "GLOBAL_GRID"
 

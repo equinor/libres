@@ -20,12 +20,12 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include <ert/util/test_util.h>
-#include <ert/util/path_stack.h>
-#include <ert/util/util.h>
+#include <ert/util/test_util.hpp>
+#include <ert/util/path_stack.hpp>
+#include <ert/util/util.hpp>
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content.hpp>
 
 #include <ert/enkf/ecl_config.hpp>
 #include <ert/enkf/ecl_refcase_list.hpp>

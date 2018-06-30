@@ -19,13 +19,13 @@
 #ifndef ERT_MISFIT_RANKING_H
 #define ERT_MISFIT_RANKING_H
 
-#include <ert/util/type_macros.h>
-#include <ert/util/int_vector.h>
-#include <ert/util/perm_vector.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/int_vector.hpp>
+#include <ert/util/perm_vector.hpp>
 
-#include <ert/enkf/enkf_obs.h>
-#include <ert/enkf/ensemble_config.h>
-#include <ert/enkf/enkf_fs.h>
+#include <ert/enkf/enkf_obs.hpp>
+#include <ert/enkf/ensemble_config.hpp>
+#include <ert/enkf/enkf_fs.hpp>
 
 
 #ifdef __cplusplus

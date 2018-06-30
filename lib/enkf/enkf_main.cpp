@@ -30,47 +30,47 @@
 #include <sys/types.h>
 
 #define HAVE_THREAD_POOL 1
-#include <ert/util/rng.h>
-#include <ert/util/int_vector.h>
-#include <ert/util/bool_vector.h>
-#include <ert/util/util.h>
-#include <ert/util/hash.h>
-#include <ert/res_util/path_fmt.h>
-#include <ert/util/arg_pack.h>
-#include <ert/util/stringlist.h>
-#include <ert/util/set.h>
-#include <ert/util/node_ctype.h>
-#include <ert/util/string_util.h>
-#include <ert/util/type_vector_functions.h>
+#include <ert/util/rng.hpp>
+#include <ert/util/int_vector.hpp>
+#include <ert/util/bool_vector.hpp>
+#include <ert/util/util.hpp>
+#include <ert/util/hash.hpp>
+#include <ert/res_util/path_fmt.hpp>
+#include <ert/util/arg_pack.hpp>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/set.hpp>
+#include <ert/util/node_ctype.hpp>
+#include <ert/util/string_util.hpp>
+#include <ert/util/type_vector_functions.hpp>
 
-#include <ert/ecl/ecl_util.h>
-#include <ert/ecl/ecl_io_config.h>
+#include <ert/ecl/ecl_util.hpp>
+#include <ert/ecl/ecl_io_config.hpp>
 
-#include <ert/res_util/thread_pool.h>
-#include <ert/res_util/subst_list.h>
-#include <ert/res_util/res_log.h>
-#include <ert/res_util/res_util_defaults.h>
-#include <ert/res_util/matrix.h>
+#include <ert/res_util/thread_pool.hpp>
+#include <ert/res_util/subst_list.hpp>
+#include <ert/res_util/res_log.hpp>
+#include <ert/res_util/res_util_defaults.hpp>
+#include <ert/res_util/matrix.hpp>
 
-#include <ert/job_queue/job_queue.h>
-#include <ert/job_queue/job_queue_manager.h>
-#include <ert/job_queue/local_driver.h>
-#include <ert/job_queue/rsh_driver.h>
-#include <ert/job_queue/lsf_driver.h>
-#include <ert/job_queue/forward_model.h>
-#include <ert/job_queue/queue_driver.h>
+#include <ert/job_queue/job_queue.hpp>
+#include <ert/job_queue/job_queue_manager.hpp>
+#include <ert/job_queue/local_driver.hpp>
+#include <ert/job_queue/rsh_driver.hpp>
+#include <ert/job_queue/lsf_driver.hpp>
+#include <ert/job_queue/forward_model.hpp>
+#include <ert/job_queue/queue_driver.hpp>
 
-#include <ert/sched/history.h>
-#include <ert/sched/sched_file.h>
+#include <ert/sched/history.hpp>
+#include <ert/sched/sched_file.hpp>
 
-#include <ert/analysis/analysis_module.h>
-#include <ert/analysis/analysis_table.h>
-#include <ert/analysis/enkf_linalg.h>
-#include <ert/analysis/module_info.h>
+#include <ert/analysis/analysis_module.hpp>
+#include <ert/analysis/analysis_table.hpp>
+#include <ert/analysis/enkf_linalg.hpp>
+#include <ert/analysis/module_info.hpp>
 
-#include <ert/res_util/res_util_defaults.h>
-#include <ert/res_util/subst_func.h>
-#include <ert/res_util/res_log.h>
+#include <ert/res_util/res_util_defaults.hpp>
+#include <ert/res_util/subst_func.hpp>
+#include <ert/res_util/res_log.hpp>
 
 #include <ert/enkf/enkf_types.hpp>
 #include <ert/enkf/enkf_config_node.hpp>

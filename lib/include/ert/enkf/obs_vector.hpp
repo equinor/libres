@@ -25,25 +25,25 @@ extern "C" {
 
 #include <time.h>
 
-#include <ert/util/bool_vector.h>
-#include <ert/util/int_vector.h>
+#include <ert/util/bool_vector.hpp>
+#include <ert/util/int_vector.hpp>
 
-#include <ert/sched/history.h>
+#include <ert/sched/history.hpp>
 
-#include <ert/config/conf.h>
+#include <ert/config/conf.hpp>
 
-#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_sum.hpp>
 
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_node.h>
-#include <ert/enkf/enkf_state.h>
-#include <ert/enkf/ensemble_config.h>
-#include <ert/enkf/obs_data.h>
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/active_list.h>
-#include <ert/enkf/time_map.h>
-#include <ert/enkf/local_obsdata_node.h>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_node.hpp>
+#include <ert/enkf/enkf_state.hpp>
+#include <ert/enkf/ensemble_config.hpp>
+#include <ert/enkf/obs_data.hpp>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/active_list.hpp>
+#include <ert/enkf/time_map.hpp>
+#include <ert/enkf/local_obsdata_node.hpp>
 
 
   typedef void   (obs_free_ftype)                (void *);

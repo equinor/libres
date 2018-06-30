@@ -23,9 +23,9 @@
 extern "C" {
 #endif
 
-#include <ert/util/type_macros.h>
+#include <ert/util/type_macros.hpp>
 
-#include <ert/enkf/enkf_config_node.h>
+#include <ert/enkf/enkf_config_node.hpp>
 
 typedef struct enkf_plot_genvector_struct enkf_plot_genvector_type;
 

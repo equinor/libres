@@ -22,10 +22,10 @@
 extern "C" {
 #endif
 
-#include <ert/util/type_macros.h>
-#include <ert/util/bool_vector.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/bool_vector.hpp>
 
-#include <ert/enkf/enkf_types.h>
+#include <ert/enkf/enkf_types.hpp>
 
   typedef struct state_map_struct state_map_type;
 

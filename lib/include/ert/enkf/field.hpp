@@ -21,17 +21,17 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <ert/util/type_macros.h>
+#include <ert/util/type_macros.hpp>
 
-#include <ert/ecl/fortio.h>
-#include <ert/ecl/ecl_kw.h>
-#include <ert/ecl/ecl_type.h>
+#include <ert/ecl/fortio.hpp>
+#include <ert/ecl/ecl_kw.hpp>
+#include <ert/ecl/ecl_type.hpp>
 
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/enkf_util.h>
-#include <ert/enkf/field_config.h>
-#include <ert/enkf/enkf_serialize.h>
-#include <ert/enkf/field_common.h>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/enkf_util.hpp>
+#include <ert/enkf/field_config.hpp>
+#include <ert/enkf/enkf_serialize.hpp>
+#include <ert/enkf/field_common.hpp>
 
 /* Typedef field_type moved to field_config.h */
 

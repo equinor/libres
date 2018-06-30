@@ -24,16 +24,16 @@ extern "C" {
 #endif
 #include <stdbool.h>
 
-#include <ert/sched/history.h>
+#include <ert/sched/history.hpp>
 
-#include <ert/config/conf.h>
+#include <ert/config/conf.hpp>
 
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/obs_data.h>
-#include <ert/enkf/meas_data.h>
-#include <ert/enkf/summary_config.h>
-#include <ert/enkf/summary.h>
-#include <ert/enkf/active_list.h>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/obs_data.hpp>
+#include <ert/enkf/meas_data.hpp>
+#include <ert/enkf/summary_config.hpp>
+#include <ert/enkf/summary.hpp>
+#include <ert/enkf/active_list.hpp>
 
 
 

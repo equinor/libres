@@ -24,12 +24,12 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/hash.h>
-#include <ert/util/rng.h>
+#include <ert/util/hash.hpp>
+#include <ert/util/rng.hpp>
 
-#include <ert/res_util/matrix.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/meas_data.h>
+#include <ert/res_util/matrix.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/meas_data.hpp>
 
 typedef struct obs_data_struct   obs_data_type;
 typedef struct obs_block_struct  obs_block_type;

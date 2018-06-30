@@ -24,45 +24,45 @@ extern "C" {
 
 #include <stdbool.h>
 
-#include <ert/util/util.h>
-#include <ert/util/stringlist.h>
-#include <ert/util/set.h>
-#include <ert/util/bool_vector.h>
-#include <ert/util/int_vector.h>
-#include <ert/res_util/matrix.h>
-#include <ert/res_util/ui_return.h>
-#include <ert/res_util/log.h>
-#include <ert/res_util/subst_list.h>
+#include <ert/util/util.hpp>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/set.hpp>
+#include <ert/util/bool_vector.hpp>
+#include <ert/util/int_vector.hpp>
+#include <ert/res_util/matrix.hpp>
+#include <ert/res_util/ui_return.hpp>
+#include <ert/res_util/log.hpp>
+#include <ert/res_util/subst_list.hpp>
 
-#include <ert/sched/sched_file.h>
+#include <ert/sched/sched_file.hpp>
 
-#include <ert/config/config_settings.h>
+#include <ert/config/config_settings.hpp>
 
-#include <ert/job_queue/job_queue.h>
-#include <ert/job_queue/ext_joblist.h>
-#include <ert/job_queue/forward_model.h>
+#include <ert/job_queue/job_queue.hpp>
+#include <ert/job_queue/ext_joblist.hpp>
+#include <ert/job_queue/forward_model.hpp>
 
-#include <ert/enkf/res_config.h>
-#include <ert/enkf/plot_settings.h>
-#include <ert/enkf/enkf_config_node.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/enkf_state.h>
-#include <ert/enkf/obs_data.h>
-#include <ert/enkf/enkf_fs.h>
-#include <ert/enkf/enkf_obs.h>
-#include <ert/enkf/misfit_ensemble.h>
-#include <ert/enkf/analysis_config.h>
-#include <ert/enkf/site_config.h>
-#include <ert/enkf/local_config.h>
-#include <ert/enkf/ert_template.h>
-#include <ert/enkf/enkf_plot_data.h>
-#include <ert/enkf/ranking_table.h>
-#include <ert/enkf/hook_manager.h>
-#include <ert/enkf/rng_config.h>
-#include <ert/enkf/rng_manager.h>
-#include <ert/enkf/pca_plot_data.h>
-#include <ert/enkf/field_config.h>
-#include <ert/enkf/ert_run_context.h>
+#include <ert/enkf/res_config.hpp>
+#include <ert/enkf/plot_settings.hpp>
+#include <ert/enkf/enkf_config_node.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/enkf_state.hpp>
+#include <ert/enkf/obs_data.hpp>
+#include <ert/enkf/enkf_fs.hpp>
+#include <ert/enkf/enkf_obs.hpp>
+#include <ert/enkf/misfit_ensemble.hpp>
+#include <ert/enkf/analysis_config.hpp>
+#include <ert/enkf/site_config.hpp>
+#include <ert/enkf/local_config.hpp>
+#include <ert/enkf/ert_template.hpp>
+#include <ert/enkf/enkf_plot_data.hpp>
+#include <ert/enkf/ranking_table.hpp>
+#include <ert/enkf/hook_manager.hpp>
+#include <ert/enkf/rng_config.hpp>
+#include <ert/enkf/rng_manager.hpp>
+#include <ert/enkf/pca_plot_data.hpp>
+#include <ert/enkf/field_config.hpp>
+#include <ert/enkf/ert_run_context.hpp>
 
   /*****************************************************************/
 

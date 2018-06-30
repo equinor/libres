@@ -18,15 +18,15 @@
 
 #include <math.h>
 
-#include <ert/util/util.h>
-#include <ert/res_util/matrix.h>
-#include <ert/res_util/matrix_lapack.h>
-#include <ert/res_util/matrix_blas.h>
-#include <ert/util/timer.h>
-#include <ert/util/rng.h>
+#include <ert/util/util.hpp>
+#include <ert/res_util/matrix.hpp>
+#include <ert/res_util/matrix_lapack.hpp>
+#include <ert/res_util/matrix_blas.hpp>
+#include <ert/util/timer.hpp>
+#include <ert/util/rng.hpp>
 
-#include <ert/analysis/analysis_module.h>
-#include <ert/analysis/enkf_linalg.h>
+#include <ert/analysis/analysis_module.hpp>
+#include <ert/analysis/enkf_linalg.hpp>
 
 #include <ert/enkf/meas_data.hpp>
 #include <ert/enkf/obs_data.hpp>

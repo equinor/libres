@@ -23,9 +23,9 @@
 extern "C" {
 #endif
 
-#include <ert/enkf/enkf_macros.h>
-#include <ert/enkf/enkf_types.h>
-#include <ert/enkf/surface_config.h>
+#include <ert/enkf/enkf_macros.hpp>
+#include <ert/enkf/enkf_types.hpp>
+#include <ert/enkf/surface_config.hpp>
 
   typedef struct surface_struct surface_type;
 

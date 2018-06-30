@@ -17,8 +17,8 @@
 */
 #include <stdlib.h>
 
-#include <ert/util/stringlist.h>
-#include <ert/util/double_vector.h>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/double_vector.hpp>
 
 #include <ert/enkf/value_export.hpp>
 

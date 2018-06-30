@@ -19,8 +19,8 @@
 #ifndef ERT_RNG_MANAGER_H
 #define ERT_RNG_MANAGER_H
 
-#include <ert/util/type_macros.h>
-#include <ert/util/rng.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/rng.hpp>
 
 #ifdef __cplusplus
 extern "C" {

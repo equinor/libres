@@ -26,10 +26,10 @@ extern "C" {
 
 #include <stdio.h>
 
-#include <ert/res_util/matrix.h>
-#include <ert/util/int_vector.h>
+#include <ert/res_util/matrix.hpp>
+#include <ert/util/int_vector.hpp>
 
-#include <ert/enkf/obs_data.h>
+#include <ert/enkf/obs_data.hpp>
 
 
 

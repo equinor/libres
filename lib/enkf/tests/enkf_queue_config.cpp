@@ -1,16 +1,16 @@
-#include <ert/util/util.h>
-#include <ert/util/test_util.h>
-#include <ert/util/test_work_area.h>
+#include <ert/util/util.hpp>
+#include <ert/util/test_util.hpp>
+#include <ert/util/test_work_area.hpp>
 
-#include <ert/job_queue/job_queue.h>
-#include <ert/job_queue/ext_job.h>
-#include <ert/job_queue/ext_joblist.h>
-#include <ert/job_queue/lsf_driver.h>
-#include <ert/job_queue/rsh_driver.h>
-#include <ert/job_queue/local_driver.h>
-#include <ert/job_queue/queue_driver.h>
+#include <ert/job_queue/job_queue.hpp>
+#include <ert/job_queue/ext_job.hpp>
+#include <ert/job_queue/ext_joblist.hpp>
+#include <ert/job_queue/lsf_driver.hpp>
+#include <ert/job_queue/rsh_driver.hpp>
+#include <ert/job_queue/local_driver.hpp>
+#include <ert/job_queue/queue_driver.hpp>
 
-#include <ert/config/config_parser.h>
+#include <ert/config/config_parser.hpp>
 
 #include <ert/enkf/config_keys.hpp>
 #include <ert/enkf/queue_config.hpp>
