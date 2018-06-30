@@ -9,7 +9,7 @@
 #include <ert/util/rng.hpp>
 #include <ert/util/stringlist.hpp>
 
-#include <ert/ecl/fortio.hpp>
+#include <ert/ecl/fortio.h>
 #include <ert/ecl/ecl_sum.hpp>
 #include <ert/ecl/ecl_file.hpp>
 #include <ert/ecl/ecl_util.hpp>

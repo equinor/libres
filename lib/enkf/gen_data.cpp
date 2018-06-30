@@ -27,7 +27,7 @@
 #include <ert/util/bool_vector.hpp>
 #include <ert/util/rng.hpp>
 
-#include <ert/ecl/fortio.hpp>
+#include <ert/ecl/fortio.h>
 #include <ert/ecl/ecl_sum.hpp>
 #include <ert/ecl/ecl_file.hpp>
 #include <ert/ecl/ecl_util.hpp>

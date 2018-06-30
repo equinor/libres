@@ -24,10 +24,10 @@
 #include <ert/util/buffer.hpp>
 #include <ert/util/rng.hpp>
 
-#include <ert/ecl/fortio.hpp>
+#include <ert/ecl/fortio.h>
 #include <ert/ecl/ecl_kw.hpp>
 #include <ert/ecl/ecl_file.hpp>
-#include <ert/ecl/ecl_util.hpp>
+#include <ert/ecl/ecl_util.h>
 #include <ert/ecl/ecl_endian_flip.hpp>
 #include <ert/ecl/ecl_type.hpp>
 

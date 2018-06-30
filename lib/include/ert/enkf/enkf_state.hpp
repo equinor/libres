@@ -33,7 +33,7 @@ extern "C" {
 
 #include <ert/sched/sched_file.hpp>
 
-#include <ert/ecl/fortio.hpp>
+#include <ert/ecl/fortio.h>
 #include <ert/ecl/ecl_file.hpp>
 
 #include <ert/job_queue/forward_model.hpp>

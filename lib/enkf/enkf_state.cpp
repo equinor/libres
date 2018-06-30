@@ -36,7 +36,7 @@
 #include <ert/util/rng.hpp>
 #include <ert/res_util/subst_list.hpp>
 
-#include <ert/ecl/fortio.hpp>
+#include <ert/ecl/fortio.h>
 #include <ert/ecl/ecl_kw.hpp>
 #include <ert/ecl/ecl_io_config.hpp>
 #include <ert/ecl/ecl_file.hpp>

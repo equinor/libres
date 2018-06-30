@@ -4,7 +4,7 @@
 extern "C" {
 #endif
 
-#include <ert/util/util.hpp>
+#include <ert/util/util.h>
 #include <ert/util/bool_vector.hpp>
 #include <ert/util/double_vector.hpp>
 #include <ert/util/buffer.hpp>

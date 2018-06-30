@@ -27,8 +27,6 @@
 #include <ert/util/rng.hpp>
 #include <ert/res_util/subst_list.hpp>
 
-#include <ert/ecl/fortio.hpp>
-
 #include <ert/enkf/enkf_types.hpp>
 #include <ert/enkf/enkf_util.hpp>
 #include <ert/enkf/enkf_macros.hpp>

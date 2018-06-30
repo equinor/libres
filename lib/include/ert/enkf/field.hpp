@@ -23,7 +23,7 @@ extern "C" {
 #endif
 #include <ert/util/type_macros.hpp>
 
-#include <ert/ecl/fortio.hpp>
+#include <ert/ecl/fortio.h>
 #include <ert/ecl/ecl_kw.hpp>
 #include <ert/ecl/ecl_type.hpp>
 
