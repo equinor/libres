@@ -48,7 +48,7 @@ custom_kw_type * custom_kw_alloc(const custom_kw_config_type * config) {
         }
     }
     stringlist_free(keys);
-    
+
     custom_kw->__type_id = CUSTOM_KW;
     return custom_kw;
 }

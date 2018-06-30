@@ -82,7 +82,7 @@ subst_config_type * subst_config_alloc_load(const char * user_config_file, const
     config_free(config);
     config_content_free(content);
   }
-  
+
   return subst_config;
 }
 

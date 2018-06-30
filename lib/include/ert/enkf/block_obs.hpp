@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2011  Statoil ASA, Norway. 
-    
-   The file 'block_obs.h' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2011  Statoil ASA, Norway.
+
+   The file 'block_obs.h' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 #ifndef ERT_BLOCK_OBS_H
@@ -45,22 +45,22 @@ typedef struct block_obs_struct block_obs_type;
 
 
   block_obs_type * block_obs_alloc_complete(const char   * obs_label,
-                                            block_obs_source_type source_type , 
-                                            const stringlist_type * summary_keys , 
-                                            const void * data_config , 
-                                            const ecl_grid_type * grid , 
+                                            block_obs_source_type source_type ,
+                                            const stringlist_type * summary_keys ,
+                                            const void * data_config ,
+                                            const ecl_grid_type * grid ,
                                             int            size,
                                             const int    * i,
                                             const int    * j,
                                             const int    * k,
                                             const double * obs_value,
                                             const double * obs_std);
-  
+
   block_obs_type * block_obs_alloc(const char * obs_key,
-                                   const void * data_config , 
+                                   const void * data_config ,
                                    const ecl_grid_type * grid);
 
-  
+
 void block_obs_free(
   block_obs_type * block_obs);
 

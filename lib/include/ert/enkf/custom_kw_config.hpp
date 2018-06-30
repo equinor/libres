@@ -1,6 +1,6 @@
 #ifndef ERT_CUSTOM_KW_CONFIG_H
 #define ERT_CUSTOM_KW_CONFIG_H
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C" {
 #endif
 #include <stdbool.h>
@@ -36,7 +36,7 @@ extern "C" {
     UTIL_SAFE_CAST_HEADER(custom_kw_config);
     UTIL_SAFE_CAST_HEADER_CONST(custom_kw_config);
     VOID_FREE_HEADER(custom_kw_config)
-  
+
 #ifdef __cplusplus
 }
 #endif

@@ -59,7 +59,7 @@ hook_manager_type * hook_manager_alloc_default(ert_workflow_list_type * workflow
   hook_manager->workflow_list = workflow_list;
 
   hook_manager->runpath_list = NULL;
-  
+
   hook_manager->input_context = hash_alloc();
 
   return hook_manager;

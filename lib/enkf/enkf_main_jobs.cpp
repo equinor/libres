@@ -486,7 +486,7 @@ void * enkf_main_export_runpath_file_JOB(void * self, const stringlist_type * ar
 
   int_vector_free(realizations);
   int_vector_free(iterations);
-  
+
   return NULL;
 }
 

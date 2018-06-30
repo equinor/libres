@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2013  Statoil ASA, Norway. 
-    
-   The file 'enkf_fs.c' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2013  Statoil ASA, Norway.
+
+   The file 'enkf_fs.c' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 #include <stdlib.h>
@@ -59,13 +59,13 @@ void test_mount() {
     enkf_fs_decref( fs );
   }
 
-  
+
   test_work_area_free( work_area );
 }
 
 void test_refcount() {
   test_work_area_type * work_area = test_work_area_alloc("enkf_fs/refcount");
-  
+
   enkf_fs_create_fs("mnt" , BLOCK_FS_DRIVER_ID , NULL , false);
   {
     enkf_fs_type * fs = enkf_fs_mount( "mnt" );
@@ -94,11 +94,11 @@ void createFS() {
 
 void test_fwrite_readonly( void * arg ) {
   enkf_fs_type * fs = enkf_fs_safe_cast( arg );
-  /* 
+  /*
      The arguments here are completely bogus; the important thing is
      that this fwrite call should be intercepted by a util_abort()
      call (which is again intercepted by the testing function) before
-     the argument are actually accessed. 
+     the argument are actually accessed.
   */
   enkf_fs_fwrite_node( fs , NULL , "KEY" , PARAMETER , 100 , 1 );
 }

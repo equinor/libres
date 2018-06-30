@@ -1027,4 +1027,4 @@ void enkf_state_ecl_write(const ensemble_config_type * ens_config, const model_c
 }
 
 
-#include "enkf_state_nodes.c"
+#include "enkf_state_nodes.cpp"

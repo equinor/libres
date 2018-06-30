@@ -85,7 +85,7 @@ void test_valid_path() {
   test_assert_true(conf_instance_validate(enkf_conf));
 
   conf_instance_free(enkf_conf);
-  test_work_area_free(work_area); 
+  test_work_area_free(work_area);
 }
 
 

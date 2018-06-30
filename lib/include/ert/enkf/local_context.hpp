@@ -23,7 +23,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-  
+
 #include <stdbool.h>
 
 #include <ert/geometry/geo_polygon.h>
@@ -35,16 +35,16 @@ extern "C" {
 #include <ert/ecl/ecl_grid.h>
 
 #define  GLOBAL_GRID  "GLOBAL_GRID"
-  
+
   typedef struct local_context_struct local_context_type;
 
 
   local_context_type * local_context_alloc( const ecl_grid_type * ecl_grid );
   void                 local_context_free( local_context_type * context );
-  
+
   ecl_region_type    * local_context_get_ecl_region( local_context_type * context , const char * region_name);
   void                 local_context_create_ecl_region( local_context_type * context , const char * grid_name , const char * region_name , bool preselect );
-  
+
   void                 local_context_load_file( local_context_type * context , const char * filename , const char * file_key );
   ecl_file_type      * local_context_get_file( local_context_type * context , const char * file_key );
 

@@ -144,7 +144,7 @@ void custom_kw_config_deserialize(custom_kw_config_type * config, stringlist_typ
             int is_double;
 
             int count = sscanf(items, "%s %d %d", key, &index, &is_double);
-            
+
             if (count == 3) {
               hash_insert_int(config->custom_keys, key, index);
               hash_insert_int(config->custom_key_types, key, is_double);

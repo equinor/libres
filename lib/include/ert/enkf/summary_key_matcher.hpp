@@ -1,9 +1,9 @@
 #ifndef ERT_SUMMARY_KEY_MATCHER_H
 #define ERT_SUMMARY_KEY_MATCHER_H
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C" {
-#endif 
+#endif
 
 #include <ert/util/type_macros.h>
 #include <ert/util/stringlist.h>
@@ -22,7 +22,7 @@ extern "C" {
 
   UTIL_IS_INSTANCE_HEADER( summary_key_matcher );
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
 #endif
 #endif

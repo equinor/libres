@@ -5,7 +5,7 @@
 
     * Can we determine this automagically.
     * Should the user be required to enter this information.
-    
+
 */
 
 #ifndef ERT_ENKF_DEFAULT
@@ -13,7 +13,7 @@
 #include <stdbool.h>
 
 #define DEFAULT_RUNPATH_KEY  "DEFAULT_RUNPATH"
-#define RERUN_RUNPATH_KEY    "DEFAULT_RERUN_PATH" 
+#define RERUN_RUNPATH_KEY    "DEFAULT_RERUN_PATH"
 
 
 /**
@@ -67,8 +67,8 @@
 
 #define DEFAULT_DBASE_TYPE "BLOCK_FS"
 
-/** 
-    The default number of block_fs instances allocated. 
+/**
+    The default number of block_fs instances allocated.
 */
 #define ENKF_DEFAULT_NUM_BLOCK_FS_DRIVERS 32
 
@@ -79,7 +79,7 @@
 
 
 
-/* 
+/*
    Where the history is coming from - default value for config item:
    HISTORY_SOURCE Observe that the function:
    model_config_set_history_source() does currently not handle a
@@ -94,7 +94,7 @@
 
 
 
-/* 
+/*
    Defaults for the EnKF analysis. The analysis_config object is
    instantiated with these values.
 */
@@ -105,7 +105,7 @@
 #define DEFAULT_ENKF_STD_CUTOFF            1e-6
 #define DEFAULT_MERGE_OBSERVATIONS         false
 #define DEFAULT_RERUN                      false
-#define DEFAULT_RERUN_START                0  
+#define DEFAULT_RERUN_START                0
 #define DEFAULT_UPDATE_LOG_PATH            "update_log"
 #define DEFAULT_CV_NFOLDS                  10
 #define DEFAULT_ENKF_SCALING               true
@@ -123,14 +123,14 @@
 #define DEFAULT_ANALYSIS_ITER_CASE         "ITERATED_ENSEMBLE_SMOOTHER%d"
 #define DEFAULT_ANALYSIS_ITER_RUNPATH      "Simulations/Real%d"
 #define DEFAULT_ANALYSIS_MIN_REALISATIONS  0   // 0: No lower limit
-#define DEFAULT_ANALYSIS_STOP_LONG_RUNNING false 
+#define DEFAULT_ANALYSIS_STOP_LONG_RUNNING false
 #define DEFAULT_MAX_RUNTIME                0
 #define DEFAULT_ITER_RETRY_COUNT           4
 
 
 /* Default directories. */
 #define DEFAULT_QC_PATH          "QC"
-#define DEFAULT_REPORT_PATH      "reports" 
+#define DEFAULT_REPORT_PATH      "reports"
 #define DEFAULT_RUNPATH          "simulations/realization%d"
 #define DEFAULT_ENSPATH          "storage"
 #define DEFAULT_RFTPATH          "rft"
@@ -145,11 +145,11 @@
 #define DEFAULT_IMAGE_TYPE         "png"
 #define DEFAULT_PLOT_DRIVER        "PLPLOT"
 #define DEFAULT_IMAGE_VIEWER       "/usr/bin/display"
-#define DEFAULT_PLOT_LOGY          false  
+#define DEFAULT_PLOT_LOGY          false
 
 #define DEFAULT_STORE_PC           true
 #define DEFAULT_PC_FILENAME        "PC_%04d-%04d-%s"
-#define DEFAULT_PC_PATH            "PC"  
+#define DEFAULT_PC_PATH            "PC"
 
 #define SUMMARY_KEY_JOIN_STRING ":"
 #define USER_KEY_JOIN_STRING    ":"
@@ -176,7 +176,7 @@
 #define DEFAULT_ALL_STATIC_KW "ERT_ALL"
 #define NUM_STATIC_KW          56
 
-/* 
+/*
    The whole thing is defined as one literal - just because I don't
    understand C-linkage.
 */
@@ -240,9 +240,9 @@
 
 
 
-/* 
+/*
    The string added at the beginning and end of string which should be
-   replaced with the template parser.  
+   replaced with the template parser.
 */
 
 #define DEFAULT_START_TAG "<"
@@ -283,7 +283,7 @@
 #define DEFAULT_CASE_PATH                        "%s/files"              // mountpoint
 #define DEFAULT_CASE_MEMBER_PATH                 "%s/mem%03d/files"      // mountpoint/member
 #define DEFAULT_CASE_TSTEP_PATH                  "%s/%04d/files"         // mountpoint/tstep
-#define DEFAULT_CASE_TSTEP_MEMBER_PATH           "%s/%04d/mem%03d/files" // mountpoint/tstep/member   
+#define DEFAULT_CASE_TSTEP_MEMBER_PATH           "%s/%04d/mem%03d/files" // mountpoint/tstep/member
 // mountpoint = ENSPATH/case
 
 

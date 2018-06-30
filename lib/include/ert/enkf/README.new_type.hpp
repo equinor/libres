@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2011  Statoil ASA, Norway. 
-    
-   The file 'README.new_type.h' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2011  Statoil ASA, Norway.
+
+   The file 'README.new_type.h' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 /**
@@ -32,7 +32,7 @@ When implementing a new type, the header file should contain a typedef like this
 This typedef means two things:
 
   1. The entity "new_type" is to be interpreted as a "struc
-     new_type_struct".  
+     new_type_struct".
 
   2. We are informing the compiler that a declaration of the struct
      new_type_struct will come at a later stage. However for the rest
@@ -48,21 +48,21 @@ in a C++ class.
  | new.h
  | -----
  | typedef struct new_struct new_type;
- | 
+ |
  | new_type * new_type_alloc(int , const char *);
  | double   * new_get_data_ref(const new_type *);
  | void       new_type_free(new_type *);
- | 
- | 
+ |
+ |
  | new.c
  | -----
  | #include <util.h>
  | #include <new.h>
- | 
+ |
  | struct new_struct {
  |    double *data;
  | }
- | 
+ |
  | new_type * new_type_alloc(int size) {
  |    new_type * new = util_malloc(sizeof * new_type , __func__);
       new->date = util_malloc(size * sizeof new->data);
@@ -72,18 +72,18 @@ in a C++ class.
  | double * new_get_data_ref(const new_type * new) {
  |    return new->data;
  | }
- | 
- | 
+ |
+ |
  | void new_type_free(new_type * new) {
  |    free(new->data);
  |    free(new);
  | }
- | 
- | 
+ |
+ |
  | other.c
  | -------
  | #include <new.h>
- | 
+ |
  | void some_func() {
  |    new_type * new = new_type_alloc(100 , "Programmer ...");
  |    ....
@@ -113,11 +113,11 @@ What happen in this little example is the following things:
     the type new_type, and the three functions listed in the
     header. However we can *NOT* get to the fields in the struct of
     type new_type_struct, i.e. code like:
-  
+
         ....
         new->data[17] = 178.9;
         ....
-  
+
     in "other.c" will *NOT* compile. It will fail with the message
     "dereferencing pointer to imcomplete type."
 

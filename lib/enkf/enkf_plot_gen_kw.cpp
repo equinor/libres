@@ -104,7 +104,7 @@ static void enkf_plot_gen_kw_resize( enkf_plot_gen_kw_type * plot_gen_kw , int n
 
 void enkf_plot_gen_kw_load( enkf_plot_gen_kw_type  * plot_gen_kw,
                             enkf_fs_type           * fs,
-                            bool                     transform_data , 
+                            bool                     transform_data ,
                             int                      report_step,
                             const bool_vector_type * input_mask ) {
 

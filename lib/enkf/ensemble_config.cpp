@@ -218,7 +218,7 @@ enkf_var_type ensemble_config_var_type(const ensemble_config_type *ensemble_conf
 
 bool ensemble_config_has_key(const ensemble_config_type * ensemble_config , const char * key) {
   return hash_has_key( ensemble_config->config_nodes , key);
-} 
+}
 
 
 
@@ -341,10 +341,10 @@ void ensemble_config_add_config_items(config_parser_type * config) {
 
   item = config_add_schema_item(config , CONTAINER_KEY , false  );   /* can have several summary keys on each line. */
   config_schema_item_set_argc_minmax(item , 2 , CONFIG_DEFAULT_ARG_MAX);
-  
+
   item = config_add_schema_item( config , SURFACE_KEY , false  );
   config_schema_item_set_argc_minmax(item , 4 , 5 );
-  
+
   /*
      the way config info is entered for fields is unfortunate because
      it is difficult/impossible to let the config system handle run

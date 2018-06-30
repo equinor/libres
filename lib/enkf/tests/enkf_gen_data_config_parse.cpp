@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2013  Statoil ASA, Norway. 
-    
-   The file 'enkf_gen_data_config_parse.c' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2013  Statoil ASA, Norway.
+
+   The file 'enkf_gen_data_config_parse.c' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 
@@ -114,7 +114,7 @@ void test_parse_gen_param() {
       test_assert_int_equal( BINARY_DOUBLE , gen_data_config_get_input_format( gen_data_config ));
       test_assert_int_equal( ASCII         , gen_data_config_get_output_format( gen_data_config ));
     }
-    
+
     enkf_config_node_free( config_node );
   }
 
@@ -211,11 +211,11 @@ void test_parse_gen_data_result() {
       gen_data_config_type * gen_data_config = (gen_data_config_type *)enkf_config_node_get_ref( config_node );
       test_assert_int_equal( ASCII              , gen_data_config_get_input_format( gen_data_config ));
       test_assert_int_equal( GEN_DATA_UNDEFINED , gen_data_config_get_output_format( gen_data_config ));
-      
+
       test_assert_int_equal( 3 , gen_data_config_num_report_step( gen_data_config ));
       test_assert_int_equal( 10 , gen_data_config_iget_report_step( gen_data_config , 0 ));
       test_assert_int_equal( 30 , gen_data_config_iget_report_step( gen_data_config , 2 ));
-      
+
 
       test_assert_true( gen_data_config_has_report_step( gen_data_config , 10 ));
       test_assert_true( gen_data_config_has_report_step( gen_data_config , 20 ));
@@ -229,16 +229,16 @@ void test_parse_gen_data_result() {
     }
     test_assert_true( enkf_config_node_internalize( config_node , 10 ));
     test_assert_true( enkf_config_node_internalize( config_node , 20 ));
-    test_assert_true( enkf_config_node_internalize( config_node , 30 ));    
+    test_assert_true( enkf_config_node_internalize( config_node , 30 ));
 
     test_assert_false( enkf_config_node_internalize( config_node , 05 ));
     test_assert_false( enkf_config_node_internalize( config_node , 15 ));
     test_assert_false( enkf_config_node_internalize( config_node , 25 ));
-    test_assert_false( enkf_config_node_internalize( config_node , 35 ));    
+    test_assert_false( enkf_config_node_internalize( config_node , 35 ));
 
     enkf_config_node_free( config_node );
   }
-    
+
   test_work_area_free( work_area );
 }
 

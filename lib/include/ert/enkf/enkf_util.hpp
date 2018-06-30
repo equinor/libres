@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2011  Statoil ASA, Norway. 
-    
-   The file 'enkf_util.h' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2011  Statoil ASA, Norway.
+
+   The file 'enkf_util.h' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 #ifndef ERT_ENKF_UTIL_H
@@ -37,7 +37,7 @@ extern "C" {
 
 /**
    These math functions assume that the underlying data implementation
-   is double or float - will NOT work for fields. 
+   is double or float - will NOT work for fields.
 */
 
 
@@ -209,7 +209,7 @@ ADD_FUNC    (prefix) \
 ADDSQR_FUNC (prefix) \
 SUB_FUNC    (prefix) \
 MUL_FUNC    (prefix) \
-MUL_ADD_FUNC(prefix) 
+MUL_ADD_FUNC(prefix)
 
 #define MATH_OPS_SCALAR(prefix) \
 SQR_FUNC_SCALAR    (prefix) \
@@ -219,7 +219,7 @@ ADD_FUNC_SCALAR    (prefix) \
 ADDSQR_FUNC_SCALAR (prefix) \
 SUB_FUNC_SCALAR    (prefix) \
 MUL_FUNC_SCALAR    (prefix) \
-MUL_ADD_FUNC_SCALAR(prefix) 
+MUL_ADD_FUNC_SCALAR(prefix)
 
 
 
@@ -258,7 +258,7 @@ void prefix ## _ensemble_mulX_vector(prefix ## _type *new , int ens_size , const
 #define ENSEMBLE_MULX_VECTOR_VOID(prefix) \
 void prefix ## _ensemble_mulX_vector__(void *new , int ens_size , const void ** prefix ## _ensemble , const double *X_vector) { \
    prefix ## _ensemble_mulX_vector((prefix ## _type *) new , ens_size , (const prefix ## _type **) prefix ## _ensemble , X_vector); \
-} 
+}
 
 #define ENSEMBLE_MULX_VECTOR_VOID_HEADER(prefix) void prefix ## _ensemble_mulX_vector__(void * , int  , const void ** , const  double *);
 

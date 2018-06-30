@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2011  Statoil ASA, Norway. 
-    
-   The file 'README.new_type.c' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2011  Statoil ASA, Norway.
+
+   The file 'README.new_type.c' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 /**
@@ -26,14 +26,14 @@ The enkf object system is based on the enkf_node_type as a sort of
 abstract class, this object has a void pointer which will point to the
 actual data instance (i.e. for instance an instance of the type
 "new_type" implemented here), along with several function pointers to
-manipulate the data object. 
+manipulate the data object.
 
    _______________________________________                 _______________________________
   | enkf_node_type instance               |               |                               |
   | ------------------------------------- |               | Actual data , e.g. a field or |
   | * void * data                         |-------------->| a multiplier.                 |
   | * Function pointers to manipulate     |               |_______________________________|
-  |   data                                |    
+  |   data                                |
   | * Something more - not relevant here  |
   |_______________________________________|
 
@@ -60,10 +60,10 @@ the configuration information in two different files (objects):
      |              /         |          \            |
      |             /          |           |           |
      |            |           |           |           |
-    _|__        __|_         _|__        _|__        _|__  
-   |    |      |    |       |    |      |    |      |    | 
-   | 01 |      | 02 |       | 03 |      | 04 |      | 05 | 
-   |____|      |____|       |____|      |____|      |____| 
+    _|__        __|_         _|__        _|__        _|__
+   |    |      |    |       |    |      |    |      |    |
+   | 01 |      | 02 |       | 03 |      | 04 |      | 05 |
+   |____|      |____|       |____|      |____|      |____|
 
 
 The figure shows an ensemble of 5 members (of some type); they all
@@ -89,7 +89,7 @@ object, is discussed in README.new_type_config.c.
     --------------------------------------------------------------------------
     This function takes a const pointer to a new_type instance, along
     with a filename. The function should write eclipse data to the
-    filename specified in the second argument. 
+    filename specified in the second argument.
 
 
 
@@ -133,23 +133,23 @@ object, is discussed in README.new_type_config.c.
 
     --------------
     | enkf_state |
-    ==============         ---------------- 
-    | PRESSURE   |-------->| Pressure data|     
-    |------------|         ---------------- 
+    ==============         ----------------
+    | PRESSURE   |-------->| Pressure data|
+    |------------|         ----------------
     | New_type   |---|
     --------------   |         -----------------
     | multz      |   |-------->| new_type data |
-    --------------             -----------------  
-       |  
-       |       -------------- 
+    --------------             -----------------
+       |
+       |       --------------
        |------>| multz data |
-               --------------  
+               --------------
 
     The key point of this figure is that the various data we want to
     update with enkf are at random locations in memory. To be able to
     do the
                A' = AX
- 
+
     matrix multiplication we must assemble this data in a long
     vector. That is what is meant by serializing. The serialize
     routine is so complicated for (at least) two reasons:
@@ -186,9 +186,9 @@ object, is discussed in README.new_type_config.c.
     is to reallocate memory to hold the actual data.
 
 
-12. ensemble_fprintf_results_ftype * fprintf_results 
+12. ensemble_fprintf_results_ftype * fprintf_results
     --------------------------------------------------------------
-    This function is used to print the reuslts in a formatted nice way. Only 
+    This function is used to print the reuslts in a formatted nice way. Only
     applicable for variables with small amounts of data, like gen_kw.
 
 13. ecl_load_ftype: void (new_type * , const char * run_path , const char * eclbase, const ecl_sum_type , int report_step)
@@ -281,19 +281,19 @@ OK - here comes the implementation:
   directory.
 */
 #define  TARGET_TYPE NEW_TYPE   /* The variable type in this file - according to the ert_impl_type classification */
-#define  DEBUG                  /* We want debugging */  
+#define  DEBUG                  /* We want debugging */
 #include "enkf_debug.h"
 
 
 
-/* 
-   Here comes the new_type_struct defintion: 
+/*
+   Here comes the new_type_struct defintion:
 */
 
 struct new_type_struct {
   DEBUG_DECLARE
   const new_type_config_type *config;
-  
+
   1: scalar_type    *scalar;
   2: double         *data;
 };
@@ -318,16 +318,16 @@ struct new_type_struct {
      other way. There are no formal rules to this, but if you stick to
      the suggested "double *data;" convention suggested above, you
      will get several macros for algebraic manipulation (adding,
-     scaling, squaring +++) of new_type instances for free. 
+     scaling, squaring +++) of new_type instances for free.
 
      Hence - it is *strongly* recommended to use either:
 
        scalar_type * scalar;
-  
+
        or
- 
+
        double * data;
-      
+
      to hold the actual data.
 */
 

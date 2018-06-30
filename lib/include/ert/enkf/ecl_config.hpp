@@ -102,7 +102,7 @@ extern "C" {
   const char          * ecl_config_get_depth_unit( const ecl_config_type * ecl_config );
   const char          * ecl_config_get_pressure_unit( const ecl_config_type * ecl_config );
   bool                  ecl_config_have_eclbase(const ecl_config_type * ecl_config);
-  
+
 #ifdef __cplusplus
 }
 #endif

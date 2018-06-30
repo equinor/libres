@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2011  Statoil ASA, Norway. 
-    
-   The file 'plain_driver_obs.c' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2011  Statoil ASA, Norway.
+
+   The file 'plain_driver_obs.c' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 #include <stdlib.h>
@@ -41,9 +41,9 @@ struct plain_driver_obs_struct {
 static plain_driver_obs_type * plain_driver_obs_safe_cast(void * _driver) {
   plain_driver_obs_type * driver = (plain_driver_obs_type *) _driver;
 
-  if (driver->__id != PLAIN_DRIVER_OBS_ID) 
+  if (driver->__id != PLAIN_DRIVER_OBS_ID)
     util_abort("%s: internal error - cast failed - aborting \n",__func__);
-  
+
   return driver;
 }
 
@@ -150,11 +150,11 @@ void * plain_driver_obs_alloc(const char * root_path , const char * obs_path ) {
   {
     char *path;
 
-    if (root_path != NULL) 
+    if (root_path != NULL)
       path = util_alloc_full_path(root_path , obs_path);
     else
       path = util_alloc_string_copy(obs_path);
-    
+
     driver->path = path_fmt_alloc_directory_fmt( path );
     free(path);
   }

@@ -1,23 +1,23 @@
 /*
-   Copyright (C) 2011  Statoil ASA, Norway. 
-    
-   The file 'fs_driver.h' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2011  Statoil ASA, Norway.
+
+   The file 'fs_driver.h' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 #ifndef ERT_FS_DRIVER_H
-#define ERT_FS_DRIVER_H 
+#define ERT_FS_DRIVER_H
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -31,18 +31,18 @@ extern "C" {
 #define FSTAB_FILE              "ert_fstab"
 #define CURRENT_FS_VERSION       107
 #define MIN_SUPPORTED_FS_VERSION 105
-  
+
 /**
    Version history:
 
-   0  : 
+   0  :
 
-   
+
    File system version            | First svn version     |  Last svn version
    --------------------------------------------------------------------------
    100                            |                       |  1799
    101                            |   1810                |  1886
-   102                            |   1887/1902           |  1996 
+   102                            |   1887/1902           |  1996
    103                            |   1997                |
                                   |   2047: sqlite added  |  2125
    104                            |   2127                |
@@ -59,7 +59,7 @@ extern "C" {
    First version with subdirectories for different cases.
 
 
-   
+
    Version: 101
    ------------
    Have changed the format for storing static keywords. Instead of a
@@ -73,8 +73,8 @@ extern "C" {
 
 
 
-   Version: 102 
-   ------------ 
+   Version: 102
+   ------------
    Have removed the type spesific plain drivers, now it is only
    plain_driver and plain_driver index. The special functionality for
    parameters/static/dynamic is now implemented at the enkf_fs level.
@@ -88,7 +88,7 @@ extern "C" {
    ------------
    Have changed the reading/writing to go through the buffer
    type. This should simplify introducing other drivers than the
-   simple plain file based driver.  
+   simple plain file based driver.
 
    The upgrade to version is 103 is quite extensive - all node types
    have specific _103_ functions. The xxx_fread() and xxx_fwrite()
@@ -103,9 +103,9 @@ extern "C" {
    (const char * ) for the main key.
 
 
-   
-   Version: 104 
-   ------------ 
+
+   Version: 104
+   ------------
    In this version the treatment of read_xx and write_xx drivers has
    changed. There are no longer separate read_xx and write_xx drivers,
    instead the drivers have internal state which differentiates
@@ -159,20 +159,20 @@ extern "C" {
 
 
   typedef struct fs_driver_struct         fs_driver_type;
-  
+
   typedef void (save_kwlist_ftype)  (void * , int , int , buffer_type * buffer);  /* Functions used to load/store restart_kw_list instances. */
-  typedef void (load_kwlist_ftype)  (void * , int , int , buffer_type * buffer);          
-  
+  typedef void (load_kwlist_ftype)  (void * , int , int , buffer_type * buffer);
+
   typedef void (load_node_ftype)    (void * driver, const char * , int , int , buffer_type * );
   typedef void (save_node_ftype)    (void * driver, const char * , int , int , buffer_type * );
   typedef void (unlink_node_ftype)  (void * driver, const char * , int , int );
   typedef bool (has_node_ftype)     (void * driver, const char * , int , int );
-  
+
   typedef void (load_vector_ftype)    (void * driver, const char * , int , buffer_type * );
   typedef void (save_vector_ftype)    (void * driver, const char * , int , buffer_type * );
   typedef void (unlink_vector_ftype)  (void * driver, const char * , int );
   typedef bool (has_vector_ftype)     (void * driver, const char * , int );
-  
+
   typedef void (fsync_driver_ftype) (void * driver);
   typedef void (free_driver_ftype)  (void * driver);
 
@@ -180,7 +180,7 @@ extern "C" {
 /**
    The fs_driver_type contains a number of function pointers
    and a type_id used for run-time cast checking.
-   
+
    The fs_driver_type is never actually used, but the point is that
    all drivers must implement the fs driver "interface". In practice
    this is done by including the macro FS_DRIVER_FIELDS *at the start*
@@ -196,7 +196,7 @@ extern "C" {
 
 */
 
-   
+
 
 #define FS_DRIVER_FIELDS                   \
 load_node_ftype           * load_node;     \
@@ -225,11 +225,11 @@ struct fs_driver_struct {
   void                       fs_driver_init(fs_driver_type * );
   void                       fs_driver_assert_cast(const fs_driver_type * );
   fs_driver_type           * fs_driver_safe_cast(void * );
-  
+
   void                       fs_driver_init_fstab( FILE * stream, fs_driver_impl driver_id );
   char                     * fs_driver_alloc_fstab_file( const char * path );
   FILE                     * fs_driver_open_fstab( const char * path , bool create);
-  fs_driver_impl             fs_driver_fread_type( FILE * stream ); 
+  fs_driver_impl             fs_driver_fread_type( FILE * stream );
   void                       fs_driver_assert_magic( FILE * stream );
   void                       fs_driver_assert_version( FILE * stream , const char * mount_point);
   int                        fs_driver_fread_version( FILE * stream );

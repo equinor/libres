@@ -66,7 +66,7 @@ void test_data_root( ) {
 
 void test_export_file( ) {
   model_config_type * model_config = model_config_alloc_empty();
-  
+
   model_config_free( model_config );
 }
 

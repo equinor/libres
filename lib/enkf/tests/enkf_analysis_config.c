@@ -69,7 +69,7 @@ void test_min_realizations(const char * num_realizations_str, const char * min_r
 
       analysis_config_type * ac = create_analysis_config( );
       analysis_config_init(ac, content);
-      
+
       int num_realizations = config_content_get_value_as_int(content, NUM_REALIZATIONS_KEY);
       test_assert_false(analysis_config_have_enough_realisations(ac, min_realizations_expected_needed - 1, num_realizations ));
       test_assert_true(analysis_config_have_enough_realisations(ac, min_realizations_expected_needed, num_realizations ));
@@ -87,7 +87,7 @@ void test_min_realizations(const char * num_realizations_str, const char * min_r
 void test_have_enough_realisations_defaulted( ) {
   analysis_config_type * ac = create_analysis_config( );
   int ensemble_size = 20;
-  
+
   // min_realizations not set, should then require 20 (ensemble_size)
   test_assert_false( analysis_config_have_enough_realisations( ac , 0, ensemble_size ));
   test_assert_false( analysis_config_have_enough_realisations( ac , 10, ensemble_size ));

@@ -43,7 +43,7 @@ typedef struct site_config_struct site_config_type;
   const char *             site_config_get_location();
 
   const char *             site_config_get_config_file(const site_config_type*);
-  
+
   const char *             site_config_get_manual_url( const site_config_type * site_config );
   void                     site_config_set_manual_url( site_config_type * site_config , const char * manual_url );
   const char *             site_config_get_default_browser( const site_config_type * site_config );

@@ -449,7 +449,7 @@ void model_config_init(model_config_type * model_config ,
 
   if (config_content_has_item(config, NUM_REALIZATIONS_KEY))
     model_config->num_realizations = config_content_get_value_as_int(config, NUM_REALIZATIONS_KEY);
-  
+
   for (int i = 0; i < config_content_get_size(config); i++) {
     const config_content_node_type * node = config_content_iget_node( config , i);
     if (util_string_equal(config_content_node_get_kw(node), SIMULATION_JOB_KEY))

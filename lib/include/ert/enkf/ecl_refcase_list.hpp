@@ -25,15 +25,15 @@ extern "C" {
 #endif
 
 #include <ert/ecl/ecl_sum.h>
-  
-  
+
+
   typedef struct ecl_refcase_list_struct ecl_refcase_list_type;
 
   ecl_refcase_list_type * ecl_refcase_list_alloc( );
   void                    ecl_refcase_list_free( ecl_refcase_list_type * refcase_list );
 
   bool                    ecl_refcase_list_has_default( ecl_refcase_list_type * refcase_list );
-  const ecl_sum_type    * ecl_refcase_list_get_default( ecl_refcase_list_type * refcase_list ); 
+  const ecl_sum_type    * ecl_refcase_list_get_default( ecl_refcase_list_type * refcase_list );
   bool                    ecl_refcase_list_set_default( ecl_refcase_list_type * refcase_list , const char * default_case);
   int                     ecl_refcase_list_get_size(ecl_refcase_list_type * refcase_list );
   int                     ecl_refcase_list_add_matching( ecl_refcase_list_type * refcase_list , const char * glob_string);

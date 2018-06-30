@@ -1,7 +1,7 @@
 #ifndef ERT_CUSTOM_KW_CONFIG_SET_H
 #define ERT_CUSTOM_KW_CONFIG_SET_H
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -24,7 +24,7 @@ extern "C" {
 
   UTIL_IS_INSTANCE_HEADER(custom_kw_config_set);
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
 #endif
 #endif

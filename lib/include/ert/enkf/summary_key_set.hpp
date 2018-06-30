@@ -1,9 +1,9 @@
 #ifndef ERT_SUMMARY_KEY_SET_H
 #define ERT_SUMMARY_KEY_SET_H
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C" {
-#endif 
+#endif
 
 #include <ert/util/type_macros.h>
 
@@ -28,7 +28,7 @@ extern "C" {
   UTIL_IS_INSTANCE_HEADER( summary_key_set );
 
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
 #endif
 #endif
