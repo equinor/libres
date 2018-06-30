@@ -81,7 +81,7 @@ void test_create_data() {
   enkf_node_type * node = enkf_node_alloc( config_node );
   test_assert_true( enkf_node_is_instance( node ));
 
-  ext_param_type * ext_param = enkf_node_value_ptr( node );
+  ext_param_type * ext_param = (ext_param_type *) enkf_node_value_ptr( node );
   test_assert_false( ext_param_iset( ext_param , -1 , 100 ));
   test_assert_false( ext_param_iset( ext_param ,  3 , 100 ));
 
@@ -136,7 +136,7 @@ void test_fs() {
   test_work_area_type * work_area = test_work_area_alloc( "test_json");
   enkf_config_node_type * config_node = create_config_node( );
   enkf_node_type * node = enkf_node_alloc( config_node );
-  ext_param_type * ext_param = enkf_node_value_ptr( node );
+  ext_param_type * ext_param = (ext_param_type *) enkf_node_value_ptr( node );
   int data_size = enkf_config_node_get_data_size( config_node, 0);
 
   for (int i=0; i < data_size; i++)

@@ -113,7 +113,7 @@ void initialise_shared()
     int flags = MAP_SHARED | MAP_ANON;
 #endif
 
-    data = mmap(NULL, sizeof(shared_data), prot, flags, -1, 0);
+    data = (shared_data *) mmap(NULL, sizeof(shared_data), prot, flags, -1, 0);
     assert(data);
 
     // initialise mutex so it works properly in shared memory

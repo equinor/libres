@@ -26,17 +26,17 @@
 
 void test_create() {
   test_work_area_type * work_area = test_work_area_alloc("value_export");
-  value_export_type * export = value_export_alloc( NULL, "parameters");
-  test_assert_int_equal( 0 , value_export_size( export ));
-  test_assert_true( value_export_is_instance( export ));
+  value_export_type * export_value = value_export_alloc( NULL, "parameters");
+  test_assert_int_equal( 0 , value_export_size( export_value ));
+  test_assert_true( value_export_is_instance( export_value ));
 
-  value_export_txt( export );
+  value_export_txt( export_value );
   test_assert_false( util_file_exists( "parameters.txt" ));
 
-  value_export_json( export );
+  value_export_json( export_value );
   test_assert_false( util_file_exists( "parameters.json" ));
 
-  value_export_free( export );
+  value_export_free( export_value );
   test_work_area_free( work_area );
 }
 
@@ -44,48 +44,48 @@ void test_create() {
 
 void test_export_json() {
 test_work_area_type * work_area = test_work_area_alloc("value_export");
-  value_export_type * export = value_export_alloc( "path", "parameters");
+  value_export_type * export_value = value_export_alloc( "path", "parameters");
   util_make_path( "path" );
 
-  value_export_append(export, "KEY100", 100);
-  value_export_append(export, "KEY200", 200);
-  test_assert_int_equal( 2 , value_export_size( export ));
-  value_export_json( export );
+  value_export_append(export_value, "KEY100", 100);
+  value_export_append(export_value, "KEY200", 200);
+  test_assert_int_equal( 2 , value_export_size( export_value ));
+  value_export_json( export_value );
   test_assert_true( util_file_exists( "path/parameters.json" ));
-  value_export_free( export );
+  value_export_free( export_value );
   test_work_area_free( work_area );
 }
 
 
 void test_export_txt__() {
   test_work_area_type * work_area = test_work_area_alloc("value_export");
-  value_export_type * export = value_export_alloc( NULL, "parameters");
-  value_export_append(export, "KEY100", 100);
-  value_export_append(export, "KEY200", 200);
-  test_assert_int_equal( 2 , value_export_size( export ));
+  value_export_type * export_value = value_export_alloc( NULL, "parameters");
+  value_export_append(export_value, "KEY100", 100);
+  value_export_append(export_value, "KEY200", 200);
+  test_assert_int_equal( 2 , value_export_size( export_value ));
 
-  value_export_txt( export );
-  value_export_txt__( export , "parameters__.txt");
+  value_export_txt( export_value );
+  value_export_txt__( export_value , "parameters__.txt");
   test_assert_true( util_file_exists( "path/parameters__.txt" ));
   test_assert_true( util_files_equal( "path/parameters__.txt", "path/parameters.txt"));
-  value_export_free( export );
+  value_export_free( export_value );
   test_work_area_free( work_area );
 }
 
 
 void test_export_txt() {
   test_work_area_type * work_area = test_work_area_alloc("value_export");
-  value_export_type * export = value_export_alloc( "path", "parameters");
+  value_export_type * export_value = value_export_alloc( "path", "parameters");
   util_make_path( "path" );
 
-  value_export_append(export, "KEY100", 100);
-  value_export_append(export, "KEY200", 200);
-  test_assert_int_equal( 2 , value_export_size( export ));
+  value_export_append(export_value, "KEY100", 100);
+  value_export_append(export_value, "KEY200", 200);
+  test_assert_int_equal( 2 , value_export_size( export_value ));
 
-  value_export_txt( export );
+  value_export_txt( export_value );
   test_assert_true( util_file_exists( "path/parameters.txt" ));
 
-  value_export_txt__( export , "path/parameters__.txt");
+  value_export_txt__( export_value , "path/parameters__.txt");
   test_assert_true( util_file_exists( "path/parameters__.txt" ));
   test_assert_true( util_files_equal( "path/parameters__.txt", "path/parameters.txt"));
   {
@@ -103,7 +103,7 @@ void test_export_txt() {
     test_assert_double_equal( v2, 200 );
   }
 
-  value_export_free( export );
+  value_export_free( export_value );
   test_work_area_free( work_area );
 }
 

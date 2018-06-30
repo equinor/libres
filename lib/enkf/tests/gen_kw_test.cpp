@@ -25,7 +25,6 @@
 #include <ert/util/util.hpp>
 #include <ert/util/vector.hpp>
 
-#include <ert/ecl/fortio.hpp>
 #include <ert/util/type_macros.hpp>
 #include <ert/ecl/ecl_endian_flip.hpp>
 
@@ -66,7 +65,7 @@ void test_write_gen_kw_export_file(enkf_main_type * enkf_main)
 static void read_erroneous_gen_kw_file( void * arg) {
   vector_type * arg_vector = vector_safe_cast( arg );
   gen_kw_config_type * gen_kw_config = (gen_kw_config_type *)vector_iget( arg_vector, 0 );
-  const char * filename = (const char *)vector_iget( arg, 1 );
+  const char * filename = (const char *) vector_iget_const( arg_vector, 1 );
   gen_kw_config_set_parameter_file(gen_kw_config, filename);
 }
 
@@ -78,12 +77,12 @@ void test_read_erroneous_gen_kw_file() {
   {
     FILE * stream = util_fopen(parameter_filename, "w");
     const char * data = util_alloc_sprintf("MULTFLT1 NORMAL 0\nMULTFLT2 RAW\nMULTFLT3 NORMAL 0");
-    util_fprintf_string(data, 30, true, stream);
+    util_fprintf_string(data, 30, right_pad , stream);
     fclose(stream);
 
     FILE * tmpl_stream = util_fopen(tmpl_filename, "w");
     const char * tmpl_data = util_alloc_sprintf("<MULTFLT1> <MULTFLT2> <MULTFLT3>\n");
-    util_fprintf_string(tmpl_data, 30, true, tmpl_stream);
+    util_fprintf_string(tmpl_data, 30, right_pad, tmpl_stream);
     fclose(tmpl_stream);
   }
 

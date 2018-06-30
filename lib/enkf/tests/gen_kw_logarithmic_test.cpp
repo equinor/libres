@@ -25,7 +25,6 @@
 #include <ert/util/util.hpp>
 #include <ert/util/stringlist.hpp>
 
-#include <ert/ecl/fortio.hpp>
 #include <ert/util/type_macros.hpp>
 #include <ert/ecl/ecl_endian_flip.hpp>
 
@@ -61,8 +60,8 @@ void test_write_gen_kw_export_file(enkf_main_type * enkf_main) {
   test_assert_true(enkf_node_get_impl_type(enkf_node2) == GEN_KW);
 
   {
-    gen_kw_type * gen_kw  = enkf_node_value_ptr(enkf_node);
-    gen_kw_type * gen_kw2 = enkf_node_value_ptr(enkf_node2);
+    gen_kw_type * gen_kw  = (gen_kw_type *) enkf_node_value_ptr(enkf_node);
+    gen_kw_type * gen_kw2 = (gen_kw_type *) enkf_node_value_ptr(enkf_node2);
 
 
     {

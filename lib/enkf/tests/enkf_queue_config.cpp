@@ -68,7 +68,7 @@ void test_parse() {
    {
      queue_driver_type * lsf_driver = queue_config_get_queue_driver(queue_config, LSF_DRIVER_NAME);
      test_assert_true(queue_driver_is_instance(lsf_driver));
-     test_assert_string_equal(queue_driver_get_option(lsf_driver, LSF_BJOBS_CMD) , "the_path");
+     test_assert_string_equal((const char *) queue_driver_get_option(lsf_driver, LSF_BJOBS_CMD) , "the_path");
    }
 
    test_assert_true(queue_config_has_job_script(queue_config));

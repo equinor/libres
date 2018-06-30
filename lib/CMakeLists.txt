@@ -588,7 +588,7 @@ foreach (test   enkf_active_list
                 rng_config
                 trans_func
     )
-    add_executable(${test} enkf/tests/${test}.c)
+    add_executable(${test} enkf/tests/${test}.cpp)
     target_link_libraries(${test} res)
     add_test(NAME ${test} COMMAND ${test})
 endforeach ()
@@ -621,7 +621,7 @@ foreach(test enkf_magic_string_in_workflows
              gen_kw_test
              enkf_runpath_list)
 
-    add_executable(${test} enkf/tests/${test}.c)
+    add_executable(${test} enkf/tests/${test}.cpp)
     target_link_libraries(${test} res)
 endforeach()
 
