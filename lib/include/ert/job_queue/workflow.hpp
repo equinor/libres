@@ -24,12 +24,12 @@
 extern "C" {
 #endif
 
-#include <ert/res_util/subst_list.h>
+#include <ert/res_util/subst_list.hpp>
 
-#include <ert/config/config_error.h>
+#include <ert/config/config_error.hpp>
 
-#include <ert/job_queue/workflow_job.h>
-#include <ert/job_queue/workflow_joblist.h>
+#include <ert/job_queue/workflow_job.hpp>
+#include <ert/job_queue/workflow_joblist.hpp>
 
   typedef struct workflow_struct workflow_type;
 

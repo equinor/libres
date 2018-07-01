@@ -19,7 +19,7 @@
 #ifndef ERT_REGRESSION_H
 #define ERT_REGRESSION_H
 
-#include <ert/res_util/matrix.h>
+#include <ert/res_util/matrix.hpp>
 
 #ifdef __cplusplus
 extern "C" {

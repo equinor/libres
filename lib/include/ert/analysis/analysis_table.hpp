@@ -6,11 +6,11 @@ extern "C" {
 #endif
 
 
-#include <ert/res_util/matrix.h>
-#include <ert/util/rng.h>
-#include <ert/util/bool_vector.h>
+#include <ert/res_util/matrix.hpp>
+#include <ert/util/rng.hpp>
+#include <ert/util/bool_vector.hpp>
 
-#include <ert/analysis/module_info.h>
+#include <ert/analysis/module_info.hpp>
 
 
   typedef void (analysis_updateA_ftype) (void * module_data ,

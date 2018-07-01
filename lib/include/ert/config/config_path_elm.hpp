@@ -23,7 +23,7 @@
 extern "C" {
 #endif
 
-#include <ert/config/config_root_path.h>
+#include <ert/config/config_root_path.hpp>
 
 typedef struct config_path_elm_struct config_path_elm_type;
 

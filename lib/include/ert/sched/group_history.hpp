@@ -22,9 +22,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <ert/util/time_t_vector.h>
-#include <ert/util/stringlist.h>
-#include <ert/util/util.h>
+#include <ert/util/time_t_vector.hpp>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/util.hpp>
 
 typedef struct group_history_struct group_history_type;
 

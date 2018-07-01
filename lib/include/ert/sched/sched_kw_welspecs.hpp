@@ -24,9 +24,9 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/stringlist.h>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/sched/sched_macros.h>
+#include <ert/sched/sched_macros.hpp>
 
 
 

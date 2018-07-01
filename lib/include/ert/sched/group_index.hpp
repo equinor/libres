@@ -22,9 +22,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <ert/util/type_macros.h>
+#include <ert/util/type_macros.hpp>
 
-#include <ert/sched/sched_types.h>
+#include <ert/sched/sched_types.hpp>
 
 typedef struct group_index_struct group_index_type;
 

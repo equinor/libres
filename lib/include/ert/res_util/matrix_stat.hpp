@@ -20,7 +20,7 @@
 #ifndef ERT_MATRIX_STAT_H
 #define ERT_MATRIX_STAT_H
 
-#include <ert/res_util/matrix.h>
+#include <ert/res_util/matrix.hpp>
 
 #ifdef __cplusplus
 extern "C" {

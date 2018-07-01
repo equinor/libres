@@ -18,8 +18,8 @@
 #ifndef ERT_MODULE_INFO_H
 #define ERT_MODULE_INFO_H
 
-#include <ert/analysis/module_data_block_vector.h>
-#include <ert/analysis/module_obs_block_vector.h>
+#include <ert/analysis/module_data_block_vector.hpp>
+#include <ert/analysis/module_obs_block_vector.hpp>
 
 #ifdef __cplusplus
 extern "C" {

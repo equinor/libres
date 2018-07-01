@@ -19,7 +19,7 @@
 #ifndef ERT_CONFIG_PATH_STACK_H
 #define ERT_CONFIG_PATH_STACK_H
 
-#include <ert/config/config_path_elm.h>
+#include <ert/config/config_path_elm.hpp>
 
 #ifdef __cplusplus
 extern "C" {

@@ -26,7 +26,7 @@
 extern "C" {
 #endif
 
-#include <ert/job_queue/workflow_job.h>
+#include <ert/job_queue/workflow_job.hpp>
 
 typedef struct workflow_joblist_struct workflow_joblist_type;
 

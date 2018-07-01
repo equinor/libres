@@ -22,7 +22,7 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
-#include <ert/util/node_ctype.h>
+#include <ert/util/node_ctype.hpp>
 
 #ifdef __cplusplus
 extern "C" {

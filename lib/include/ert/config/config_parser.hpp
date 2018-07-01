@@ -27,14 +27,14 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/stringlist.h>
-#include <ert/util/hash.h>
-#include <ert/res_util/subst_list.h>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/hash.hpp>
+#include <ert/res_util/subst_list.hpp>
 
-#include <ert/config/config_schema_item.h>
-#include <ert/config/config_content_item.h>
-#include <ert/config/config_content_node.h>
-#include <ert/config/config_content.h>
+#include <ert/config/config_schema_item.hpp>
+#include <ert/config/config_content_item.hpp>
+#include <ert/config/config_content_node.hpp>
+#include <ert/config/config_content.hpp>
 
 #define ECL_COM_KW "--"
 #define ENKF_COM_KW "--"

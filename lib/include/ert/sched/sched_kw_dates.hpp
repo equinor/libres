@@ -25,9 +25,9 @@ extern "C" {
 #include <stdbool.h>
 #include <time.h>
 
-#include <ert/util/stringlist.h>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/sched/sched_macros.h>
+#include <ert/sched/sched_macros.hpp>
 
 
 typedef struct sched_kw_dates_struct sched_kw_dates_type;

@@ -26,7 +26,7 @@ extern "C" {
 #include <stdlib.h>
 #include <stdio.h>
 
-#include <ert/rms/rms_tag.h>
+#include <ert/rms/rms_tag.hpp>
 
 typedef struct rms_file_struct   rms_file_type;
 

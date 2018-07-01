@@ -24,8 +24,8 @@ extern "C" {
 #endif
 #include <time.h>
 
-#include <ert/util/type_macros.h>
-#include <ert/job_queue/queue_driver.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/job_queue/queue_driver.hpp>
 
   typedef struct job_queue_status_struct job_queue_status_type;
 

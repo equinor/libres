@@ -23,9 +23,9 @@ extern "C" {
 #endif
 #include <time.h>
 
-#include <ert/util/hash.h>
+#include <ert/util/hash.hpp>
 
-#include <ert/sched/sched_macros.h>
+#include <ert/sched/sched_macros.hpp>
 
 typedef struct sched_kw_tstep_struct sched_kw_tstep_type;
 

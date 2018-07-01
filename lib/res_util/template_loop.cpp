@@ -16,7 +16,7 @@
    for more details.
 */
 
-#include <ert/util/ert_api_config.h>
+#include <ert/util/ert_api_config.hpp>
 
 #include <ctype.h>
 #include <sys/types.h>

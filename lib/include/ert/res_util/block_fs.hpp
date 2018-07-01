@@ -18,9 +18,9 @@
 
 #ifndef ERT_BLOCK_FS
 #define ERT_BLOCK_FS
-#include <ert/util/buffer.h>
-#include <ert/util/vector.h>
-#include <ert/util/type_macros.h>
+#include <ert/util/buffer.hpp>
+#include <ert/util/vector.hpp>
+#include <ert/util/type_macros.hpp>
 
 #ifdef __cplusplus
 extern "C" {

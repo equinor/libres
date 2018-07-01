@@ -25,9 +25,9 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/hash.h>
+#include <ert/util/hash.hpp>
 
-#include <ert/rms/rms_tagkey.h>
+#include <ert/rms/rms_tagkey.hpp>
 
 
 

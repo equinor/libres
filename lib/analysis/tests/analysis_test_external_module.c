@@ -1,28 +1,28 @@
 /*
-   Copyright (C) 2013  Statoil ASA, Norway. 
-    
-   The file 'analysis_test_external_module.c' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2013  Statoil ASA, Norway.
+
+   The file 'analysis_test_external_module.c' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 #include <stdlib.h>
 
-#include <ert/util/util.h>
-#include <ert/util/test_util.h>
-#include <ert/util/rng.h>
+#include <ert/util/util.hpp>
+#include <ert/util/test_util.hpp>
+#include <ert/util/rng.hpp>
 
-#include <ert/analysis/analysis_module.h>
+#include <ert/analysis/analysis_module.hpp>
 
 
 
@@ -37,7 +37,7 @@ void test_set_get(analysis_module_type * module , const char * var_value) {
       double double_value;
       bool bool_value;
       test_assert_true(analysis_module_has_var( module , var ));
-      
+
       if (util_sscanf_int( string_value , &int_value)) {
         test_assert_true(analysis_module_set_var( module , var , string_value ));
         test_assert_int_equal( int_value , analysis_module_get_int( module , var ));
@@ -56,7 +56,7 @@ void test_set_get(analysis_module_type * module , const char * var_value) {
         break;
       }
 
-      
+
       test_assert_true(analysis_module_set_var( module , var , string_value ));
       test_assert_string_equal( string_value , (const char *) analysis_module_get_ptr( module , var ));
       break;
@@ -80,11 +80,11 @@ void load_module( rng_type * rng , const char * user_name , const char * lib_nam
 
   test_assert_true( analysis_module_is_instance( analysis_module));
   {
-    for (int i=0; i < nvar; i++) 
+    for (int i=0; i < nvar; i++)
       test_set_get( analysis_module , var_list[i] );
   }
   test_assert_false( analysis_module_has_var(analysis_module , "DoesNotHaveThisVariable"));
-  
+
   test_assert_true( analysis_module_check_option( analysis_module , flags));
   flags += 1;
   test_assert_false( analysis_module_check_option( analysis_module , flags));

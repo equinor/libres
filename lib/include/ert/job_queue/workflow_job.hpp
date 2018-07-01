@@ -23,7 +23,7 @@
 extern "C" {
 #endif
 
-#include <ert/config/config_parser.h>
+#include <ert/config/config_parser.hpp>
 
 
   typedef void * (workflow_job_ftype) (void * self , const stringlist_type * arg );

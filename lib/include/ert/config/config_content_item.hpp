@@ -24,14 +24,14 @@
 extern "C" {
 #endif
 
-#include <ert/util/hash.h>
-#include <ert/util/stringlist.h>
-#include <ert/util/type_macros.h>
+#include <ert/util/hash.hpp>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/type_macros.hpp>
 
-#include <ert/config/config_error.h>
-#include <ert/config/config_schema_item.h>
-#include <ert/config/config_path_elm.h>
-#include <ert/config/config_content_node.h>
+#include <ert/config/config_error.hpp>
+#include <ert/config/config_schema_item.hpp>
+#include <ert/config/config_path_elm.hpp>
+#include <ert/config/config_content_node.hpp>
 
 typedef struct config_content_item_struct config_content_item_type;
 

@@ -25,10 +25,10 @@ extern "C" {
 #include <stdio.h>
 #include <time.h>
 
-#include <ert/util/time_t_vector.h>
+#include <ert/util/time_t_vector.hpp>
 
-#include <ert/sched/sched_kw.h>
-#include <ert/sched/sched_types.h>
+#include <ert/sched/sched_kw.hpp>
+#include <ert/sched/sched_types.hpp>
 
 typedef struct sched_file_struct  sched_file_type;
 typedef struct sched_block_struct sched_block_type;

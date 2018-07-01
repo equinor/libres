@@ -23,10 +23,10 @@ extern "C" {
 #endif
 #include <stdio.h>
 
-#include <ert/util/set.h>
-#include <ert/util/stringlist.h>
+#include <ert/util/set.hpp>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/sched/sched_macros.h>
+#include <ert/sched/sched_macros.hpp>
 
 typedef struct sched_kw_compdat_struct sched_kw_compdat_type;
 

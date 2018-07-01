@@ -22,7 +22,7 @@
 extern "C" {
 #endif
 
-#include <ert/util/hash.h>
+#include <ert/util/hash.hpp>
 /*
                                                                    +---------------------------------+
                                                                    |                                 |

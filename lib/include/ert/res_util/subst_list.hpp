@@ -25,10 +25,10 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/type_macros.h>
-#include <ert/util/buffer.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/buffer.hpp>
 
-#include <ert/res_util/subst_func.h>
+#include <ert/res_util/subst_func.hpp>
 
   typedef struct          subst_list_struct subst_list_type;
   bool                    subst_list_update_buffer( const subst_list_type * subst_list , buffer_type * buffer );

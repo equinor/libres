@@ -24,10 +24,10 @@
 extern "C" {
 #endif
 
-#include <ert/util/stringlist.h>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/config/config_error.h>
-#include <ert/config/config_path_elm.h>
+#include <ert/config/config_error.hpp>
+#include <ert/config/config_path_elm.hpp>
 
 /**
     Types used for validation of config items.

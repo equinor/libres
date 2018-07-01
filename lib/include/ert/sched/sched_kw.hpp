@@ -25,9 +25,9 @@ extern "C" {
 #include <stdbool.h>
 #include <time.h>
 
-#include <ert/util/hash.h>
+#include <ert/util/hash.hpp>
 
-#include <ert/sched/sched_types.h>
+#include <ert/sched/sched_types.hpp>
 
 typedef struct sched_kw_struct sched_kw_type;
 

@@ -16,11 +16,11 @@
    for more details.
 */
 
-#include <ert/util/rng.h>
-#include <ert/res_util/matrix.h>
+#include <ert/util/rng.hpp>
+#include <ert/res_util/matrix.hpp>
 
-#include <ert/analysis/module_data_block_vector.h>
-#include <ert/analysis/module_info.h>
+#include <ert/analysis/module_data_block_vector.hpp>
+#include <ert/analysis/module_info.hpp>
 
 typedef struct fwd_step_enkf_data_struct fwd_step_enkf_data_type;
 

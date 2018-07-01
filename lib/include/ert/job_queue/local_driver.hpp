@@ -22,7 +22,7 @@
 extern "C" {
 #endif
 
-#include <ert/job_queue/queue_driver.h>
+#include <ert/job_queue/queue_driver.hpp>
 
   typedef struct local_driver_struct local_driver_type;
 

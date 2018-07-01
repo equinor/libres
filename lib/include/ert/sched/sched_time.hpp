@@ -21,7 +21,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <ert/sched/sched_types.h>
+#include <ert/sched/sched_types.hpp>
 
 typedef struct sched_time_struct sched_time_type;
 

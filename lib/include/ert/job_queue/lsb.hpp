@@ -29,7 +29,7 @@ extern "C" {
 
 #include <lsf/lsbatch.h>
 
-#include <ert/util/stringlist.h>
+#include <ert/util/stringlist.hpp>
 
   typedef struct lsb_struct lsb_type;
 

@@ -22,7 +22,7 @@
 extern "C" {
 #endif
 
-#include <ert/rms/rms_tagkey.h>
+#include <ert/rms/rms_tagkey.hpp>
 
 void rms_stats_mean_std(rms_tagkey_type * , rms_tagkey_type * , const char * , int , const char ** , bool);
 void rms_stats_update_ens(const char * , const char *, const char **, const char *, int , const double **);

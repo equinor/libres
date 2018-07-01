@@ -24,11 +24,11 @@ extern "C" {
 #endif
 #include <stdbool.h>
 
-#include <ert/util/stringlist.h>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/config/config_parser.h>
-#include <ert/config/config_content.h>
-#include <ert/config/config_schema_item.h>
+#include <ert/config/config_parser.hpp>
+#include <ert/config/config_content.hpp>
+#include <ert/config/config_schema_item.hpp>
 
 typedef struct config_settings_struct config_settings_type;
 

@@ -24,9 +24,9 @@
 extern "C" {
 #endif
 
-#include <ert/util/type_macros.h>
-#include <ert/job_queue/queue_driver.h>
-#include <ert/job_queue/job_queue_status.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/job_queue/queue_driver.hpp>
+#include <ert/job_queue/job_queue_status.hpp>
 
 /**
    This struct holds the job_queue information about one job. Observe

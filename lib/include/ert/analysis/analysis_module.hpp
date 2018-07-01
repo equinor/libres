@@ -22,11 +22,11 @@
 extern "C" {
 #endif
 
-#include <ert/util/type_macros.h>
-#include <ert/res_util/matrix.h>
-#include <ert/util/bool_vector.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/res_util/matrix.hpp>
+#include <ert/util/bool_vector.hpp>
 
-#include <ert/analysis/module_info.h>
+#include <ert/analysis/module_info.hpp>
 
 /*
    These are option flag values which are used by the core ert code to

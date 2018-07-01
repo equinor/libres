@@ -26,10 +26,10 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/hash.h>
-#include <ert/util/stringlist.h>
+#include <ert/util/hash.hpp>
+#include <ert/util/stringlist.hpp>
 
-#include <ert/sched/sched_macros.h>
+#include <ert/sched/sched_macros.hpp>
 
 
 typedef struct sched_kw_wconinj_struct sched_kw_wconinj_type;

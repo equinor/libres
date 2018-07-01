@@ -22,12 +22,12 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <ert/util/size_t_vector.h>
+#include <ert/util/size_t_vector.hpp>
 
-#include <ert/sched/sched_kw.h>
-#include <ert/sched/sched_kw_wconhist.h>
-#include <ert/sched/well_index.h>
-#include <ert/sched/group_history.h>
+#include <ert/sched/sched_kw.hpp>
+#include <ert/sched/sched_kw_wconhist.hpp>
+#include <ert/sched/well_index.hpp>
+#include <ert/sched/group_history.hpp>
 
 typedef struct well_history_struct  well_history_type;
 

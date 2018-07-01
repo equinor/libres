@@ -7,8 +7,8 @@ extern "C" {
 
 #include <stdbool.h>
 
-#include <ert/res_util/matrix.h>
-#include <ert/util/rng.h>
+#include <ert/res_util/matrix.hpp>
+#include <ert/util/rng.hpp>
 
 #define  DEFAULT_ENKF_TRUNCATION_  0.98
 #define  ENKF_TRUNCATION_KEY_      "ENKF_TRUNCATION"

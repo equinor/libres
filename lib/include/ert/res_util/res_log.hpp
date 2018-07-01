@@ -26,7 +26,7 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/res_util/log.h>
+#include <ert/res_util/log.hpp>
 
 bool res_log_init_log(message_level_type log_level,const char * log_file_name, bool verbose);
 bool res_log_init_log_default_log_level(const char * log_file_name, bool verbose);

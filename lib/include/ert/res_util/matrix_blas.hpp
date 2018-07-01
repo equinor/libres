@@ -20,7 +20,7 @@
 #define ERT_MATRIX_BLAS
 #include <stdbool.h>
 
-#include <ert/res_util/matrix.h>
+#include <ert/res_util/matrix.hpp>
 
 
 #ifdef __cplusplus

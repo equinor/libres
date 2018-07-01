@@ -25,10 +25,10 @@ extern "C" {
 #include <stdbool.h>
 #include <time.h>
 
-#include <ert/res_util/path_fmt.h>
+#include <ert/res_util/path_fmt.hpp>
 
-#include <ert/job_queue/queue_driver.h>
-#include <ert/job_queue/job_node.h>
+#include <ert/job_queue/queue_driver.hpp>
+#include <ert/job_queue/job_node.hpp>
 
 
   typedef struct job_queue_struct      job_queue_type;

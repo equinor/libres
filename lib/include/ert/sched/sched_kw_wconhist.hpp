@@ -25,13 +25,13 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/type_macros.h>
-#include <ert/util/hash.h>
-#include <ert/util/stringlist.h>
-#include <ert/util/time_t_vector.h>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/hash.hpp>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/time_t_vector.hpp>
 
-#include <ert/sched/sched_types.h>
-#include <ert/sched/sched_macros.h>
+#include <ert/sched/sched_types.hpp>
+#include <ert/sched/sched_macros.hpp>
 
 typedef  struct  sched_kw_wconhist_struct sched_kw_wconhist_type;
 typedef  struct  wconhist_state_struct    wconhist_state_type;

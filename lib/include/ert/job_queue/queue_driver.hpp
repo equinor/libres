@@ -22,8 +22,8 @@
 extern "C" {
 #endif
 
-#include <ert/util/hash.h>
-#include <ert/job_queue/job_status.h>
+#include <ert/util/hash.hpp>
+#include <ert/job_queue/job_status.hpp>
 
   typedef enum {
     NULL_DRIVER = 0,

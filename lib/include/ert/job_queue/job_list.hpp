@@ -24,10 +24,10 @@
 extern "C" {
 #endif
 
-#include <ert/util/type_macros.h>
+#include <ert/util/type_macros.hpp>
 
-#include <ert/job_queue/queue_driver.h>
-#include <ert/job_queue/job_node.h>
+#include <ert/job_queue/queue_driver.hpp>
+#include <ert/job_queue/job_node.hpp>
 
 
 typedef struct job_list_struct job_list_type;

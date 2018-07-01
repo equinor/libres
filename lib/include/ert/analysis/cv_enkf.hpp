@@ -16,9 +16,9 @@
    for more details.
 */
 
-#include <ert/util/rng.h>
-#include <ert/res_util/matrix.h>
-#include <ert/util/bool_vector.h>
+#include <ert/util/rng.hpp>
+#include <ert/res_util/matrix.hpp>
+#include <ert/util/bool_vector.hpp>
 
 #ifdef __cplusplus
 extern "C" {

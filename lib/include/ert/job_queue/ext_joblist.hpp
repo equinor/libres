@@ -23,11 +23,11 @@ extern "C" {
 #endif
 #include <stdbool.h>
 
-#include <ert/util/hash.h>
-#include <ert/util/stringlist.h>
-#include <ert/res_util/subst_list.h>
+#include <ert/util/hash.hpp>
+#include <ert/util/stringlist.hpp>
+#include <ert/res_util/subst_list.hpp>
 
-#include <ert/job_queue/ext_job.h>
+#include <ert/job_queue/ext_job.hpp>
 
 
 typedef struct ext_joblist_struct ext_joblist_type;

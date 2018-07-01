@@ -22,13 +22,13 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/ert_api_config.h>
-#include <ert/util/rng.h>
-#include <ert/util/type_macros.h>
-#include <ert/util/bool_vector.h>
+#include <ert/util/ert_api_config.hpp>
+#include <ert/util/rng.hpp>
+#include <ert/util/type_macros.hpp>
+#include <ert/util/bool_vector.hpp>
 
 #ifdef HAVE_THREAD_POOL
-#include <ert/res_util/thread_pool.h>
+#include <ert/res_util/thread_pool.hpp>
 #endif
 
 #ifdef _MSC_VER

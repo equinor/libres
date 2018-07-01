@@ -25,12 +25,12 @@ extern "C" {
 #endif
 #include <stdbool.h>
 
-#include <ert/util/stringlist.h>
-#include <ert/util/buffer.h>
-#include <ert/util/time_t_vector.h>
+#include <ert/util/stringlist.hpp>
+#include <ert/util/buffer.hpp>
+#include <ert/util/time_t_vector.hpp>
 
-#include <ert/sched/sched_macros.h>
-#include <ert/sched/sched_types.h>
+#include <ert/sched/sched_macros.hpp>
+#include <ert/sched/sched_types.hpp>
 
 
 typedef struct sched_kw_wconinje_struct sched_kw_wconinje_type;

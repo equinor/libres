@@ -26,13 +26,13 @@ extern "C" {
 #include <stdio.h>
 #include <time.h>
 
-#include <ert/util/bool_vector.h>
-#include <ert/util/double_vector.h>
-#include <ert/util/type_macros.h>
+#include <ert/util/bool_vector.hpp>
+#include <ert/util/double_vector.hpp>
+#include <ert/util/type_macros.hpp>
 
 #include <ert/ecl/ecl_sum.h>
 
-#include <ert/sched/sched_file.h>
+#include <ert/sched/sched_file.hpp>
 
 
 typedef enum {

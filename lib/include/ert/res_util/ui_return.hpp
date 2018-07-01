@@ -21,7 +21,7 @@
 
 #include <stdbool.h>
 
-#include <ert/util/type_macros.h>
+#include <ert/util/type_macros.hpp>
 
 #ifdef __cplusplus
 extern "C" {

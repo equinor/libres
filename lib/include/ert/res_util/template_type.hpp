@@ -1,9 +1,9 @@
 #ifndef ERT_TEMPLATE_TYPE_H
 #define ERT_TEMPLATE_TYPE_H
 
-#include <ert/util/ert_api_config.h>
+#include <ert/util/ert_api_config.hpp>
 
-#include <ert/res_util/subst_list.h>
+#include <ert/res_util/subst_list.hpp>
 
 #ifdef ERT_HAVE_REGEXP
 #include <regex.h>
