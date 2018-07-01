@@ -23,7 +23,7 @@
 extern "C" {
 #endif
 
-#include <ert/geometry/geo_surface.hpp>
+#include <ert/geometry/geo_surface.h>
 
 #include <ert/enkf/enkf_macros.hpp>
 

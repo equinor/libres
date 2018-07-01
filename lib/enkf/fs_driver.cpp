@@ -16,7 +16,7 @@
    for more details.
 */
 
-#include <ert/util/util.hpp>
+#include <ert/util/util.h>
 
 #include <ert/enkf/fs_types.hpp>
 #include <ert/enkf/fs_driver.hpp>

@@ -23,8 +23,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include <ert/util/test_work_area.hpp>
-#include <ert/util/test_util.hpp>
+#include <ert/util/test_work_area.h>
+#include <ert/util/test_util.h>
 
 #include <ert/config/config_parser.hpp>
 #include <ert/config/config_content.hpp>

@@ -19,8 +19,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <ert/util/util.hpp>
-#include <ert/util/type_macros.hpp>
+#include <ert/util/util.h>
+#include <ert/util/type_macros.h>
 #include <ert/res_util/subst_list.hpp>
 
 #include <ert/config/config_parser.hpp>

@@ -25,12 +25,12 @@ extern "C" {
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <ert/util/rng.hpp>
-#include <ert/util/double_vector.hpp>
-#include <ert/util/int_vector.hpp>
+#include <ert/util/rng.h>
+#include <ert/util/double_vector.h>
+#include <ert/util/int_vector.h>
 
-#include <ert/ecl/ecl_file.hpp>
-#include <ert/ecl/ecl_sum.hpp>
+#include <ert/ecl/ecl_file.h>
+#include <ert/ecl/ecl_sum.h>
 
 #include <ert/res_util/matrix.hpp>
 

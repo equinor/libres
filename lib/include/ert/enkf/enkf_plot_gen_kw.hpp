@@ -24,9 +24,9 @@
 extern "C" {
 #endif
 
-#include <ert/util/bool_vector.hpp>
-#include <ert/util/stringlist.hpp>
-#include <ert/util/type_macros.hpp>
+#include <ert/util/bool_vector.h>
+#include <ert/util/stringlist.h>
+#include <ert/util/type_macros.h>
 
 #include <ert/enkf/enkf_config_node.hpp>
 #include <ert/enkf/enkf_plot_gen_kw_vector.hpp>

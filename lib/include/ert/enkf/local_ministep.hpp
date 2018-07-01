@@ -23,8 +23,8 @@
 extern "C" {
 #endif
 
-#include <ert/util/hash.hpp>
-#include <ert/util/stringlist.hpp>
+#include <ert/util/hash.h>
+#include <ert/util/stringlist.h>
 
 #include <ert/analysis/analysis_module.hpp>
 

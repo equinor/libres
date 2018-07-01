@@ -4,15 +4,15 @@
 #include <stdbool.h>
 #include <math.h>
 
-#include <ert/util/util.hpp>
-#include <ert/util/bool_vector.hpp>
-#include <ert/util/rng.hpp>
-#include <ert/util/stringlist.hpp>
+#include <ert/util/util.h>
+#include <ert/util/bool_vector.h>
+#include <ert/util/rng.h>
+#include <ert/util/stringlist.h>
 
 #include <ert/ecl/fortio.h>
-#include <ert/ecl/ecl_sum.hpp>
-#include <ert/ecl/ecl_file.hpp>
-#include <ert/ecl/ecl_util.hpp>
+#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_file.h>
+#include <ert/ecl/ecl_util.h>
 
 #include <ert/res_util/matrix.hpp>
 #include <ert/enkf/enkf_serialize.hpp>

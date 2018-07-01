@@ -27,8 +27,8 @@
 #include <ert/enkf/obs_data.hpp>
 #include <ert/enkf/obs_vector.hpp>
 
-#include <ert/util/test_util.hpp>
-#include <ert/util/type_vector_functions.hpp>
+#include <ert/util/test_util.h>
+#include <ert/util/type_vector_functions.h>
 
 
 void test_valid_obs_vector( enkf_main_type * enkf_main , const char * obs_key) {

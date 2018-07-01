@@ -22,7 +22,7 @@
 extern "C" {
 #endif
 
-#include <ert/util/type_macros.hpp>
+#include <ert/util/type_macros.h>
 
   typedef struct value_export_struct value_export_type;
 

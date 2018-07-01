@@ -18,9 +18,9 @@
 
 #include <stdlib.h>
 
-#include <ert/util/mzran.hpp>
-#include <ert/util/util.hpp>
-#include <ert/util/test_util.hpp>
+#include <ert/util/mzran.h>
+#include <ert/util/util.h>
+#include <ert/util/test_util.h>
 
 #include <ert/config/config_parser.hpp>
 #include <ert/config/config_schema_item.hpp>

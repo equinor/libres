@@ -28,9 +28,9 @@ extern "C" {
 #include <ert/config/config_parser.hpp>
 #include <ert/config/config_content.hpp>
 
-#include <ert/ecl/ecl_grid.hpp>
-#include <ert/ecl/ecl_sum.hpp>
-#include <ert/ecl/ecl_io_config.hpp>
+#include <ert/ecl/ecl_grid.h>
+#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_io_config.h>
 
 #include <ert/sched/sched_file.hpp>
 

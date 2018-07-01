@@ -20,11 +20,11 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include <ert/util/test_util.hpp>
+#include <ert/util/test_util.h>
 #include <ert/enkf/ert_test_context.hpp>
 
-#include <ert/util/util.hpp>
-#include <ert/util/string_util.hpp>
+#include <ert/util/util.h>
+#include <ert/util/string_util.h>
 
 #include <ert/enkf/enkf_main.hpp>
 #include <ert/enkf/enkf_main_jobs.hpp>

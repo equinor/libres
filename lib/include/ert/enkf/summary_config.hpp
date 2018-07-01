@@ -26,10 +26,10 @@ extern "C" {
 #include <stdbool.h>
 #include <stdlib.h>
 
-#include <ert/util/type_macros.hpp>
+#include <ert/util/type_macros.h>
 
-#include <ert/ecl/ecl_sum.hpp>
-#include <ert/ecl/ecl_smspec.hpp>
+#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_smspec.h>
 
 #include <ert/enkf/enkf_macros.hpp>
 

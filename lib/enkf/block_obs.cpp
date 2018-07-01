@@ -23,13 +23,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <ert/util/util.hpp>
-#include <ert/util/stringlist.hpp>
-#include <ert/util/vector.hpp>
+#include <ert/util/util.h>
+#include <ert/util/stringlist.h>
+#include <ert/util/vector.h>
 
-#include <ert/ecl/ecl_sum.hpp>
-#include <ert/ecl/ecl_grid.hpp>
-#include <ert/ecl/smspec_node.hpp>
+#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_grid.h>
+#include <ert/ecl/smspec_node.h>
 
 #include <ert/enkf/enkf_util.hpp>
 #include <ert/enkf/field.hpp>

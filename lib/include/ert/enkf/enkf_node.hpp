@@ -21,16 +21,16 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include <ert/util/arg_pack.hpp>
-#include <ert/util/buffer.hpp>
-#include <ert/util/rng.hpp>
-#include <ert/util/hash.hpp>
-#include <ert/util/int_vector.hpp>
-#include <ert/util/type_macros.hpp>
+#include <ert/util/arg_pack.h>
+#include <ert/util/buffer.h>
+#include <ert/util/rng.h>
+#include <ert/util/hash.h>
+#include <ert/util/int_vector.h>
+#include <ert/util/type_macros.h>
 
-#include <ert/ecl/ecl_kw.hpp>
-#include <ert/ecl/ecl_file.hpp>
-#include <ert/ecl/ecl_sum.hpp>
+#include <ert/ecl/ecl_kw.h>
+#include <ert/ecl/ecl_file.h>
+#include <ert/ecl/ecl_sum.h>
 #include <ert/ecl/fortio.h>
 
 #include <ert/res_util/matrix.hpp>

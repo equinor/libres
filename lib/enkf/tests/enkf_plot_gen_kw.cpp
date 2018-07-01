@@ -17,7 +17,7 @@
 */
 #include <stdlib.h>
 
-#include <ert/util/test_util.hpp>
+#include <ert/util/test_util.h>
 
 #include <ert/enkf/enkf_defaults.hpp>
 #include <ert/enkf/enkf_config_node.hpp>

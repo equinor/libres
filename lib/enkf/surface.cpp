@@ -20,9 +20,9 @@
 #include <math.h>
 #include <string.h>
 
-#include <ert/util/util.hpp>
+#include <ert/util/util.h>
 
-#include <ert/geometry/geo_surface.hpp>
+#include <ert/geometry/geo_surface.h>
 
 #include <ert/enkf/enkf_macros.hpp>
 #include <ert/enkf/enkf_util.hpp>

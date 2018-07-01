@@ -18,7 +18,7 @@
 
 #include <ert/config/config_content.hpp>
 
-#include <ert/util/rng.hpp>
+#include <ert/util/rng.h>
 #include <ert/res_util/subst_func.hpp>
 #include <ert/res_util/subst_list.hpp>
 

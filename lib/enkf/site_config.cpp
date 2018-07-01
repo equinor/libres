@@ -22,9 +22,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include <ert/util/util.hpp>
-#include <ert/util/stringlist.hpp>
-#include <ert/util/vector.hpp>
+#include <ert/util/util.h>
+#include <ert/util/stringlist.h>
+#include <ert/util/vector.h>
 
 #include <ert/job_queue/job_queue.hpp>
 #include <ert/job_queue/ext_job.hpp>

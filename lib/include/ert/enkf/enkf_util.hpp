@@ -25,11 +25,11 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/buffer.hpp>
-#include <ert/util/rng.hpp>
+#include <ert/util/buffer.h>
+#include <ert/util/rng.h>
 
-#include <ert/ecl/ecl_util.hpp>
-#include <ert/ecl/ecl_type.hpp>
+#include <ert/ecl/ecl_util.h>
+#include <ert/ecl/ecl_type.h>
 
 #include <ert/enkf/enkf_types.hpp>
 

@@ -18,9 +18,9 @@
 
 #include <unistd.h>
 
-#include <ert/util/stringlist.hpp>
-#include <ert/util/string_util.hpp>
-#include <ert/util/int_vector.hpp>
+#include <ert/util/stringlist.h>
+#include <ert/util/string_util.h>
+#include <ert/util/int_vector.h>
 
 #include <ert/res_util/res_log.hpp>
 #include <ert/enkf/enkf_main.hpp>

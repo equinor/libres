@@ -20,11 +20,11 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include <ert/util/util.hpp>
-#include <ert/util/set.hpp>
+#include <ert/util/util.h>
+#include <ert/util/set.h>
 
-#include <ert/ecl/ecl_sum.hpp>
-#include <ert/ecl/ecl_smspec.hpp>
+#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_smspec.h>
 
 #include <ert/enkf/enkf_types.hpp>
 #include <ert/enkf/enkf_util.hpp>

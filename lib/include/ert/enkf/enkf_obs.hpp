@@ -23,16 +23,16 @@ extern "C" {
 #endif
 #include <time.h>
 
-#include <ert/util/hash.hpp>
-#include <ert/util/stringlist.hpp>
-#include <ert/util/int_vector.hpp>
-#include <ert/util/type_macros.hpp>
+#include <ert/util/hash.h>
+#include <ert/util/stringlist.h>
+#include <ert/util/int_vector.h>
+#include <ert/util/type_macros.h>
 
 #include <ert/config/conf.hpp>
 
 #include <ert/sched/history.hpp>
 
-#include <ert/ecl/ecl_sum.hpp>
+#include <ert/ecl/ecl_sum.h>
 
 #include <ert/enkf/enkf_fs.hpp>
 #include <ert/enkf/enkf_state.hpp>

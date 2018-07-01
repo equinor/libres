@@ -24,8 +24,8 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/hash.hpp>
-#include <ert/util/rng.hpp>
+#include <ert/util/hash.h>
+#include <ert/util/rng.h>
 
 #include <ert/res_util/matrix.hpp>
 #include <ert/enkf/enkf_types.hpp>

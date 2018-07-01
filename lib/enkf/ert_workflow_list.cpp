@@ -23,12 +23,12 @@
 #include <sys/types.h>
 #include <dirent.h>
 
-#include <ert/util/hash.hpp>
-#include <ert/util/set.hpp>
-#include <ert/util/ecl_version.hpp>
-#include <ert/util/stringlist.hpp>
-#include <ert/util/util.hpp>
-#include <ert/util/type_macros.hpp>
+#include <ert/util/hash.h>
+#include <ert/util/set.h>
+#include <ert/util/ecl_version.h>
+#include <ert/util/stringlist.h>
+#include <ert/util/util.h>
+#include <ert/util/type_macros.h>
 #include <ert/res_util/subst_list.hpp>
 
 #include <ert/config/config_parser.hpp>

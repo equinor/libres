@@ -66,10 +66,10 @@ Matrices: S, D, E and various internal variables.
 #include <stdio.h>
 #include <pthread.h>
 
-#include <ert/util/util.hpp>
-#include <ert/util/vector.hpp>
+#include <ert/util/util.h>
+#include <ert/util/vector.h>
 #include <ert/res_util/matrix.hpp>
-#include <ert/util/rng.hpp>
+#include <ert/util/rng.h>
 
 #include <ert/enkf/obs_data.hpp>
 #include <ert/enkf/meas_data.hpp>

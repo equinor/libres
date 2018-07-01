@@ -18,7 +18,7 @@
 
 #include <stdlib.h>
 
-#include <ert/util/util.hpp>
+#include <ert/util/util.h>
 
 #include <ert/config/config_settings.hpp>
 #include <ert/config/config_parser.hpp>

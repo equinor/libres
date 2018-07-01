@@ -21,11 +21,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <ert/util/type_macros.hpp>
+#include <ert/util/type_macros.h>
 
 #include <ert/ecl/fortio.h>
-#include <ert/ecl/ecl_kw.hpp>
-#include <ert/ecl/ecl_type.hpp>
+#include <ert/ecl/ecl_kw.h>
+#include <ert/ecl/ecl_type.h>
 
 #include <ert/enkf/enkf_macros.hpp>
 #include <ert/enkf/enkf_util.hpp>

@@ -22,7 +22,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-#include <ert/util/type_macros.hpp>
+#include <ert/util/type_macros.h>
 
 
   typedef struct container_struct container_type;

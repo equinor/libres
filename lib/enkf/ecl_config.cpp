@@ -21,9 +21,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <ert/util/set.hpp>
-#include <ert/util/util.hpp>
-#include <ert/util/parser.hpp>
+#include <ert/util/set.h>
+#include <ert/util/util.h>
+#include <ert/util/parser.h>
 #include <ert/res_util/ui_return.hpp>
 #include <ert/res_util/path_fmt.hpp>
 
@@ -33,10 +33,10 @@
 #include <ert/config/config_content.hpp>
 #include <ert/config/config_schema_item.hpp>
 
-#include <ert/ecl/ecl_grid.hpp>
-#include <ert/ecl/ecl_sum.hpp>
-#include <ert/ecl/ecl_io_config.hpp>
-#include <ert/ecl/ecl_util.hpp>
+#include <ert/ecl/ecl_grid.h>
+#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_io_config.h>
+#include <ert/ecl/ecl_util.h>
 
 #include <ert/enkf/enkf_util.hpp>
 #include <ert/enkf/ecl_config.hpp>

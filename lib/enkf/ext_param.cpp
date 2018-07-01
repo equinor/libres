@@ -21,7 +21,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#include <ert/util/util.hpp>
+#include <ert/util/util.h>
 
 #include <ert/enkf/enkf_macros.hpp>
 #include <ert/enkf/enkf_util.hpp>

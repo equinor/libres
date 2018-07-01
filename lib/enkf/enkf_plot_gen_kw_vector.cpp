@@ -18,10 +18,10 @@
 #include <time.h>
 #include <stdbool.h>
 
-#include <ert/util/double_vector.hpp>
-#include <ert/util/stringlist.hpp>
-#include <ert/util/type_macros.hpp>
-#include <ert/util/vector.hpp>
+#include <ert/util/double_vector.h>
+#include <ert/util/stringlist.h>
+#include <ert/util/type_macros.h>
+#include <ert/util/vector.h>
 
 #include <ert/res_util/thread_pool.hpp>
 

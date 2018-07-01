@@ -26,23 +26,23 @@
 #include <stdarg.h>
 #include <pthread.h>
 
-#include <ert/util/hash.hpp>
-#include <ert/util/util.hpp>
-#include <ert/util/arg_pack.hpp>
-#include <ert/util/stringlist.hpp>
-#include <ert/util/node_ctype.hpp>
-#include <ert/util/timer.hpp>
-#include <ert/util/time_t_vector.hpp>
-#include <ert/util/rng.hpp>
+#include <ert/util/hash.h>
+#include <ert/util/util.h>
+#include <ert/util/arg_pack.h>
+#include <ert/util/stringlist.h>
+#include <ert/util/node_ctype.h>
+#include <ert/util/timer.h>
+#include <ert/util/time_t_vector.h>
+#include <ert/util/rng.h>
 #include <ert/res_util/subst_list.hpp>
 
 #include <ert/ecl/fortio.h>
-#include <ert/ecl/ecl_kw.hpp>
-#include <ert/ecl/ecl_io_config.hpp>
-#include <ert/ecl/ecl_file.hpp>
-#include <ert/ecl/ecl_util.hpp>
-#include <ert/ecl/ecl_sum.hpp>
-#include <ert/ecl/ecl_endian_flip.hpp>
+#include <ert/ecl/ecl_kw.h>
+#include <ert/ecl/ecl_io_config.h>
+#include <ert/ecl/ecl_file.h>
+#include <ert/ecl/ecl_util.h>
+#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_endian_flip.h>
 
 #include <ert/sched/sched_file.hpp>
 

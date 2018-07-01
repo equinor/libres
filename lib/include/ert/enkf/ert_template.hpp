@@ -23,7 +23,7 @@
 extern "C" {
 #endif
 
-#include <ert/util/stringlist.hpp>
+#include <ert/util/stringlist.h>
 #include <ert/res_util/subst_list.hpp>
 
 #include <ert/config/config_parser.hpp>

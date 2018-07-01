@@ -25,8 +25,8 @@ extern "C" {
 
 #include <ert/config/conf.hpp>
 
-#include <ert/ecl/ecl_sum.hpp>
-#include <ert/ecl/ecl_grid.hpp>
+#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_grid.h>
 
 #include <ert/enkf/enkf_macros.hpp>
 #include <ert/enkf/obs_data.hpp>

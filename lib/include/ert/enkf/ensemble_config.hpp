@@ -23,11 +23,11 @@ extern "C" {
 #endif
 #include <stdbool.h>
 
-#include <ert/util/stringlist.hpp>
-#include <ert/util/hash.hpp>
+#include <ert/util/stringlist.h>
+#include <ert/util/hash.h>
 
-#include <ert/ecl/ecl_grid.hpp>
-#include <ert/ecl/ecl_sum.hpp>
+#include <ert/ecl/ecl_grid.h>
+#include <ert/ecl/ecl_sum.h>
 
 #include <ert/config/config_parser.hpp>
 #include <ert/config/config_content.hpp>

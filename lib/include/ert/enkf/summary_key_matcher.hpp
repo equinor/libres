@@ -5,8 +5,8 @@
 extern "C" {
 #endif
 
-#include <ert/util/type_macros.hpp>
-#include <ert/util/stringlist.hpp>
+#include <ert/util/type_macros.h>
+#include <ert/util/stringlist.h>
 
 #include <ert/enkf/enkf_types.hpp>
 

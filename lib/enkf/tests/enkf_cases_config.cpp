@@ -20,9 +20,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include <ert/util/test_util.hpp>
-#include <ert/util/util.hpp>
-#include <ert/util/rng.hpp>
+#include <ert/util/test_util.h>
+#include <ert/util/util.h>
+#include <ert/util/rng.h>
 
 #include <ert/enkf/cases_config.hpp>
 

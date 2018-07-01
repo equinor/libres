@@ -16,9 +16,9 @@
    for more details.
 */
 
-#include <ert/util/util.hpp>
-#include <ert/util/hash.hpp>
-#include <ert/util/vector.hpp>
+#include <ert/util/util.h>
+#include <ert/util/hash.h>
+#include <ert/util/vector.h>
 
 #include <ert/enkf/local_ministep.hpp>
 #include <ert/enkf/local_updatestep.hpp>

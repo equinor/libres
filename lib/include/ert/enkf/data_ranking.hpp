@@ -25,8 +25,8 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/type_macros.hpp>
-#include <ert/util/perm_vector.hpp>
+#include <ert/util/type_macros.h>
+#include <ert/util/perm_vector.h>
 
 #include <ert/enkf/enkf_fs.hpp>
 

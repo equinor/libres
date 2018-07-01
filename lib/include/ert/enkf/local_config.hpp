@@ -19,9 +19,9 @@
 #ifndef ERT_LOCAL_CONFIG_H
 #define ERT_LOCAL_CONFIG_H
 
-#include <ert/util/stringlist.hpp>
+#include <ert/util/stringlist.h>
 
-#include <ert/ecl/ecl_grid.hpp>
+#include <ert/ecl/ecl_grid.h>
 
 #include <ert/analysis/analysis_module.hpp>
 

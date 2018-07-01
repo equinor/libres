@@ -17,10 +17,10 @@
 */
 #include <stdlib.h>
 
-#include <ert/util/util.hpp>
-#include <ert/util/type_macros.hpp>
-#include <ert/util/vector.hpp>
-#include <ert/util/hash.hpp>
+#include <ert/util/util.h>
+#include <ert/util/type_macros.h>
+#include <ert/util/vector.h>
+#include <ert/util/hash.h>
 
 #include <ert/enkf/local_config.hpp>
 #include <ert/enkf/local_obsdata.hpp>

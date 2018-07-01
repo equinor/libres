@@ -22,9 +22,9 @@
 
 #include <ert/config/config_parser.hpp>
 
-#include <ert/util/test_util.hpp>
-#include <ert/util/util.hpp>
-#include <ert/util/arg_pack.hpp>
+#include <ert/util/test_util.h>
+#include <ert/util/util.h>
+#include <ert/util/arg_pack.h>
 
 #include <ert/enkf/enkf_defaults.hpp>
 #include <ert/enkf/analysis_iter_config.hpp>

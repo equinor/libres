@@ -17,7 +17,7 @@
 */
 
 #include <ert/res_util/res_util_defaults.hpp>
-#include <ert/util/util.hpp>
+#include <ert/util/util.h>
 
 #include <ert/enkf/log_config.hpp>
 #include <ert/enkf/config_keys.hpp>

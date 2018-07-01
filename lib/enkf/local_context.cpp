@@ -18,14 +18,14 @@
 
 #include <stdbool.h>
 
-#include <ert/util/util.hpp>
-#include <ert/util/hash.hpp>
+#include <ert/util/util.h>
+#include <ert/util/hash.h>
 
-#include <ert/geometry/geo_polygon.hpp>
-#include <ert/geometry/geo_surface.hpp>
-#include <ert/geometry/geo_region.hpp>
+#include <ert/geometry/geo_polygon.h>
+#include <ert/geometry/geo_surface.h>
+#include <ert/geometry/geo_region.h>
 
-#include <ert/ecl/ecl_grid.hpp>
+#include <ert/ecl/ecl_grid.h>
 
 #include <ert/enkf/local_context.hpp>
 

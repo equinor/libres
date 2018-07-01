@@ -23,10 +23,10 @@ extern "C" {
 #endif
 #include <stdbool.h>
 
-#include <ert/util/stringlist.hpp>
-#include <ert/util/type_macros.hpp>
-#include <ert/util/buffer.hpp>
-#include <ert/util/stringlist.hpp>
+#include <ert/util/stringlist.h>
+#include <ert/util/type_macros.h>
+#include <ert/util/buffer.h>
+#include <ert/util/stringlist.h>
 
 #include <ert/enkf/fs_driver.hpp>
 #include <ert/enkf/enkf_types.hpp>

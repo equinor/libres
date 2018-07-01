@@ -22,7 +22,7 @@
 extern "C" {
 #endif
 
-#include <ert/util/double_vector.hpp>
+#include <ert/util/double_vector.h>
 #include <ert/res_util/subst_list.hpp>
 
 #include <ert/enkf/gen_kw_config.hpp>

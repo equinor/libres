@@ -17,7 +17,7 @@
 */
 #include <stdlib.h>
 
-#include <ert/util/test_util.hpp>
+#include <ert/util/test_util.h>
 #include <ert/res_util/path_fmt.hpp>
 #include <ert/res_util/subst_list.hpp>
 

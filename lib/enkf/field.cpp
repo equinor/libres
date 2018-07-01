@@ -20,16 +20,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <ert/util/util.hpp>
-#include <ert/util/buffer.hpp>
-#include <ert/util/rng.hpp>
+#include <ert/util/util.h>
+#include <ert/util/buffer.h>
+#include <ert/util/rng.h>
 
 #include <ert/ecl/fortio.h>
-#include <ert/ecl/ecl_kw.hpp>
-#include <ert/ecl/ecl_file.hpp>
+#include <ert/ecl/ecl_kw.h>
+#include <ert/ecl/ecl_file.h>
 #include <ert/ecl/ecl_util.h>
-#include <ert/ecl/ecl_endian_flip.hpp>
-#include <ert/ecl/ecl_type.hpp>
+#include <ert/ecl/ecl_endian_flip.h>
+#include <ert/ecl/ecl_type.h>
 
 #include <ert/rms/rms_file.hpp>
 #include <ert/rms/rms_tagkey.hpp>

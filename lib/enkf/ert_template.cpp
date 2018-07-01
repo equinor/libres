@@ -18,8 +18,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#include <ert/util/hash.hpp>
-#include <ert/util/util.hpp>
+#include <ert/util/hash.h>
+#include <ert/util/util.h>
 #include <ert/res_util/template.hpp>
 #include <ert/res_util/subst_list.hpp>
 

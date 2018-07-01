@@ -25,8 +25,8 @@ extern "C" {
 #endif
 #include <stdbool.h>
 
-#include <ert/util/bool_vector.hpp>
-#include <ert/util/type_macros.hpp>
+#include <ert/util/bool_vector.h>
+#include <ert/util/type_macros.h>
 
 #include <ert/enkf/enkf_config_node.hpp>
 #include <ert/enkf/enkf_fs.hpp>

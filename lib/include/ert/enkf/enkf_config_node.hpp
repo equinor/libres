@@ -22,12 +22,12 @@
 extern "C" {
 #endif
 
-#include <ert/util/stringlist.hpp>
-#include <ert/util/hash.hpp>
+#include <ert/util/stringlist.h>
+#include <ert/util/hash.h>
 
 #include <ert/config/config_parser.hpp>
 
-#include <ert/ecl/ecl_grid.hpp>
+#include <ert/ecl/ecl_grid.h>
 
 #include <ert/enkf/field_trans.hpp>
 #include <ert/enkf/gen_data_config.hpp>

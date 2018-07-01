@@ -21,8 +21,8 @@
 #include <string.h>
 #include <pthread.h>
 
-#include <ert/util/util.hpp>
-#include <ert/util/type_macros.hpp>
+#include <ert/util/util.h>
+#include <ert/util/type_macros.h>
 
 #include <ert/enkf/enkf_macros.hpp>
 #include <ert/enkf/ext_param_config.hpp>

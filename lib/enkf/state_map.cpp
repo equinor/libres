@@ -20,10 +20,10 @@
 #include <pthread.h>
 #include <stdbool.h>
 
-#include <ert/util/util.hpp>
-#include <ert/util/int_vector.hpp>
-#include <ert/util/bool_vector.hpp>
-#include <ert/util/type_macros.hpp>
+#include <ert/util/util.h>
+#include <ert/util/int_vector.h>
+#include <ert/util/bool_vector.h>
+#include <ert/util/type_macros.h>
 
 #include <ert/enkf/enkf_types.hpp>
 #include <ert/enkf/state_map.hpp>

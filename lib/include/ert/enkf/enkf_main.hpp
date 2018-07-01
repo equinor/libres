@@ -24,11 +24,11 @@ extern "C" {
 
 #include <stdbool.h>
 
-#include <ert/util/util.hpp>
-#include <ert/util/stringlist.hpp>
-#include <ert/util/set.hpp>
-#include <ert/util/bool_vector.hpp>
-#include <ert/util/int_vector.hpp>
+#include <ert/util/util.h>
+#include <ert/util/stringlist.h>
+#include <ert/util/set.h>
+#include <ert/util/bool_vector.h>
+#include <ert/util/int_vector.h>
 #include <ert/res_util/matrix.hpp>
 #include <ert/res_util/ui_return.hpp>
 #include <ert/res_util/log.hpp>

@@ -27,7 +27,7 @@ extern "C" {
 
 #include <ert/res_util/matrix.hpp>
 
-#include <ert/ecl/ecl_util.hpp>
+#include <ert/ecl/ecl_util.h>
 
 #include <ert/enkf/active_list.hpp>
 

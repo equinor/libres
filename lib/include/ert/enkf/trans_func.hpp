@@ -24,7 +24,7 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/double_vector.hpp>
+#include <ert/util/double_vector.h>
 
 #include <ert/enkf/enkf_types.hpp>
 

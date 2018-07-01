@@ -22,7 +22,7 @@
 extern "C" {
 #endif
 
-#include <ert/util/type_macros.hpp>
+#include <ert/util/type_macros.h>
 #include <ert/res_util/subst_list.hpp>
 #include <ert/res_util/path_fmt.hpp>
 

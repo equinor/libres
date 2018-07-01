@@ -18,7 +18,7 @@
 
 #include <stdlib.h>
 
-#include <ert/util/util.hpp>
+#include <ert/util/util.h>
 
 #include <ert/job_queue/job_queue.hpp>
 #include <ert/job_queue/job_node.hpp>

@@ -25,8 +25,8 @@ extern "C" {
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/stringlist.hpp>
-#include <ert/util/util.hpp>
+#include <ert/util/stringlist.h>
+#include <ert/util/util.h>
 
 #include <ert/enkf/enkf_util.hpp>
 #include <ert/enkf/enkf_macros.hpp>

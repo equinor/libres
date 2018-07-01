@@ -19,9 +19,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <ert/util/util.hpp>
-#include <ert/util/hash.hpp>
-#include <ert/util/vector.hpp>
+#include <ert/util/util.h>
+#include <ert/util/hash.h>
+#include <ert/util/vector.h>
 
 #include <ert/config/config_parser.hpp>
 #include <ert/config/config_content.hpp>

@@ -24,17 +24,17 @@ extern "C" {
 
 #include <stdbool.h>
 
-#include <ert/util/hash.hpp>
-#include <ert/util/rng.hpp>
-#include <ert/util/stringlist.hpp>
-#include <ert/util/rng.hpp>
+#include <ert/util/hash.h>
+#include <ert/util/rng.h>
+#include <ert/util/stringlist.h>
+#include <ert/util/rng.h>
 #include <ert/res_util/subst_list.hpp>
 #include <ert/res_util/matrix.hpp>
 
 #include <ert/sched/sched_file.hpp>
 
 #include <ert/ecl/fortio.h>
-#include <ert/ecl/ecl_file.hpp>
+#include <ert/ecl/ecl_file.h>
 
 #include <ert/job_queue/forward_model.hpp>
 #include <ert/job_queue/ext_joblist.hpp>

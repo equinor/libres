@@ -19,8 +19,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <ert/util/util.hpp>
-#include <ert/util/vector.hpp>
+#include <ert/util/util.h>
+#include <ert/util/vector.h>
 #include <ert/res_util/subst_list.hpp>
 
 #include <ert/config/config_parser.hpp>

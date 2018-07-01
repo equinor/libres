@@ -18,9 +18,9 @@
 
 #include <stdbool.h>
 
-#include <ert/util/type_macros.hpp>
+#include <ert/util/type_macros.h>
 #include <ert/res_util/matrix.hpp>
-#include <ert/util/util.hpp>
+#include <ert/util/util.h>
 
 #include <ert/enkf/pca_plot_vector.hpp>
 

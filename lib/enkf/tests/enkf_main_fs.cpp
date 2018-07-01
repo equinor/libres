@@ -21,8 +21,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#include <ert/util/test_util.hpp>
-#include <ert/util/test_work_area.hpp>
+#include <ert/util/test_util.h>
+#include <ert/util/test_work_area.h>
 #include <ert/enkf/enkf_fs.hpp>
 #include <ert/enkf/enkf_main.hpp>
 #include <ert/enkf/state_map.hpp>

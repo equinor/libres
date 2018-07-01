@@ -16,8 +16,8 @@
    for more details.
 */
 
-#include <ert/util/test_util.hpp>
-#include <ert/util/test_work_area.hpp>
+#include <ert/util/test_util.h>
+#include <ert/util/test_work_area.h>
 
 #include <ert/enkf/rng_config.hpp>
 #include <ert/res_util/res_log.hpp>

@@ -20,15 +20,15 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include <ert/util/hash.hpp>
-#include <ert/util/util.hpp>
-#include <ert/util/vector.hpp>
-#include <ert/util/type_vector_functions.hpp>
+#include <ert/util/hash.h>
+#include <ert/util/util.h>
+#include <ert/util/vector.h>
+#include <ert/util/type_vector_functions.h>
 
 #include <ert/config/conf.hpp>
 
-#include <ert/ecl/ecl_grid.hpp>
-#include <ert/ecl/ecl_sum.hpp>
+#include <ert/ecl/ecl_grid.h>
+#include <ert/ecl/ecl_sum.h>
 
 #include <ert/analysis/enkf_linalg.hpp>
 

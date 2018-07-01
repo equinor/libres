@@ -25,7 +25,7 @@ extern "C" {
 #include <stdbool.h>
 #include <time.h>
 
-#include <ert/util/type_macros.hpp>
+#include <ert/util/type_macros.h>
 
 #include <ert/config/config_parser.hpp>
 #include <ert/config/config_content.hpp>
@@ -36,7 +36,7 @@ extern "C" {
 #include <ert/sched/history.hpp>
 #include <ert/sched/sched_file.hpp>
 
-#include <ert/ecl/ecl_sum.hpp>
+#include <ert/ecl/ecl_sum.h>
 
 #include <ert/res_util/path_fmt.hpp>
 

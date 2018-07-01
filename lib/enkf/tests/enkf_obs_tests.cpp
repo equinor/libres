@@ -16,10 +16,10 @@
    for more details.
  */
 
-#include <ert/util/test_util.hpp>
+#include <ert/util/test_util.h>
 
-#include <ert/ecl/ecl_sum.hpp>
-#include <ert/ecl/ecl_grid.hpp>
+#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_grid.h>
 
 #include <ert/enkf/enkf_obs.hpp>
 #include <ert/enkf/obs_vector.hpp>

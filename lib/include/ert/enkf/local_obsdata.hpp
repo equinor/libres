@@ -23,7 +23,7 @@ extern "C" {
 #endif
 #include <stdbool.h>
 
-#include <ert/util/type_macros.hpp>
+#include <ert/util/type_macros.h>
 
 #include <ert/enkf/local_obsdata_node.hpp>
 

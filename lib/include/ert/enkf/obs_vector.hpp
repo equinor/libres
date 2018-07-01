@@ -25,14 +25,14 @@ extern "C" {
 
 #include <time.h>
 
-#include <ert/util/bool_vector.hpp>
-#include <ert/util/int_vector.hpp>
+#include <ert/util/bool_vector.h>
+#include <ert/util/int_vector.h>
 
 #include <ert/sched/history.hpp>
 
 #include <ert/config/conf.hpp>
 
-#include <ert/ecl/ecl_sum.hpp>
+#include <ert/ecl/ecl_sum.h>
 
 #include <ert/enkf/enkf_fs.hpp>
 #include <ert/enkf/enkf_types.hpp>

@@ -24,7 +24,7 @@ extern "C" {
 
 #include <stdbool.h>
 
-#include <ert/util/stringlist.hpp>
+#include <ert/util/stringlist.h>
 
 #include <ert/config/config_parser.hpp>
 #include <ert/config/config_content.hpp>

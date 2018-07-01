@@ -5,12 +5,12 @@ extern "C" {
 #endif
 
 #include <ert/util/util.h>
-#include <ert/util/bool_vector.hpp>
-#include <ert/util/double_vector.hpp>
-#include <ert/util/buffer.hpp>
+#include <ert/util/bool_vector.h>
+#include <ert/util/double_vector.h>
+#include <ert/util/buffer.h>
 
-#include <ert/ecl/ecl_sum.hpp>
-#include <ert/ecl/ecl_file.hpp>
+#include <ert/ecl/ecl_sum.h>
+#include <ert/ecl/ecl_file.h>
 
 #include <ert/enkf/enkf_macros.hpp>
 #include <ert/enkf/custom_kw_config.hpp>

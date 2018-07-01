@@ -20,7 +20,7 @@
 
 
 
-#include <ert/util/test_util.hpp>
+#include <ert/util/test_util.h>
 #include <ert/enkf/ert_test_context.hpp>
 
 

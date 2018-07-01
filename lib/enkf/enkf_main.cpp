@@ -30,21 +30,21 @@
 #include <sys/types.h>
 
 #define HAVE_THREAD_POOL 1
-#include <ert/util/rng.hpp>
-#include <ert/util/int_vector.hpp>
-#include <ert/util/bool_vector.hpp>
-#include <ert/util/util.hpp>
-#include <ert/util/hash.hpp>
+#include <ert/util/rng.h>
+#include <ert/util/int_vector.h>
+#include <ert/util/bool_vector.h>
+#include <ert/util/util.h>
+#include <ert/util/hash.h>
 #include <ert/res_util/path_fmt.hpp>
-#include <ert/util/arg_pack.hpp>
-#include <ert/util/stringlist.hpp>
-#include <ert/util/set.hpp>
-#include <ert/util/node_ctype.hpp>
-#include <ert/util/string_util.hpp>
-#include <ert/util/type_vector_functions.hpp>
+#include <ert/util/arg_pack.h>
+#include <ert/util/stringlist.h>
+#include <ert/util/set.h>
+#include <ert/util/node_ctype.h>
+#include <ert/util/string_util.h>
+#include <ert/util/type_vector_functions.h>
 
-#include <ert/ecl/ecl_util.hpp>
-#include <ert/ecl/ecl_io_config.hpp>
+#include <ert/ecl/ecl_util.h>
+#include <ert/ecl/ecl_io_config.h>
 
 #include <ert/res_util/thread_pool.hpp>
 #include <ert/res_util/subst_list.hpp>

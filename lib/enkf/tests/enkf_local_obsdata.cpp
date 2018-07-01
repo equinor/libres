@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include <ert/util/test_util.hpp>
+#include <ert/util/test_util.h>
 
 #include <ert/enkf/local_obsdata.hpp>
 #include <ert/enkf/local_obsdata_node.hpp>
