@@ -108,7 +108,7 @@ static void alloc_reproduced_rng_config(
   free(work_area);
 }
 
-void test_reproducibility(char * random_seed)
+void test_reproducibility(const char * random_seed)
 {
 
   rng_config_type * orig_rng_config;

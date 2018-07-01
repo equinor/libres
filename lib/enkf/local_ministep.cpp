@@ -73,7 +73,7 @@ local_ministep_type * local_ministep_alloc(const char * name, analysis_module_ty
 
   ministep->name         = util_alloc_string_copy( name );
 
-  char* obsdata_name = "OBSDATA_";
+  const char* obsdata_name = "OBSDATA_";
   char* result = (char *) util_malloc(strlen(obsdata_name)+strlen(name)+1);
   strcpy(result, obsdata_name);
   strcat(result, name);
