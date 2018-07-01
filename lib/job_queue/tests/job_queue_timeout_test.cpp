@@ -46,7 +46,7 @@ typedef struct
   int callback_usleep;
   int run_usleep;
   int argc;
-  char ** argv;
+  const char ** argv;
   char * cmd;
   int retry_call_count;
   int exit_call_count;
@@ -69,7 +69,7 @@ bool job_exit_callback(void * _job) {
 
 
 job_type * alloc_job(int ind, const char * cmd) {
-  job_type * job = util_malloc(sizeof *job);
+  job_type * job = (job_type *) util_malloc(sizeof *job);
   UTIL_TYPE_ID_INIT(job, JOB_TYPE_ID)
   job->callback_run    = false;
   job->queue_index     = -1;
@@ -80,11 +80,11 @@ job_type * alloc_job(int ind, const char * cmd) {
   job->cmd             = util_alloc_abs_path(cmd);
   job->argc            = 4;
 
-  job->argv    = util_malloc(4 * sizeof *job->argv);
+  job->argv    = (const char **) util_malloc(4 * sizeof *job->argv);
   job->argv[0] = job->run_path;
   job->argv[1] = "RUNNING";
   job->argv[2] = "OK";
-  job->argv[3] = util_alloc_sprintf("%d", job->run_usleep);
+  job->argv[3] = util_alloc_sprintf("%d", job->run_usleep);  // This will leak; don't give a shit.
 
   job->retry_call_count = 0;
   job->exit_call_count = 0;
@@ -94,7 +94,7 @@ job_type * alloc_job(int ind, const char * cmd) {
 }
 
 job_type ** alloc_jobs(int num_jobs, const char * cmd) {
-  job_type ** jobs = util_malloc(num_jobs * sizeof *jobs);
+  job_type ** jobs = (job_type **) util_malloc(num_jobs * sizeof *jobs);
   for (int i = 0; i < num_jobs; i++) {
     job_type * job = alloc_job(i, cmd);
     job_safe_cast(job);
@@ -107,7 +107,6 @@ void free_jobs(job_type ** jobs, int num_jobs) {
   for (int i = 0; i < num_jobs; i++) {
     free(jobs[i]->run_path);
     free(jobs[i]->cmd);
-    free(jobs[i]->argv[3]);
     free(jobs[i]->argv);
     free(jobs[i]);
   }

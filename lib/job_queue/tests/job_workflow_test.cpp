@@ -59,7 +59,7 @@ void * read_file( void * self , const stringlist_type * args) {
   int read_count = fscanf(stream , "%d" , value );
   fclose( stream );
   if (read_count == 1) {
-    int * return_value = util_malloc( sizeof * return_value );
+    int * return_value = (int *) util_malloc( sizeof * return_value );
     return_value[0] = value[0];
 
     return return_value;
@@ -80,7 +80,7 @@ static void create_exjob( const char * workflow , const char * bin_path)
 
 
 void test_has_job(const char * job) {
-  workflow_joblist_type * joblist = workflow_joblist_alloc();
+  workflow_joblist_type * joblist = (workflow_joblist_type *) workflow_joblist_alloc();
 
   test_assert_false( workflow_joblist_has_job( joblist , "NoNotThis"));
   test_assert_true( workflow_joblist_add_job_from_file( joblist , "CREATE_FILE" , job) );
@@ -94,7 +94,7 @@ int main( int argc , char ** argv) {
   const char * exjob_file = "job";
   const char * bin_path = argv[1];
   const char * internal_workflow = argv[2];
-  test_work_area_type * work_area = test_work_area_alloc( "job_workflow_test" );
+  test_work_area_type * work_area = (test_work_area_type *) test_work_area_alloc( "job_workflow_test" );
 
   signal(SIGSEGV , util_abort_signal);
   create_exjob( exjob_file , bin_path );
@@ -103,7 +103,7 @@ int main( int argc , char ** argv) {
 
     int int_value = rand();
     int read_value = 100;
-    workflow_joblist_type * joblist = workflow_joblist_alloc();
+    workflow_joblist_type * joblist = (workflow_joblist_type *) workflow_joblist_alloc();
 
     if (!workflow_joblist_add_job_from_file( joblist , "CREATE_FILE" , exjob_file)) {
       remove( exjob_file );

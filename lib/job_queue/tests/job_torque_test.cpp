@@ -26,11 +26,11 @@
 
 void test_option(torque_driver_type * driver, const char * option, const char * value) {
   test_assert_true(torque_driver_set_option(driver, option, value));
-  test_assert_string_equal(torque_driver_get_option(driver, option), value);
+  test_assert_string_equal((const char *) torque_driver_get_option(driver, option), value);
 }
 
 void setoption_setalloptions_optionsset() {
-  torque_driver_type * driver = torque_driver_alloc();
+  torque_driver_type * driver = (torque_driver_type *) torque_driver_alloc();
 
   test_option(driver, TORQUE_QSUB_CMD, "XYZaaa");
   test_option(driver, TORQUE_QSTAT_CMD, "xyZfff");
@@ -63,16 +63,16 @@ void setoption_setalloptions_optionsset() {
   torque_driver_set_option(driver, TORQUE_NUM_CPUS_PER_NODE, NULL);
   torque_driver_set_option(driver, TORQUE_NUM_NODES        , NULL);
   torque_driver_set_option(driver, TORQUE_KEEP_QSUB_OUTPUT , NULL);
-  test_assert_string_equal( torque_driver_get_option( driver, TORQUE_NUM_CPUS_PER_NODE ), "42");
-  test_assert_string_equal( torque_driver_get_option( driver, TORQUE_NUM_NODES         ), "36");
-  test_assert_string_equal( torque_driver_get_option( driver, TORQUE_KEEP_QSUB_OUTPUT  ), "0");
+  test_assert_string_equal( (const char *) torque_driver_get_option( driver, TORQUE_NUM_CPUS_PER_NODE ), "42");
+  test_assert_string_equal( (const char *) torque_driver_get_option( driver, TORQUE_NUM_NODES         ), "36");
+  test_assert_string_equal( (const char *) torque_driver_get_option( driver, TORQUE_KEEP_QSUB_OUTPUT  ), "0");
 
   printf("Options OK\n");
   torque_driver_free(driver);
 }
 
 void setoption_set_typed_options_wrong_format_returns_false() {
-  torque_driver_type * driver = torque_driver_alloc();
+  torque_driver_type * driver = (torque_driver_type *) torque_driver_alloc();
   test_assert_false(torque_driver_set_option(driver, TORQUE_NUM_CPUS_PER_NODE, "42.2"));
   test_assert_false(torque_driver_set_option(driver, TORQUE_NUM_CPUS_PER_NODE, "fire"));
   test_assert_false(torque_driver_set_option(driver, TORQUE_NUM_NODES, "42.2"));
@@ -86,29 +86,29 @@ void setoption_set_typed_options_wrong_format_returns_false() {
 }
 
 void getoption_nooptionsset_defaultoptionsreturned() {
-  torque_driver_type * driver = torque_driver_alloc();
-  test_assert_string_equal(torque_driver_get_option(driver, TORQUE_QSUB_CMD), TORQUE_DEFAULT_QSUB_CMD);
-  test_assert_string_equal(torque_driver_get_option(driver, TORQUE_QSTAT_CMD), TORQUE_DEFAULT_QSTAT_CMD);
-  test_assert_string_equal(torque_driver_get_option(driver, TORQUE_QDEL_CMD), TORQUE_DEFAULT_QDEL_CMD);
-  test_assert_string_equal(torque_driver_get_option(driver, TORQUE_KEEP_QSUB_OUTPUT), "0");
-  test_assert_string_equal(torque_driver_get_option(driver, TORQUE_NUM_CPUS_PER_NODE), "1");
-  test_assert_string_equal(torque_driver_get_option(driver, TORQUE_NUM_NODES), "1");
-  test_assert_string_equal(torque_driver_get_option(driver, TORQUE_CLUSTER_LABEL), NULL );
-  test_assert_string_equal(torque_driver_get_option(driver, TORQUE_JOB_PREFIX_KEY), NULL);
+  torque_driver_type * driver = (torque_driver_type *) torque_driver_alloc();
+  test_assert_string_equal((const char *) torque_driver_get_option(driver, TORQUE_QSUB_CMD), TORQUE_DEFAULT_QSUB_CMD);
+  test_assert_string_equal((const char *) torque_driver_get_option(driver, TORQUE_QSTAT_CMD), TORQUE_DEFAULT_QSTAT_CMD);
+  test_assert_string_equal((const char *) torque_driver_get_option(driver, TORQUE_QDEL_CMD), TORQUE_DEFAULT_QDEL_CMD);
+  test_assert_string_equal((const char *) torque_driver_get_option(driver, TORQUE_KEEP_QSUB_OUTPUT), "0");
+  test_assert_string_equal((const char *) torque_driver_get_option(driver, TORQUE_NUM_CPUS_PER_NODE), "1");
+  test_assert_string_equal((const char *) torque_driver_get_option(driver, TORQUE_NUM_NODES), "1");
+  test_assert_string_equal((const char *) torque_driver_get_option(driver, TORQUE_CLUSTER_LABEL), NULL );
+  test_assert_string_equal((const char *) torque_driver_get_option(driver, TORQUE_JOB_PREFIX_KEY), NULL);
 
   printf("Default options OK\n");
   torque_driver_free(driver);
 }
 
 void create_submit_script_script_according_to_input() {
-  test_work_area_type * work_area = test_work_area_alloc("job_torque_test" );
+  test_work_area_type * work_area = (test_work_area_type *) test_work_area_alloc("job_torque_test" );
   const char * script_filename = "qsub_script.sh";
 
   {
-    char ** args = util_calloc(2, sizeof * args);
+    const char ** args = (const char **) util_calloc(2, sizeof * args);
     args[0] = "/tmp/jaja/";
     args[1] = "number2arg";
-    torque_job_create_submit_script(script_filename, "job_program.py", 2, (const char **) args);
+    torque_job_create_submit_script(script_filename, "job_program.py", 2, args);
     free( args );
   }
 
@@ -138,7 +138,7 @@ void create_submit_script_script_according_to_input() {
 void test_parse_invalid( ) {
   test_assert_int_equal( torque_driver_parse_status( "/file/does/not/exist" , NULL) , JOB_QUEUE_STATUS_FAILURE);
   {
-    test_work_area_type * work_area = test_work_area_alloc("job_torque_test");
+    test_work_area_type * work_area = (test_work_area_type *) test_work_area_alloc("job_torque_test");
     {
       FILE * stream = util_fopen("qstat.stdout", "w");
       fclose( stream );

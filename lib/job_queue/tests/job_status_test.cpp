@@ -66,7 +66,7 @@ void * user_done( void * arg ) {
 
 void test_update() {
   int N = 15000;
-  pthread_t * thread_list = util_malloc( 2*N*sizeof * thread_list);
+  pthread_t * thread_list = (pthread_t *) util_malloc( 2*N*sizeof * thread_list);
   int num_exit_threads = 0;
   int num_done_threads = 0;
   job_queue_status_type * status = job_queue_status_alloc();

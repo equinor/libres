@@ -35,7 +35,7 @@ void assert_status( torque_driver_type * driver, torque_job_type * job, int stat
 
 void test_submit(torque_driver_type * driver, const char * cmd) {
   char * run_path = util_alloc_cwd();
-  torque_job_type * job = torque_driver_submit_job(driver, cmd, 1, run_path, "TEST-TORQUE-SUBMIT", 0, NULL);
+  torque_job_type * job = (torque_job_type *) torque_driver_submit_job(driver, cmd, 1, run_path, "TEST-TORQUE-SUBMIT", 0, NULL);
 
   if (job != NULL) {
     assert_status( driver , job, JOB_QUEUE_RUNNING + JOB_QUEUE_PENDING);
@@ -71,11 +71,11 @@ void test_submit_nocommand(torque_driver_type * driver) {
 
 void test_submit_failed_qstat(torque_driver_type * driver, const char * cmd) {
   char * run_path = util_alloc_cwd();
-  torque_job_type * job = torque_driver_submit_job(driver, cmd, 1, run_path, "TEST-TORQUE-SUBMIT", 0, NULL);
+  torque_job_type * job = (torque_job_type *) torque_driver_submit_job(driver, cmd, 1, run_path, "TEST-TORQUE-SUBMIT", 0, NULL);
 
   {
     test_work_area_type * work_area = test_work_area_alloc("torque-failed-qstat");
-    test_work_area_copy_file( work_area , torque_driver_get_option( driver , TORQUE_QSTAT_CMD ));
+    test_work_area_copy_file( work_area , (const char *) torque_driver_get_option( driver , TORQUE_QSTAT_CMD ));
     assert_status( driver , job , JOB_QUEUE_RUNNING + JOB_QUEUE_PENDING);
 
     {
@@ -100,7 +100,7 @@ void test_submit_failed_qstat(torque_driver_type * driver, const char * cmd) {
 
 
 int main(int argc, char ** argv) {
-  torque_driver_type * driver = torque_driver_alloc();
+  torque_driver_type * driver = (torque_driver_type *) torque_driver_alloc();
   if (argc == 1) {
     test_submit_nocommand(driver);
   } else if (argc == 2) {

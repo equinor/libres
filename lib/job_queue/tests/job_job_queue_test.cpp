@@ -29,19 +29,25 @@
 #include <ert/job_queue/job_queue.hpp>
 #include <ert/job_queue/job_queue_manager.hpp>
 
-void submit_jobs_to_queue(job_queue_type * queue, test_work_area_type * work_area, char * executable_to_run, int number_of_jobs, int number_of_slowjobs, char* sleep_short, char* sleep_long) {
+void submit_jobs_to_queue(job_queue_type * queue, test_work_area_type * work_area, const char * executable_to_run, int number_of_jobs, int number_of_slowjobs, const char* sleep_short, const char* sleep_long) {
   int submitted_slowjobs = 0;
   for (int i = 0; i < number_of_jobs; i++) {
     char * runpath = util_alloc_sprintf("%s/%s_%d", test_work_area_get_cwd(work_area), "job", i);
     util_make_path(runpath);
 
-    char * sleeptime = sleep_short;
+    const char * sleeptime = sleep_short;
     if (submitted_slowjobs < number_of_slowjobs) {
       sleeptime = sleep_long;
       submitted_slowjobs++;
     }
 
-    job_queue_add_job(queue, executable_to_run, NULL, NULL, NULL, NULL, 1, runpath, "Testjob", 2, (const char *[2]) {runpath, sleeptime});
+    {
+      const char ** argv = (const char **) util_malloc( 2 * sizeof * argv );
+      argv[0] = runpath;
+      argv[1] = sleeptime;
+      job_queue_add_job(queue, executable_to_run, NULL, NULL, NULL, NULL, 1, runpath, "Testjob", 2, argv);
+      free(argv);
+    }
     free(runpath);
   }
   test_assert_int_equal( number_of_jobs , job_queue_get_active_size(queue) );
@@ -64,7 +70,7 @@ void monitor_job_queue(job_queue_type * queue, int max_job_duration, time_t stop
 
 
 
-void run_jobs_with_time_limit_test(char * executable_to_run, int number_of_jobs, int number_of_slowjobs, char * sleep_short, char * sleep_long, int max_sleep) {
+void run_jobs_with_time_limit_test(const char * executable_to_run, int number_of_jobs, int number_of_slowjobs, const char * sleep_short, const char * sleep_long, int max_sleep) {
   test_work_area_type * work_area = test_work_area_alloc("job_queue");
   job_queue_type * queue = job_queue_alloc(number_of_jobs, "OK.status", "STATUS", "ERROR");
 
@@ -109,13 +115,17 @@ void run_and_monitor_jobs(char * executable_to_run,
   for (int i = 0; i < number_of_jobs; i++) {
     char * runpath = util_alloc_sprintf("%s/%s_%d", test_work_area_get_cwd(work_area), "job", i);
     char * sleeptime = util_alloc_sprintf("%d", job_run_time);
+    const char ** argv = (const char **) util_malloc( 2 * sizeof * argv );
+    argv[0] = runpath;
+    argv[1] = sleeptime;
 
     util_make_path(runpath);
-    job_queue_add_job(queue, executable_to_run, NULL, NULL, NULL, NULL, 1, runpath, "Testjob", 2, (const char *[2]) {runpath, sleeptime});
+    job_queue_add_job(queue, executable_to_run, NULL, NULL, NULL, NULL, 1, runpath, "Testjob", 2, argv);
     job_run_time += interval_between_jobs;
 
     free(sleeptime);
     free(runpath);
+    free(argv);
   }
   job_queue_submit_complete(queue);
   job_queue_manager_start_queue(queue_manager,0,false);
@@ -135,7 +145,7 @@ void run_and_monitor_jobs(char * executable_to_run,
   test_work_area_free(work_area);
 }
 
-void run_jobs_time_limit_multithreaded(char * executable_to_run, int number_of_jobs, int number_of_slowjobs, char * sleep_short, char * sleep_long, int max_sleep) {
+void run_jobs_time_limit_multithreaded(const char * executable_to_run, int number_of_jobs, int number_of_slowjobs,const char * sleep_short, const char * sleep_long, int max_sleep) {
   test_work_area_type * work_area = test_work_area_alloc("job_queue");
 
 
@@ -342,8 +352,8 @@ void test14(char ** argv) {
 
   int number_of_slowjobs = 7;
   int number_of_fastjobs = number_of_jobs - number_of_slowjobs;
-  char * sleep_short = "0";
-  char * sleep_long = "100";
+  const char * sleep_short = "0";
+  const char * sleep_long = "100";
   submit_jobs_to_queue(queue, work_area, argv[1], number_of_jobs, number_of_slowjobs, sleep_short, sleep_long);
   job_queue_submit_complete(queue);
   job_queue_manager_start_queue( queue_manager , 10 , false );
@@ -388,7 +398,7 @@ void test15(char ** argv) {
   queue_driver_type * driver = queue_driver_alloc_local();
   job_queue_set_driver(queue, driver);
 
-  char * sleep_long = "100";
+  const char * sleep_long = "100";
 
   submit_jobs_to_queue(queue, work_area, argv[1], number_of_jobs, number_of_jobs, "0", sleep_long);
 
