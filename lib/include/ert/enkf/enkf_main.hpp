@@ -297,6 +297,12 @@ extern "C" {
   queue_config_type * enkf_main_get_queue_config(enkf_main_type * enkf_main );
 
   rng_manager_type  * enkf_main_get_rng_manager(const enkf_main_type * enkf_main );
+  void enkf_main_isubmit_job( enkf_main_type * enkf_main , run_arg_type * run_arg , job_queue_type * job_queue);
+  const char * enkf_main_get_site_config_file( const enkf_main_type * enkf_main );
+  const char * enkf_main_get_schedule_prediction_file( const enkf_main_type * enkf_main );
+  void * enkf_main_icreate_run_path( enkf_main_type * enkf_main, run_arg_type * run_arg, init_mode_type init_mode);
+  void enkf_main_add_data_kw(enkf_main_type * enkf_main , const char * key , const char * value);
+  const res_config_type * enkf_main_get_res_config(const enkf_main_type * enkf_main);
 
 UTIL_SAFE_CAST_HEADER(enkf_main);
 UTIL_IS_INSTANCE_HEADER(enkf_main);

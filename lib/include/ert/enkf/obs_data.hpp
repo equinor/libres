@@ -33,12 +33,11 @@ extern "C" {
 
 typedef struct obs_data_struct   obs_data_type;
 typedef struct obs_block_struct  obs_block_type;
-
+void         obs_block_free( obs_block_type * obs_block );
 active_type  obs_block_iget_active_mode( const obs_block_type * obs_block , int iobs);
-const char * obs_data_iget_keyword( const obs_data_type * obs_data , int index );
-double       obs_data_iget_value( const obs_data_type * obs_data , int index );
-double       obs_data_iget_std( const obs_data_type * obs_data , int index );
-active_type  obs_data_iget_active_mode( const obs_data_type * obs_data , int index );
+obs_block_type * obs_block_alloc( const char * obs_key , int obs_size , matrix_type * error_covar , bool error_covar_owner, double global_std_scaling);
+int obs_block_get_active_size( const obs_block_type * obs_block );
+
 void         obs_block_deactivate( obs_block_type * obs_block , int iobs , bool verbose , const char * msg);
 int          obs_block_get_size( const obs_block_type * obs_block );
 void         obs_block_iset( obs_block_type * obs_block , int iobs , double value , double std);
@@ -48,11 +47,16 @@ double obs_block_iget_std( const obs_block_type * obs_block , int iobs);
 double obs_block_iget_value( const obs_block_type * obs_block , int iobs);
 bool   obs_block_iget_active( const obs_block_type * obs_block , int iobs);
 
-
+const char * obs_data_iget_keyword( const obs_data_type * obs_data , int index );
+double       obs_data_iget_value( const obs_data_type * obs_data , int index );
+double       obs_data_iget_std( const obs_data_type * obs_data, int i_ndex );
+active_type  obs_data_iget_active_mode( const obs_data_type * obs_data , int index );
 obs_block_type       * obs_data_iget_block( obs_data_type * obs_data , int index );
 const obs_block_type *     obs_data_iget_block_const( const obs_data_type * obs_data , int block_nr);
 obs_block_type *     obs_data_get_block( obs_data_type * obs_data , const char * obs_key );
 obs_block_type *     obs_data_add_block( obs_data_type * obs_data , const char * obs_key , int obs_size , matrix_type * error_covar , bool error_covar_owner);
+void obs_data_scale_matrix(const obs_data_type * obs_data , matrix_type * matrix);
+void obs_data_scale_Rmatrix(const obs_data_type * obs_data , matrix_type * matrix);
 
 obs_data_type      * obs_data_alloc(double global_std_scaling);
 void                 obs_data_free(obs_data_type *);

@@ -23,6 +23,8 @@ extern "C" {
 #endif
 #include <ert/util/type_macros.h>
 
+#include <ert/enkf/ext_param_config.hpp>
+
 typedef struct ext_param_struct ext_param_type;
 
   bool        ext_param_iset( ext_param_type * param, int index , double value);
@@ -33,6 +35,9 @@ typedef struct ext_param_struct ext_param_type;
   bool        ext_param_has_key( const ext_param_type * ext_param , const char * key);
   void        ext_param_json_export(const ext_param_type * ext_param, const char * json_file);
   const char* ext_param_iget_key(const ext_param_type * param, int index);
+  void ext_param_free(ext_param_type *ext_param);
+  ext_param_type * ext_param_alloc(const ext_param_config_type * config);
+
 
 UTIL_SAFE_CAST_HEADER(ext_param);
 UTIL_SAFE_CAST_HEADER_CONST(ext_param);

@@ -32,7 +32,7 @@ extern "C" {
 #include <ert/enkf/enkf_macros.hpp>
 #include <ert/enkf/gen_kw_common.hpp>
 
-
+const char                * gen_kw_config_get_tag_fmt(const gen_kw_config_type * config);
 bool                        gen_kw_config_is_valid( const gen_kw_config_type * config );
 void                        gen_kw_config_fprintf_config( const gen_kw_config_type * config , const char * outfile , const char * min_std_file , FILE * stream );
 void                        gen_kw_config_set_parameter_file( gen_kw_config_type * config , const char * parameter_file );

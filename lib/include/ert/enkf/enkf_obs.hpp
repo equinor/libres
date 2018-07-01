@@ -62,6 +62,7 @@ extern "C" {
 
   void enkf_obs_load(enkf_obs_type*, const char*, double);
   void enkf_obs_clear( enkf_obs_type * enkf_obs );
+  obs_impl_type enkf_obs_get_type(const enkf_obs_type * enkf_obs , const char * key);
 
   void enkf_obs_get_obs_and_measure_node( const enkf_obs_type      * enkf_obs,
                                           enkf_fs_type             * fs,

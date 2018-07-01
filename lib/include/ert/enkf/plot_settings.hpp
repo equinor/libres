@@ -22,10 +22,17 @@
 #include <ert/config/config_parser.hpp>
 #include <ert/config/config_settings.hpp>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 config_settings_type * plot_settings_alloc_load(const char * config_file);
 config_settings_type * plot_settings_alloc(const config_content_type * config_content);
 
 void               plot_settings_init(config_settings_type * setting);
 void               plot_settings_add_config_items( config_parser_type * config );
 
+#ifdef __cplusplus
+}
+#endif
 #endif

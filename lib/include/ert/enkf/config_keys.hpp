@@ -163,7 +163,48 @@ extern "C" {
 #define CONFIG_BOOL_STRING( var ) (var) ? "TRUE" : "FALSE"
 
 
-
+  const char * config_keys_get_config_directory_key();
+  const char * config_keys_get_queue_system_key();
+  const char * config_keys_get_run_template_key();
+  const char * config_keys_get_gen_kw_key();
+  const char * config_keys_get_queue_option_key();
+  const char * config_keys_get_lsf_resources_key();
+  const char * config_keys_get_lsf_server_key();
+  const char * config_keys_get_lsf_queue_key();
+  const char * config_keys_get_install_job_key();
+  const char * config_keys_get_plot_setting_key();
+  const char * config_keys_get_forward_model_key();
+  const char * config_keys_get_log_file_key();
+  const char * config_keys_get_log_level_key();
+  const char * config_keys_get_update_log_path_key();
+  const char * config_keys_get_store_seed_key();
+  const char * config_keys_get_load_seed_key();
+  const char * config_keys_get_summary_key();
+  const char * config_keys_get_jobname_key();
+  const char * config_keys_get_max_runtime_key();
+  const char * config_keys_get_min_realizations_key();
+  const char * config_keys_get_max_submit_key();
+  const char * config_keys_get_simulation_job_key();
+  const char * config_keys_get_umask_key();
+  const char * config_keys_get_data_file_key();
+  const char * config_keys_get_runpath_key();
+  const char * config_keys_get_runpath_file_key();
+  const char * config_keys_get_eclbase_key();
+  const char * config_keys_get_num_realizations_key();
+  const char * config_keys_get_enspath_key();
+  const char * config_keys_get_grid_key();
+  const char * config_keys_get_refcase_key();
+  const char * config_keys_get_history_source_key();
+  const char * config_keys_get_obs_config_key();
+  const char * config_keys_get_time_map_key();
+  const char * config_keys_get_gen_data_key();
+  const char * config_keys_get_result_file();
+  const char * config_keys_get_report_steps();
+  const char * config_keys_get_input_format();
+  const char * config_keys_get_ecl_file();
+  const char * config_keys_get_output_format();
+  const char * config_keys_get_init_files();
+  const char * config_keys_get_random_seed();
 
 #ifdef   __cplusplus
 }

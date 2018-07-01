@@ -30,6 +30,7 @@ typedef struct local_updatestep_struct local_updatestep_type;
 
 local_updatestep_type * local_updatestep_alloc( const char * name );
 void                    local_updatestep_free__(void * arg);
+void                    local_updatestep_free( local_updatestep_type * updatestep);
 void                    local_updatestep_add_ministep( local_updatestep_type * updatestep , local_ministep_type * ministep);
 local_ministep_type   * local_updatestep_iget_ministep( const local_updatestep_type * updatestep , int index);
 local_obsdata_type    * local_updatestep_iget_obsdata( const local_updatestep_type * updatestep , int index);

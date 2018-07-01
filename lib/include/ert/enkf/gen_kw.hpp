@@ -31,13 +31,14 @@ extern "C" {
 #include <ert/enkf/enkf_serialize.hpp>
 #include <ert/enkf/gen_kw_common.hpp>
 
-
-
+void             gen_kw_ecl_write(const gen_kw_type * gen_kw , const char * run_path , const char * base_file , value_export_type * export_value);
+void             gen_kw_write_export_file(const gen_kw_type * gen_kw , const char * filename);
 void             gen_kw_output_transform(gen_kw_type * );
 void             gen_kw_get_output_data(const gen_kw_type * , double * );
 const double   * gen_kw_get_output_ref(const gen_kw_type * );
 const double   * gen_kw_get_data_ref(const gen_kw_type * );
   //void             gen_kw_get_data(const gen_kw_type * , double * );
+
 
 void             gen_kw_free(gen_kw_type *);
 int              gen_kw_data_size( const gen_kw_type * );

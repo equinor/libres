@@ -36,7 +36,9 @@ typedef struct meas_block_struct  meas_block_type;
 
 UTIL_IS_INSTANCE_HEADER( meas_data );
 UTIL_SAFE_CAST_HEADER( meas_block );
-
+meas_block_type  * meas_block_alloc( const char * obs_key , const bool_vector_type * ens_mask , int obs_size);
+int                meas_block_get_total_ens_size( const meas_block_type * meas_block );
+int                meas_block_get_active_ens_size( const meas_block_type * meas_block );
 bool               meas_block_iens_active( const meas_block_type * meas_block , int iens);
 void               meas_block_iset( meas_block_type * meas_block , int iens , int iobs , double value);
 double meas_block_iget( const meas_block_type * meas_block , int iens , int iobs);
@@ -44,14 +46,19 @@ double             meas_block_iget_ens_mean( meas_block_type * meas_block , int 
 double             meas_block_iget_ens_std( meas_block_type * meas_block , int iobs);
 void               meas_block_deactivate( meas_block_type * meas_block , int iobs );
 bool               meas_block_iget_active( const meas_block_type * meas_block , int iobs);
+  void meas_block_free( meas_block_type * meas_block );
 void meas_data_fprintf( const meas_data_type * matrix , FILE * stream);
 
+bool               meas_data_has_block( const meas_data_type * matrix , const char * lookup_key);
+
+meas_block_type  * meas_data_get_block( const meas_data_type * matrix , const char * lookup_key);
 void               meas_data_reset(meas_data_type * );
-  meas_data_type *   meas_data_alloc( const bool_vector_type * ens_mask);
+meas_data_type *   meas_data_alloc( const bool_vector_type * ens_mask);
 void               meas_data_free(meas_data_type * );
 void               meas_data_add(meas_data_type * , int , double );
 matrix_type      * meas_data_allocS(const meas_data_type * matrix);
 int                meas_data_get_active_obs_size( const meas_data_type * matrix );
+int                meas_data_get_total_ens_size( const meas_data_type * matrix );
 void               meas_data_deactivate(meas_data_type * meas_data, int index);
 int                meas_data_get_active_ens_size( const meas_data_type * meas_data );
 int                meas_data_get_nrobs( const meas_data_type * meas_data );

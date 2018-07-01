@@ -41,6 +41,8 @@ typedef struct site_config_struct site_config_type;
 
   queue_config_type *      site_config_get_queue_config(const site_config_type * site_config);
   const char *             site_config_get_location();
+  bool                     site_config_has_queue_driver(const site_config_type * site_config, const char * driver_name);
+  void                     site_config_update_pathvar(site_config_type * site_config, const char * pathvar, const char * value);
 
   const char *             site_config_get_config_file(const site_config_type*);
 

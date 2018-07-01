@@ -23,6 +23,9 @@
   Contains some headers which both gen_kw.c and gen_kw_config.c need -
   split like this to avoid circular dependencies.
 */
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 
 typedef struct gen_kw_config_struct gen_kw_config_type;
@@ -33,4 +36,7 @@ bool          gen_kw_fload(gen_kw_type * , const char *);
 
 
 
+#ifdef __cplusplus
+}
+#endif
 #endif

@@ -33,11 +33,11 @@ extern "C" {
 
 
 
-
-
-double    summary_get(const summary_type * summary, int report_step );
-bool      summary_active_value( double value );
-int       summary_length(const summary_type * summary);
+summary_type * summary_alloc(const summary_config_type * summary_config);
+void           summary_free(summary_type *summary);
+double         summary_get(const summary_type * summary, int report_step );
+bool           summary_active_value( double value );
+int            summary_length(const summary_type * summary);
 
 VOID_HAS_DATA_HEADER(summary);
 UTIL_SAFE_CAST_HEADER(summary);
