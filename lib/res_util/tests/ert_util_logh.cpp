@@ -38,7 +38,7 @@ void test_open() {
   {
     log_type * logh = log_open( LOG_FILE , LOG_DEBUG );
     log_add_message( logh , LOG_DEBUG , "Message");
-    test_assert_int_equal( LOG_DEBUG , log_get_msg_count( logh ));
+    test_assert_int_equal( 1 , log_get_msg_count( logh ));
     log_close( logh );
   }
 

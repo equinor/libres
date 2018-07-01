@@ -52,21 +52,25 @@ void create_error_workflow( const char * workflow_file , const char * tmp_file ,
 }
 
 
-void * read_file( void * self , const stringlist_type * args) {
-  printf("Running read_file \n");
-  int * value = (int *) self;
-  FILE * stream = util_fopen(stringlist_iget(args , 0 ) , "r");
-  int read_count = fscanf(stream , "%d" , value );
-  fclose( stream );
-  if (read_count == 1) {
-    int * return_value = (int *) util_malloc( sizeof * return_value );
-    return_value[0] = value[0];
+extern "C" {
+  // This symbol will be dlsym'd.
 
-    return return_value;
-  } else
+  void * read_file( void * self , const stringlist_type * args) {
+    printf("Running read_file \n");
+    int * value = (int *) self;
+    FILE * stream = util_fopen(stringlist_iget(args , 0 ) , "r");
+    int read_count = fscanf(stream , "%d" , value );
+    fclose( stream );
+    if (read_count == 1) {
+      int * return_value = (int *) util_malloc( sizeof * return_value );
+      return_value[0] = value[0];
+
+      return return_value;
+    } else
     return NULL;
-}
+  }
 
+}
 
 static void create_exjob( const char * workflow , const char * bin_path)
 {
