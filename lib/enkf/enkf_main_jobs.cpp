@@ -28,7 +28,7 @@
 #include <ert/enkf/local_obsdata.hpp>
 #include <ert/enkf/local_obsdata_node.hpp>
 
-
+extern "C" {
 
 static bool_vector_type * alloc_iactive_vector_from_range(const stringlist_type * range, int startindex, int endindex, int ens_size) {
   bool_vector_type * iactive;
@@ -583,4 +583,6 @@ void * enkf_main_pre_simulation_copy_JOB( void * self , const stringlist_type * 
 
   free( target_path );
   return NULL;
+}
+
 }
