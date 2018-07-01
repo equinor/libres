@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2011  Statoil ASA, Norway. 
-    
-   The file 'history.h' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2011  Statoil ASA, Norway.
+
+   The file 'history.h' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 #ifndef ERT_HISTORY_H
@@ -34,7 +34,7 @@ extern "C" {
 
 #include <ert/sched/sched_file.h>
 
-     
+
 typedef enum {
   SCHEDULE          = 0,
   REFCASE_SIMULATED = 1,    /* ecl_sum_get_well_var( "WWCT" );  */
@@ -54,7 +54,7 @@ typedef struct history_struct history_type;
   history_type * history_alloc_from_refcase(const ecl_sum_type * refcase , bool use_h_keywords);
   const char   * history_get_source_string( history_source_type history_source );
   bool           history_init_ts( const history_type * history , const char * summary_key , double_vector_type * value, bool_vector_type * valid);
-  
+
 // Accessors.
   time_t         history_get_start_time( const history_type * history );
   int            history_get_last_restart(const history_type *);
@@ -70,7 +70,7 @@ typedef struct history_struct history_type;
   history_source_type history_get_source(const history_type * history);
 
   UTIL_IS_INSTANCE_HEADER( history );
-  
+
 #ifdef __cplusplus
 }
 #endif

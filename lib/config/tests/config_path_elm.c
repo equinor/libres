@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2012  Statoil ASA, Norway. 
-    
-   The file 'config_path_elm.c' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2012  Statoil ASA, Norway.
+
+   The file 'config_path_elm.c' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 #include <stdlib.h>
 #include <stdbool.h>
@@ -43,7 +43,7 @@ int main(int argc , char ** argv) {
   config_root_path_type * root_path = config_root_path_alloc( root );
   {
     config_path_elm_type * path_elm = config_path_elm_alloc( root_path , rel_path );
-    
+
     test_assert_string_equal( config_path_elm_get_relpath( path_elm ) , rel_path );
     test_assert_string_equal( config_path_elm_get_abspath( path_elm ) , abs_path );
 
@@ -51,19 +51,19 @@ int main(int argc , char ** argv) {
     test_assert_string_equal( config_path_elm_alloc_abspath( path_elm , "XXX" ) , abs_true);
     test_assert_string_equal( config_path_elm_alloc_path( path_elm , "XXX" ) , path_true2 );
 
-    
+
     config_path_elm_free( path_elm );
   }
   {
     config_path_elm_type * path_elm = config_path_elm_alloc( root_path , abs_path );
-  
+
     test_assert_string_equal( config_path_elm_get_relpath( path_elm ) , rel_path );
     test_assert_string_equal( config_path_elm_get_abspath( path_elm ) , abs_path );
 
     test_assert_string_equal( config_path_elm_alloc_relpath( path_elm , "XXX" ) , rel_true);
     test_assert_string_equal( config_path_elm_alloc_abspath( path_elm , "XXX" ) , abs_true);
     test_assert_string_equal( config_path_elm_alloc_path( path_elm , "XXX" ) , path_true2 );
-    
+
     config_path_elm_free( path_elm );
   }
   config_root_path_free( root_path );
@@ -72,7 +72,7 @@ int main(int argc , char ** argv) {
   root_path = config_root_path_alloc( NULL );
   {
     config_path_elm_type * path_elm = config_path_elm_alloc( root_path , rel_path );
-    
+
     test_assert_string_equal( config_path_elm_get_relpath( path_elm ) , rel_path );
     test_assert_string_equal( config_path_elm_get_abspath( path_elm ) , abs_path );
 
@@ -80,10 +80,10 @@ int main(int argc , char ** argv) {
     test_assert_string_equal( config_path_elm_alloc_abspath( path_elm , "XXX" ) , abs_true);
     test_assert_string_equal( config_path_elm_alloc_path( path_elm , "XXX" ) , path_true1 );
 
-    
+
     config_path_elm_free( path_elm );
   }
-  
+
   exit(0);
 }
 

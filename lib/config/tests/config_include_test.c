@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2012  Statoil ASA, Norway. 
-    
-   The file 'config_include_test.c' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2012  Statoil ASA, Norway.
+
+   The file 'config_include_test.c' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 #include <stdlib.h>
 #include <stdbool.h>
@@ -28,7 +28,7 @@
 #include <ert/config/config_schema_item.h>
 #include <ert/config/config_content.h>
 
-void parse_test(config_parser_type * config , 
+void parse_test(config_parser_type * config ,
                 const char * root_path ,     // The new working directory - the test will start by chdir() here.
                 const char * config_file ) { // The config_file, either as an absolute path - or relative from root_path
 
@@ -45,7 +45,7 @@ void parse_test(config_parser_type * config ,
   path_stack_push( path_stack , NULL );
   if (root_path != NULL)
     util_chdir( root_path );
-  
+
   config_abs_path = util_alloc_abs_path( config_path );
   config_rel_path = util_alloc_rel_path(  NULL , config_abs_path);
 
@@ -93,10 +93,10 @@ int main(int argc , char ** argv) {
   const char * config_file = argv[2];
   char       * abs_config_file = util_alloc_filename( abs_path , config_file , NULL);
   config_parser_type * config = config_alloc();
-  
+
   {
     config_schema_item_type * schema_item;
-    
+
     schema_item = config_add_schema_item( config , "PATH0" , true );
     config_schema_item_set_argc_minmax( schema_item , 1 , 1 );
     config_schema_item_iset_type( schema_item , 0 , CONFIG_PATH );
@@ -117,8 +117,8 @@ int main(int argc , char ** argv) {
     config_schema_item_set_argc_minmax( schema_item , 1 , 1 );
     config_schema_item_iset_type( schema_item , 0 , CONFIG_PATH );
   }
-  
-  parse_test( config , abs_path , config_file );        
+
+  parse_test( config , abs_path , config_file );
   parse_test( config , abs_path , abs_config_file );
   parse_test( config , NULL , abs_config_file );
   parse_test( config , "../../" , abs_config_file );

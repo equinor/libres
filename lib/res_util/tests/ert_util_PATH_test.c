@@ -51,10 +51,10 @@ int main(int argc , char ** argv) {
 
     if (path_list[3] != NULL)
       test_error_exit("Failed termination \n");
-    
+
     util_free_NULL_terminated_stringlist( path_list );
   }
-  
+
 
   exit(0);
 }

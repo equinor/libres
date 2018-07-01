@@ -438,5 +438,5 @@ void config_content_pop_path_stack( config_content_type * content ) {
 
 
 stringlist_type * config_content_alloc_keys(const config_content_type * content) {
-  return hash_alloc_stringlist(content->items); 
+  return hash_alloc_stringlist(content->items);
 }

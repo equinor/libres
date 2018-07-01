@@ -144,7 +144,7 @@ void test_parse_invalid( ) {
       fclose( stream );
     }
     test_assert_int_equal( torque_driver_parse_status( "qstat.stdout" , "a2345") , JOB_QUEUE_STATUS_FAILURE);
-    
+
 
     test_work_area_free( work_area );
   }

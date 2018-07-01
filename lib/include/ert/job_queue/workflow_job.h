@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2012  Statoil ASA, Norway. 
-    
-   The file 'workflow_job.h' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2012  Statoil ASA, Norway.
+
+   The file 'workflow_job.h' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 #ifndef ERT_WORKFLOW_JOB_H
@@ -25,10 +25,10 @@ extern "C" {
 
 #include <ert/config/config_parser.h>
 
-  
+
   typedef void * (workflow_job_ftype) (void * self , const stringlist_type * arg );
   typedef struct workflow_job_struct workflow_job_type;
-  
+
   const char   * workflow_job_get_name( const workflow_job_type * workflow_job );
   bool           workflow_job_internal( const workflow_job_type * workflow_job );
   config_parser_type  * workflow_job_alloc_config();
@@ -57,7 +57,7 @@ extern "C" {
   config_item_types  workflow_job_iget_argtype( const workflow_job_type * workflow_job, int index);
 
 
-  
+
 #ifdef __cplusplus
 }
 #endif

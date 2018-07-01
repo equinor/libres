@@ -1,19 +1,19 @@
-/*                
-   Copyright (C) 2014  Statoil ASA, Norway. 
-   
-   The file 'ert_util_block_fs.c' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+/*
+   Copyright (C) 2014  Statoil ASA, Norway.
+
+   The file 'ert_util_block_fs.c' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 #include <stdlib.h>
 #include <stdbool.h>
@@ -58,7 +58,7 @@ void createFS1() {
           unlink("stop");
           break;
         }
-        
+
         usleep(1000);
         total_sleep += 1000;
         if (total_sleep > 1000000 * 5) {
@@ -69,7 +69,7 @@ void createFS1() {
     }
     block_fs_close( bfs , false );
     exit(0);
-  } 
+  }
   usleep(10000);
 }
 
@@ -82,7 +82,7 @@ void test_lock_conflict() {
     if (util_file_exists("test.lock_0"))
       break;
   }
-  
+
   {
     block_fs_type * bfs = block_fs_mount( "test.mnt" , 1000 , 10000 , 0.67 , 10 , true , false , true );
     test_assert_true( block_fs_is_readonly( bfs ) );
@@ -91,10 +91,10 @@ void test_lock_conflict() {
     FILE * stream = util_fopen("stop" , "w");
     fclose( stream );
   }
-  
+
   while (util_file_exists( "stop")) {
     usleep( 1000 );
-  }      
+  }
 
   test_work_area_free( work_area );
 }

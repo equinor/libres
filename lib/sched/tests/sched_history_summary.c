@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2013  Statoil ASA, Norway. 
-    
-   The file 'sched_history_summary.c' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2013  Statoil ASA, Norway.
+
+   The file 'sched_history_summary.c' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 
 #include <stdbool.h>
@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
   ecl_sum_type * refcase = ecl_sum_fread_alloc_case( sum_case , ":" );
   history_type * hist_h = history_alloc_from_refcase( refcase , true );
   history_type * hist_sim = history_alloc_from_refcase( refcase , false );
-  
+
   test_assert_true( history_is_instance( hist_h ) );
   test_assert_true( history_is_instance( hist_sim ) );
   test_assert_int_equal( history_get_last_restart( hist_sim ) , ecl_sum_get_last_report_step( refcase ) );
@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
     double_vector_type * value_h   = double_vector_alloc(0 , 0);
     bool_vector_type * valid_sim = bool_vector_alloc( 0 , false );
     bool_vector_type * valid_h = bool_vector_alloc( 0 , false );
-    
+
     test_assert_true( history_init_ts( hist_sim , "FOPT" , value_sim , valid_sim ));
     test_assert_true( history_init_ts( hist_h , "FOPT" , value_h , valid_h ));
     {
@@ -59,7 +59,7 @@ int main(int argc, char **argv) {
     }
     bool_vector_free( valid_sim );
     bool_vector_free( valid_h );
-    
+
     double_vector_free( value_sim );
     double_vector_free( value_h );
   }

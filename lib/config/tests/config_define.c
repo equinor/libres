@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2014  Statoil ASA, Norway. 
-    
-   The file 'config_define.c' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2014  Statoil ASA, Norway.
+
+   The file 'config_define.c' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
 */
 #include <stdlib.h>
 #include <stdbool.h>
@@ -43,8 +43,8 @@ void test_define(config_parser_type * config , const char * config_file) {
     test_assert_true( subst_list_has_key( define_list , "VARX"));
     test_assert_true( subst_list_has_key( define_list , "<CONFIG_FILE>"));
     test_assert_false( subst_list_has_key( define_list , "VARY"));
-    
-    
+
+
     test_assert_string_equal( subst_list_get_value( define_list , "VAR1") , "100");
     test_assert_string_equal( subst_list_get_value( define_list , "VAR2") , "10");
     test_assert_string_equal( subst_list_get_value( define_list , "VARX") , "1");
@@ -58,7 +58,7 @@ void test_define(config_parser_type * config , const char * config_file) {
 
 config_parser_type * config_create_schema() {
   config_parser_type * config = config_alloc();
-  
+
   config_add_schema_item( config , "SET" , true );
   config_add_schema_item( config , "NOTSET" , false );
 
@@ -71,9 +71,9 @@ int main(int argc , char ** argv) {
   {
     const char * config_file = argv[1];
     config_parser_type * config = config_create_schema();
-    
+
     test_define( config , config_file );
-    
+
     config_free( config );
     exit(0);
   }

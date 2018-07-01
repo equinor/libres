@@ -1,19 +1,19 @@
 /*
-   Copyright (C) 2012  Statoil ASA, Norway. 
-    
-   The file 'job_queue_test.c' is part of ERT - Ensemble based Reservoir Tool. 
-    
-   ERT is free software: you can redistribute it and/or modify 
-   it under the terms of the GNU General Public License as published by 
-   the Free Software Foundation, either version 3 of the License, or 
-   (at your option) any later version. 
-    
-   ERT is distributed in the hope that it will be useful, but WITHOUT ANY 
-   WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-   FITNESS FOR A PARTICULAR PURPOSE.   
-    
-   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html> 
-   for more details. 
+   Copyright (C) 2012  Statoil ASA, Norway.
+
+   The file 'job_queue_test.c' is part of ERT - Ensemble based Reservoir Tool.
+
+   ERT is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   ERT is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.
+
+   See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
+   for more details.
  */
 #include <stdlib.h>
 #include <stdbool.h>
@@ -40,7 +40,7 @@ void job_queue_set_driver_(job_driver_type driver_type) {
   job_queue_free(queue);
   queue_driver_free(driver);
 
-   
+
 }
 
 void set_option_max_running_max_running_value_set() {
@@ -89,7 +89,7 @@ void get_driver_option_lists() {
     queue_driver_type * driver_torque = queue_driver_alloc(TORQUE_DRIVER);
     stringlist_type * option_list = stringlist_alloc_new();
     queue_driver_init_option_list(driver_torque, option_list);
-    
+
     test_assert_true(stringlist_contains(option_list, MAX_RUNNING));
     test_assert_true(stringlist_contains(option_list, TORQUE_QSUB_CMD));
     test_assert_true(stringlist_contains(option_list, TORQUE_QSTAT_CMD));
@@ -103,25 +103,25 @@ void get_driver_option_lists() {
     stringlist_free(option_list);
     queue_driver_free(driver_torque);
   }
-  
+
   //Local driver option list (only general queue_driver options)
   {
     queue_driver_type * driver_local = queue_driver_alloc(LOCAL_DRIVER);
     stringlist_type * option_list = stringlist_alloc_new();
     queue_driver_init_option_list(driver_local, option_list);
-    
+
     test_assert_true(stringlist_contains(option_list, MAX_RUNNING));
-    
-    stringlist_free(option_list); 
+
+    stringlist_free(option_list);
     queue_driver_free(driver_local);
   }
-  
-  //Lsf driver option list 
+
+  //Lsf driver option list
   {
     queue_driver_type * driver_lsf = queue_driver_alloc(LSF_DRIVER);
     stringlist_type * option_list = stringlist_alloc_new();
     queue_driver_init_option_list(driver_lsf, option_list);
-    
+
     test_assert_true(stringlist_contains(option_list, MAX_RUNNING));
     test_assert_true(stringlist_contains(option_list, LSF_QUEUE));
     test_assert_true(stringlist_contains(option_list, LSF_RESOURCE));
@@ -131,24 +131,24 @@ void get_driver_option_lists() {
     test_assert_true(stringlist_contains(option_list, LSF_BSUB_CMD));
     test_assert_true(stringlist_contains(option_list, LSF_BJOBS_CMD));
     test_assert_true(stringlist_contains(option_list, LSF_BKILL_CMD));
-    
-    stringlist_free(option_list); 
+
+    stringlist_free(option_list);
     queue_driver_free(driver_lsf);
   }
-  
-  //Rsh driver option list 
+
+  //Rsh driver option list
   {
     queue_driver_type * driver_rsh = queue_driver_alloc(RSH_DRIVER);
     stringlist_type * option_list = stringlist_alloc_new();
     queue_driver_init_option_list(driver_rsh, option_list);
-    
+
     test_assert_true(stringlist_contains(option_list, MAX_RUNNING));
     test_assert_true(stringlist_contains(option_list, RSH_HOST));
     test_assert_true(stringlist_contains(option_list, RSH_HOSTLIST));
     test_assert_true(stringlist_contains(option_list, RSH_CMD));
     test_assert_true(stringlist_contains(option_list, RSH_CLEAR_HOSTLIST));
-        
-    stringlist_free(option_list); 
+
+    stringlist_free(option_list);
     queue_driver_free(driver_rsh);
   }
 }
@@ -158,7 +158,7 @@ int main(int argc, char ** argv) {
   job_queue_set_driver_(LOCAL_DRIVER);
   job_queue_set_driver_(RSH_DRIVER);
   job_queue_set_driver_(TORQUE_DRIVER);
-  
+
   set_option_max_running_max_running_value_set();
   set_option_max_running_max_running_option_set();
   set_option_invalid_option_returns_false();
@@ -166,6 +166,6 @@ int main(int argc, char ** argv) {
 
   set_option_valid_on_specific_driver_returns_true();
   get_driver_option_lists();
-  
+
   exit(0);
 }

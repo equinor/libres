@@ -178,7 +178,7 @@ void test2(char ** argv) {
 
   test_work_area_type * work_area = test_work_area_alloc("job_queue");
 
- 
+
 
   for (int j = 0; j < number_of_queue_reuse; j++) {
     job_queue_type * queue = job_queue_alloc(number_of_jobs, "OK.status", "STATUS", "ERROR");
@@ -427,7 +427,7 @@ void test16(char ** argv) {
 int main(int argc, char ** argv) {
   util_install_signals();
 
- 
+
   test2(argv);
   test3(argv);
   test4(argv);
