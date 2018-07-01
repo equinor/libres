@@ -280,7 +280,7 @@ foreach(name ert_util_logh
              test_thread_pool
              res_util_PATH)
 
-       add_executable(${name} res_util/tests/${name}.c)
+       add_executable(${name} res_util/tests/${name}.cpp)
        target_link_libraries(${name} res)
        add_test(NAME ${name} COMMAND ${name})
 endforeach()
@@ -300,7 +300,7 @@ foreach(name config_content_node
              config_config
              config_schema_item)
 
-    add_executable(${name} config/tests/${name}.c)
+    add_executable(${name} config/tests/${name}.cpp)
     target_link_libraries(${name} res)
     add_test(NAME ${name} COMMAND ${name})
 endforeach()
@@ -316,7 +316,7 @@ foreach(name config_append_test
              config_define
              config_argc)
 
-    add_executable(${name} config/tests/${name}.c)
+    add_executable(${name} config/tests/${name}.cpp)
     target_link_libraries(${name} res)
 endforeach()
 
@@ -348,10 +348,10 @@ add_test(NAME config_argc
 
 #-----------------------------------------------------------------
 
-add_executable(sched_history_summary sched/tests/sched_history_summary.c)
+add_executable(sched_history_summary sched/tests/sched_history_summary.cpp)
 target_link_libraries(sched_history_summary res)
 
-add_executable(rms_file_test rms/tests/rms_file_test.c)
+add_executable(rms_file_test rms/tests/rms_file_test.cpp)
 target_link_libraries(rms_file_test res)
 
 add_executable(analysis_external_module analysis/tests/analysis_test_external_module.cpp)
@@ -387,16 +387,16 @@ foreach(name job_status_test
              job_torque_test
              job_queue_manager)
 
-    add_executable(${name} job_queue/tests/${name}.c)
+    add_executable(${name} job_queue/tests/${name}.cpp)
     target_link_libraries(${name} res)
     add_test(NAME ${name} COMMAND ${name})
 endforeach()
 
 # job_workflow requires this binary being available
-add_executable(create_file job_queue/tests/create_file.c)
+add_executable(create_file job_queue/tests/create_file.cpp)
 target_link_libraries(create_file res)
 
-add_executable(job_loadOK job_queue/tests/job_loadOK.c)
+add_executable(job_loadOK job_queue/tests/job_loadOK.cpp)
 target_link_libraries(job_loadOK res)
 add_test(NAME job_loadOK1
          COMMAND job_loadOK
@@ -409,7 +409,7 @@ add_test(NAME job_loadOK3
                  ${CMAKE_CURRENT_SOURCE_DIR}/job_queue/tests/data/internalOK
                  ${CMAKE_CURRENT_SOURCE_DIR}/job_queue/tests/data/externalOK)
 
-add_executable(job_loadFail job_queue/tests/job_loadFail.c)
+add_executable(job_loadFail job_queue/tests/job_loadFail.cpp)
 target_link_libraries(job_loadFail res)
 
 add_test(NAME job_loadFail1
@@ -423,38 +423,38 @@ add_test(NAME job_loadFail3
                  ${CMAKE_CURRENT_SOURCE_DIR}/job_queue/tests/data/internalFail
                  ${CMAKE_CURRENT_SOURCE_DIR}/job_queue/tests/data/externalFail)
 
-add_executable(job_list_test job_queue/tests/job_list_test.c)
+add_executable(job_list_test job_queue/tests/job_list_test.cpp)
 target_link_libraries(job_list_test res)
 add_test(NAME job_list_test
          COMMAND valgrind --leak-check=full --error-exitcode=1
                  $<TARGET_FILE:job_list_test>)
 
-add_executable(job_workflow_test job_queue/tests/job_workflow_test.c)
+add_executable(job_workflow_test job_queue/tests/job_workflow_test.cpp)
 target_link_libraries(job_workflow_test res)
 add_test(NAME job_workflow_test
          COMMAND job_workflow_test
                  ${EXECUTABLE_OUTPUT_PATH}
                  ${CMAKE_CURRENT_SOURCE_DIR}/job_queue/tests/data/internal_job)
 
-add_executable(job_lsf_exclude_hosts_test job_queue/tests/job_lsf_exclude_hosts_test.c)
+add_executable(job_lsf_exclude_hosts_test job_queue/tests/job_lsf_exclude_hosts_test.cpp)
 target_link_libraries(job_lsf_exclude_hosts_test res)
 add_test(NAME job_lsf_exclude_hosts_test
          COMMAND job_lsf_exclude_hosts_test job_program NULL LOCAL)
 
-add_executable(job_program_output job_queue/tests/job_program_output.c)
+add_executable(job_program_output job_queue/tests/job_program_output.cpp)
 target_link_libraries(job_program_output ecl)
 
-add_executable(job_queue_test job_queue/tests/job_job_queue_test.c)
+add_executable(job_queue_test job_queue/tests/job_job_queue_test.cpp)
 target_link_libraries(job_queue_test res)
 add_test(NAME job_queue_test
          COMMAND job_queue_test
                  $<TARGET_FILE:job_program_output>)
 set_tests_properties(job_queue_test PROPERTIES LABELS "SLOW_1")
 
-add_executable(job_queue_stress_task job_queue/tests/job_queue_stress_task.c)
+add_executable(job_queue_stress_task job_queue/tests/job_queue_stress_task.cpp)
 target_link_libraries(job_queue_stress_task ecl)
 
-add_executable(job_queue_stress_test job_queue/tests/job_queue_stress_test.c)
+add_executable(job_queue_stress_test job_queue/tests/job_queue_stress_test.cpp)
 target_link_libraries(job_queue_stress_test res)
 add_test(NAME job_queue_stress_test
          COMMAND job_queue_stress_test
@@ -467,7 +467,7 @@ add_test(NAME job_queue_user_exit
                  $<TARGET_FILE:job_queue_stress_task>
                  True)
 
-add_executable(job_queue_timeout_test job_queue/tests/job_queue_timeout_test.c)
+add_executable(job_queue_timeout_test job_queue/tests/job_queue_timeout_test.cpp)
 target_link_libraries(job_queue_timeout_test res)
 add_test(NAME job_queue_timeout_test
          COMMAND job_queue_timeout_test $<TARGET_FILE:job_queue_stress_task>)
@@ -475,14 +475,14 @@ add_test(NAME job_queue_timeout_test
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/job_queue/tests/data/qsub_emulators/
      DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 
-add_executable(job_torque_submit_test job_queue/tests/job_torque_submit_test.c)
+add_executable(job_torque_submit_test job_queue/tests/job_torque_submit_test.cpp)
 target_link_libraries(job_torque_submit_test res)
 add_test(NAME job_torque_submit_test
          WORKING_DIRECTORY ${EXECUTABLE_OUTPUT_PATH}
          COMMAND job_torque_submit_test dummyparam)
 set_property(TEST job_torque_submit_test PROPERTY ENVIRONMENT “setenv PATH ${EXECUTABLE_OUTPUT_PATH}:$PATH”)
 
-add_executable(ext_joblist_test job_queue/tests/ext_joblist_test.c)
+add_executable(ext_joblist_test job_queue/tests/ext_joblist_test.cpp)
 target_link_libraries(ext_joblist_test res)
 add_test(NAME ext_joblist_test
          COMMAND ext_joblist_test
@@ -514,22 +514,22 @@ if (ERT_LSF_SUBMIT_TEST)
   set(LSF_SERVER "" CACHE STRING  "List of LSF servers for testing")
 
   if (LSF_LIBRARY)
-     add_executable(job_lsb_test job_queue/tests/job_lsb_test.c)
+     add_executable(job_lsb_test job_queue/tests/job_lsb_test.cpp)
      target_link_libraries(job_lsb_test res)
      add_test(NAME job_lsb_test COMMAND job_lsb_test)
 
-     add_executable(job_lsb job_queue/tests/job_lsb.c)
+     add_executable(job_lsb job_queue/tests/job_lsb.cpp)
      target_link_libraries(job_lsb res)
      add_test(NAME job_lsb COMMAND job_lsb)
    endif()
 
-   add_executable(job_lsf_remote_submit_test job_queue/tests/job_lsf_remote_submit_test.c)
+   add_executable(job_lsf_remote_submit_test job_queue/tests/job_lsf_remote_submit_test.cpp)
    target_link_libraries(job_lsf_remote_submit_test res)
 
-   add_executable(job_lsf_library_submit_test job_queue/tests/job_lsf_library_submit_test.c)
+   add_executable(job_lsf_library_submit_test job_queue/tests/job_lsf_library_submit_test.cpp)
    target_link_libraries(job_lsf_library_submit_test res)
 
-   add_executable(job_program job_queue/tests/job_program.c)
+   add_executable(job_program job_queue/tests/job_program.cpp)
 
    if (LSF_SERVER)
      add_test(NAME job_lsf_remote_submit_test
