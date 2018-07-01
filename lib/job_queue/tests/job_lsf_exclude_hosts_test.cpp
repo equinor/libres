@@ -128,7 +128,7 @@ void test_bjobs_parse_hosts() {
 
   FILE * fptr;
   fptr = fopen(fname, "w");
-  fprintf(fptr, full_hostnames); // : is std bjobs delimiter
+  fputs(full_hostnames, fptr); // : is std bjobs delimiter
   fclose(fptr);
 
   stringlist_type * hosts = lsf_job_alloc_parse_hostnames(fname);

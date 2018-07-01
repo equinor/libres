@@ -41,7 +41,7 @@ enkf_config_node_type * parse_alloc_GEN_PARAM( const char * config_string , bool
   enkf_config_node_add_GEN_PARAM_config_schema( config );
   {
     FILE * stream = util_fopen("config.txt" , "w");
-    fprintf(stream , config_string);
+    fputs(config_string, stream);
     fclose( stream );
   }
 
@@ -130,7 +130,7 @@ enkf_config_node_type * parse_alloc_GEN_DATA_result( const char * config_string 
   enkf_config_node_add_GEN_DATA_config_schema( config );
   {
     FILE * stream = util_fopen("config.txt" , "w");
-    fprintf(stream , config_string);
+    fputs(config_string, stream);
     fclose( stream );
   }
   {
