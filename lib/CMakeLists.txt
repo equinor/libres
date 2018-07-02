@@ -743,7 +743,7 @@ foreach(test enkf_site_config
              enkf_time_map
              enkf_main_fs )
 
-    add_executable(${test} enkf/tests/${test}.c)
+    add_executable(${test} enkf/tests/${test}.cpp)
     target_link_libraries(${test} res)
 endforeach()
 
