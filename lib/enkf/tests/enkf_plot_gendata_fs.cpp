@@ -38,7 +38,7 @@ void test_gendata( enkf_main_type * enkf_main , const char * obs_key , int repor
     enkf_plot_gendata_type * gen_data = enkf_plot_gendata_alloc_from_obs_vector( obs_vector );
 
     enkf_fs_type * fs = enkf_main_get_fs( enkf_main );
-    gen_obs_type * gen_obs = obs_vector_iget_node( obs_vector , report_step );
+    gen_obs_type * gen_obs = (gen_obs_type *) obs_vector_iget_node( obs_vector , report_step );
 
     {
 

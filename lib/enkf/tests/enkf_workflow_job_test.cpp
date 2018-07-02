@@ -335,7 +335,7 @@ static void test_export_runpath_file(ert_test_context_type * test_context,
 
       test_assert_string_equal(base, file_base);
 
-      char * runpath = "";
+      const char * runpath = "";
       if (util_int_format_count(runpath_fmt) == 1)
         runpath = util_alloc_sprintf(runpath_fmt, iens);
       else if (util_int_format_count(runpath_fmt) == 2)
@@ -351,7 +351,6 @@ static void test_export_runpath_file(ert_test_context_type * test_context,
       }
 
       free(base);
-      free(runpath);
     }
 
     int linecount = int_vector_size(iens_values) * int_vector_size(iter_values);

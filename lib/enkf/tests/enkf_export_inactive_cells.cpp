@@ -162,7 +162,7 @@ int main(int argc , char ** argv) {
   enkf_config_node_type      * config_node     = ensemble_config_get_node(ensemble_config , key);
   const field_config_type * field_config = (const field_config_type *)enkf_config_node_get_ref( config_node );
   enkf_node_type             * field_node      = enkf_node_alloc( config_node );
-  field_type                 * field           = enkf_node_value_ptr(field_node);
+  field_type                 * field           = (field_type *) enkf_node_value_ptr(field_node);
 
   {
     forward_initialize_node(enkf_main, init_file, field_node);

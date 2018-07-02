@@ -103,7 +103,7 @@ void test_parse_gen_param() {
 
   // Correct
   {
-    enkf_config_node_type * config_node = parse_alloc_GEN_PARAM( "GEN_PARAM KEY ECLFILE INPUT_FORMAT:BINARY_DOUBLE OUTPUT_FORMAT:ASCII INIT_FILES:INIT%%d\n" , true);
+    enkf_config_node_type * config_node = parse_alloc_GEN_PARAM( "GEN_PARAM KEY ECLFILE INPUT_FORMAT:BINARY_DOUBLE OUTPUT_FORMAT:ASCII INIT_FILES:INIT%d\n" , true);
 
     test_assert_string_equal( "ECLFILE" , enkf_config_node_get_enkf_outfile( config_node ));
     test_assert_NULL(  enkf_config_node_get_enkf_infile( config_node ));
@@ -161,14 +161,14 @@ void test_parse_gen_data_result() {
 
   // Validation error: missing INPUT_FORMAT:
   {
-    enkf_config_node_type * config_node = parse_alloc_GEN_DATA_result( "GEN_DATA GEN_DATA_KEY  RESULT_FILE:Results%%d  REPORT_STEPS:10 \n" , true);
+    enkf_config_node_type * config_node = parse_alloc_GEN_DATA_result( "GEN_DATA GEN_DATA_KEY  RESULT_FILE:Results%d  REPORT_STEPS:10 \n" , true);
     test_assert_NULL( config_node );
   }
 
 
   // Validation error: Invalid INPUT_FORMAT:
   {
-    enkf_config_node_type * config_node = parse_alloc_GEN_DATA_result( "GEN_DATA GEN_DATA_KEY  RESULT_FILE:Results%%d  INPUT_FORMAT:AsCiiiiii REPORT_STEPS:10 \n" , true);
+    enkf_config_node_type * config_node = parse_alloc_GEN_DATA_result( "GEN_DATA GEN_DATA_KEY  RESULT_FILE:Results%d  INPUT_FORMAT:AsCiiiiii REPORT_STEPS:10 \n" , true);
     test_assert_NULL( config_node );
   }
 
@@ -188,19 +188,19 @@ void test_parse_gen_data_result() {
 
   // Validation error: Missing REPORT_STEPS:
   {
-    enkf_config_node_type * config_node = parse_alloc_GEN_DATA_result( "GEN_DATA GEN_DATA_KEY  RESULT_FILE:Results%%d INPUT_FORMAT:ASCII  \n" , true);
+    enkf_config_node_type * config_node = parse_alloc_GEN_DATA_result( "GEN_DATA GEN_DATA_KEY  RESULT_FILE:Results%d INPUT_FORMAT:ASCII  \n" , true);
     test_assert_NULL( config_node );
   }
 
   // Validation error: Invalid REPORT_STEPS
   {
-    enkf_config_node_type * config_node = parse_alloc_GEN_DATA_result( "GEN_DATA GEN_DATA_KEY  RESULT_FILE:Results%%d INPUT_FORMAT:ASCII  REPORT_STEPS:XXX\n" , true);
+    enkf_config_node_type * config_node = parse_alloc_GEN_DATA_result( "GEN_DATA GEN_DATA_KEY  RESULT_FILE:Results%d INPUT_FORMAT:ASCII  REPORT_STEPS:XXX\n" , true);
     test_assert_NULL( config_node );
   }
 
   // Valid
   {
-    enkf_config_node_type * config_node = parse_alloc_GEN_DATA_result( "GEN_DATA GEN_DATA_KEY  RESULT_FILE:Results%%d INPUT_FORMAT:ASCII  REPORT_STEPS:10,20,30\n" , true);
+    enkf_config_node_type * config_node = parse_alloc_GEN_DATA_result( "GEN_DATA GEN_DATA_KEY  RESULT_FILE:Results%d INPUT_FORMAT:ASCII  REPORT_STEPS:10,20,30\n" , true);
     test_assert_true( enkf_config_node_is_instance( config_node ));
 
     test_assert_string_equal( "Results%d" , enkf_config_node_get_enkf_infile( config_node ));

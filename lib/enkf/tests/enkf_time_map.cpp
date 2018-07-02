@@ -90,8 +90,8 @@ void test_inconsistent_summary( const char * case1, const char * case2) {
 
 static void alloc_index_map( void * arg) {
   arg_pack_type * arg_pack = arg_pack_safe_cast( arg );
-  time_map_type * map = arg_pack_iget_ptr( arg_pack , 0 );
-  ecl_sum_type * sum  = arg_pack_iget_ptr( arg_pack , 1 );
+  time_map_type * map = (time_map_type *) arg_pack_iget_ptr( arg_pack , 0 );
+  ecl_sum_type * sum  = (ecl_sum_type *) arg_pack_iget_ptr( arg_pack , 1 );
 
   time_map_alloc_index_map( map , sum );
 }
