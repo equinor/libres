@@ -34,11 +34,7 @@
 
 
 double enkf_util_rand_normal(double mean , double std , rng_type * rng) {
-  const double pi = 3.141592653589;
-  double R1 = rng_get_double( rng );
-  double R2 = rng_get_double( rng );
-
-  return mean + std * sqrt(-2.0 * log(R1)) * cos(2.0 * pi * R2);
+  return mean + std * rng_std_normal(rng);
 }
 
 void enkf_util_rand_stdnormal_vector(int size , double *R, rng_type * rng) {
