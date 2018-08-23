@@ -180,10 +180,33 @@ static inline void fseek__(FILE * stream , long int arg , int whence) {
   }
 }
 
-static inline void block_fs_fseek(block_fs_type * block_fs , long offset) {
-  fseek__( block_fs->data_stream , offset , SEEK_SET );
-}
 
+
+/*
+  The fseek( ) call seems to fail in mysterious ways in ~1% of the cases; the
+  fseek( ) function call returns 0 for success, but a write immediately
+  following the fseek( ) still goes to the position immediately prior to the
+  fseek. The while( ) below is a quite hysterical attempt to "fix" this problem.
+*/
+
+
+static inline void block_fs_fseek(block_fs_type * block_fs , long offset) {
+  int max_usleep_time = 1000000;
+  int usleep_time = 10;
+
+  while(true) {
+    fseek__( block_fs->data_stream , offset , SEEK_SET );
+    if (ftell(block_fs->data_stream) == offset)
+      break;
+
+    fsync(block_fs->data_fd);
+    if (usleep_time >= max_usleep_time)
+      util_abort("%s: block_fs_fseek - conistently fails.",__func__);
+
+    usleep(usleep_time);
+    usleep_time *= 2;
+  }
+}
 
 /*****************************************************************/
 /* file_node functions */
