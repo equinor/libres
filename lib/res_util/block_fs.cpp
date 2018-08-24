@@ -1310,7 +1310,26 @@ static void block_fs_fwrite__(block_fs_type * block_fs , const char * filename ,
     file_node_init_fwrite( node , block_fs->data_stream );
 
     /* Writes the actual data content. */
-    block_fs_fseek_node_data(block_fs , node);
+    {
+      int max_usleep_time = 1000000;  // 1 second
+      int usleep_time = 10;
+      while (true) {
+        long target_offset = node->node_offset + node->data_offset;
+        int fseek_return = fseek(block_fs->data_stream, target_offset, SEEK_SET);
+
+        if (fseek_return == 0) {
+          if (ftell(block_fs->data_stream) == target_offset)
+            break;
+        }
+
+        if (usleep_time >= max_usleep_time)
+          util_abort("%s: fatal error - fseek() fails consitently\n");
+
+        fflush(block_fs->data_stream);
+        usleep(usleep_time);
+        usleep_time *= 2;
+      }
+    }
     util_fwrite( ptr , 1 , data_size , block_fs->data_stream , __func__);
 
     /* Writes the file node header data, including the NODE_END_TAG. */
