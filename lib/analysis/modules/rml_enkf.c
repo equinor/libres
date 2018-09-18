@@ -22,7 +22,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <ert/util/util.hpp>
+#include <ert/util/util.h>
 #include <ert/util/type_macros.hpp>
 #include <ert/util/rng.hpp>
 #include <ert/util/bool_vector.hpp>

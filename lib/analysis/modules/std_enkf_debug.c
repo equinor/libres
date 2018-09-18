@@ -20,7 +20,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include <ert/util/util.hpp>
+#include <ert/util/util.h>
 #include <ert/util/type_macros.hpp>
 #include <ert/res_util/matrix.hpp>
 #include <ert/res_util/matrix_blas.hpp>

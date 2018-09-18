@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#include <ert/util/util.hpp>
+#include <ert/util/util.h>
 #include <ert/res_util/matrix.hpp>
 #include <ert/res_util/matrix_blas.hpp>
 #include <ert/util/rng.hpp>
