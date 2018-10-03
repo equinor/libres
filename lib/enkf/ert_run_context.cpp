@@ -412,3 +412,6 @@ int ert_run_context_get_active_size(const ert_run_context_type * context){
 bool_vector_type * ert_run_context_alloc_iactive(const ert_run_context_type * context) {
   return bool_vector_alloc_copy(context->iactive);
 }
+
+void a_function() {
+}
