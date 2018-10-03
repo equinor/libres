@@ -96,6 +96,8 @@ typedef struct ert_run_context_struct ert_run_context_type;
   enkf_fs_type * ert_run_context_get_update_target_fs(const ert_run_context_type * run_context);
   bool ert_run_context_iactive( const ert_run_context_type * context , int iens);
 
+  void a_function();
+
   UTIL_IS_INSTANCE_HEADER( ert_run_context );
 
 
