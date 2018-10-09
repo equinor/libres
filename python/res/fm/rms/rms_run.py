@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json
 import os
 import sys
@@ -21,12 +22,12 @@ def pushd(path):
 
 def _remove_python_from_path(path):
     python_exec = 'python'
-    path_env_var = 'PATH'
-
-    path_elems = filter(
-            lambda elem: os.path.isfile(os.path.join(elem, python_exec)),
-            path.split(os.pathsep)
-            )
+    path_elems = []
+    for elem in path.split(os.pathsep):
+        if os.path.isfile(os.path.join(elem, python_exec)):
+            print("**Warning: the path: {} is removed from $PATH to avoid conflict with RMS internal python interprete".format(elem))
+        else:
+            path_elems.append(elem)
 
     return os.pathsep.join(path_elems)
 
@@ -172,16 +173,17 @@ class RMSRun(object):
 
         if exec_env:
             env = os.environ.copy()
-            keep_val = lambda v: (
-                    v is not None and (
-                        not isinstance(v, basestring)
-                        or len(v.strip()) > 0
-                    ))
             for key, value in exec_env.items():
-                if keep_val(value):
-                    env[key] = value
-                elif key in env:
+                if value is None:
                     env.pop(key)
+                    continue
+
+                value = value.strip()
+                if len(value) == 0:
+                    env.pop(key)
+                    continue
+
+                env[key] = str(value)
 
             os.execve( self.config.executable , args, env )
         else:

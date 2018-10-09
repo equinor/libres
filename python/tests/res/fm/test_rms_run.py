@@ -138,37 +138,41 @@ class RMSRunTest(ResTest):
             res.fm.rms.run(0, "project", "workflow", run_path="run_path", target_file="some_file")
 
 
+    # NB: Since the whole purpose of this test is to verify that the python interpreter is
+    #     removed from PATH we must use a mock-executable which is not based on Python.
     def test_rms2013(self):
         versions = [None, '2013', '2013.4', '10.1']
+        PATH0 = os.environ["PATH"]
         for version in versions:
             with TestAreaContext('test_rms2013'):
                 # Setup RMS project
                 with open("rms_config.yml", "w") as f:
-                    f.write("executable:  {}/bin/rms".format(os.getcwd()))
+                    f.write("executable:  {}/bin/rms.sh".format(os.getcwd()))
                 os.mkdir("run_path")
                 os.mkdir("bin")
                 os.mkdir("project")
-                shutil.copy(os.path.join(self.SOURCE_ROOT, "python/tests/res/fm/rms"), "bin")
+                shutil.copy(os.path.join(self.SOURCE_ROOT, "python/tests/res/fm/rms.sh"), "bin")
                 os.environ["RMS_SITE_CONFIG"] = "rms_config.yml"
 
-                action = {"exit_status" : 0}
-                with open("run_path/action.json", "w") as f:
-                    f.write( json.dumps(action) )
-
+                new_bin = os.path.realpath("bin")
                 new_python = os.path.realpath('bin/python')
                 with open(new_python, 'w') as f:
                     f.write('This is not really Python')
-                os.environ['PATH'] += os.pathsep + os.path.realpath(new_python)
+
+                os.environ['PATH'] = os.path.pathsep.join([PATH0, new_bin])
+
+                action = {"target_file" : os.path.join(os.getcwd(), "PATH")}
 
                 res.fm.rms.run(0, 'project', 'workflow', run_path='run_path', version=version)
 
-                with open('run_path/env.json') as f:
-                    env = json.load(f)
+                with open('run_path/PATH') as f:
+                    path_string = f.readline().rstrip()
 
                 if version and version.startswith('2013'):
-                    self.assertNotIn(new_python, env['PATH'].split(os.pathsep))
+                    self.assertNotIn(new_bin, path_string.split(os.pathsep))
                 else:
-                    self.assertIn(new_python, env['PATH'].split(os.pathsep))
+                    self.assertIn(new_bin, path_string.split(os.pathsep))
+
 
     def test_rms_load_env(self):
         test_bed = [
