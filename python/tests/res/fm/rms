@@ -10,5 +10,8 @@ if "target_file" in config:
     with open(config["target_file"], "w") as f:
         f.write("this is the target file\n")
 
+with open('env.json', 'w') as f:
+    json.dump({ 'PATH': os.environ['PATH'] }, f)
+
 sys.exit(config["exit_status"])
 

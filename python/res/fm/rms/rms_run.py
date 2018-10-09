@@ -18,6 +18,17 @@ def pushd(path):
     os.chdir(cwd0)
 
 
+def _remove_python_from_path(path):
+    python_exec = 'python'
+    path_env_var = 'PATH'
+
+    path_elems = filter(
+            lambda elem: os.path.isfile(os.path.join(elem, python_exec)),
+            path.split(os.pathsep)
+            )
+
+    return os.pathsep.join(path_elems)
+
 
 class RMSRun(object):
     _single_seed_file = "RMS_SEED"
@@ -53,7 +64,6 @@ class RMSRun(object):
 
 
         self.init_seed(iens)
-
 
     def init_seed(self, iens):
         if "RMS_SEED" in os.environ:
@@ -94,9 +104,16 @@ class RMSRun(object):
 
         self_exe, _ = os.path.splitext(os.path.basename(sys.argv[0]))
         exec_env_file = "%s_exec_env.json" % self_exe
-        exec_env = None
+        exec_env = { 'PATH': os.environ['PATH'] }
         if os.path.isfile(exec_env_file):
-            exec_env = json.load(open(exec_env_file))
+            exec_env.update(json.load(open(exec_env_file)))
+
+        # TODO: This is to fix a bug in RMS 2013, should be removed when this
+        # version is no longer to be supported in Equinor. The
+        # _remove_python_from_path function, and adding PATH to the exec_env by
+        # default, should then also be removed..
+        if self.version is not None and self.version.startswith('2013'):
+            exec_env['PATH'] = _remove_python_from_path(exec_env['PATH'])
 
         with pushd(self.run_path):
             fileH = open("RMS_SEED_USED", "a+")

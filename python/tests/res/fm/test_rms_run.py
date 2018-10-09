@@ -137,6 +137,38 @@ class RMSRunTest(ResTest):
             res.fm.rms.run(0, "project", "workflow", run_path="run_path", target_file="some_file")
 
 
+    def test_rms2013(self):
+        versions = [None, '2013', '2013.4', '10.1']
+        for version in versions:
+            with TestAreaContext('test_rms2013'):
+                # Setup RMS project
+                with open("rms_config.yml", "w") as f:
+                    f.write("executable:  {}/bin/rms".format(os.getcwd()))
+                os.mkdir("run_path")
+                os.mkdir("bin")
+                os.mkdir("project")
+                shutil.copy(os.path.join(self.SOURCE_ROOT, "python/tests/res/fm/rms"), "bin")
+                os.environ["RMS_SITE_CONFIG"] = "rms_config.yml"
+
+                action = {"exit_status" : 0}
+                with open("run_path/action.json", "w") as f:
+                    f.write( json.dumps(action) )
+
+                new_python = os.path.realpath('bin/python')
+                with open(new_python, 'w') as f:
+                    f.write('This is not really Python')
+                os.environ['PATH'] += os.pathsep + os.path.realpath(new_python)
+
+                res.fm.rms.run(0, 'project', 'workflow', run_path='run_path', version=version)
+
+                with open('run_path/env.json') as f:
+                    env = json.load(f)
+
+                if version and version.startswith('2013'):
+                    self.assertNotIn(new_python, env['PATH'].split(os.pathsep))
+                else:
+                    self.assertIn(new_python, env['PATH'].split(os.pathsep))
+
 
 if __name__ == "__main__":
     unittest.main()
