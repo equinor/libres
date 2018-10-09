@@ -11,7 +11,11 @@ if "target_file" in config:
         f.write("this is the target file\n")
 
 with open('env.json', 'w') as f:
-    json.dump({ 'PATH': os.environ['PATH'] }, f)
+    json.dump({
+        key: os.environ[key]
+        for key in ('PATH', 'RMS_TEST_VAR')
+        if key in os.environ
+    }, f)
 
 sys.exit(config["exit_status"])
 

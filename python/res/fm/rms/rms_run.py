@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 import os.path
@@ -171,11 +172,17 @@ class RMSRun(object):
 
         if exec_env:
             env = os.environ.copy()
-            for key,value in exec_env.iteritems():
-                if value:
+            keep_val = lambda v: (
+                    v is not None and (
+                        not isinstance(v, basestring)
+                        or len(v.strip()) > 0
+                    ))
+            for key, value in exec_env.items():
+                if keep_val(value):
                     env[key] = value
                 elif key in env:
-                    del env[key]
+                    env.pop(key)
+
             os.execve( self.config.executable , args, env )
         else:
             os.execv(self.config.executable, args )
