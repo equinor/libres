@@ -25,7 +25,9 @@ def _remove_python_from_path(path):
     path_elems = []
     for elem in path.split(os.pathsep):
         if os.path.isfile(os.path.join(elem, python_exec)):
-            print("**Warning: the path: {} is removed from $PATH to avoid conflict with RMS internal python interprete".format(elem))
+            print('**Warning: the path: {} is removed from $PATH to avoid '
+                  'conflict with RMS internal python interpreter. To avoid '
+                  'this, please use RMS 10 or newer.'.format(elem))
         else:
             path_elems.append(elem)
 
@@ -178,12 +180,12 @@ class RMSRun(object):
                     env.pop(key)
                     continue
 
-                value = value.strip()
+                value = str(value).strip()
                 if len(value) == 0:
                     env.pop(key)
                     continue
 
-                env[key] = str(value)
+                env[key] = value
 
             os.execve( self.config.executable , args, env )
         else:
