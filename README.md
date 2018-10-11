@@ -108,3 +108,6 @@ You should update this file with your local path to the `rms` wrapper script
 supplied by `Roxar`; alternatively you can store an alternative configuration
 file elseswhere and set the environment variable `RMS_SITE_CONFIG` to point to
 the alternative file.
+silly
+not really
+and yet again
