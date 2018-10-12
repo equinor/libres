@@ -4,6 +4,9 @@ project(res C CXX)
 include(GNUInstallDirs)
 enable_testing()
 
+
+# TEST TEST DONT MERGE ME
+
 #-----------------------------------------------------------------
 
 set( RES_VERSION_MAJOR 2 )   # Remember to update release notes whenever
