@@ -282,6 +282,14 @@ class ProgrammaticResConfigTest(ResTest):
                                     }
                                   ],
 
+                                  "CUSTOM_KW" :
+                                  [
+                                    {
+                                      "NAME"         : "UNCERTAINTY",
+                                      "RESULT_FILE"  : "uncertainties.json"
+                                    }
+                                  ],
+
                                   "GEN_DATA" :
                                   [
                                     {

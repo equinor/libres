@@ -265,7 +265,7 @@ class ResConfig(BaseCClass):
         custom_kw_config = []
         for ck in config[ConfigKeys.CUSTOM_KW]:
             custom_kw_options = [ConfigKeys.NAME,
-                                 ConfigKeys.PARAMETER_FILE]
+                                 ConfigKeys.RESULT_FILE]
 
             self._assert_keys(ConfigKeys.CUSTOM_KW, custom_kw_options, ck.keys())
 
