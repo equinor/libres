@@ -233,6 +233,7 @@ static bool custom_kw_config_read_data__(const custom_kw_config_type * config, c
         char value[128];
         int read_count;
         while ((read_count = fscanf(stream, "%s %s", key, value)) != EOF) {
+            printf("key %s value %s\n", key, value);
             if (read_count == 1) {
                 fprintf(stderr ,"[%s] Warning: Key: '%s:%s' missing value in file: %s!\n", __func__, config->name, key, result_file);
                 read_ok = false;
@@ -242,10 +243,11 @@ static bool custom_kw_config_read_data__(const custom_kw_config_type * config, c
             if (custom_kw_config_has_key(config, key)) {
                 if (hash_has_key(read_keys, key)) {
                     fprintf(stderr ,"[%s] Warning:  Key: '%s:%s' has appeared multiple times. Only the last occurrence will be used!\n", __func__, config->name, key);
-                }
-
+                }                
                 hash_insert_int(read_keys, key, 1);
+                printf("getting index of key with params, config: %s, key: %s\n", config, key);                
                 int index = custom_kw_config_index_of_key(config, key);
+                printf("Index of key %s\n", index);                
                 stringlist_iset_copy(result, index, value);
 
             } else {
@@ -269,7 +271,8 @@ bool custom_kw_config_parse_result_file(custom_kw_config_type * config, const ch
 
     // if config->result_file is NULL then the CustomKWConfig was made dynamically
     // for storing data manually and not as part of a forward model output.
-    if(config->result_file != NULL) {
+    printf("%s\n", result_file);
+    if(config->result_file != NULL) {        
         pthread_rwlock_wrlock(&config->rw_lock);
         if (config->undefined) {
             read_ok = custom_kw_config_setup__(config, result_file);
@@ -280,10 +283,10 @@ bool custom_kw_config_parse_result_file(custom_kw_config_type * config, const ch
         pthread_rwlock_unlock(&config->rw_lock);
 
         if (read_ok) {
-            read_ok = custom_kw_config_read_data__(config, result_file, result);
+            read_ok = custom_kw_config_read_data__(config, result_file, result);        
         }
-    }
-
+        printf("Read Ok: %d\n", read_ok);
+    }    
     return read_ok;
 }
 
