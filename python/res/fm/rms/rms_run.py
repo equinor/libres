@@ -115,12 +115,13 @@ class RMSRun(object):
         if os.path.isfile(exec_env_file):
             exec_env.update(json.load(open(exec_env_file)))
 
-        # TODO: This is to fix a bug in RMS 2013, should be removed when this
-        # version is no longer to be supported in Equinor. The
-        # _remove_python_from_path function, and adding PATH to the exec_env by
-        # default, should then also be removed..
-        if self.version is not None and self.version.startswith('2013'):
-            exec_env['PATH'] = _remove_python_from_path(exec_env['PATH'])
+        # The ert frontend script updates the PYTHONPATH environment variable
+        # to include the path of the the current process. This creates problems
+        # when RMS is importing it's Python modules. The real fix is to remove
+        # the PYTHONPATH manipulations from the ert frontent script, but for
+        # now we just drop any path element containing 'komodo' from the
+        # PYTHOPATH.
+        exec_env['PYTHONPATH'] =_remove_komodo_from_envpath(exec_env['PYTHONPATH'])
 
         with pushd(self.run_path):
             fileH = open("RMS_SEED_USED", "a+")

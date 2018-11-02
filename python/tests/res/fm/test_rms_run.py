@@ -168,10 +168,8 @@ class RMSRunTest(ResTest):
                 with open('run_path/PATH') as f:
                     path_string = f.readline().rstrip()
 
-                if version and version.startswith('2013'):
-                    self.assertNotIn(new_bin, path_string.split(os.pathsep))
-                else:
-                    self.assertIn(new_bin, path_string.split(os.pathsep))
+                pypath_elems = rms_env['PYTHONPATH'].split(os.pathsep)
+                self.assertNotIn(komodo_dir, pypath_elems)
 
 
     def test_rms_load_env(self):
