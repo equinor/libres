@@ -335,6 +335,19 @@ class ShellTest(ResTest):
             copy_file("file.txt" , "rms/output/")
             self.assertTrue( os.path.isfile( "rms/output/file.txt" ))
 
+    def test_careful_copy_file(self):
+        with TestAreaContext("careful/copy/file"):
+            with open("file1", "w") as f:
+                f.write("hei")
+            with open("file2", "w") as f:
+                f.write("hei")
+
+            with self.assertRaises(IOError):
+                careful_copy_file("file1", "file2")
+
+            careful_copy_file("file1", "file3")
+            self.assertTrue( os.path.isfile("file3") )
+
 
 if __name__ == "__main__":
     unittest.main()
