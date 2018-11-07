@@ -216,5 +216,6 @@ class Shell(object):
     @staticmethod
     def carefulCopyFile(src , target = None):
         if os.path.exists(target):
-            raise IOError("Input argument:'%s' already exist" % target)
+            print("File: {} already present - not updated".format(target))
+            return
         Shell.copyFile(src,target)

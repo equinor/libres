@@ -340,10 +340,11 @@ class ShellTest(ResTest):
             with open("file1", "w") as f:
                 f.write("hei")
             with open("file2", "w") as f:
-                f.write("hei")
+                f.write("hallo")
 
-            with self.assertRaises(IOError):
-                careful_copy_file("file1", "file2")
+            careful_copy_file("file1", "file2")
+            with open("file2", "r") as f:
+                self.assertEqual("hallo", f.readline())
 
             careful_copy_file("file1", "file3")
             self.assertTrue( os.path.isfile("file3") )
