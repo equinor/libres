@@ -461,16 +461,16 @@ assert exec_env["NOT_SET"] is None
             exit_status, msg = jobm.runJob(job0)
             self.assertEqual(exit_status, 0)
 
-    def test_job_list(self):
+    def test_job_list_to_log_ordering(self):
           with TestAreaContext("json_from_forward_model"):
             with open("jobs.json", "w") as f:
                 f.write(JSON_STRING)
             job_manager = JobManager()
-            job_manager.job_list = [{'name': 'job1'}, {'name': 'job2'}, {'name': 'another_job3'}, {'name': 'another_job01'}]
-            job_manager._job_map = {'job1': {'name': 'job1'}, 'job2': {'name': 'job2'}, 'another_job3': {'name': 'another_job3'}, 'another_job01': {'name': 'another_job01'}}
+            job_manager.job_list = [{'name': 'b'}, {'name': 'd'}, {'name': 'a'}, {'name': 'c'}]
+            job_manager._job_map = {'b': {'name': 'b'}, 'd': {'name': 'd'}, 'a': {'name': 'a'}, 'c': {'name': 'c'}}
             vals = job_manager._ordered_job_map_values()
             
-            # Verify _job_map.values() is indeed giving us values in wrong order
+            # Verify _job_map.values() is indeed giving us values in not wanted order
             self.assertNotEqual(job_manager.job_list, job_manager._job_map.values())
 
             # Verify _ordered_job_map_values is giving us values in same order as job_list
