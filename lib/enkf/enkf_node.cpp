@@ -407,7 +407,11 @@ bool enkf_node_forward_load(enkf_node_type *enkf_node , const forward_load_conte
       /* Fast path for loading summary data. */
       loadOK = enkf_node->forward_load(enkf_node->data , NULL  , load_context);
     else {
-      char * input_file = enkf_config_node_alloc_infile(enkf_node->config , forward_load_context_get_load_step( load_context ));
+      char * input_file = NULL;
+      if (enkf_node_get_impl_type(enkf_node) == CUSTOM_KW)
+         input_file = enkf_config_node_alloc_infile(enkf_node->config, -1);
+      else
+        input_file = enkf_config_node_alloc_infile(enkf_node->config, forward_load_context_get_load_step(load_context));
 
       if (input_file != NULL) {
         char * file = util_alloc_filename( forward_load_context_get_run_path( load_context ) , input_file , NULL);
