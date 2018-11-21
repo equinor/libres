@@ -1,11 +1,16 @@
 import os
+import time
+import sys
 from res.enkf.enums import EnkfRunType
 from res.enkf import ErtRunContext
+from res.enkf import ResConfig
+from res.enkf import EnKFMain
 from res.enkf.config import CustomKWConfig
 from res.enkf.data import CustomKW
 from res.enkf.enkf_simulation_runner import EnkfSimulationRunner
 from res.enkf.export import custom_kw_collector
 from res.enkf.export.custom_kw_collector import CustomKWCollector
+from res.simulator import BatchSimulator
 from res.test.ert_test_context import ErtTestContext
 from tests import ResTest
 from ecl.util.test.test_area import TestAreaContext
@@ -135,4 +140,42 @@ class CustomKWTest(ResTest):
         self.assertEqual(ckw["INT"], 1)
 
 
+    def test_custom_kw_complete_internalization(self):
+       root_dir = self.createTestPath('local/custom_kw')
+       config_file = 'custom_kw/minimal.ert'
+       with TestAreaContext('custom_kw_internalization', store_area=True) as work_area:
+           work_area.copy_directory(root_dir)
+           res_config = ResConfig(user_config_file=config_file)
+           simulator = BatchSimulator(res_config, {}, [])
+           casename = 'custom_kw_testcase'
+           ctx = simulator.start(casename, [(idx, {}) for idx in range(5)])
 
+           while ctx.running():
+               status = ctx.status
+               time.sleep(1)
+               sys.stderr.write("status: %s\n" % str(status))
+
+           expected_data = [
+               {
+                   'PAIRS:{}'.format(key): idx*scale
+                   for key, scale in (('A', 1), ('B', 2))
+               }
+               for idx in range(5)
+           ]
+
+           # Verify data from original enkf_main instance
+           data = CustomKWCollector.loadAllCustomKWData(simulator.ert, casename)
+           self.assertEqual(len(expected_data), len(data))
+           for idx, expected_elem in enumerate(expected_data):
+               self.assertEqual(len(expected_elem), len(data.columns))
+               for key, value in expected_elem.items():
+                   self.assertEqual(value, data[key].loc[idx])
+
+           # Verify data from a second enkf_main instance
+           second_ert = EnKFMain(ResConfig(user_config_file=config_file))
+           data = CustomKWCollector.loadAllCustomKWData(second_ert, casename)
+           self.assertEqual(len(expected_data), len(data))
+           for idx, expected_elem in enumerate(expected_data):
+               self.assertEqual(len(expected_elem), len(data.columns))
+               for key, value in expected_elem.items():
+                   self.assertEqual(value, data[key].loc[idx])

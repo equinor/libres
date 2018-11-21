@@ -1,0 +1,12 @@
+JOBNAME CUSTOM_KW_%d
+QUEUE_SYSTEM LOCAL
+QUEUE_OPTION LOCAL MAX_RUNNING 5
+
+RUNPATH minimal_runpath/iteration_%d/realization_%d
+ENSPATH minimal_storage
+NUM_REALIZATIONS 5
+
+INSTALL_JOB dump_pairs jobs/DUMP_PAIRS
+SIMULATION_JOB dump_pairs pairs.out <IENS>
+
+CUSTOM_KW PAIRS pairs.out
