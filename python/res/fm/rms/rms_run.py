@@ -19,22 +19,19 @@ def pushd(path):
 
     os.chdir(cwd0)
 
-
-def _remove_python_from_path(path):
+def _remove_komodo_from_envpath(path):
     if path is None:
         return path
 
-    python_exec = 'python'
-    path_elems = []
-    for elem in path.split(os.pathsep):
-        if os.path.isfile(os.path.join(elem, python_exec)):
-            print('**Warning: the path: {} is removed from $PATH to avoid '
-                  'conflict with RMS internal python interpreter. To avoid '
-                  'this, please use RMS 10 or newer.'.format(elem))
-        else:
-            path_elems.append(elem)
+    print('**Warning: Komodo is removed from your PYTHONPATH to avoid RMS picking up'
+          ' Python2 modules. If you experience RMS issues, you might need to'
+          ' remove other elements from your path as well. To avoid this problem'
+          ' all together, please use RMS 10 or newer.')
 
-    return os.pathsep.join(path_elems)
+    return os.pathsep.join(filter(
+        lambda elem: 'komodo' not in elem,
+        path.split(os.pathsep)
+    ))
 
 
 class RMSRun(object):
