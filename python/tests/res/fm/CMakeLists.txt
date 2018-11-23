@@ -6,6 +6,13 @@ set(TEST_SOURCES
     test_rms_run.py
     test_shell.py
     test_templating.py
+    test_grav.py
+    test_ots.py
+    test_ots_integration.py
+    test_ots_reservoir.py
+    test_ots_velocity.py
+    ota_create_segy_file.py
+    ots_util.py
 )
 
 add_python_package("python.tests.res.fm"  ${PYTHON_INSTALL_PREFIX}/tests/res/fm "${TEST_SOURCES}" False)
@@ -15,3 +22,9 @@ addPythonTest(tests.res.fm.test_rms_config.RMSConfigTest)
 addPythonTest(tests.res.fm.test_rms_run.RMSRunTest)
 addPythonTest(tests.res.fm.test_shell.ShellTest)
 addPythonTest(tests.res.fm.test_templating.TemplatingTest)
+addPythonTest(tests.res.fm.test_grav.GravTest)
+addPythonTest(tests.res.fm.test_ots.OTSTest)
+addPythonTest(tests.res.fm.test_ots_integration.OTSIntegrationTest)
+addPythonTest(tests.res.fm.test_ots_reservoir.OTSReservoirTest)
+addPythonTest(tests.res.fm.test_ots_velocity.OTSVelocityTest)
+
