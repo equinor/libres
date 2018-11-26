@@ -88,11 +88,11 @@ class GravTest(ResTest):
             conf = GravConfig( "grav.config"  , rst_file2)
             surveys = conf.surveys( )
             self.assertEqual( len(surveys) , 2)
-            s1 = surveys[0]
+            s1 = list(surveys)[0]
             self.assertEqual( s1.name , "S1" )
             self.assertEqual( s1.date , datetime.date( 2000 , 1 , 1 ))
 
-            s2 = surveys[1]
+            s2 = list(surveys)[1]
             self.assertEqual( s2.name , "S2" )
             self.assertEqual( s2.date , datetime.date( 2001 , 1 , 1 ))
 
