@@ -110,16 +110,16 @@ example of such a script could be:
 
     for key in results.keys():
         values = results[key]
-        print "-----------------------------------------------------------------"
+        print("-----------------------------------------------------------------")
         res_config = config.results()[key]
-        print "Result: %s  %s - %s" % (key , res_config.base , res_config.monitor)
+        print("Result: %s  %s - %s" % (key , res_config.base , res_config.monitor))
         for st in values.keys():
-            print "%8s : %g" % (st , values[st])
+            print("%8s : %g" % (st , values[st]))
 
         obs_map = config.observations()
         if key in obs_map:
             obs = obs_map[key]
-            print "Total misfit: %s" % obs.chi2( values )
+            print(("Total misfit: %s" % obs.chi2( values ) ) )
 [script:end]
 
 """
