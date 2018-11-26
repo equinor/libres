@@ -51,7 +51,7 @@ class OTSTest(ResTest):
         spec = segyio.spec()
         spec.format = 5
         spec.sorting = 2
-        spec.samples = range(10)
+        spec.samples = range(0, 40, 4)
         spec.ilines = range(2)
         spec.xlines = range(2)
         self._actnum = [0, 0, 0, 0, 1, 1, 1, 1]

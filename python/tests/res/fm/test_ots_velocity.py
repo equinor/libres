@@ -29,7 +29,7 @@ class OTSVelocityTest(ResTest):
         spec = segyio.spec()
         spec.format = 5
         spec.sorting = 2
-        spec.samples = range(10)
+        spec.samples = range(0, 40, 4)
         spec.ilines = range(2)
         spec.xlines = range(2)
 
