@@ -136,6 +136,7 @@ class OTSVelSurface(object):
         return nn, ups
 
     def _upscale_velocity(self, res_corners, x_vel, y_vel, traces, nt, dt):
+        import sys
 
         nxx, upsx = self._upscaling_size_stepping(res_corners[:, :, 0], 0, x_vel)
 
