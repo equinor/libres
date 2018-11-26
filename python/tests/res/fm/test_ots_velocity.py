@@ -13,7 +13,7 @@ except ImportError:
     from ecl.util.util import Version
     currentVersion = Version.currentVersion( )
 
-from ota_create_segy_file import *
+from .ota_create_segy_file import *
 
 
 
