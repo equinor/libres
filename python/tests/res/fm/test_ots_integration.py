@@ -1,7 +1,7 @@
 import unittest
 from unittest import skipIf
 
-from res.fm.ots import ots_run
+from res.fm.geophysics.ots import ots_run
 from tests import ResTest
 from ecl.util.test import TestAreaContext
 from ecl.util.geometry import Surface

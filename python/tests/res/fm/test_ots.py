@@ -10,7 +10,7 @@ try:
 except ImportError:
     pass
 
-from res.fm.ots import OTS
+from res.fm.geophysics.ots import OTS
 from tests import ResTest
 from ecl.util.test import TestAreaContext
 from ecl.util.geometry import Surface

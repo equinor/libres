@@ -2,7 +2,7 @@ import unittest
 from unittest import skipIf
 
 from ecl.grid import EclGridGenerator
-from res.fm.ots import OTSVelSurface, OTSResSurface
+from res.fm.geophysics.ots import OTSVelSurface, OTSResSurface
 from tests import ResTest
 from ecl.util.test import TestAreaContext
 

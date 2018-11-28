@@ -8,7 +8,6 @@ add_subdirectory(ecl)
 add_subdirectory(rms)
 add_subdirectory(shell)
 add_subdirectory(templating)
-add_subdirectory(grav)
-add_subdirectory(ots)
+add_subdirectory(geophysics)
 add_python_package("python.res.fm" ${PYTHON_INSTALL_PREFIX}/res/fm "${PYTHON_SOURCES}" True)
 

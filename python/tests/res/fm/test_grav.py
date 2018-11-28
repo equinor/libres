@@ -9,8 +9,8 @@ import py_compile
 
 from ecl import EclPhaseEnum, EclTypeEnum, EclDataType
 from ecl.eclfile import EclFile, EclKW, FortIO, openFortIO
-from res.fm import grav
-from res.fm.grav import GravConfig, Grav, GravResult
+from res.fm.geophysics import grav
+from res.fm.geophysics.grav import GravConfig, Grav, GravResult
 from tests import ResTest
 from ecl.util.test import TestAreaContext
 
