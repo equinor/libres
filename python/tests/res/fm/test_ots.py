@@ -11,8 +11,8 @@ from tests import ResTest
 from ecl.util.test import TestAreaContext
 from ecl.util.geometry import Surface
 
-from ota_create_segy_file import *
-from ots_util import *
+from .ota_create_segy_file import *
+from .ots_util import *
 
 from res.util import ResVersion
 currentVersion = ResVersion( )

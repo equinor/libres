@@ -13,7 +13,7 @@ from res.util import ResVersion
 currentVersion = ResVersion( )
 
 
-from ota_create_segy_file import *
+from .ota_create_segy_file import *
 
 
 
