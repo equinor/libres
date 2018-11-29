@@ -11,8 +11,8 @@ from ecl.gravimetry import EclSubsidence
 from ecl.util.geometry import Surface
 from res.config import ContentTypeEnum, ConfigParser
 
-from ots_vel_surface import OTSVelSurface
-from ots_res_surface import OTSResSurface
+from .ots_vel_surface import OTSVelSurface
+from .ots_res_surface import OTSResSurface
 
 
 def parse_file(config):
