@@ -1,0 +1,17 @@
+#!/usr/bin/env python
+
+import argparse
+from ert_statoil.ots import ots_run
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Overburden TimeShift')
+
+    parser.add_argument('-p', '--parameter_file', required=True, type=str, help='Path to parameter file')
+
+    args = parser.parse_args()
+
+    ots_run(args.parameter_file, verbose=True)
+
+if __name__ == '__main__':
+    main()
