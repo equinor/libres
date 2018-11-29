@@ -11,8 +11,8 @@ from ecl.gravimetry import EclSubsidence
 from ecl.util.geometry import Surface
 from res.config import ContentTypeEnum, ConfigParser
 
-from .ots_vel_surface import OTSVelSurface
-from .ots_res_surface import OTSResSurface
+from ots_vel_surface import OTSVelSurface
+from ots_res_surface import OTSResSurface
 
 
 def parse_file(config):
@@ -27,11 +27,13 @@ def parse_file(config):
                                  'horizon',
                                  'ascii',
                                  'velocity_model',
-                                 'eclbase'])
+                                 'eclbase'
+                                 ])
 
     vintage_pairs = namedtuple('Vintages', ['ts',
                                             'ts_simple',
-                                            'dpv'])
+                                            'dpv',
+                                            'ts_rporv'])
     parms.seabed = None
     parms.above = None
     parms.youngs = None
@@ -46,6 +48,7 @@ def parse_file(config):
     vintage_pairs.ts = []
     vintage_pairs.ts_simple = []
     vintage_pairs.dpv = []
+    vintage_pairs.ts_rporv = []
 
     count = 0
 
@@ -73,6 +76,10 @@ def parse_file(config):
     schema_item.iset_type(1, ContentTypeEnum.CONFIG_STRING)
 
     schema_item = conf.add("TS_SIMPLE", False)
+    schema_item.iset_type(0, ContentTypeEnum.CONFIG_STRING)
+    schema_item.iset_type(1, ContentTypeEnum.CONFIG_STRING)
+
+    schema_item = conf.add("TS_RPORV", False)
     schema_item.iset_type(0, ContentTypeEnum.CONFIG_STRING)
     schema_item.iset_type(1, ContentTypeEnum.CONFIG_STRING)
 
@@ -118,6 +125,14 @@ def parse_file(config):
             monitor = dt.strptime(l[1], '%Y.%m.%d')
             vintage_pairs.ts_simple.append((base, monitor))
             count += 1
+    if "TS_RPORV" in content:
+        lines = content["TS_RPORV"]
+        for l in lines:
+            base = dt.strptime(l[0], '%Y.%m.%d')
+            monitor = dt.strptime(l[1], '%Y.%m.%d')
+            vintage_pairs.ts_rporv.append((base, monitor))
+            count += 1
+
 
     if count < 1:
         raise ValueError("No pairs of vintages found")
@@ -141,17 +156,24 @@ def ots_run(parameter_file, verbose=False):
     tshift_ts = ots.geertsma_ts(vintage_pairs.ts)
     tshift_ts_simple = ots.geertsma_ts_simple(vintage_pairs.ts_simple)
     tshift_dpv = ots.dpv(vintage_pairs.dpv)
+    tshift_ts_rporv = ots.geertsma_ts_rporv(vintage_pairs.ts_rporv)
 
     surface_horizon = ots.get_horizon()
 
     write_surface(vintage_pairs.ts, tshift_ts, parms.output_dir, "_ts")
     write_surface(vintage_pairs.ts_simple, tshift_ts_simple, parms.output_dir, "_ts_simple")
     write_surface(vintage_pairs.dpv, tshift_dpv, parms.output_dir, "_dpv")
+    write_surface(vintage_pairs.ts_rporv, tshift_ts_rporv, parms.output_dir, "_ts_rporv")
 
     if parms.horizon is not None:
         surface_horizon.write(parms.horizon)
 
-    num_pairs = len(vintage_pairs.ts) + len(vintage_pairs.ts_simple) + len(vintage_pairs.dpv)
+    num_pairs = (
+            len(vintage_pairs.ts)
+            + len(vintage_pairs.ts_simple)
+            + len(vintage_pairs.dpv)
+            + len(vintage_pairs.ts_rporv)
+            )
     line = "{}, {}, {}" + ", {}"*num_pairs + "\n"
 
     if parms.ascii is not None:
@@ -165,6 +187,8 @@ def ots_run(parameter_file, verbose=False):
                     ts.append(tshift_ts_simple[iv][point])
                 for iv in range(len(vintage_pairs.dpv)):
                     ts.append(tshift_dpv[iv][point])
+                for iv, _ in enumerate(vintage_pairs.ts_rporv):
+                    ts.append(tshift_rprov[iv][point])
                 f.write(line.format(xy[0], xy[1], surface_horizon[point], *ts))
 
 
@@ -272,6 +296,81 @@ class OTS(object):
         for i in range(len(ts)):
             if ts[i] < 0:
                 ts[i] /= 5.0
+
+
+    def geertsma_ts_rporv(self, vintage_pairs):
+        """
+        Calculates TS without using velocity. Fast.
+        Velocity is only used to get the surface on the velocity grid.
+        Uses change in porevolume from Eclipse (RPORV in .UNRST) as input to
+        Geertsma model.
+
+        :param vintage_pairs:
+        """
+
+        if len(vintage_pairs) == 0:
+            return 0, []
+
+        vintages = self._vintages_name_date(vintage_pairs)
+        surface = self._surface
+        num_points = len(surface)
+        num_points_calculated = 0
+        du = np.zeros((len(vintages.name), num_points))
+        ts_surfaces = []
+        for iv, (vn, vd) in enumerate(zip(vintages.name, vintages.date)):
+            if self._verbose:
+                print("{:%x %X} TS_RPORV: Calculating vintage {:%Y.%m.%d}".format(dt.now(), vd))
+                sys.stdout.flush()
+
+            self.addSurvey(vn, vd)
+
+            num_points_calculated = 0
+            for point in range(num_points):
+
+                if not np.isnan(surface.z[point]):
+                    num_points_calculated += 1
+                    r1 = (surface.x[point], surface.y[point], 0)
+                    r2 = (surface.x[point], surface.y[point], surface.z[point]-self._seabed)
+                    # subsidence and displacement have opposite sign
+                    # should have minus on dz1 and dz2 here, more efficient when calculating ts
+                    dz1 = self.subsidence.eval_geertsma_rporv(base_survey=vn,
+                                                             monitor_survey=None,
+                                                             pos=r1,
+                                                             youngs_modulus=self._youngs_modulus,
+                                                             poisson_ratio=self._poisson_ratio,
+                                                             seabed=self._seabed)
+                    dz2 = self.subsidence.eval_geertsma_rporv(base_survey=vn,
+                                                             monitor_survey=None,
+                                                             pos=r2,
+                                                             youngs_modulus=self._youngs_modulus,
+                                                             poisson_ratio=self._poisson_ratio,
+                                                             seabed=self._seabed)
+                    du[iv, point] = dz2 - dz1
+
+        for ivp, vp in enumerate(vintage_pairs):
+            if self._verbose:
+                if self._convention == 1:
+                    print("{:%x %X} TS_RPORV: Calculating shift {:%Y.%m.%d}-{:%Y.%m.%d} in {} points".
+                          format(dt.now(), vp[0], vp[1], num_points_calculated))
+                if self._convention == -1:
+                    print("{:%x %X} TS_RPORV: Calculating shift {:%Y.%m.%d}-{:%Y.%m.%d} in {} points".
+                          format(dt.now(), vp[1], vp[0], num_points_calculated))
+                if num_points_calculated == 0:
+                    print("Shift was calculated in 0 points.", file=sys.stderr)
+                    print("Consider changing --apply_mapaxes value.")
+
+                sys.stdout.flush()
+            base_index = vintages.date.index(vp[0])
+            monitor_index = vintages.date.index(vp[1])
+            ts = -self._r_factor * (du[monitor_index] - du[base_index])
+            self._divide_negative_shift(ts)
+
+            ts = ts*self._convention
+
+            ts_surfaces.append(self._create_surface(ts))
+
+        return ts_surfaces
+
 
     def geertsma_ts_simple(self, vintage_pairs):
         """

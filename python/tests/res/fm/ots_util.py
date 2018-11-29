@@ -1,10 +1,5 @@
 from ecl.eclfile import EclKW, openFortIO, FortIO
-# TODO remove when this is in stable
-try:
-    from ecl import EclDataType
-except ImportError:
-    pass
-
+from ecl import EclDataType
 
 def create_init(grid, case):
     poro = EclKW("PORO", grid.getNumActive(), EclDataType.ECL_FLOAT)
@@ -15,7 +10,7 @@ def create_init(grid, case):
         porv.fwrite(f)
 
 
-def create_restart(grid, case):
+def create_restart(grid, case, rporv=None):
     with openFortIO("%s.UNRST" % case, mode=FortIO.WRITE_MODE) as f:
         seq_hdr = EclKW("SEQNUM", 1, EclDataType.ECL_FLOAT)
         seq_hdr[0] = 1
@@ -34,6 +29,12 @@ def create_restart(grid, case):
         header.fwrite(f)
         p.fwrite(f)
 
+        if rporv:
+            rp = EclKW("RPORV", grid.getNumActive(), EclDataType.ECL_FLOAT)
+            for idx, val in enumerate(rporv):
+                rp[idx] = val
+            rp.fwrite(f)
+
         seq_hdr[0] = 2
         header[66] = 2010
         for i in range(len(p)):
@@ -43,6 +44,12 @@ def create_restart(grid, case):
         header.fwrite(f)
         p.fwrite(f)
 
+        if rporv:
+            rp = EclKW("RPORV", grid.getNumActive(), EclDataType.ECL_FLOAT)
+            for idx, val in enumerate(rporv):
+                rp[idx] = val
+            rp.fwrite(f)
+
         seq_hdr[0] = 3
         header[66] = 2011
         for i in range(len(p)):
@@ -51,3 +58,9 @@ def create_restart(grid, case):
         seq_hdr.fwrite(f)
         header.fwrite(f)
         p.fwrite(f)
+
+        if rporv:
+            rp = EclKW("RPORV", grid.getNumActive(), EclDataType.ECL_FLOAT)
+            for idx, val in enumerate(rporv):
+                rp[idx] = val
+            rp.fwrite(f)

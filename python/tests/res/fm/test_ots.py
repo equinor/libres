@@ -4,26 +4,19 @@ from collections import namedtuple
 
 from unittest import skipIf
 
-# TODO remove when this is in stable
-try:
-    from ecl.grid import EclGridGenerator
-except ImportError:
-    pass
+from ecl.grid import EclGridGenerator
 
 from res.fm.geophysics.ots import OTS
 from tests import ResTest
 from ecl.util.test import TestAreaContext
 from ecl.util.geometry import Surface
 
-from .ota_create_segy_file import *
-from .ots_util import *
+from ota_create_segy_file import *
+from ots_util import *
 
-try:
-    from res.util import ResVersion
-    currentVersion = ResVersion( )
-except ImportError:
-    from ert.util import Version
-    currentVersion = Version.currentVersion( )
+from res.util import ResVersion
+currentVersion = ResVersion( )
+
 
 
 
@@ -184,6 +177,26 @@ class OTSTest(ResTest):
 
             tshift = ots.geertsma_ts_simple(vintage_pairs)
             self.assertAlmostEqual(tshift[0][0], 0.01006, 4)
+
+    def test_geertsma_TS_rporv(self):
+        grid = EclGridGenerator.createRectangular(dims=(2, 2, 2), dV=(100, 100, 100), actnum=self._actnum)
+
+        with TestAreaContext("test_geertsmaTS_rporv", store_area=True):
+            create_restart(grid, "TEST", rporv=[10 for i in range(grid.getNumActive())])
+            create_init(grid, "TEST")
+            grid.save_EGRID("TEST.EGRID")
+
+            parms.velocity_model = "TEST.segy"
+
+            l = [50, 150]
+            create_segy_file(parms.velocity_model, self._spec, xl=l, il=l, cdp_x=l, cdp_y=l)
+
+            ots = OTS(parms=parms)
+
+            vintage_pairs = [(datetime.date(2000, 1, 1), datetime.date(2010, 1, 1)),
+                             (datetime.date(2010, 1, 1), datetime.date(2011, 1, 1))]
+
+            tshift = ots.geertsma_ts_rporv(vintage_pairs)
 
     def test_geertsma_TS(self):
         grid = EclGridGenerator.createRectangular(dims=(2, 2, 2), dV=(100, 100, 100), actnum=self._actnum)

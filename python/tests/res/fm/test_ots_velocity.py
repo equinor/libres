@@ -1,19 +1,19 @@
 import unittest
 from unittest import skipIf
 
+# TODO remove when this is in stable
+
 from ecl.grid import EclGridGenerator
+
 from res.fm.geophysics.ots import OTSVelSurface, OTSResSurface
 from tests import ResTest
 from ecl.util.test import TestAreaContext
 
-try:
-    from res.util import ResVersion
-    currentVersion = ResVersion( )
-except ImportError:
-    from ecl.util.util import Version
-    currentVersion = Version.currentVersion( )
+from res.util import ResVersion
+currentVersion = ResVersion( )
 
-from .ota_create_segy_file import *
+
+from ota_create_segy_file import *
 
 
 
