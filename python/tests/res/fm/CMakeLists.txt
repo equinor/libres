@@ -23,11 +23,12 @@ addPythonTest(tests.res.fm.test_rms_run.RMSRunTest)
 addPythonTest(tests.res.fm.test_shell.ShellTest)
 addPythonTest(tests.res.fm.test_templating.TemplatingTest)
 
+addPythonTest(tests.res.fm.test_ots.OTSTest)
+addPythonTest(tests.res.fm.test_ots_velocity.OTSVelocityTest)
+
 if (EXISTS ${STATOIL_TESTDATA_ROOT})
     addPythonTest(tests.res.fm.test_grav.GravTest)
-    addPythonTest(tests.res.fm.test_ots.OTSTest)
     addPythonTest(tests.res.fm.test_ots_integration.OTSIntegrationTest)
     addPythonTest(tests.res.fm.test_ots_reservoir.OTSReservoirTest)
-    addPythonTest(tests.res.fm.test_ots_velocity.OTSVelocityTest)
 endif()
 
