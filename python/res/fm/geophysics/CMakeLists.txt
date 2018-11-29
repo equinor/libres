@@ -3,5 +3,7 @@ set(PYTHON_SOURCES
 )
 
 add_subdirectory(grav)
-add_subdirectory(ots)
+if (EXISTS ${STATOIL_TESTDATA_ROOT})
+    add_subdirectory(ots)
+endif()
 add_python_package("python.res.fm.geophysics" ${PYTHON_INSTALL_PREFIX}/res/fm/geophysics "${PYTHON_SOURCES}" True)

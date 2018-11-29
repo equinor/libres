@@ -1,0 +1,10 @@
+EXECUTABLE       Scripts/overburden_timeshift
+DEFAULT <OUTPUT_FILE> tshift.irap
+ARGLIST          -p <PARAMETERS_FILE>
+STDERR           tshift.err
+STDOUT           tshift.out
+
+MIN_ARG    2
+MAX_ARG    2
+ARG_TYPE 0 STRING
+ARG_TYPE 1 STRING
