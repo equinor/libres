@@ -1160,30 +1160,36 @@ static void enkf_main_analysis_update( enkf_main_type * enkf_main ,
         int * row_offset = (int *)util_calloc( local_dataset_get_size( dataset ) , sizeof * row_offset  );
         local_obsdata_type   * local_obsdata = local_ministep_get_obsdata( ministep );
 
+        // The enkf_main_serialize_dataset() function will query the storage
+        // layer and fetch data which is serialized into the A matrix which is
+        // buried deep into the serialize_info structure.
         enkf_main_serialize_dataset(enkf_main_get_ensemble_config(enkf_main), dataset , step2 ,  use_count , active_size , row_offset , tp , serialize_info);
-        module_info_type * module_info = enkf_main_module_info_alloc(ministep, obs_data, dataset, local_obsdata, active_size , row_offset);
 
-        if (analysis_module_check_option( module , ANALYSIS_UPDATE_A)){
-          if (analysis_module_check_option( module , ANALYSIS_ITERABLE)){
-            analysis_module_updateA( module , localA , S , R , dObs , E , D , module_info, enkf_main->shared_rng);
+        {
+          module_info_type * module_info = enkf_main_module_info_alloc(ministep, obs_data, dataset, local_obsdata, active_size , row_offset);
+
+          if (analysis_module_check_option( module , ANALYSIS_UPDATE_A)){
+            if (analysis_module_check_option( module , ANALYSIS_ITERABLE))
+              analysis_module_updateA( module , localA , S , R , dObs , E , D , module_info, enkf_main->shared_rng);
+            else
+              analysis_module_updateA( module , localA , S , R , dObs , E , D , module_info, enkf_main->shared_rng);
+          } else {
+            if (analysis_module_check_option( module , ANALYSIS_USE_A))
+              analysis_module_initX( module , X , localA , S , R , dObs , E , D, enkf_main->shared_rng);
+
+            matrix_inplace_matmul_mt2( A , X , tp );
           }
-          else
-            analysis_module_updateA( module , localA , S , R , dObs , E , D , module_info, enkf_main->shared_rng);
-        }
-        else {
-          if (analysis_module_check_option( module , ANALYSIS_USE_A)){
-            analysis_module_initX( module , X , localA , S , R , dObs , E , D, enkf_main->shared_rng);
-          }
 
-          matrix_inplace_matmul_mt2( A , X , tp );
+          enkf_main_module_info_free( module_info );
         }
 
-        // The deserialize also calls enkf_node_store() functions.
+        // The enkf_main_deserialize_dataset() function will dismantle the A
+        // matrix from the serialize_info structure and distribute that content
+        // over to enkf_node instances and eventually the storage layer.
         enkf_main_deserialize_dataset( enkf_main_get_ensemble_config( enkf_main ) , dataset , active_size , row_offset , serialize_info , tp);
 
         free( active_size );
         free( row_offset );
-        enkf_main_module_info_free( module_info );
       }
     }
     hash_iter_free( dataset_iter );

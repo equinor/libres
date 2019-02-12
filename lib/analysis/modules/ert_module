@@ -8,7 +8,7 @@ res_root = os.path.realpath( os.path.join(os.path.dirname( os.path.realpath( os.
 
 #-----------------------------------------------------------------
 
-default_lib_list          = ["res"   , "ecl"]
+default_lib_list          = ["ecl"   , "res"]
 default_define_list       = ["HAVE_PTHREAD" , "COMPILER_GCC"]
 
 
