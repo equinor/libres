@@ -23,6 +23,8 @@ env:
 
 matrix:
   fast_finish: true
+  allow_failures:
+  - os: osx
   include:
   - os: osx
     osx_image: xcode8.3
