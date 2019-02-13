@@ -57,7 +57,7 @@ addons:
       - valgrind
 
 before_install:
-  - echo $INSTALL_DIR
+  - git clone https://github.com/matthew-brett/multibuild.git
   - unset -f pushd
   - unset -f popd
   - source multibuild/common_utils.sh
