@@ -224,17 +224,18 @@ add_library(rml_enkf SHARED analysis/modules/rml_enkf_config.c
                             analysis/modules/rml_enkf_log.c
                             )
 
-add_library(ies SHARED analysis/modules/ies_enkf.c
-                       analysis/modules/ies_enkf_config.c
-                       analysis/modules/ies_enkf_data.c)
+set( ies_source analysis/modules/ies_enkf.c
+                analysis/modules/ies_enkf_config.c
+                analysis/modules/ies_enkf_data.c)
 
+add_library(ies SHARED ${ies_source})
 
 foreach (module rml_enkf ies)
   target_link_libraries(${module} PRIVATE res ecl ${CMAKE_DL_LIBS})
   target_include_directories(${module} PRIVATE analysis/modules)
   set_target_properties(${module} PROPERTIES VERSION 1.0
-                                 SOVERSION 1.0
-                                 PREFIX "")
+                                  SOVERSION 1.0
+                                  PREFIX "")
 endforeach()
 
 add_library(std_enkf_debug SHARED analysis/modules/std_enkf_debug.c)
@@ -297,13 +298,27 @@ endif()
 foreach(name ies_enkf ies_enkf_config ies_enkf_data)
        add_executable(${name} analysis/modules/tests/${name}.cpp)
        target_include_directories(${name} PRIVATE analysis/modules)
-       target_link_libraries(${name} res ies)
+       target_link_libraries(${name} $<TARGET_FILE:ies> res)
        add_test(NAME ${name} COMMAND ${name})
 endforeach()
 add_executable( ies_module analysis/modules/tests/ies_enkf_module.cpp)
 target_link_libraries(ies_module res)
 add_test(NAME ies_module COMMAND ies_module $<TARGET_FILE:ies> ${CMAKE_CURRENT_SOURCE_DIR}/analysis/modules/tests/test-data/poly)
 
+add_executable(ies_linalg analysis/modules/tests/ies_linalg.cpp)
+target_include_directories(ies_linalg PRIVATE analysis/modules)
+target_link_libraries(ies_linalg $<TARGET_FILE:ies> res)
+add_test(NAME ies_linalg COMMAND ies_linalg ${CMAKE_CURRENT_SOURCE_DIR}/analysis/modules/tests/test-data/poly)
+
+add_executable(ies_std_compare analysis/modules/tests/ies_std_compare.cpp)
+target_include_directories(ies_std_compare PRIVATE analysis/modules)
+target_link_libraries(ies_std_compare $<TARGET_FILE:ies> res)
+add_test(NAME ies_std_compare COMMAND ies_std_compare ${CMAKE_CURRENT_SOURCE_DIR}/analysis/modules/tests/test-data/poly)
+
+add_executable(ies_iteration analysis/modules/tests/ies_iteration.cpp)
+target_include_directories(ies_iteration PRIVATE analysis/modules)
+target_link_libraries(ies_iteration $<TARGET_FILE:ies> res)
+add_test(NAME ies_iteration COMMAND ies_iteration ${CMAKE_CURRENT_SOURCE_DIR}/analysis/modules/tests/test-data/poly_normal)
 
 foreach(name ert_util_logh
              ert_util_arg_pack

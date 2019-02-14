@@ -113,7 +113,7 @@ void ies_enkf_updateA( void * module_data,
                        matrix_type * Rin ,    // Measurement error covariance matrix (not used)
                        matrix_type * dObs ,   // Actual observations (not used)
                        matrix_type * Ein ,    // Ensemble of observation perturbations
-                       matrix_type * Din ,    // (d+E-Y) Ensemble of perturbed observations - Y
+                       const matrix_type * Din ,    // (d+E-Y) Ensemble of perturbed observations - Y
                        const module_info_type * module_info,
                        rng_type * rng) {
 
@@ -202,9 +202,10 @@ void ies_enkf_updateA( void * module_data,
    matrix_type * D   = matrix_alloc( nrobs    , ens_size );
    matrix_type * Rtmp= matrix_alloc( nrobs    , nrobs_inp );
    matrix_type * R   = matrix_alloc( nrobs    , nrobs );
+   matrix_type * D0  = matrix_alloc_copy( Din );
 
 /* Subtract new measurement perturbations              D=D-E    */
-   matrix_inplace_sub(Din,Ein);
+   matrix_inplace_sub(D0,Ein);
 
 /* E=data->E but only using the active obs also stored in data->E */
    {
@@ -236,7 +237,7 @@ void ies_enkf_updateA( void * module_data,
            }
          }
 
-         matrix_copy_row(D,Din,m,k);
+         matrix_copy_row(D,D0,m,k);
          matrix_copy_row(Y,Yin,m,k);
          matrix_copy_row(Rtmp,Rin,m,k);
          matrix_copy_column(R,Rtmp,m,k);
@@ -251,7 +252,7 @@ void ies_enkf_updateA( void * module_data,
    fprintf(log_fp,"Input matrices\n");
    if (dbg) matrix_pretty_fprint_submat(E,"E","%11.5f",log_fp,0,m_nrobs,0,m_ens_size) ;
 
-   if (dbg) matrix_pretty_fprint_submat(Din,"Din","%11.5f",log_fp,0,m_nrobs,0,m_ens_size) ;
+   if (dbg) matrix_pretty_fprint_submat(D0,"Din","%11.5f",log_fp,0,m_nrobs,0,m_ens_size) ;
    if (dbg) matrix_pretty_fprint_submat(D,"D","%11.5f",log_fp,0,m_nrobs,0,m_ens_size) ;
 
    if (dbg) matrix_pretty_fprint_submat(Yin,"Yin","%11.5f",log_fp,0,m_nrobs,0,m_ens_size) ;
@@ -577,6 +578,7 @@ void ies_enkf_updateA( void * module_data,
    matrix_free( E  );
    matrix_free( Rtmp);
    matrix_free( R  );
+   matrix_free( D0 );
    matrix_free( A0 );
    matrix_free( W0 );
    matrix_free( W );

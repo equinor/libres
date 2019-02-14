@@ -151,7 +151,7 @@ FILE * ies_enkf_data_open_log(ies_enkf_data_type * data) {
   if (data->iteration_nr == 1){
     fp = fopen(ies_logfile, "w");
   } else {
-      fp = fopen(ies_logfile, "a");
+    fp = fopen(ies_logfile, "a");
   }
   data->log_fp = fp;
   return fp;

@@ -163,7 +163,6 @@ char * ies_enkf_config_get_ies_logfile( const ies_enkf_config_type * config ) {
 }
 void ies_enkf_config_set_ies_logfile( ies_enkf_config_type * config , const char * ies_logfile ) {
    config->ies_logfile = util_realloc_string_copy( config->ies_logfile , ies_logfile );
-//   config->ies_logfile = util_alloc_string_copy( ies_logfile );
 }
 
 /*------------------------------------------------------------------------------------------------*/

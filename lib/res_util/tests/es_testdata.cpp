@@ -176,6 +176,23 @@ void test_size_problems() {
   test_work_area_free(work_area);
 }
 
+
+void test_empty_path() {
+  test_work_area_type * work_area = test_work_area_alloc("es_testdata");
+  int ens_size = 10;
+  int obs_size =  7;
+  auto td1 = make_testdata(ens_size, obs_size);
+  res::es_testdata td2(td1.S, td1.R, td1.dObs, td1.D, td1.E);
+
+  td2.save();
+  td2.save_matrix("M", td1.S);
+  test_assert_true(util_file_exists("S"));
+  test_assert_true(util_file_exists("M"));
+  res::es_testdata td3("");
+  test_assert_true(matrix_equal(td1.S, td3.S));
+  test_work_area_free(work_area);
+}
+
 void test_load_state() {
   test_work_area_type * work_area = test_work_area_alloc("es_testdata");
   int ens_size = 10;
