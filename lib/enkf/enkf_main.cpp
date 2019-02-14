@@ -50,6 +50,7 @@
 #include <ert/res_util/res_log.hpp>
 #include <ert/res_util/res_util_defaults.hpp>
 #include <ert/res_util/matrix.hpp>
+#include <ert/res_util/es_testdata.hpp>
 
 #include <ert/job_queue/job_queue.hpp>
 #include <ert/job_queue/job_queue_manager.hpp>
@@ -1168,11 +1169,13 @@ static void enkf_main_analysis_update( enkf_main_type * enkf_main ,
 
         {
           module_info_type * module_info = enkf_main_module_info_alloc(ministep, obs_data, dataset, local_obsdata, active_size , row_offset);
-          /*res::es_testdata td("tmp/poly/", S, R, dObs, D, E);
-          td.save();
-          td.save_matrix("prior", localA);
-          exit(1);
+          /*res::es_testdata td("/tmp/poly_normal/", S, R, dObs, D, E);
+            td.save();
+            td.save_matrix("prior", A);
+            printf("Testdata created and stored in /tmp/poly_normal \n");
+            exit(1);
           */
+
           if (analysis_module_check_option( module , ANALYSIS_UPDATE_A)){
             if (analysis_module_check_option( module , ANALYSIS_ITERABLE))
               analysis_module_updateA( module , localA , S , R , dObs , E , D , module_info, enkf_main->shared_rng);
