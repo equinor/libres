@@ -239,6 +239,46 @@ es_testdata::es_testdata(const char * path, const matrix_type* S, const matrix_t
   {
   }
 
+void es_testdata::deactivate_obs(int iobs) {
+    if (iobs >= bool_vector_size( this->obs_mask ))
+        throw std::invalid_argument("Obs number: " + std::to_string(iobs) + " out of reach");
+
+    if (bool_vector_iget(this->obs_mask, iobs)) {
+        bool_vector_iset(this->obs_mask, iobs, false);
+
+        this->dObs = swap_matrix( this->dObs, matrix_delete_row(this->dObs, iobs));
+        this->S = swap_matrix( this->S, matrix_delete_row(this->S, iobs));
+        this->R = swap_matrix( this->R, matrix_delete_row_column(this->R, iobs));
+
+        if (this->E)
+          this->E = swap_matrix( this->E , matrix_delete_row(this->E, iobs));
+
+        if (this->D)
+          this->D = swap_matrix( this->D, matrix_delete_row(this->D, iobs));
+
+        this->active_obs_size -= 1;
+    }
+}
+
+void es_testdata::deactivate_realization(int iens) {
+  if (iens >= bool_vector_size( this->ens_mask ))
+    throw std::invalid_argument("iRealization number: " + std::to_string(iens) + " out of reach");
+
+  if (bool_vector_iget(this->ens_mask, iens)) {
+    bool_vector_iset(this->ens_mask, iens, false);
+
+    this->S = swap_matrix( this->S, matrix_delete_column(this->S, iens));
+
+    if (this->E)
+      this->E = swap_matrix( this->E , matrix_delete_column(this->E, iens));
+
+    if (this->D)
+      this->D = swap_matrix( this->D, matrix_delete_column(this->D, iens));
+
+    this->active_ens_size -= 1;
+  }
+}
+
 es_testdata::es_testdata(const char * path) :
   path(path),
   S(nullptr),
