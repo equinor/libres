@@ -33,7 +33,7 @@ void init_stdA(const res::es_testdata& testdata, matrix_type * A2) {
 
 
 void cmp_std_ies(const res::es_testdata& testdata) {
-  int num_iter = 25;
+  int num_iter = 100;
   rng_type * rng = rng_alloc( MZRAN, INIT_DEFAULT );
   matrix_type * A1 = testdata.alloc_state("prior");
   matrix_type * A2 = testdata.alloc_state("prior");
@@ -71,6 +71,7 @@ void cmp_std_ies(const res::es_testdata& testdata) {
                      NULL,
                      rng);
 
+    printf("iter: %d\n", iter);
     test_assert_int_equal( ies_enkf_data_get_iteration_nr(ies_data), iter + 1);
   }
 
