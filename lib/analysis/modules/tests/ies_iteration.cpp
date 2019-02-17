@@ -41,9 +41,6 @@ void cmp_std_ies(const res::es_testdata& testdata) {
   ies_enkf_data_type * ies_data = static_cast<ies_enkf_data_type*>(ies_enkf_data_alloc(rng));
   ies_enkf_config_type * ies_config = ies_enkf_data_get_config(ies_data);
 
-  bool_vector_type * ens_mask = bool_vector_alloc(testdata.active_ens_size, true);
-  bool_vector_type * obs_mask = bool_vector_alloc(testdata.active_obs_size, true);
-
   ies_enkf_config_set_truncation(ies_config, 0.95);
   ies_enkf_config_set_ies_steplength(ies_config, 0.50);
   ies_enkf_config_set_ies_inversion(ies_config, IES_INVERSION_SUBSPACE_EXACT_R);
@@ -52,8 +49,8 @@ void cmp_std_ies(const res::es_testdata& testdata) {
 
   for (int iter=0; iter < num_iter; iter++) {
     ies_enkf_init_update(ies_data,
-                         ens_mask,
-                         obs_mask,
+                         testdata.ens_mask,
+                         testdata.obs_mask,
                          testdata.S,
                          testdata.R,
                          testdata.dObs,
@@ -79,8 +76,6 @@ void cmp_std_ies(const res::es_testdata& testdata) {
   matrix_pretty_fprint(A2, "Std ES", " %6.3f", stdout);
   test_assert_true( matrix_similar(A1, A2, 1e-1));
 
-  bool_vector_free(ens_mask);
-  bool_vector_free(obs_mask);
   matrix_free(A1);
   matrix_free(A2);
   ies_enkf_data_free(ies_data);

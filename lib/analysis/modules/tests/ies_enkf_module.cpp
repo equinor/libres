@@ -11,8 +11,6 @@ void test_steplength1(const char * module_lib, const char * path_testdata) {
   rng_type * rng = rng_alloc( MZRAN, INIT_DEFAULT );
   matrix_type * X = matrix_alloc(testdata.active_ens_size, testdata.active_ens_size);
   matrix_type * prior = testdata.alloc_matrix("A0", testdata.state_size, testdata.active_ens_size);
-  bool_vector_type * ens_mask = bool_vector_alloc(testdata.active_ens_size, true);
-  bool_vector_type * obs_mask = bool_vector_alloc(testdata.active_obs_size, true);
 
   analysis_module_type * std_module = analysis_module_alloc_internal("STD_ENKF");
   analysis_module_type * ies_module = analysis_module_alloc_external(module_lib);
@@ -21,8 +19,8 @@ void test_steplength1(const char * module_lib, const char * path_testdata) {
   test_assert_true( analysis_module_set_var(ies_module, ENKF_TRUNCATION_KEY_, "0.95") );
 
   analysis_module_init_update(std_module,
-                              ens_mask,
-                              obs_mask,
+                              testdata.ens_mask,
+                              testdata.obs_mask,
                               testdata.S,
                               testdata.R,
                               testdata.dObs,
@@ -40,8 +38,6 @@ void test_steplength1(const char * module_lib, const char * path_testdata) {
                         testdata.D,
                         rng );
 
-  bool_vector_free(ens_mask);
-  bool_vector_free(obs_mask);
   rng_free( rng );
   matrix_free(X);
   if (prior)
