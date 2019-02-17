@@ -229,6 +229,7 @@ void ies_enkf_updateA( void * module_data,
 
          {
            int i=0;
+           bool_vector_fprintf(ens_mask, stdout, "ens_mask", " %d");
            for (int iens = 0; iens < ens_size_msk; iens++){
              if ( bool_vector_iget(ens_mask,iens) ){
                matrix_iset_safe(E,m,i,matrix_iget(dataE,j,iens)) ;
@@ -501,21 +502,21 @@ void ies_enkf_updateA( void * module_data,
 
 /* Store active realizations from W0 to data->W */
    {
-      int i=-1;
+      int i=0;
       int j;
       matrix_type * dataW = ies_enkf_data_getW(data);
       const bool_vector_type * ens_mask = ies_enkf_data_get_ens_mask(data);
       matrix_set(dataW , 0.0) ;
       for (int iens=0; iens < ens_size_msk; iens++){
          if ( bool_vector_iget(ens_mask,iens) ){
-            i=i+1;
-            j=-1;
+            j=0;
             for (int jens=0; jens < ens_size_msk; jens++){
                if ( bool_vector_iget(ens_mask,jens) ){
-                  j=j+1;
-                  matrix_iset_safe(dataW,iens,jens,matrix_iget(W0,i,j)) ;
+                 matrix_iset_safe(dataW,iens,jens,matrix_iget(W0,i,j));
+                 j += 1;
                }
             }
+            i += 1;
          }
       }
 
