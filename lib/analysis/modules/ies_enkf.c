@@ -228,11 +228,11 @@ void ies_enkf_updateA( void * module_data,
          m=m+1;
 
          {
-           int i=-1;
+           int i=0;
            for (int iens = 0; iens < ens_size_msk; iens++){
              if ( bool_vector_iget(ens_mask,iens) ){
-               i=i+1 ;
                matrix_iset_safe(E,m,i,matrix_iget(dataE,j,iens)) ;
+               i=i+1;
              }
            }
          }
