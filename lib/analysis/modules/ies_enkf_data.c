@@ -169,7 +169,6 @@ void ies_enkf_data_store_initialE(ies_enkf_data_type * data, const matrix_type *
     bool dbg = ies_enkf_config_get_ies_debug( data->config ) ;
     fprintf(data->log_fp,"Allocating and assigning data->E \n");
     data->E = matrix_alloc_copy(E0);
-    dbg=false;
     if (dbg)
       matrix_pretty_fprint(data->E,"data->E","%11.5f",data->log_fp);
   }
@@ -181,7 +180,6 @@ void ies_enkf_data_store_initialA(ies_enkf_data_type * data, const matrix_type *
     bool dbg = ies_enkf_config_get_ies_debug( data->config ) ;
     fprintf(data->log_fp,"Allocating and assigning data->A0 \n");
     data->A0 = matrix_alloc_copy(A);
-    dbg=false;
     if (dbg)
       matrix_pretty_fprint(data->A0,"Ini data->A0","%11.5f",data->log_fp);
   }
@@ -196,7 +194,6 @@ void ies_enkf_data_allocateW(ies_enkf_data_type * data, int ens_size) {
     fprintf(data->log_fp,"Allocating data->W\n");
     data->W=matrix_alloc(ens_size , ens_size);
     matrix_set(data->W , 0.0) ;
-    dbg=false;
     if (dbg)
       matrix_pretty_fprint(data->W,"Ini data->W","%11.5f",data->log_fp);
   }
