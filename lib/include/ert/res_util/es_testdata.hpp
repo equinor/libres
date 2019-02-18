@@ -50,6 +50,7 @@ public:
   void save_matrix(const std::string& name, const matrix_type * m) const;
   matrix_type * alloc_state(const std::string& name) const;
   void save(const std::string& path) const;
+  void save() const;
   void deactivate_obs(int iobs);
   void deactivate_realization(int iens);
 };
