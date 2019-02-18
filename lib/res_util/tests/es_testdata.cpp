@@ -156,6 +156,25 @@ void test_basic() {
   test_work_area_free(work_area);
 }
 
+void test_size_problems() {
+  test_work_area_type * work_area = test_work_area_alloc("es_testdata");
+  int ens_size = 10;
+  int obs_size =  7;
+  {
+    res::es_testdata td1 = make_testdata(ens_size, obs_size);
+    td1.save("path");
+  }
+  unlink("path/size");
+  test_assert_throw( res::es_testdata("path"), std::invalid_argument );
+  {
+    FILE * fp = util_fopen("path/size", "w");
+    fprintf(fp, "%d\n", ens_size);
+    fclose(fp);
+  }
+  test_assert_throw( res::es_testdata("path"), std::invalid_argument );
+
+  test_work_area_free(work_area);
+}
 
 void test_load_state() {
   test_work_area_type * work_area = test_work_area_alloc("es_testdata");

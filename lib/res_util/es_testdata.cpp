@@ -80,7 +80,13 @@ std::array<int,2> load_size() {
   int active_ens_size, active_obs_size;
 
   FILE * stream = fopen("size", "r");
-  fscanf(stream, "%d %d", &active_ens_size, &active_obs_size);
+  if (!stream)
+    throw std::invalid_argument("Could not find file: size with ens_size, obs_size information in the test directory.");
+
+  int read_count = fscanf(stream, "%d %d", &active_ens_size, &active_obs_size);
+  if (read_count != 2)
+    throw std::invalid_argument("Failed to read ens_size obs_size from size file");
+
   fclose(stream);
 
   return {active_ens_size, active_obs_size};
