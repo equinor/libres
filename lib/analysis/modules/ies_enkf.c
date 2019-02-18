@@ -170,7 +170,7 @@ void ies_enkf_updateA( void * module_data,
 
 /***************************************************************************************************************/
    ies_enkf_data_store_initialE(data, Ein);
-   ies_enkf_data_allocateW(data, ens_size);
+   ies_enkf_data_allocateW(data, ens_size_msk);
    ies_enkf_data_store_initialA(data, A);
 
 
