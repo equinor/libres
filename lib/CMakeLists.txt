@@ -295,7 +295,7 @@ if (NOT BUILD_TESTS)
     return ()
 endif()
 
-foreach(name ies_enkf ies_enkf_config ies_enkf_data)
+foreach(name ies_enkf_config ies_enkf_data)
        add_executable(${name} analysis/modules/tests/${name}.cpp)
        target_include_directories(${name} PRIVATE analysis/modules)
        target_link_libraries(${name} $<TARGET_FILE:ies> res)
