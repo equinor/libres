@@ -229,7 +229,6 @@ void ies_enkf_updateA( void * module_data,
 
          {
            int i=0;
-           bool_vector_fprintf(ens_mask, stdout, "ens_mask", " %d");
            for (int iens = 0; iens < ens_size_msk; iens++){
              if ( bool_vector_iget(ens_mask,iens) ){
                matrix_iset_safe(E,m,i,matrix_iget(dataE,j,iens)) ;
