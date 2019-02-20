@@ -15,7 +15,7 @@ from res.job_queue import JobManager, assert_file_executable
 
 REQUESTED_HEXVERSION  =  0x02070000
 
-LOG_URL       = "http://devnull.equinor.no:4444"
+LOG_URL       = "http://devnull.statoil.no:4444"
 
 SHORT_SLEEP = 1
 LONG_SLEEP = 5
