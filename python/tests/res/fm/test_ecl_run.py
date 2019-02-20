@@ -42,7 +42,7 @@ class EclRunTest(ResTest):
 
     def init_ecl100_config(self):
         conf = {"env" : {"F_UFMTENDIAN" : "big",
-                         "LM_LICENSE_FILE" : "7321@eclipse-lic-no.equinor.no",
+                         "LM_LICENSE_FILE" : "7321@eclipse-lic-no.statoil.no",
                          "ARCH" : "x86_64"},
                 "versions" : {"2014.2" : {"scalar": {"executable" : "/prog/ecl/grid/2014.2/bin/linux_x86_64/eclipse.exe"},
                                           "mpi"   : {"executable" : "/prog/ecl/grid/2014.2/bin/linux_x86_64/eclipse_ilmpi.exe",
