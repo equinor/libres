@@ -93,9 +93,9 @@ find_library(LSF_LIBRARY NAMES lsf PATHS ${ERT_LSF_LIB_PATH})
 
 #-----------------------------------------------------------------
 
-set(STATOIL_TESTDATA_ROOT "" CACHE PATH  "Root to Statoil internal testdata")
+set(STATOIL_TESTDATA_ROOT "" CACHE PATH  "Root to Equinor internal testdata")
 if (EXISTS ${STATOIL_TESTDATA_ROOT})
-    set( LINK "${CMAKE_CURRENT_SOURCE_DIR}/test-data/Statoil" )
+    set( LINK "${CMAKE_CURRENT_SOURCE_DIR}/test-data/Equinor" )
     if (EXISTS ${LINK})
         execute_process(COMMAND ${CMAKE_COMMAND} -E remove "${LINK}")
     endif()
