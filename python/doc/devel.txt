@@ -210,12 +210,12 @@ The following excerpt from ecl_kw.y illustrates this:
     # Load the shared library
     import libecl                                    <---  Step 1
 
-    Class EclKW:                                     <-------------�
+    Class EclKW:                                     <-------------·
           # Pure Python code to implement the EclKW class,         |
           # based on the functions prototyped below.               |   Step 3
-          ....                                       <-------------� 
+          ....                                       <-------------· 
     
-    # Create a wrapper instance which wraps the libecl library. <--------�
+    # Create a wrapper instance which wraps the libecl library. <--------·
     cwrapper = CWrapper( libecl.lib )                                    |
                                                                          | 
     # Register the type mapping "ecl_kw" <-> EclKW                       | Step 2
@@ -224,7 +224,7 @@ The following excerpt from ecl_kw.y illustrates this:
     # Prototype the functions needed to implement the Python class       |
     cfunc.alloc_new = cwrapper.prototype("long ecl_kw_alloc( char* , int , int )")
     cfunc.free      = cwrapper.prototype("void ecl_kw_free( ecl_kw )")   |                 
-    ....                                                        <--------� 
+    ....                                                        <--------· 
     ------------------------------------------------------------
 
 These three steps are described in more detail in 4.1 - 4.3 below.
