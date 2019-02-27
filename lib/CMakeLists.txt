@@ -760,7 +760,7 @@ foreach(test enkf_site_config
 endforeach()
 
 
-if (NOT STATOIL_TESTDATA_ROOT)
+if (NOT EQUINOR_TESTDATA_ROOT)
     return ()
 endif ()
 

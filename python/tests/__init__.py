@@ -25,7 +25,7 @@ def source_root():
 #
 # Ideally the equinor_test() implementation should just be a suitable wrapper of: 
 #
-#       skipUnless(EclTest.STATOIL_DATA, "Missing Equinor testdata")
+#       skipUnless(EclTest.EQUINOR_DATA, "Missing Equinor testdata")
 #
 # but that has been surprisingly difficult to achieve. The current
 # implemenation is based on the skip() function from the unittest/case.py
@@ -56,13 +56,13 @@ def equinor_test():
     """
     def decorator(test_item):
         if not isinstance(test_item, type):
-            if not ResTest.STATOIL_DATA:
+            if not ResTest.EQUINOR_DATA:
                 @functools.wraps(test_item)
                 def skip_wrapper(*args, **kwargs):
                     raise SkipTest("Missing Equinor testdata")
                 test_item = skip_wrapper
 
-        if not ResTest.STATOIL_DATA:
+        if not ResTest.EQUINOR_DATA:
             test_item.__unittest_skip__ = True
             test_item.__unittest_skip_why__ = "Missing Equinor testdata"
         return test_item
@@ -73,7 +73,7 @@ class ResTest(ExtendedTestCase):
     SOURCE_ROOT = source_root()
     TESTDATA_ROOT = os.path.join(SOURCE_ROOT, "test-data")
     SHARE_ROOT = os.path.join(SOURCE_ROOT,"share")
-    STATOIL_DATA = os.path.islink(os.path.join(TESTDATA_ROOT, "Equinor"))
+    EQUINOR_DATA = os.path.islink(os.path.join(TESTDATA_ROOT, "Equinor"))
 
     def assertItemsEqual(self, data1, data2):
         if len(data1) != len(data2):

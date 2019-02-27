@@ -30,7 +30,7 @@
 #include <ert/job_queue/lsf_driver.hpp>
 
 #define BLOCK_COMMAND        "/project/res/bin/block-job"
-#define STATOIL_LSF_REQUEST  "select[cs && x86_64Linux]"
+#define EQUINOR_LSF_REQUEST  "select[cs && x86_64Linux]"
 
 
 
