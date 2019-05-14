@@ -18,8 +18,11 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 #include <pthread.h>
+
+#include <string>
+#include <vector>
+#include <algorithm>
 
 #include <ert/util/util.h>
 #include <ert/util/type_macros.h>
@@ -30,8 +33,9 @@
 #define EXT_PARAM_CONFIG_ID 97124451
 struct ext_param_config_struct {
   UTIL_TYPE_ID_DECLARATION;
-  char * key;
-  stringlist_type * keys;
+  std::string key;
+  std::vector<std::string> keys;
+  std::vector<std::vector<std::string> > suffixes;
 };
 
 UTIL_SAFE_CAST_FUNCTION(ext_param_config, EXT_PARAM_CONFIG_ID)
@@ -42,21 +46,23 @@ void ext_param_config_free( ext_param_config_type * config ) {
 }
 
 int ext_param_config_get_data_size( const ext_param_config_type * config ) {
-  return stringlist_get_size( config->keys );
+  return config->keys.size();
 }
 
 
 const char* ext_param_config_iget_key( const ext_param_config_type * config , int index) {
-  return stringlist_iget( config->keys , index);
+  return config->keys[index].data();
 }
 
 int ext_param_config_get_key_index( const ext_param_config_type * config , const char * key) {
-  return stringlist_find_first( config->keys , key );
+  const auto it = std::find(config->keys.begin(), config->keys.end(), key);
+  return it == config->keys.end() ?
+            -1 : 
+            std::distance(config->keys.begin(), it);
 }
 
-
 bool ext_param_config_has_key( const ext_param_config_type * config , const char * key) {
-  return (ext_param_config_get_key_index(config, key) >= 0);
+  return std::find(config->keys.begin(), config->keys.end(), key) != config->keys.end();
 }
 
 
@@ -67,11 +73,30 @@ ext_param_config_type * ext_param_config_alloc( const char * key, const stringli
   if (!stringlist_unique( keys ))
     return NULL;
 
-  ext_param_config_type * config = (ext_param_config_type *)util_malloc( sizeof * config );
+  ext_param_config_type * config = new ext_param_config_type();
   UTIL_TYPE_ID_INIT( config , EXT_PARAM_CONFIG_ID);
-  config->key = util_alloc_string_copy( key );
-  config->keys = stringlist_alloc_deep_copy( keys );
+  config->key = key;
+
+  for(int i=0; i<stringlist_get_size(keys); i++) {
+    config->keys.push_back(stringlist_iget(keys, i));
+  }
   return config;
+}
+
+
+int ext_param_config_get_suffix_count( const ext_param_config_type * config, int key_id) {  
+  return config->suffixes[key_id].size();
+}
+
+const char* ext_param_config_iget_suffix( const ext_param_config_type * config, int key_id, int suffix_id) {  
+  return config->suffixes[key_id][suffix_id].data();
+}
+
+int ext_param_config_get_suffix_index( const ext_param_config_type * config, int key_id, const char * suffix) {
+  const auto it = std::find(config->suffixes[key_id].begin(), config->suffixes[key_id].end(), suffix);
+  return it == config->suffixes[key_id].end() ?
+            -1 : 
+            std::distance(config->suffixes[key_id].begin(), it);
 }
 
 VOID_FREE(ext_param_config)

@@ -31,6 +31,9 @@ typedef struct ext_param_config_struct ext_param_config_type;
   ext_param_config_type * ext_param_config_alloc( const char * key, const stringlist_type * keys);
   int                     ext_param_config_get_key_index( const ext_param_config_type * config , const char * key);
   bool                    ext_param_config_has_key(const ext_param_config_type * config , const char * key);
+  int                     ext_param_config_get_suffix_count( const ext_param_config_type * config, int key_id);
+  const char*             ext_param_config_iget_suffix( const ext_param_config_type * config, int key_id, int suffix_id);
+  int                     ext_param_config_get_suffix_index( const ext_param_config_type * config, int key_id, const char * suffix);
 
 UTIL_SAFE_CAST_HEADER(ext_param_config);
 UTIL_SAFE_CAST_HEADER_CONST(ext_param_config);
