@@ -2,8 +2,10 @@ import json
 import os
 import os.path
 import stat
+import subprocess
 import time
 import datetime
+import unittest
 from unittest import TestCase
 
 from ecl.util.test import TestAreaContext
@@ -507,3 +509,48 @@ assert exec_env["NOT_SET"] is None
                 for job in jobm:
                     exit_status, msg = jobm.runJob(job)
                     self.assertEqual(exit_status, exit_signal)
+
+    def test_exit_signals_pid(self):
+        exit_signals = (0, 1, 2, 42) + tuple(range(128, 140)) + (240,)
+        for exit_signal in exit_signals:
+            area_name = gen_area_name(
+                "exit_signal_{}".format(exit_signal), create_jobs_json
+            )
+            with TestAreaContext(area_name):
+                exit_script_name = "exit.py"
+                run_script_name = "run.py"
+                with open(run_script_name, "w") as f:
+                    f.write("\n".join((
+                        '#!/usr/bin/env python',
+                        'import os',
+                        'from res.job_queue import JobManager',
+                        'jobm = JobManager()',
+                        'for job in jobm:',
+                        '    exit_status, msg = jobm.runJob(job)',
+                        'if exit_status != {}:'.format(exit_signal),
+                        '   msg = "Expected exit code {}, received {{}}".format(exit_status)'.format(exit_signal),
+                        '   raise AssertionError(msg)',
+                    )))
+                st = os.stat(run_script_name)
+                os.chmod(run_script_name, st.st_mode | stat.S_IEXEC)
+
+                with open(exit_script_name, "w") as f:
+                    f.write("\n".join((
+                        "#!/usr/bin/env python",
+                        "import sys",
+                        "sys.exit({})".format(exit_signal),
+                    )))
+                st = os.stat(exit_script_name)
+                os.chmod(exit_script_name, st.st_mode | stat.S_IEXEC)
+
+                exit_exec = os.path.join(os.getcwd(), exit_script_name)
+                joblist = [
+                    {
+                        "name" : "EXITER",
+                        "executable" : exit_exec,
+                        "argList" : [],
+                    }
+                ]
+                create_jobs_json(joblist)
+
+                subprocess.check_call("./"+run_script_name, shell=False, stdout=subprocess.PIPE)
