@@ -476,5 +476,34 @@ assert exec_env["NOT_SET"] is None
             # Verify _ordered_job_map_values is giving us values in same order as job_list
             self.assertEqual(job_manager.job_list, vals)
 
+    def test_exit_signals(self):
+        exit_signals = (0, 1, 2, 42) + tuple(range(128, 140)) + (240,)
+        for exit_signal in exit_signals:
+            area_name = gen_area_name(
+                "exit_signal_{}".format(exit_signal), create_jobs_json
+            )
+            with TestAreaContext(area_name):
+                exit_script_name = "exit.py"
+                with open(exit_script_name, "w") as f:
+                    f.write("\n".join((
+                        "#!/usr/bin/env python",
+                        "import sys",
+                        "sys.exit({})".format(exit_signal),
+                    )))
+                st = os.stat(exit_script_name)
+                os.chmod(exit_script_name, st.st_mode | stat.S_IEXEC)
+                exit_exec = os.path.join(os.getcwd(), exit_script_name)
 
+                joblist = [
+                    {
+                        "name" : "EXITER",
+                        "executable" : exit_exec,
+                        "argList" : [],
+                    }
+                ]
+                create_jobs_json(joblist)
 
+                jobm = JobManager()
+                for job in jobm:
+                    exit_status, msg = jobm.runJob(job)
+                    self.assertEqual(exit_status, exit_signal)
