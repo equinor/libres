@@ -522,7 +522,8 @@ class JobManager(object):
             # both the exit status of the external application,
             # and in case the job was killed by a signal - the
             # number of that signal.
-            exit_status = os.WEXITSTATUS(exit_status)
+            if os.WIFEXITED(exit_status):
+                exit_status = os.WEXITSTATUS(exit_status)
 
         status.end_time = dt.now()
 
