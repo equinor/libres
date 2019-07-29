@@ -90,11 +90,11 @@ class AnalysisConfigTest(ResTest):
                 ConfigKeys.ANALYSIS_LOAD: [
                     {
                         ConfigKeys.USER_NAME: 'RML_ENKF',
-                        ConfigKeys.LIB_NAME: 'rml_enkf.so'
+                        ConfigKeys.LIB_NAME: 'rml_enkf'
                     },
                     {
                         ConfigKeys.USER_NAME: 'MODULE_ENKF',
-                        ConfigKeys.LIB_NAME: 'rml_enkf.so'
+                        ConfigKeys.LIB_NAME: 'rml_enkf'
                     }
                 ],
                 ConfigKeys.ANALYSIS_COPY: [
