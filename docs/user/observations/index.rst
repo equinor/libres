@@ -347,7 +347,7 @@ The GENERAL_OBSERVATION keyword is used together with the GEN_DATA and
 GEN_PARAM type. This pair of observation and data types are typically
 used when you want to update something special which does not fit into
 any of the predefined enkf types. The ERT application just treats
-GENERAL_OBSERVATION (and also GEN_DATA) as a range of number with no
+GENERAL_OBSERVATION (and also GEN_DATA) as a range of numbers with no
 particular structure, this is very flexible, but of course also a bit
 more complex to use::
 
@@ -357,7 +357,7 @@ more complex to use::
     OBS_FILE = some_file.txt;
  };
 
-This example a minimum GENERAL_OBSERVATION. The keyword DATA points to
+This example shows a minimum GENERAL_OBSERVATION. The keyword DATA points to
 the GEN_DATA instance this observation is 'observing', RESTART gives
 the report step when this observation is active. OBS_FILE should be
 the name of a file with observation values, and the corresponding
@@ -429,7 +429,10 @@ for GEN_OBS when specifying the time. So consider a setup like this::
 
 Here we see that the observation is active at report step 20, and we
 expect the forward model to create a file rft_BH67_20 in each
-realization directory.  Error covariance
+realization directory.
+
+Error covariance
+.............................
 
 The optional keyword ERROR_COVAR can be used to point to an existing
 file, containing an error covariance matrix. The file should contain
