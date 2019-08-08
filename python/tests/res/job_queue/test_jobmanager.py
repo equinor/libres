@@ -355,7 +355,7 @@ class JobManagerTest(TestCase):
 
             for (index,job) in enumerate(jobm):
                 exit_status, msg = jobm.runJob(job)
-                self.assertEqual(exit_status, 1)
+                self.assertEqual(1, exit_status)
                 self.assertTrue(os.path.getsize("mkdir_err.%d" % index) > 0)
 
 

@@ -255,6 +255,8 @@ if len(sys.argv) == 2:
         fileH.write("%-32s: %02d:%02d:%02d .... " % (job["name"] , now.tm_hour , now.tm_min , now.tm_sec))
         fileH.close()
         (OK , exit_status, error_msg) = run_one(job)
+        if os.WIFEXITED(exit_status):
+            exit_status = os.WEXITSTATUS(exit_status)
         now = time.localtime()
         if OK:
             fileH = open(STATUS_file , "a")

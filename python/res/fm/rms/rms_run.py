@@ -115,10 +115,12 @@ class RMSRun(object):
 
     def wait(self, child_pid):
         _, wait_status = os.waitpid(child_pid, 0)
-        exit_status = os.WEXITSTATUS(wait_status)
 
-        if exit_status != 0:
-            raise Exception("The RMS run failed with exit status: {}".format(exit_status))
+        if os.WIFEXITED(wait_status):
+            wait_status = os.WEXITSTATUS(wait_status)
+
+        if wait_status != 0:
+            raise Exception("The RMS run failed with exit status: {}".format(wait_status))
 
         if self.target_file is None:
             return

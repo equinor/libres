@@ -218,7 +218,8 @@ class EclRun(object):
                 if return_pid == 0:
                     time.sleep( 1 )
                 else:
-                    exit_status = os.WEXITSTATUS( exit_status )
+                    if os.WIFEXITED(exit_status):
+                        exit_status = os.WEXITSTATUS( exit_status )
                     break
 
             OK_file = os.path.join(self.run_path , "%s.OK" % self.base_name)
