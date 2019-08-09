@@ -527,9 +527,9 @@ assert exec_env["NOT_SET"] is None
                         'jobm = JobManager()',
                         'for job in jobm:',
                         '    exit_status, msg = jobm.runJob(job)',
-                        'if exit_status != {}:'.format(exit_signal),
-                        '   msg = "Expected exit code {}, received {{}}".format(exit_status)'.format(exit_signal),
-                        '   raise AssertionError(msg)',
+                        '    if exit_status != {}:'.format(exit_signal),
+                        '       msg = "Expected exit code {}, received {{}}".format(exit_status)'.format(exit_signal),
+                        '       raise AssertionError(msg)',
                     )))
                 st = os.stat(run_script_name)
                 os.chmod(run_script_name, st.st_mode | stat.S_IEXEC)
