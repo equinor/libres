@@ -42,7 +42,8 @@ class ForwardModelJobStatus(object):
                  status = "Waiting",
                  error=None,
                  std_out_file="",
-                 std_err_file=""):
+                 std_err_file="",
+                 reported_max_memory_usage=0):
 
         self.start_time = start_time
         self.end_time = end_time
@@ -51,6 +52,7 @@ class ForwardModelJobStatus(object):
         self.error = error
         self.std_out_file = std_out_file
         self.std_err_file = std_err_file
+        self.reported_max_memory_usage = reported_max_memory_usage
 
 
     @classmethod
@@ -62,13 +64,15 @@ class ForwardModelJobStatus(object):
         error = data["error"]
         std_err_file = job['stderr']
         std_out_file = job['stdout']
+        reported_max_memory_usage = data['reported_max_memory_usage']
         return cls(name,
                    start_time=start_time,
                    end_time=end_time,
                    status=status,
                    error=error,
                    std_out_file=os.path.join(run_path, std_out_file),
-                   std_err_file=os.path.join(run_path, std_err_file))
+                   std_err_file=os.path.join(run_path, std_err_file),
+                   reported_max_memory_usage=reported_max_memory_usage)
 
 
     def __str__(self):
@@ -82,7 +86,8 @@ class ForwardModelJobStatus(object):
                 "start_time" : _serialize_date(self.start_time),
                 "end_time" : _serialize_date(self.end_time),
                 "stdout" : self.std_out_file,
-                "stderr" : self.std_err_file}
+                "stderr" : self.std_err_file,
+                "reported_max_memory_usage" : self.reported_max_memory_usage}
 
 class ForwardModelStatus(object):
     STATUS_FILE = "status.json"

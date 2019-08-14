@@ -127,7 +127,7 @@ class JobManager(object):
 
     DEFAULT_UMASK =  0
     sleep_time    =  10  # Time to sleep before exiting the script - to let the disks sync up.
-    MEMORY_POLL_PERIOD = 0.5  # Time between memory polling of job process
+    MEMORY_POLL_PERIOD = 5  # Seconds between memory polling of job process
 
 
 
@@ -503,7 +503,7 @@ class JobManager(object):
                 f.write(json.dumps(exec_env))
 
         pid = os.fork()
-        exit_status, err_msg, max_memory = None, '', 0
+        exit_status, err_msg = None, ''
         if pid == 0:
             # This code block should exec into the actual executable we are
             # running, and execution should not come back here. However - if
@@ -522,8 +522,9 @@ class JobManager(object):
             process = psutil.Process(pid)
             while exit_status is None:
                 memory = process.memory_info().rss
-                if memory > max_memory:
-                    max_memory = memory
+                if memory > status.reported_max_memory_usage:
+                    status.reported_max_memory_usage = memory
+                    self.job_status.dump()
                 try:
                     exit_status = process.wait(timeout=self.MEMORY_POLL_PERIOD)
                 except psutil.TimeoutExpired:
