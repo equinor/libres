@@ -356,19 +356,24 @@ def main(argv):
     if len(sys.argv) <= 2:
         # Normal batch run.
 
-        # Set this to true to ensure that empty job lists come out successfully.
-        OK = True
-
         for job in job_manager:
             job_manager.startStatus( job )
-            (OK , exit_status, error_msg) = run_one( job_manager , job)
-            job_manager.completeStatus(exit_status, error_msg, job=job)
-            if not OK:
-                job_manager.exit( job, exit_status , error_msg )
+            (job_ok , exit_status, error_msg) = run_one( job_manager , job)
+            job_manager.markJobComplete(job, exit_status, error_msg)
+
+            if job_ok:
+                job_manager.markJobSuccess(job, exit_status, error_msg)
+            else:
+                job_manager.markJobFailure(job, exit_status, error_msg)
+                job_manager.complete()
+                job_manager.dump_EXIT_file(job, error_msg)
+
+                pgid = os.getpgid(os.getpid())
+                os.killpg(pgid, signal.SIGKILL)
+                return
 
         job_manager.complete()
-        if OK:
-            job_manager.createOKFile( )
+        job_manager.createOKFile( )
 
     else:
         #Interactive run

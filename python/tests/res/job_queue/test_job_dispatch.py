@@ -8,12 +8,23 @@ from subprocess import Popen
 import time
 import psutil
 
+
+_job_dispatch_script = os.path.realpath(
+    os.path.join(
+        os.path.dirname(
+            os.path.abspath(__file__)
+        ),
+        '../../../../bin/job_dispatch.py'
+    )
+)
+
+
 class JobDispatchTest(ResTest):
 
     def testTerminateJobs(self):
 
         with TestAreaContext("job_dispatch_test") as work_area:
-            
+
             # Executes it self recursively and sleeps for 100 seconds
             with open("dummy_executable", "w") as f:
                 f.write("#!/usr/bin/env python\n"\
@@ -25,10 +36,10 @@ class JobDispatchTest(ResTest):
                         "else:\n"\
                         "    time.sleep(100)\n"
                     )
-                    
+
             executable = os.path.realpath("dummy_executable")
             os.chmod("dummy_executable", stat.S_IRWXU |  stat.S_IRWXO |  stat.S_IRWXG )
-            
+
             self.job_list = {
                 "umask" : "0002",
                 "DATA_ROOT": "",
@@ -58,19 +69,11 @@ class JobDispatchTest(ResTest):
                 "ert_pid" : ""
                 }
 
-            job_dispatch_script = os.path.realpath(
-                os.path.join(
-                    os.path.dirname(
-                        os.path.abspath(__file__)
-                        ),
-                        '../../../../bin/job_dispatch.py'
-                    )
-                )
-            
+
             with open("jobs.json", "w") as f:
                 f.write(json.dumps(self.job_list))
 
-            # Required to execute job_dispatch in separate process group by 
+            # Required to execute job_dispatch in separate process group by
             # os.setsid moves the current process out of the current group
             with open("job_dispatch_executer",'w') as f:
                 f.write("#!/usr/bin/env python\n"\
@@ -81,16 +84,67 @@ class JobDispatchTest(ResTest):
             os.chmod("job_dispatch_executer", stat.S_IRWXU |  stat.S_IRWXO |  stat.S_IRWXG )
 
             current_dir = os.path.realpath(os.curdir)
-            job_dispatch_process = Popen([os.path.realpath("job_dispatch_executer"), job_dispatch_script, current_dir])
-            
+            job_dispatch_process = Popen(
+                [os.path.realpath("job_dispatch_executer"), _job_dispatch_script, current_dir])
+
             time.sleep(1) # wait for processes to be spawned
             p = psutil.Process(job_dispatch_process.pid)
-            
+
             # Three levels of processes should spawn 8 children in total
             self.assertEqual(len(p.children(recursive=True)), 8)
-            
+
             p.terminate()
             time.sleep(1) # wait for processes to be terminated
             self.assertEqual(len(p.children(recursive=True)), 0)
-            
+
             os.wait() # allow os to clean up zombie processes
+
+    def testStatusUpdatesWhenMissingTargetFile(self):
+
+        with TestAreaContext("job_dispatch_test") as work_area:
+
+            curdir = os.path.realpath(os.curdir)
+
+            self.job_list = {
+                "umask": "0002",
+                "jobList": [{
+                    "name": "dummy_executable",
+                    "executable": "/bin/bash", # : always returns 0
+                    "target_file": os.path.join(curdir, "non-existent"),
+                    "stdout": "dummy.stdout",
+                    "stderr": "dummy.stderr",
+                    "argList": ["-c", "\":\""],
+                    "min_arg": 1,
+                    "arg_types": [],
+                }]
+            }
+
+            with open("jobs.json", "w") as f:
+                f.write(json.dumps(self.job_list))
+
+            # Required to execute job_dispatch in separate process group by
+            # os.setsid moves the current process out of the current group
+            with open("job_dispatch_executer", 'w') as f:
+                f.write("#!/usr/bin/env python\n"
+                        "import os, sys\n"
+                        "os.setsid()\n"
+                        "os.execv(sys.argv[1], sys.argv[1:])\n"
+                        "\n")
+            os.chmod("job_dispatch_executer", stat.S_IRWXU |
+                     stat.S_IRWXO | stat.S_IRWXG)
+
+            job_dispatch_process = Popen(
+                [os.path.realpath("job_dispatch_executer"), _job_dispatch_script, curdir])
+
+            time.sleep(1)
+            p = psutil.Process(job_dispatch_process.pid)
+            p.terminate()
+
+            with open("status.json", "r") as s:
+                status_json = s.read()
+                self.assertNotIn("Success", status_json)
+
+                # It is sufficient to test that Running is the status of the
+                # job. This means it will eventually fail after 60 seconds when
+                # the target_file can not be found.
+                self.assertIn("Running", status_json)

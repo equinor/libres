@@ -293,8 +293,7 @@ class JobManager(object):
             now = time.localtime()
             f.write("%-32s: %02d:%02d:%02d .... " % (job["name"], now.tm_hour, now.tm_min, now.tm_sec))
 
-
-    def completeStatus(self, exit_status, error_msg, job=None):
+    def markJobComplete(self, job, exit_status, error_msg):
         now = time.localtime()
         extra_fields = {"finished": True,
                         "exit_status": exit_status,
@@ -306,8 +305,11 @@ class JobManager(object):
                 status = " EXIT: %d/%s" % (exit_status, error_msg)
                 extra_fields.update({"error_msg": error_msg})
 
-            f.write("%02d:%02d:%02d  %s\n" % (now.tm_hour, now.tm_min, now.tm_sec, status))
+            f.write("%02d:%02d:%02d  %s\n" %
+                    (now.tm_hour, now.tm_min, now.tm_sec, status))
 
+        status = job["status"]
+        status.end_time = dt.now()
 
     def createOKFile(self):
         now = time.localtime()
@@ -467,15 +469,19 @@ class JobManager(object):
                     extra_fields.update({"stdout": stdout})
         return extra_fields
 
-    def exit(self, job, exit_status, error_msg):
-        self.dump_EXIT_file(job, error_msg)
+    def markJobFailure(self, job, exit_status, error_msg):
         std_err_out = self.extract_stderr_stdout(job)
         std_err_out.update({"status": "exit","finished": True, "error_msg": error_msg, "exit_status": exit_status, "error": True})
         self.postMessage(job=job, extra_fields=std_err_out) #Posts to new logstash
-        pgid = os.getpgid(os.getpid())
-        os.killpg(pgid, signal.SIGKILL)
 
+        status = job["status"]
+        status.status = "Failure"
+        status.error = error_msg
 
+    def markJobSuccess(self, job, exit_status, error_msg):
+        status = job["status"]
+        status.status = "Success"
+        status.error = None
 
     def addLogLine(self, job):
         now = time.localtime()
@@ -530,12 +536,6 @@ class JobManager(object):
             err_msg = "Executable: %s failed with exit code: %s" % (job.get('executable'),
                                                                     exit_status)
 
-            status.status = "Failure"
-            status.error = err_msg
-        else:
-            status.status = "Success"
-
-        self.job_status.dump()
         return exit_status, err_msg
 
 
