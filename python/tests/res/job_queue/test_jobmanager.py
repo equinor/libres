@@ -6,6 +6,14 @@ import stat
 import time
 import datetime
 from unittest import TestCase
+from collections import namedtuple
+from psutil import Process
+import sys
+if sys.version_info >= (3, 3):
+    from unittest.mock import Mock, patch
+else:
+    from mock import Mock, patch
+
 
 from ecl.util.test import TestAreaContext
 from res.util import SubstitutionList
@@ -476,5 +484,33 @@ assert exec_env["NOT_SET"] is None
             # Verify _ordered_job_map_values is giving us values in same order as job_list
             self.assertEqual(job_manager.job_list, vals)
 
+    def test_memory_diagnostics(self):
+        with TestAreaContext(gen_area_name("run_memory_diagnostics", create_jobs_json)):
+            with open("memory_diagnostics_executor.py", 'w') as f:
+                f.write("#!/usr/bin/env python\n")
+                f.write("import time\n")
+                f.write("time.sleep(1)\n")
+                f.write("\n")
+            os.chmod("memory_diagnostics_executor.py", stat.S_IRWXU | stat.S_IRWXO | stat.S_IRWXG)
 
+            executable = os.path.join(os.getcwd(), "memory_diagnostics_executor.py")
+            memory_tests = [10**i for i in range(2, 10)]
+            joblist = [{"name" : "TEST_JOB_" + str(mem_test),
+                        "executable" : executable,
+                        "stdout": "outfile.stdout",
+                        "stderr": "outfile.stderr",
+                        "argList" : []}
+                       for mem_test in memory_tests]
 
+            create_jobs_json(joblist)
+            jobm = JobManager()
+            self.assertTrue(os.path.isfile(executable))
+            MemoryInfo = namedtuple('MemoryInfo', 'rss')
+            for job_index, job in enumerate(jobm):
+                with patch.object(Process, 'memory_info', return_value=MemoryInfo(memory_tests[job_index])):
+                    exit_status, msg = jobm.runJob(job)
+                self.assertEqual(0, exit_status)
+
+            status = ForwardModelStatus.try_load("")
+            for job_index, job in enumerate(status.jobs):
+                self.assertEqual(memory_tests[job_index], job.reported_max_memory_usage)

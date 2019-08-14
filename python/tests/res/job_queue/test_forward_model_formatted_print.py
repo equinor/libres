@@ -548,7 +548,7 @@ class ForwardModelFormattedPrintTest(ResTest):
                 umask,
                 varlist)
 
-            s = '{"start_time": null, "jobs": [{"status": "Success", "start_time": 1519653419.0, "end_time": 1519653419.0, "name": "SQUARE_PARAMS", "error": null, "max_memory_usage": 29319168}], "end_time": null, "run_id": ""}'
+            s = '{"start_time": null, "jobs": [{"status": "Success", "start_time": 1519653419.0, "end_time": 1519653419.0, "name": "SQUARE_PARAMS", "error": null, "reported_max_memory_usage": 29319168}], "end_time": null, "run_id": ""}'
 
             with open("status.json", "w") as f:
                 f.write(s)
