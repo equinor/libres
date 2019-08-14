@@ -26,6 +26,7 @@ import socket
 import pwd
 import requests
 import json
+import psutil
 import imp
 from ecl import EclVersion
 from res import ResVersion
@@ -126,6 +127,7 @@ class JobManager(object):
 
     DEFAULT_UMASK =  0
     sleep_time    =  10  # Time to sleep before exiting the script - to let the disks sync up.
+    MEMORY_POLL_PERIOD = 0.5  # Time between memory polling of job process
 
 
 
@@ -501,7 +503,7 @@ class JobManager(object):
                 f.write(json.dumps(exec_env))
 
         pid = os.fork()
-        exit_status, err_msg = 0, ''
+        exit_status, err_msg, max_memory = None, '', 0
         if pid == 0:
             # This code block should exec into the actual executable we are
             # running, and execution should not come back here. However - if
@@ -517,13 +519,15 @@ class JobManager(object):
                 sys.stderr.write("Failed to exec:%s error:%s\n" % (job["name"], str(e)))
                 os._exit(1)
         else:
-            _, exit_status = os.waitpid(pid, 0)
-            # The exit_status returned from os.waitpid encodes
-            # both the exit status of the external application,
-            # and in case the job was killed by a signal - the
-            # number of that signal.
-            exit_status = os.WEXITSTATUS(exit_status)
-
+            process = psutil.Process(pid)
+            while exit_status is None:
+                memory = process.memory_info().rss
+                if memory > max_memory:
+                    max_memory = memory
+                try:
+                    exit_status = process.wait(timeout=self.MEMORY_POLL_PERIOD)
+                except psutil.TimeoutExpired:
+                    pass
         status.end_time = dt.now()
 
         if exit_status != 0:
