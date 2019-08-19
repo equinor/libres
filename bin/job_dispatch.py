@@ -359,15 +359,12 @@ def main(argv):
         for job in job_manager:
             job_manager.startStatus( job )
             (job_ok , exit_status, error_msg) = run_one( job_manager , job)
-            job_manager.markJobComplete(job, exit_status, error_msg)
+            job_manager.jobComplete(job, job_ok, exit_status, error_msg)
 
-            if job_ok:
-                job_manager.markJobSuccess(job, exit_status, error_msg)
-            else:
-                job_manager.markJobFailure(job, exit_status, error_msg)
+            if not job_ok:
                 job_manager.complete()
-                job_manager.dump_EXIT_file(job, error_msg)
 
+                # The processing of jobs should not continue.
                 pgid = os.getpgid(os.getpid())
                 os.killpg(pgid, signal.SIGKILL)
                 return

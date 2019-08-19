@@ -293,23 +293,32 @@ class JobManager(object):
             now = time.localtime()
             f.write("%-32s: %02d:%02d:%02d .... " % (job["name"], now.tm_hour, now.tm_min, now.tm_sec))
 
-    def markJobComplete(self, job, exit_status, error_msg):
-        now = time.localtime()
-        extra_fields = {"finished": True,
-                        "exit_status": exit_status,
-                        "status": "completeStatus"}
+    def jobComplete(self, job, success, exit_status, error_msg=None):
+        job_status = job["status"]
+
+        if success:
+            job_status.status = "Success"
+            job_status.error = None
+        else:
+            std_err_out = self.extract_stderr_stdout(job)
+            std_err_out.update({"status": "exit", "finished": True, "error_msg": error_msg, "exit_status": exit_status, "error": True})
+            self.postMessage(job=job, extra_fields=std_err_out)  # Posts to new logstash
+
+            job_status.status = "Failure"
+            job_status.error = error_msg
+
+            self.dump_EXIT_file(job, error_msg)
+
         with open(self.STATUS_file, "a") as f:
             if exit_status == 0:
                 status = ""
             else:
-                status = " EXIT: %d/%s" % (exit_status, error_msg)
-                extra_fields.update({"error_msg": error_msg})
+                status = " EXIT: {}/{}".format(exit_status, error_msg)
+                now = time.localtime()
 
-            f.write("%02d:%02d:%02d  %s\n" %
-                    (now.tm_hour, now.tm_min, now.tm_sec, status))
+            f.write("{:02d}:{:02d}:{:02d}  {}\n".format(now.tm_hour, now.tm_min, now.tm_sec, status))
 
-        status = job["status"]
-        status.end_time = dt.now()
+        job_status.end_time = dt.now()
 
     def createOKFile(self):
         now = time.localtime()
@@ -468,20 +477,6 @@ class JobManager(object):
                     stdout = outH.read()
                     extra_fields.update({"stdout": stdout})
         return extra_fields
-
-    def markJobFailure(self, job, exit_status, error_msg):
-        std_err_out = self.extract_stderr_stdout(job)
-        std_err_out.update({"status": "exit","finished": True, "error_msg": error_msg, "exit_status": exit_status, "error": True})
-        self.postMessage(job=job, extra_fields=std_err_out) #Posts to new logstash
-
-        status = job["status"]
-        status.status = "Failure"
-        status.error = error_msg
-
-    def markJobSuccess(self, job, exit_status, error_msg):
-        status = job["status"]
-        status.status = "Success"
-        status.error = None
 
     def addLogLine(self, job):
         now = time.localtime()
