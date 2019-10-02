@@ -76,7 +76,6 @@ class EnKFMain(BaseCClass):
             parent=real_enkf_main,
             is_reference=True)
 
-        self.__simulation_runner = EnkfSimulationRunner(self)
         self.__fs_manager = EnkfFsManager(self)
         self.__es_update = ESUpdate(self)
 
@@ -89,7 +88,7 @@ class EnKFMain(BaseCClass):
 
     def getEnkfSimulationRunner(self):
         """ @rtype: EnkfSimulationRunner """
-        return self.__simulation_runner
+        return self
 
     def getEnkfFsManager(self):
         """ @rtype: EnkfFsManager """
@@ -98,6 +97,11 @@ class EnKFMain(BaseCClass):
     def umount(self):
         if self.__fs_manager is not None:
             self.__fs_manager.umount()
+
+    def runWorkflows(self , runtime):
+        """:type res.enkf.enum.HookRuntimeEnum"""
+        hook_manager = self._enkf_main().getHookManager()
+        hook_manager.runWorkflows(runtime, self)
 
 
     # --- Overridden methods --------------------
@@ -205,6 +209,8 @@ class _RealEnKFMain(BaseCClass):
     _add_node = ResPrototype("void enkf_main_add_node(enkf_main, enkf_config_node)")
     _get_res_config = ResPrototype("res_config_ref enkf_main_get_res_config(enkf_main)")
     _init_run = ResPrototype("void enkf_main_init_run(enkf_main, ert_run_context)")
+
+    _run_simple_step = ResPrototype("int enkf_main_run_simple_step(enkf_main, job_queue, ert_run_context)")
 
 
     def __init__(self, config, strict=True, verbose=False):
@@ -437,3 +443,14 @@ class _RealEnKFMain(BaseCClass):
     def addNode(self, enkf_config_node):
         self._add_node(enkf_config_node)
 
+    def runSimpleStep(self, job_queue, run_context):
+        """ @rtype: int """
+        return self._run_simple_step(job_queue, run_context )
+
+    def runEnsembleExperiment(self, job_queue, run_context):
+        """ @rtype: int """
+        return self.runSimpleStep(job_queue, run_context)
+
+    def createRunPath(self, run_context):
+        """ @rtype: bool """
+        return self._create_run_path(run_context)
