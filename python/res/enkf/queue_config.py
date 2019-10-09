@@ -70,13 +70,14 @@ class QueueConfig(BaseCClass):
 
         #Need to create
         if config_dict is not None:
-            queue_options = config_dict[ConfigKeys.QUEUE_OPTION]
+            queue_options = config_dict.get(ConfigKeys.QUEUE_OPTION)
             for option in queue_options:
-                self.driver.set_option(option['NAME'], option['VALUE'])
+                self.driver.set_option(option[ConfigKeys.NAME], option[ConfigKeys.VALUE])
 
 
     def create_job_queue(self):
-        return self._alloc_job_queue()
+        queue = JobQueue(self.driver, self.max_submit)
+        return queue
 
     def create_local_copy(self):
         return self._alloc_local_copy()

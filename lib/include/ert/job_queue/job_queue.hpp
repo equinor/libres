@@ -30,7 +30,6 @@ extern "C" {
 #include <ert/job_queue/queue_driver.hpp>
 #include <ert/job_queue/job_node.hpp>
 
-
   typedef struct job_queue_struct      job_queue_type;
   time_t              job_queue_get_progress_timestamp(const job_queue_type * queue);
   time_t              job_queue_iget_progress_timestamp(job_queue_type *queue, int job_index);
@@ -110,10 +109,14 @@ extern "C" {
 
   void                job_queue_set_max_running( job_queue_type * queue , int max_running );
 
+  char * job_queue_get_ok_file(const job_queue_type * queue);
+  char * job_queue_get_exit_file(const job_queue_type * queue);
+  char * job_queue_get_status_file(const job_queue_type * queue);
+  int job_queue_add_job_node(job_queue_type * queue, job_queue_node_type * node);
+
   UTIL_SAFE_CAST_HEADER( job_queue );
 
 #ifdef __cplusplus
 }
 #endif
 #endif
-
