@@ -204,9 +204,6 @@ class BatchSimulator(object):
         sim_context = BatchContext(
             self.result_keys, self.ert, file_system, mask, itr)
 
-        for sim_id, (geo_id, _) in enumerate(case_data):
-            sim_context.addSimulation(sim_id, geo_id)
-
         if self.callback:
             self.callback(sim_context)
         return sim_context

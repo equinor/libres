@@ -16,7 +16,7 @@ class BatchContext(SimulationContext):
         """
         super(BatchContext, self).__init__(ert, fs, mask, itr)
         self.result_keys = result_keys
-        self.res_config = ert.resConfig( )
+        self.res_config = ert.resConfig()
 
 
     def join(self):
@@ -78,6 +78,7 @@ class BatchContext(SimulationContext):
         nodes = [ EnkfNode(self.res_config.ensemble_config[key]) for key in self.result_keys ]
         for sim_id in range(len(self)):
             node_id = NodeId( 0, sim_id)
+
             if not self.didRealizationSucceed(sim_id):
                 logging.error('Simulation %d (node %s) failed.' % (sim_id, str(node_id)))
                 res.append(None)

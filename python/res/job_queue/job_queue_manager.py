@@ -36,9 +36,6 @@ class JobQueueManager(BaseCClass):
     _is_running      = ResPrototype("bool job_queue_manager_is_running( job_queue_manager )")
     _job_complete    = ResPrototype("bool job_queue_manager_job_complete( job_queue_manager , int)")
     _job_running     = ResPrototype("bool job_queue_manager_job_running( job_queue_manager , int)")
-    _status_timestamp= ResPrototype("time_t job_queue_manager_get_status_timestamp(job_queue_manager)")
-    _global_progress_timestamp = ResPrototype("time_t job_queue_manager_get_progress_timestamp(job_queue_manager)")
-    _iget_progress_timestamp = ResPrototype("time_t job_queue_manager_iget_progress_timestamp(job_queue_manager, int)")
 
     # Note, even if all realizations have finished, they need not all be failed or successes.
     # That is how Ert report things. They can be "killed", which is neither success nor failure.
@@ -58,80 +55,62 @@ class JobQueueManager(BaseCClass):
         self.queue = queue
         super(JobQueueManager, self).__init__(c_ptr)
 
-    def status_timestamp(self):
-        """
-        Will return a datetime object corresponding to the last status change
-        """
-        ts = self._status_timestamp()
-        return ts.datetime()
-
-    def progress_timestamp(self, job_index = None):
-        """Will return the timestamp of last progress update.
-
-        By default the timestamp will be global, i.e. for all jobs, but if you
-        pass a job_index as optional argument the timestamp will correspond to
-        that job.
-        """
-        if job_index is None:
-            ts = self._global_progress_timestamp()
-        else:
-            ts = self._iget_progress_timestamp(job_index)
-
-        return ts.datetime()
-
-
     def get_job_queue(self):
         return self.queue
 
     def stop_queue(self):
-        self._stop_queue( )
+        self.get_job_queue().kill_all_jobs()
 
     def startQueue(self , total_size , verbose = False ):
         self._start_queue( total_size , verbose )
 
     def getNumRunning(self):
-        return self._get_num_running(  )
+        return self.get_job_queue().count_status(JobStatusType.JOB_QUEUE_RUNNING)
 
     def getNumWaiting(self):
-        return self._get_num_waiting( )
+        return self.get_job_queue().count_status(JobStatusType.JOB_QUEUE_WAITING)
 
     def getNumPending(self):
-        return self._get_num_pending( )
+        return self.get_job_queue().count_status(JobStatusType.JOB_QUEUE_PENDING)
 
 
     def getNumSuccess(self):
-        return self._get_num_success( )
+        return self.get_job_queue().count_status(JobStatusType.JOB_QUEUE_DONE)
+
 
     def getNumFailed(self):
-        return self._get_num_failed(  )
+        return self.get_job_queue().count_status(JobStatusType.JOB_QUEUE_FAILED)
+
 
     def isRunning(self):
-        return self._is_running( )
+        return self.get_job_queue().is_running()
 
     def free(self):
         self._free( )
 
+    #resolve ambiguity done vs success
     def isJobComplete(self, job_index):
-        return self._job_complete( job_index )
+        return not (self.get_job_queue().job_list[job_index].is_running()
+                    or self.get_job_queue().job_list[job_index].status == JobStatusType.JOB_QUEUE_WAITING)
 
     def isJobRunning(self, job_index):
-        return self._job_running( job_index )
+        return self.get_job_queue().job_list[job_index].status == JobStatusType.JOB_QUEUE_RUNNING
 
     def isJobWaiting(self, job_index):
-        return self._job_waiting( job_index )
+        return self.get_job_queue().job_list[job_index].status == JobStatusType.JOB_QUEUE_WAITING
 
     def didJobFail(self, job_index):
-        return self._job_failed( job_index )
+        return self.get_job_queue().job_list[job_index].status == JobStatusType.JOB_QUEUE_FAILED
 
     def didJobSucceed(self, job_index):
-        return self._job_success( job_index )
+        return self.get_job_queue().job_list[job_index].status == JobStatusType.JOB_QUEUE_DONE
 
     def getJobStatus(self, job_index):
         # See comment about return type in the prototype section at
         # the top of class.
         """ @rtype: res.job_queue.job_status_type_enum.JobStatusType """
-        int_status = self._job_status(job_index)
-        return JobStatusType( int_status )
+        int_status = self.get_job_queue().job_list[job_index].status
+        return JobStatusType(int_status)
 
 
     def __repr__(self):
@@ -145,6 +124,9 @@ class JobQueueManager(BaseCClass):
     def max_running(self):
         return self.get_job_queue().get_max_running()
 
+    def max_submit(self):
+        return self.get_job_queue().get_max_submit()
+
     def execute_queue(self):
 
         job_queue = self.get_job_queue()
@@ -152,7 +134,7 @@ class JobQueueManager(BaseCClass):
         while job_queue.is_running():
             job = job_queue.fetch_next_waiting()
             while not job_queue.stopped_by_user and job is not None and job_queue.count_running() <= self.max_running():
-                started_job_threads.append(job.run(job_queue.driver))
+                started_job_threads.append(job.run(job_queue.driver, max_submit=self.max_submit()))
                 job = job_queue.fetch_next_waiting()
             time.sleep(1)
             if job_queue.stopped_by_user:

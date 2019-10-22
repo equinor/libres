@@ -3,14 +3,14 @@ import time
 import sys
 import unittest
 import datetime
-from functools import partial
 
 from ecl.util.test import TestAreaContext
 
 from res.simulator import BatchSimulator, BatchContext
 from res.enkf import ResConfig
-
+from tests.utils import wait_until
 from tests import ResTest
+from threading import Thread
 
 class TestMonitor(object):
 
@@ -19,7 +19,6 @@ class TestMonitor(object):
 
     def start_callback(self, *args, **kwargs): 
         self.sim_context = args[0]
-
 
 def _wait_for_completion(ctx):
     while ctx.running():
@@ -31,7 +30,7 @@ def _wait_for_completion(ctx):
             progress = ctx.job_progress(job_index)
             if progress:
                 for job in progress.jobs:
-                    sys.stderr.write("   %s ts: %s \n" % (str(job), ctx.progress_timestamp(job_index)))
+                    sys.stderr.write("   %s: \n" % str(job))
 
 
 
@@ -193,10 +192,8 @@ class BatchSimulatorTest(ResTest):
             ]
 
             ctx = rsim.start("case", case_data)
+
             self.assertEqual(len(case_data), len(ctx))
-            self.assertTrue(isinstance(ctx.status_timestamp(), datetime.datetime))
-            start_time = ctx.status_timestamp()
-            progress_ts = ctx.progress_timestamp()
 
             # Asking for results before it is complete.
             with self.assertRaises(RuntimeError):
@@ -215,7 +212,6 @@ class BatchSimulatorTest(ResTest):
             # Fetch and validate results
             results = ctx.results()
             self.assertEqual(len(results), 2)
-            self.assertTrue(ctx.status_timestamp() > start_time)
 
             for result, (_, controls) in zip(results, case_data):
                 self.assertEqual(sorted(["ORDER", "ON_OFF"]),
@@ -405,7 +401,11 @@ class BatchSimulatorTest(ResTest):
                                   })
                              ])
 
+            time.sleep(2.0)
             ctx.stop()
+            wait_until(
+                lambda: self.assertFalse(ctx.running())
+            )
             status = ctx.status
 
             self.assertEqual(status.complete, 0)

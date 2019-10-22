@@ -68,6 +68,7 @@ class JobQueue(BaseCClass):
     _get_pause            = ResPrototype("bool job_queue_get_pause(job_queue)")
     _set_pause_on         = ResPrototype("void job_queue_set_pause_on(job_queue)")
     _set_pause_off        = ResPrototype("void job_queue_set_pause_off(job_queue)")
+    _get_max_submit       = ResPrototype("int job_queue_get_max_submit(job_queue)")
 
     # The return type of the job_queue_iget_job_status should really
     # be the enum job_status_type_enum, but I just did not manage to
@@ -89,7 +90,7 @@ class JobQueue(BaseCClass):
         cnt = '%s, num_running=%d, num_complete=%d, num_waiting=%d, num_pending=%d, active=%d'
         return self._create_repr(cnt % (isrun, nrun, ncom, nwait, npend, len(self)))
 
-    def __init__(self, driver , max_submit=1, size=0):
+    def __init__(self, driver , max_submit=2, size=0):
         """
         Short doc...
 
@@ -210,6 +211,9 @@ class JobQueue(BaseCClass):
     def set_max_job_duration(self, max_duration):
         self._set_max_job_duration(max_duration)
 
+    def get_max_submit(self):
+        return self._get_max_submit()
+
     def killAllJobs(self):
         # The queue will not set the user_exit flag before the
         # queue is in a running state. If the queue does not
@@ -256,13 +260,12 @@ class JobQueue(BaseCClass):
         return JobStatusType( int_status )
 
     def is_running(self):
-        if self.stopped_by_user:
-            return False
         for job in self.job_list:
             job_status = job.status
             if (job_status ==  JobStatusType.JOB_QUEUE_PENDING or
                 job_status == JobStatusType.JOB_QUEUE_SUBMITTED or
                 job_status == JobStatusType.JOB_QUEUE_WAITING or
+                job_status == JobStatusType.JOB_QUEUE_UNKNOWN or
                 job_status == JobStatusType.JOB_QUEUE_RUNNING):
                 return True
         return False
@@ -272,6 +275,9 @@ class JobQueue(BaseCClass):
             if job.status == JobStatusType.JOB_QUEUE_WAITING and not job.started:
                 return job
         return None
+
+    def count_status(self, status):
+        return len([job for job in self.job_list if job.status == status])
 
     def kill_all_jobs(self):
         self.stopped_by_user = True

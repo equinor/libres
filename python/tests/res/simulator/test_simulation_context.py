@@ -1,11 +1,9 @@
 import time
-import os.path
-import sys, os
 from tests import ResTest
 from ecl.util.util import BoolVector
 
 from res.test import ErtTestContext
-from res.enkf import EnkfVarType
+from tests.utils import wait_until
 from res.enkf.enums import RealizationStateEnum
 from res.simulator import SimulationContext
 
@@ -37,30 +35,17 @@ class SimulationContextTest(ResTest):
             simulation_context1 = SimulationContext(ert, first_half, mask1 , 0)
             simulation_context2 = SimulationContext(ert, other_half, mask2 , 0)
 
-            ert.createRunpath( simulation_context1.get_run_context( ) )
-            ert.createRunpath( simulation_context2.get_run_context( ) )
-
             geo_id = 0
             for iens in range(size):
                 if iens % 2 == 0:
-                    simulation_context1.addSimulation(iens, geo_id)
                     self.assertFalse(simulation_context1.isRealizationFinished(iens))
                 else:
-                    simulation_context2.addSimulation(iens, geo_id)
                     self.assertFalse(simulation_context2.isRealizationFinished(iens))
 
-
-            with self.assertRaises(UserWarning):
-                simulation_context1.addSimulation(size, geo_id)
-
-            with self.assertRaises(UserWarning):
-                simulation_context1.addSimulation(0, geo_id)
-
-            while simulation_context1.isRunning():
-                time.sleep(1.0)
-
-            while simulation_context2.isRunning():
-                time.sleep(1.0)
+            wait_until(
+                func=(lambda: self.assertFalse(simulation_context1.isRunning() or simulation_context2.isRunning())),
+                interval=0.1
+            )
 
             self.assertEqual(simulation_context1.getNumFailed(), 0)
             self.assertEqual(simulation_context1.getNumRunning(), 0)
