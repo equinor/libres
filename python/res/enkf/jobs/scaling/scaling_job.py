@@ -197,7 +197,6 @@ def valid_job(observations, user_config, ensamble_size, storage):
     error_messages.extend(obs_keys_errors)
 
     if obs_keys_present:
-        error_messages.extend(has_data(observations, calculation_keys, ensamble_size, storage))
         error_messages.extend(same_data_type(observations, calculation_keys))
 
     for error in error_messages:
