@@ -89,4 +89,5 @@ class JobQueueManagerTest(ResTest):
             assert job_queue.get_max_submit() == max_submit_num
 
             for job in job_queue.job_list:
+                assert job.status == JobStatusType.JOB_QUEUE_FAILED
                 assert job.submit_attempt == job_queue.get_max_submit()

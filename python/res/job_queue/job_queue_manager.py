@@ -144,7 +144,7 @@ class JobQueueManager(BaseCClass):
         for thread in started_job_threads:
             thread.join()
 
-        #Cleanup all not-started jobs
+        #clean-up to get the correct status on non started jobs after being stopped by user
         for job in job_queue.job_list:
             if job.status == JobStatusType.JOB_QUEUE_WAITING:
                 job._set_status(JobStatusType.JOB_QUEUE_IS_KILLED)

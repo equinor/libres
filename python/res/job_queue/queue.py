@@ -93,10 +93,10 @@ class JobQueue(BaseCClass):
     def __init__(self, driver , max_submit=2, size=0):
         """
         Short doc...
-
+        The @max_submit argument says how many times the jon be submitted (including a failure)
+              max_submit = 2: means that we can submit job once more
         The @size argument is used to say how many jobs the queue will
         run, in total.
-
               size = 0: That means that you do not tell the queue in
                 advance how many jobs you have. The queue will just run
                 all the jobs you add, but you have to inform the queue in
