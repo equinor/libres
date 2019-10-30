@@ -1,1 +1,1 @@
-RES_JOB_PLUGIN_NAMESPACE = "res_jobs"
+from .jobs import *
