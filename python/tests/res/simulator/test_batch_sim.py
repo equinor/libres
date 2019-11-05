@@ -192,7 +192,6 @@ class BatchSimulatorTest(ResTest):
             ]
 
             ctx = rsim.start("case", case_data)
-
             self.assertEqual(len(case_data), len(ctx))
 
             # Asking for results before it is complete.

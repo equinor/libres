@@ -46,7 +46,8 @@ class SimulationContextTest(ResTest):
                     self.assertEqual(simulation_context2.get_run_args(iens).geo_id, iens)
 
             wait_until(
-                func=(lambda: self.assertFalse(simulation_context1.isRunning() or simulation_context2.isRunning()))
+                func=(lambda: self.assertFalse(simulation_context1.isRunning() or simulation_context2.isRunning())),
+                timeout=60
             )
 
             self.assertEqual(simulation_context1.getNumFailed(), 0)
