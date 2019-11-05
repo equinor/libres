@@ -72,7 +72,6 @@ class JobQueueNode(BaseCClass):
     def is_running(self):
         return (self.status ==  JobStatusType.JOB_QUEUE_PENDING or
                 self.status == JobStatusType.JOB_QUEUE_SUBMITTED or
-                self.status == JobStatusType.JOB_QUEUE_WAITING or
                 self.status == JobStatusType.JOB_QUEUE_RUNNING  or
                 self.status == JobStatusType.JOB_QUEUE_UNKNOWN) # dont stop monitoring if LSF commands are unavailable
     

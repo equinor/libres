@@ -262,19 +262,14 @@ class JobQueue(BaseCClass):
 
     def is_running(self):
         for job in self.job_list:
-            if job.is_running():
+            job_status = job.status
+            if (job_status ==  JobStatusType.JOB_QUEUE_PENDING or
+                job_status == JobStatusType.JOB_QUEUE_SUBMITTED or
+                job_status == JobStatusType.JOB_QUEUE_WAITING or
+                job_status == JobStatusType.JOB_QUEUE_UNKNOWN or
+                job_status == JobStatusType.JOB_QUEUE_RUNNING):
                 return True
         return False
-        # for job in self.job_list:
-        #     job_status = job.status
-        #     #print('DBG:',job_status)
-        #     if (job_status ==  JobStatusType.JOB_QUEUE_PENDING or
-        #         job_status == JobStatusType.JOB_QUEUE_SUBMITTED or
-        #         job_status == JobStatusType.JOB_QUEUE_WAITING or
-        #         job_status == JobStatusType.JOB_QUEUE_UNKNOWN or
-        #         job_status == JobStatusType.JOB_QUEUE_RUNNING):
-        #         return True
-        # return False
 
     def fetch_next_waiting(self):
         for job in self.job_list:
