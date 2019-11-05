@@ -35,7 +35,7 @@ class JobQueueNode(BaseCClass):
         self.done_callback_function = done_callback_function
         self.exit_callback_function = exit_callback_function
         self.callback_arguments = callback_arguments
-        self.stopped_by_user = False
+        self._stopped = False
         argc = 1
         argv = StringList()
         argv.append(run_path)
@@ -83,7 +83,7 @@ class JobQueueNode(BaseCClass):
         while self.is_running():
             time.sleep(1)
             self.update_status(driver)
-            if self.stopped_by_user:
+            if self._stopped:
                 self._kill(driver)
 
         if self.status == JobStatusType.JOB_QUEUE_DONE:
@@ -109,7 +109,7 @@ class JobQueueNode(BaseCClass):
         return x
 
     def stop(self):
-        self.stopped_by_user = True
+        self._stopped = True
 
     def update_status(self, driver):
         if self.status != JobStatusType.JOB_QUEUE_WAITING:
