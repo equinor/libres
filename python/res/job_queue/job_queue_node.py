@@ -95,8 +95,6 @@ class JobQueueNode(BaseCClass):
             else:
                 self._set_status(JobStatusType.JOB_QUEUE_FAILED)
                 self.run_exit_callback()
-        elif self.status == JobStatusType.JOB_QUEUE_WAITING:
-            self.started = False
         elif self.status == JobStatusType.JOB_QUEUE_IS_KILLED:
             pass
         else:
