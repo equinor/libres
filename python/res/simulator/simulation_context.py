@@ -30,7 +30,7 @@ class SimulationContext(object):
 
         self._sim_thread = self._run_simulations_simple_step()
 
-    def _get_run_args(self, iens):
+    def get_run_args(self, iens):
         '''
         raises an  exception if no iens simulation found
 
@@ -75,7 +75,7 @@ class SimulationContext(object):
 
 
     def didRealizationSucceed(self, iens):
-        queue_index = self._get_run_args(iens).getQueueIndex()
+        queue_index = self.get_run_args(iens).getQueueIndex()
         return self._queue_manager.didJobSucceed(queue_index)
 
 
@@ -86,11 +86,11 @@ class SimulationContext(object):
 
     def isRealizationQueued(self, iens):
         # an exception will be raised if it's not queued
-        self._get_run_args(iens)
+        self.get_run_args(iens)
         return True
 
     def isRealizationFinished(self, iens):
-        run_arg = self._get_run_args(iens)
+        run_arg = self.get_run_args(iens)
 
         if run_arg.isSubmitted():
             queue_index = run_arg.getQueueIndex()
@@ -143,7 +143,7 @@ class SimulationContext(object):
                              (jobN.name, jobN.start_time, jobN.end_time, jobN.status, jobN.error_msg) ]
 
         """
-        run_arg = self._get_run_args(iens)
+        run_arg = self.get_run_args(iens)
 
         try:
             # will throw if not yet submitted (is in a limbo state)
@@ -161,13 +161,13 @@ class SimulationContext(object):
         """
         Will return the path to the simulation.
         """
-        return self._get_run_args(iens).runpath
+        return self.get_run_args(iens).runpath
 
 
     def job_status(self, iens):
         """Will query the queue system for the status of the job.
         """
-        run_arg = self._get_run_args(iens)
+        run_arg = self.get_run_args(iens)
         try:
             queue_index = run_arg.getQueueIndex()
         except ValueError:

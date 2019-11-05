@@ -27,24 +27,23 @@ class SimulationContextTest(ResTest):
                 mask2[2*iens_2] = False
                 mask2[2*iens_2 + 1] = True
 
-
-
-
             fs_manager = ert.getEnkfFsManager()
             first_half = fs_manager.getFileSystem("first_half")
             other_half = fs_manager.getFileSystem("other_half")
 
-            case_data = [(0, 0), ] * size
+            # i represents geo_id
+            case_data = [(i,0) for i in range(size)]
             simulation_context1 = SimulationContext(ert, first_half, mask1 , 0, case_data)
             simulation_context2 = SimulationContext(ert, other_half, mask2 , 0, case_data)
-
-            assert (geo_id in run_context.run_arg) and (sim_ed)
 
             for iens in range(size):
                 if iens % 2 == 0:
                     self.assertFalse(simulation_context1.isRealizationFinished(iens))
+                    # do we have the proper geo_id in run_args?
+                    self.assertEqual(simulation_context1.get_run_args(iens).geo_id, iens)
                 else:
                     self.assertFalse(simulation_context2.isRealizationFinished(iens))
+                    self.assertEqual(simulation_context2.get_run_args(iens).geo_id, iens)
 
             wait_until(
                 func=(lambda: self.assertFalse(simulation_context1.isRunning() or simulation_context2.isRunning())),
