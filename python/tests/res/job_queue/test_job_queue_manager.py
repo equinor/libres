@@ -25,15 +25,16 @@ dummy_config = {
     "exit_callback" : dummy_exit_callback
 }
 
-simple_script = "#!/usr/bin/env python\n"\
-                "with open('STATUS', 'w') as f:"\
-                "   f.write('finished successfully')"\
-                "\n"
+simple_script = """#!/usr/bin/env python
+with open('STATUS', 'w') as f:
+   f.write('finished successfully')
+"""
 
-failing_script = "#!/usr/bin/env python\n"\
-                        "import sys\n"\
-                        "sys.exit(1)"\
-                        "\n"
+failing_script = """#!/usr/bin/env python
+import sys
+sys.exit(1)
+"""
+
 def create_queue(script, max_submit=2):
     driver = Driver(driver_type=QueueDriverEnum.LOCAL_DRIVER, max_running=5)
     job_queue = JobQueue(driver, max_submit=max_submit)
@@ -86,8 +87,8 @@ class JobQueueManagerTest(ResTest):
             self.assertFalse(manager.isRunning())
 
             #check if it is really max_submit_num
-            assert job_queue.get_max_submit() == max_submit_num
+            assert job_queue.max_submit == max_submit_num
 
             for job in job_queue.job_list:
                 assert job.status == JobStatusType.JOB_QUEUE_FAILED
-                assert job.submit_attempt == job_queue.get_max_submit()
+                assert job.submit_attempt == job_queue.max_submit

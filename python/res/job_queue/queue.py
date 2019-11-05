@@ -93,7 +93,7 @@ class JobQueue(BaseCClass):
     def __init__(self, driver , max_submit=2, size=0):
         """
         Short doc...
-        The @max_submit argument says how many times the jon be submitted (including a failure)
+        The @max_submit argument says how many times the job be submitted (including a failure)
               max_submit = 2: means that we can submit job once more
         The @size argument is used to say how many jobs the queue will
         run, in total.
@@ -114,7 +114,7 @@ class JobQueue(BaseCClass):
         status_file = "STATUS"
         exit_file = "EXIT"
         self.job_list=[]
-        self.stopped_by_user = False
+        self._stopped = False
         c_ptr = self._alloc(max_submit, OK_file, status_file , exit_file)
         super(JobQueue, self).__init__(c_ptr)
         self.size = size
@@ -211,7 +211,8 @@ class JobQueue(BaseCClass):
     def set_max_job_duration(self, max_duration):
         self._set_max_job_duration(max_duration)
 
-    def get_max_submit(self):
+    @property
+    def max_submit(self):
         return self._get_max_submit()
 
     def killAllJobs(self):
@@ -261,14 +262,19 @@ class JobQueue(BaseCClass):
 
     def is_running(self):
         for job in self.job_list:
-            job_status = job.status
-            if (job_status ==  JobStatusType.JOB_QUEUE_PENDING or
-                job_status == JobStatusType.JOB_QUEUE_SUBMITTED or
-                job_status == JobStatusType.JOB_QUEUE_WAITING or
-                job_status == JobStatusType.JOB_QUEUE_UNKNOWN or
-                job_status == JobStatusType.JOB_QUEUE_RUNNING):
+            if job.is_running():
                 return True
         return False
+        # for job in self.job_list:
+        #     job_status = job.status
+        #     #print('DBG:',job_status)
+        #     if (job_status ==  JobStatusType.JOB_QUEUE_PENDING or
+        #         job_status == JobStatusType.JOB_QUEUE_SUBMITTED or
+        #         job_status == JobStatusType.JOB_QUEUE_WAITING or
+        #         job_status == JobStatusType.JOB_QUEUE_UNKNOWN or
+        #         job_status == JobStatusType.JOB_QUEUE_RUNNING):
+        #         return True
+        # return False
 
     def fetch_next_waiting(self):
         for job in self.job_list:
@@ -279,8 +285,12 @@ class JobQueue(BaseCClass):
     def count_status(self, status):
         return len([job for job in self.job_list if job.status == status])
 
+    @property
+    def stopped(self):
+        return self._stopped
+
     def kill_all_jobs(self):
-        self.stopped_by_user = True
+        self._stopped = True
 
     @property
     def queue_size(self):

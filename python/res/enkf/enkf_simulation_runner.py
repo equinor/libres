@@ -68,7 +68,6 @@ class EnkfSimulationRunner(BaseCClass):
 
         return totalOk
 
-
     def createRunPath(self, run_context):
         """ @rtype: bool """
         return self._create_run_path(run_context)
@@ -83,7 +82,6 @@ class EnkfSimulationRunner(BaseCClass):
         hook_manager = ert.getHookManager()
         hook_manager.runWorkflows(runtime  , ert)
 
-
     def add_job(self, run_arg, res_config, job_queue):
         job_name = run_arg.job_name
         run_path = run_arg.runpath
@@ -96,7 +94,6 @@ class EnkfSimulationRunner(BaseCClass):
                             done_callback_function=EnKFState.forward_model_ok_callback,
                             exit_callback_function=EnKFState.forward_model_exit_callback,
                             callback_arguments=[run_arg, res_config])
-        
         if job is None:
             return
         run_arg._set_queue_index(job_queue.add_job(job))

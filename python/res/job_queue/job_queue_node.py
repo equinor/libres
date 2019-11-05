@@ -70,12 +70,13 @@ class JobQueueNode(BaseCClass):
         return self.exit_callback_function(self.callback_arguments)
     
     def is_running(self):
-        return (self.status ==  JobStatusType.JOB_QUEUE_PENDING or 
+        return (self.status ==  JobStatusType.JOB_QUEUE_PENDING or
                 self.status == JobStatusType.JOB_QUEUE_SUBMITTED or
+                self.status == JobStatusType.JOB_QUEUE_WAITING or
                 self.status == JobStatusType.JOB_QUEUE_RUNNING  or
                 self.status == JobStatusType.JOB_QUEUE_UNKNOWN) # dont stop monitoring if LSF commands are unavailable
     
-    def job_monitor(self, driver, max_submit):
+    def _job_monitor(self, driver, max_submit):
 
         self._submit(driver)
         self.update_status(driver)
@@ -99,14 +100,16 @@ class JobQueueNode(BaseCClass):
             self.started = False
         elif self.status == JobStatusType.JOB_QUEUE_IS_KILLED:
             pass
+        else:
+            raise AssertionError("Unexpected job status type after running job: {}".format(self.status))
 
     def run(self, driver, max_submit=2):
         self.started = True
-        x = Thread(target=self.job_monitor, args=(driver, max_submit))
+        x = Thread(target=self._job_monitor, args=(driver, max_submit))
         x.start()
         return x
 
-    def stop(self,  driver):
+    def stop(self):
         self.stopped_by_user = True
 
     def update_status(self, driver):

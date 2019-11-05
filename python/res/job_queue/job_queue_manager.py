@@ -52,64 +52,64 @@ class JobQueueManager(BaseCClass):
 
     def __init__(self, queue):
         c_ptr = self._alloc(queue)
-        self.queue = queue
+        self._queue = queue
         super(JobQueueManager, self).__init__(c_ptr)
 
-    def get_job_queue(self):
-        return self.queue
+    @property
+    def queue(self):
+        return self._queue
 
     def stop_queue(self):
-        self.get_job_queue().kill_all_jobs()
+        self.queue.kill_all_jobs()
 
     def startQueue(self , total_size , verbose = False ):
         self._start_queue( total_size , verbose )
 
     def getNumRunning(self):
-        return self.get_job_queue().count_status(JobStatusType.JOB_QUEUE_RUNNING)
+        return self.queue.count_status(JobStatusType.JOB_QUEUE_RUNNING)
 
     def getNumWaiting(self):
-        return self.get_job_queue().count_status(JobStatusType.JOB_QUEUE_WAITING)
+        return self.queue.count_status(JobStatusType.JOB_QUEUE_WAITING)
 
     def getNumPending(self):
-        return self.get_job_queue().count_status(JobStatusType.JOB_QUEUE_PENDING)
+        return self.queue.count_status(JobStatusType.JOB_QUEUE_PENDING)
 
 
     def getNumSuccess(self):
-        return self.get_job_queue().count_status(JobStatusType.JOB_QUEUE_DONE)
+        return self.queue.count_status(JobStatusType.JOB_QUEUE_DONE)
 
 
     def getNumFailed(self):
-        return self.get_job_queue().count_status(JobStatusType.JOB_QUEUE_FAILED)
+        return self.queue.count_status(JobStatusType.JOB_QUEUE_FAILED)
 
 
     def isRunning(self):
-        return self.get_job_queue().is_running()
+        return self.queue.is_running()
 
     def free(self):
         self._free( )
 
-    #resolve ambiguity done vs success
     def isJobComplete(self, job_index):
-        return not (self.get_job_queue().job_list[job_index].is_running()
-                    or self.get_job_queue().job_list[job_index].status == JobStatusType.JOB_QUEUE_WAITING)
+        return not (self.queue.job_list[job_index].is_running()
+                    or self.queue.job_list[job_index].status == JobStatusType.JOB_QUEUE_WAITING)
 
     def isJobRunning(self, job_index):
-        return self.get_job_queue().job_list[job_index].status == JobStatusType.JOB_QUEUE_RUNNING
+        return self.queue.job_list[job_index].status == JobStatusType.JOB_QUEUE_RUNNING
 
     def isJobWaiting(self, job_index):
-        return self.get_job_queue().job_list[job_index].status == JobStatusType.JOB_QUEUE_WAITING
+        return self.queue.job_list[job_index].status == JobStatusType.JOB_QUEUE_WAITING
 
     def didJobFail(self, job_index):
-        return self.get_job_queue().job_list[job_index].status == JobStatusType.JOB_QUEUE_FAILED
+        return self.queue.job_list[job_index].status == JobStatusType.JOB_QUEUE_FAILED
 
     def didJobSucceed(self, job_index):
-        return self.get_job_queue().job_list[job_index].status == JobStatusType.JOB_QUEUE_DONE
+        return self.queue.job_list[job_index].status == JobStatusType.JOB_QUEUE_DONE
 
     def getJobStatus(self, job_index):
         # See comment about return type in the prototype section at
         # the top of class.
         """ @rtype: res.job_queue.job_status_type_enum.JobStatusType """
-        int_status = self.get_job_queue().job_list[job_index].status
+        int_status = self.queue.job_list[job_index].status
         return JobStatusType(int_status)
 
 
@@ -122,24 +122,20 @@ class JobQueueManager(BaseCClass):
         return 'JobQueueManager(waiting=%d, running=%d, success=%d, failed=%d, %s)' % (nw,nr,ns,nf,ir)
 
     def max_running(self):
-        return self.get_job_queue().get_max_running()
-
-    def max_submit(self):
-        return self.get_job_queue().get_max_submit()
+        return self.queue.get_max_running()
 
     def execute_queue(self):
-
-        job_queue = self.get_job_queue()
+        job_queue = self.queue
         started_job_threads = []
         while job_queue.is_running():
             job = job_queue.fetch_next_waiting()
-            while not job_queue.stopped_by_user and job is not None and job_queue.count_running() <= self.max_running():
-                started_job_threads.append(job.run(job_queue.driver, max_submit=self.max_submit()))
+            while not job_queue.stopped and job is not None and job_queue.count_running() <= self.max_running():
+                started_job_threads.append(job.run(job_queue.driver, max_submit=job_queue.max_submit))
                 job = job_queue.fetch_next_waiting()
             time.sleep(1)
-            if job_queue.stopped_by_user:
+            if job_queue.stopped:
                 for job in job_queue.job_list:
-                    job.stop(job_queue.driver)
+                    job.stop()
 
         for thread in started_job_threads:
             thread.join()

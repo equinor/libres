@@ -28,14 +28,18 @@ class SimulationContextTest(ResTest):
                 mask2[2*iens_2 + 1] = True
 
 
+
+
             fs_manager = ert.getEnkfFsManager()
             first_half = fs_manager.getFileSystem("first_half")
             other_half = fs_manager.getFileSystem("other_half")
 
-            simulation_context1 = SimulationContext(ert, first_half, mask1 , 0)
-            simulation_context2 = SimulationContext(ert, other_half, mask2 , 0)
+            case_data = [(0, 0), ] * size
+            simulation_context1 = SimulationContext(ert, first_half, mask1 , 0, case_data)
+            simulation_context2 = SimulationContext(ert, other_half, mask2 , 0, case_data)
 
-            geo_id = 0
+            assert (geo_id in run_context.run_arg) and (sim_ed)
+
             for iens in range(size):
                 if iens % 2 == 0:
                     self.assertFalse(simulation_context1.isRealizationFinished(iens))

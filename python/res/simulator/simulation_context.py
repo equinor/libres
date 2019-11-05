@@ -6,7 +6,7 @@ from time import sleep
 
 
 class SimulationContext(object):
-    def __init__(self, ert, sim_fs, mask, itr):
+    def __init__(self, ert, sim_fs, mask, itr, case_data):
         self._ert = ert
         """ :type: res.enkf.EnKFMain """
         max_runtime = ert.analysisConfig().get_max_runtime()
@@ -22,7 +22,13 @@ class SimulationContext(object):
 
         self._run_context = ErtRunContext( EnkfRunType.ENSEMBLE_EXPERIMENT, sim_fs, None, mask, path_fmt, jobname_fmt, subst_list, itr)
         self._ert.getEnkfSimulationRunner().createRunPath(self._run_context)
-        self.sim_thread = self._run_simulations_simple_step()
+        # fill in the missing geo_id data
+        for sim_id, (geo_id, _) in enumerate(case_data):
+            for run_arg in self._run_context:
+                if run_arg is not None and run_arg.iens == sim_id:
+                    run_arg.geo_id = geo_id
+
+        self._sim_thread = self._run_simulations_simple_step()
 
     def _get_run_args(self, iens):
         '''
@@ -38,7 +44,7 @@ class SimulationContext(object):
 
     def _run_simulations_simple_step(self):
         sim_thread = Thread(
-            target=lambda: self._ert.getEnkfSimulationRunner().runSimpleStep(self._queue_manager.get_job_queue(), self._run_context)
+            target=lambda: self._ert.getEnkfSimulationRunner().runSimpleStep(self._queue_manager.queue, self._run_context)
         )
         sim_thread.start()
         return sim_thread
@@ -48,7 +54,7 @@ class SimulationContext(object):
 
     def isRunning(self):
         # TODO: Should separate between running jobs and having loaded all data
-        return self.sim_thread.is_alive() or self._queue_manager.isRunning()
+        return self._sim_thread.is_alive() or self._queue_manager.isRunning()
 
     def getNumPending(self):
         return self._queue_manager.getNumPending()
@@ -79,12 +85,9 @@ class SimulationContext(object):
 
 
     def isRealizationQueued(self, iens):
-        try:
-            self._get_run_args(iens)
-            return True
-        except KeyError:
-            return False
-
+        # an exception will be raised if it's not queued
+        self._get_run_args(iens)
+        return True
 
     def isRealizationFinished(self, iens):
         run_arg = self._get_run_args(iens)
@@ -115,8 +118,7 @@ class SimulationContext(object):
 
     def stop(self):
         self._queue_manager.stop_queue( )
-        if self.sim_thread is not None:
-            self.sim_thread.join()
+        self._sim_thread.join()
 
 
     def job_progress(self, iens):
