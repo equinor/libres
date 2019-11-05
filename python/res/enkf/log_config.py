@@ -13,7 +13,6 @@
 #
 #  See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
 #  for more details.
-
 from os.path import isfile, realpath
 
 from cwrap import BaseCClass
@@ -22,6 +21,7 @@ from res.util.enums import MessageLevelEnum
 
 from res import ResPrototype
 from res.enkf import ConfigKeys
+from res.log.log_set_up import set_up_log
 
 class LogConfig(BaseCClass):
     TYPE_NAME = "log_config"
@@ -68,6 +68,8 @@ class LogConfig(BaseCClass):
         if c_ptr is None:
             raise ValueError('Failed to construct LogConfig instance')
         super(LogConfig, self).__init__(c_ptr)
+
+        set_up_log(self.log_file, self.log_level)
 
     def __repr__(self):
         return "LogConfig(log_file=%s, log_level=%r)" % (
