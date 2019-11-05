@@ -403,9 +403,6 @@ class BatchSimulatorTest(ResTest):
 
             time.sleep(2.0)
             ctx.stop()
-            wait_until(
-                lambda: self.assertFalse(ctx.running())
-            )
             status = ctx.status
 
             self.assertEqual(status.complete, 0)
