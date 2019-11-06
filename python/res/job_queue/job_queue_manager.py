@@ -124,6 +124,8 @@ class JobQueueManager(BaseCClass):
     def max_running(self):
         return self.queue.get_max_running()
 
+    
+
     def execute_queue(self):
         job_queue = self.queue
         started_job_threads = []

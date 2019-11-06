@@ -39,6 +39,7 @@ class JobQueueNode(BaseCClass):
         argc = 1
         argv = StringList()
         argv.append(run_path)
+        self.thread_status = JobStatusType.JOB_QUEUE_WAITING
         self.started = False
         self.run_path = run_path
         c_ptr = self._alloc(job_name, run_path, job_script, argc, argv, num_cpu,
@@ -91,17 +92,22 @@ class JobQueueNode(BaseCClass):
         elif self.status == JobStatusType.JOB_QUEUE_EXIT:
             if self.submit_attempt < max_submit:
                 self._set_status(JobStatusType.JOB_QUEUE_WAITING)
+                self.thread_status = JobStatusType.JOB_QUEUE_WAITING
                 self.started = False
+                return
             else:
                 self._set_status(JobStatusType.JOB_QUEUE_FAILED)
                 self.run_exit_callback()
         elif self.status == JobStatusType.JOB_QUEUE_IS_KILLED:
             pass
         else:
+            self.thread_status = JobStatusType.JOB_QUEUE_DONE
             raise AssertionError("Unexpected job status type after running job: {}".format(self.status))
+        self.thread_status = JobStatusType.JOB_QUEUE_DONE
 
     def run(self, driver, max_submit=2):
         self.started = True
+        self.thread_status = JobStatusType.JOB_QUEUE_RUNNING
         x = Thread(target=self._job_monitor, args=(driver, max_submit))
         x.start()
         return x
