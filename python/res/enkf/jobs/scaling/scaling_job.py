@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import fnmatch
 
 import configsuite
 
@@ -8,44 +9,43 @@ from collections import namedtuple
 from res.enkf.jobs.scaling import job_config
 from res.enkf.jobs.scaling.scaled_matrix import DataMatrix
 from res.enkf.jobs.scaling.measured_data import MeasuredData
+from res.enkf.jobs.scaling.validator import valid_configuration, valid_job
 from res.enkf import LocalObsdata, ActiveList
+
 from ecl.util.util import BoolVector
 from res.enkf import RealizationStateEnum
 
 
-def scaling_job(ert, user_config_dict):
+def scaling_job(facade, user_config_dict):
     """
     Takes an instance of EnkFMain and a user config dict, will do some pre-processing on
     the user config dict, set up a ConfigSuite instance and validate the job before control
     is passed to the main job.
     """
 
-    config_dict = _find_and_expand_wildcards(
-        ert.getObservations().getMatchingKeys, user_config_dict
+    #
+    observation_keys = [facade.obs_key(nr) for nr, _ in enumerate(facade.obs())]
+    obs_with_data = keys_with_data(
+        facade.obs(), observation_keys, facade.ens_size(), facade.current_fs()
     )
+    config_dict = _find_and_expand_wildcards(observation_keys, user_config_dict)
 
     config = setup_configuration(config_dict, job_config.build_schema())
 
     if not valid_configuration(config):
         raise ValueError("Invalid configuration")
-    if not valid_job(
-        ert.getObservations(),
-        config,
-        ert.getEnsembleSize(),
-        ert.getEnkfFsManager().getCurrentFileSystem(),
-    ):
+    if not valid_job(config, observation_keys, obs_with_data):
         raise ValueError("Invalid job")
-    _observation_scaling(ert, config.snapshot)
+    _observation_scaling(facade, config.snapshot)
 
 
-def _observation_scaling(ert, config):
+def _observation_scaling(facade, config):
     """
     Collects data, performs scaling and applies scaling, assumes validated input.
     """
-    obs = ert.getObservations()
     calculate_keys = [event.key for event in config.CALCULATE_KEYS.keys]
     index_lists = [event.index for event in config.CALCULATE_KEYS.keys]
-    measured_data = MeasuredData(ert, calculate_keys, index_lists)
+    measured_data = MeasuredData(facade, calculate_keys, index_lists)
     measured_data.remove_nan_and_filter(
         calculate_keys, config.CALCULATE_KEYS.std_cutoff, config.CALCULATE_KEYS.alpha
     )
@@ -54,32 +54,32 @@ def _observation_scaling(ert, config):
 
     scale_factor = matrix.get_scaling_factor(config.CALCULATE_KEYS)
 
-    update_data = _create_active_lists(obs, config.UPDATE_KEYS.keys)
+    update_data = _create_active_lists(facade.obs(), config.UPDATE_KEYS.keys)
 
-    _update_scaling(obs, scale_factor, update_data)
+    _update_scaling(facade.obs(), scale_factor, update_data)
 
 
-def _wildcard_to_dict_list(matching_keys, wildcard_key):
+def _wildcard_to_dict_list(matching_keys, entry):
     """
     One of either:
-    wildcard_key = {"key": "WOPT*", "index": [1,2,3]}
-    wildcard_key = {"key": "WOPT*"}
+    entry = {"key": "WOPT*", "index": [1,2,3]}
+    entry = {"key": "WOPT*"}
     """
-    if "index" in wildcard_key:
-        return [{"key": key, "index": wildcard_key["index"]} for key in matching_keys]
+    if "index" in entry:
+        return [{"key": key, "index": entry["index"]} for key in matching_keys]
     else:
         return [{"key": key} for key in matching_keys]
 
 
-def _expand_wildcard(get_wildcard_func, wildcard_key):
+def _expand_wildcard(obs_list, wildcard_key, entry):
     """
     Expands a wildcard
     """
-    matching_keys = get_wildcard_func(wildcard_key).strings
-    return _wildcard_to_dict_list(matching_keys, wildcard_key)
+    matching_keys = fnmatch.filter(obs_list, wildcard_key["key"])
+    return _wildcard_to_dict_list(matching_keys, entry)
 
 
-def _find_and_expand_wildcards(get_wildcard_func, user_dict):
+def _find_and_expand_wildcards(obs_list, user_dict):
     """
     Loops through the user input and identifies wildcards in observation
     names and expands them.
@@ -89,9 +89,8 @@ def _find_and_expand_wildcards(get_wildcard_func, user_dict):
         new_entries = []
         if main_key in ("UPDATE_KEYS", "CALCULATE_KEYS"):
             for val in value["keys"]:
-                key = val["key"]
-                if "*" in key:
-                    new_entries.extend(_expand_wildcard(get_wildcard_func, key))
+                if "*" in val["key"]:
+                    new_entries.extend(_expand_wildcard(obs_list, val, val["key"]))
                 else:
                     new_entries.append(val)
             new_dict[main_key]["keys"] = new_entries
@@ -196,71 +195,14 @@ def _set_active_lists(observation_data, key_list, active_lists):
     return observation_data, exisiting_active_lists
 
 
-def valid_job(observations, user_config, ensamble_size, storage):
-    """
-    Validates the job, assumes that the configuration is valid
-    """
-
-    calculation_keys = [entry.key for entry in user_config.snapshot.CALCULATE_KEYS.keys]
-    application_keys = [entry.key for entry in user_config.snapshot.UPDATE_KEYS.keys]
-
-    error_messages = []
-
-    error_messages.extend(is_subset(calculation_keys, application_keys))
-    obs_keys_errors = has_keys(observations, calculation_keys)
-    obs_keys_present = len(obs_keys_errors) == 0
-    error_messages.extend(obs_keys_errors)
-
-    if obs_keys_present:
-        error_messages.extend(
-            has_data(observations, calculation_keys, ensamble_size, storage)
-        )
-    for error in error_messages:
-        print(error)
-    return len(error_messages) == 0
-
-
-def has_data(observations, keys, ensamble_size, storage):
+def keys_with_data(observations, keys, ensamble_size, storage):
     """
     Checks that all keys have data and returns a list of error messages
     """
-    error_msg = "Key: {} has no data"
     active_realizations = storage.realizationList(RealizationStateEnum.STATE_HAS_DATA)
 
     if len(active_realizations) == 0:
-        return [error_msg.format(key) for key in keys]
+        return []
 
     active_mask = BoolVector.createFromList(ensamble_size, active_realizations)
-    return [
-        error_msg.format(key)
-        for key in keys
-        if not observations[key].hasData(active_mask, storage)
-    ]
-
-
-def has_keys(observations, keys):
-    """
-    Checks that all keys are present in the observations and returns a list of error messages
-    """
-    error_msg = "Key: {} has no observations"
-    return [error_msg.format(key) for key in keys if key not in observations]
-
-
-def is_subset(main_list, sub_list):
-    """
-    Checks if all the keys in sub_list are present in main_list and returns list of error
-    messages
-    """
-    error_msg = "Update key: {} missing from calculate keys: {}"
-    missing_keys = set(sub_list).difference(set(main_list))
-    return [error_msg.format(missing_key, main_list) for missing_key in missing_keys]
-
-
-def valid_configuration(user_config):
-    """
-    Validates the configuration
-    """
-
-    for error in user_config.errors:
-        print(error)
-    return user_config.valid
+    return [key for key in keys if observations[key].hasData(active_mask, storage)]
