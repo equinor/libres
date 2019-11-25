@@ -1581,6 +1581,7 @@ int_vector_type * enkf_main_update_alloc_step_list(const enkf_main_type * enkf_m
 
 
 void enkf_main_init_run( enkf_main_type * enkf_main, const ert_run_context_type * run_context) {
+  enkf_main_rng_init(enkf_main);
   enkf_main_init_internalization(enkf_main , ert_run_context_get_mode( run_context ));
   {
     stringlist_type * param_list = ensemble_config_alloc_keylist_from_var_type(enkf_main_get_ensemble_config(enkf_main), PARAMETER );
@@ -1939,6 +1940,12 @@ rng_config_type * enkf_main_get_rng_config( const enkf_main_type * enkf_main ) {
 
 
 void enkf_main_rng_init( enkf_main_type * enkf_main) {
+  if (enkf_main->rng_manager != NULL)
+    free(enkf_main->rng_manager);
+
+  if (enkf_main->shared_rng != NULL)
+    free(enkf_main->shared_rng);
+
   enkf_main->rng_manager = rng_config_alloc_rng_manager( enkf_main_get_rng_config(enkf_main) );
   enkf_main->shared_rng = rng_manager_alloc_rng( enkf_main->rng_manager );
 }
