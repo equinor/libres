@@ -1941,10 +1941,10 @@ rng_config_type * enkf_main_get_rng_config( const enkf_main_type * enkf_main ) {
 
 void enkf_main_rng_init( enkf_main_type * enkf_main) {
   if (enkf_main->rng_manager != NULL)
-    free(enkf_main->rng_manager);
+    rng_manager_free(enkf_main->rng_manager);
 
   if (enkf_main->shared_rng != NULL)
-    free(enkf_main->shared_rng);
+    rng_free(enkf_main->shared_rng);
 
   enkf_main->rng_manager = rng_config_alloc_rng_manager( enkf_main_get_rng_config(enkf_main) );
   enkf_main->shared_rng = rng_manager_alloc_rng( enkf_main->rng_manager );
