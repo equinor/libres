@@ -34,7 +34,6 @@ class EnkfSimulationRunner(BaseCClass):
     def runSimpleStep(self, job_queue, run_context):
         """ @rtype: int """
         #### run simplestep ####
-        #self._enkf_main().initRun(run_context)
 
         if run_context.get_step():
             ecl_config = self._enkf_main().ecl_config.assert_restart()
