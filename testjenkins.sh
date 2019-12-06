@@ -99,9 +99,16 @@ setup_variables () {
 	KOMODO_VERSION=bleeding
 }
 
+enable_sanitizer () {
+  export CFLAGS="-fsanitize=address -fsanitize=undefined"
+  export CXXFLAGS="-fsanitize=address -fsanitize=undefined"
+  export LDFLAGS="-fsanitize=address -fsanitize=undefined"
+}
+
 enable_environment () {
 	run source_build_tools
 	run setup_variables
+  run enable_sanitizer
 
 	source $ENV/bin/activate
 	export ERT_SHOW_BACKTRACE=Y
