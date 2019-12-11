@@ -48,7 +48,7 @@ struct forward_model_struct {
 #define DEFAULT_STATUS_JSON  "status.json"
 #define DEFAULT_JOB_MODULE   "jobs.py"
 #define DEFAULT_JOBLIST_NAME "jobList"
-
+#define DEFAULT_KOMODO_FILE  "komodo.version"
 
 
 
@@ -214,6 +214,15 @@ static void forward_model_json_fprintf(const forward_model_type * forward_model,
   remove(status_file);
   free(status_file);
 
+  const char* komodo_release = getenv("KOMODO_RELEASE");
+
+  if(komodo_release != NULL){
+    char * komodo_file = (char*)util_alloc_filename(path , DEFAULT_KOMODO_FILE, NULL);
+    FILE * stream_komodo   = util_fopen(komodo_file, "w");
+    fprintf(stream_komodo, "%s\n", komodo_release);
+    fclose(stream_komodo);
+    free(komodo_file);
+  }
 }
 
 void forward_model_formatted_fprintf(const forward_model_type * forward_model ,
