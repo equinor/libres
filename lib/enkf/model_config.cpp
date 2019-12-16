@@ -192,7 +192,9 @@ const char * model_config_get_gen_kw_export_name( const model_config_type * mode
 
 
  void model_config_set_enspath( model_config_type * model_config , const char * enspath) {
-   model_config->enspath = util_realloc_string_copy( model_config->enspath , enspath );
+   char path[PATH_MAX + 1];
+   realpath( enspath, path );
+   model_config->enspath = util_realloc_string_copy( model_config->enspath , path );
  }
 
  void model_config_set_rftpath( model_config_type * model_config , const char * rftpath) {
