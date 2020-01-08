@@ -90,6 +90,10 @@ endif ()
 
 #-----------------------------------------------------------------
 
+find_package( Boost COMPONENTS filesystem REQUIRED )
+
+#-----------------------------------------------------------------
+
 find_package( ecl REQUIRED )
 
 set(ERT_LSF_LIB_PATH     "" CACHE FILEPATH "Path to search for the LSF libraries")

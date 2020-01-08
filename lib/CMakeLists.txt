@@ -247,12 +247,13 @@ set_target_properties(std_enkf_debug PROPERTIES VERSION 1.0
 target_compile_definitions(res PRIVATE -DINTERNAL_LINK)
 
 find_package(LAPACK REQUIRED)
-target_link_libraries( res PUBLIC ecl ${LAPACK_LIBRARIES} ${LAPACK_LINKER_FLAGS})
+target_link_libraries( res PUBLIC ecl ${LAPACK_LIBRARIES} ${LAPACK_LINKER_FLAGS} ${Boost_LIBRARIES})
 target_include_directories(res
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
         PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private-include>
         PRIVATE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private-include/ext/json>
+        PRIVATE ${Boost_INCLUDE_DIRS}
         )
 
 
