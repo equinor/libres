@@ -7,24 +7,46 @@ import shutil
 import decorator
 import time
 
+
+def source_root():
+    src = '@CMAKE_CURRENT_SOURCE_DIR@/../..'
+    if os.path.isdir(src):
+        return os.path.realpath(src)
+
+    # If the file was not correctly configured by cmake, look for the source
+    # folder, assuming the build folder is inside the source folder.
+    path_list = os.path.dirname(os.path.abspath(__file__)).split("/")
+    while len(path_list) > 0:
+        git_path = os.path.join(os.sep, "/".join(path_list), ".git")
+        if os.path.isdir(git_path):
+            return os.path.join(os.sep, *path_list)
+        path_list.pop()
+    raise RuntimeError('Cannot find the source folder')
+
+
 """
 Swiped from
 https://github.com/equinor/everest/blob/master/tests/utils/__init__.py
 """
 
-
-def tmpdir(path=None, teardown=True):
+def tmpdir(path=None, teardown=True, local=None):
     """ Decorator based on the  `tmp` context """
+    rel_path = ""
+
+    if local is not None:
+        path = os.path.join(source_root(), "test-data", "local", local)
+        rel_path = local
+
     def real_decorator(function):
         def wrapper(function, *args, **kwargs):
-            with tmp(path, teardown=teardown):
+            with tmp(path, teardown=teardown, rel_path=rel_path):
                 return function(*args, **kwargs)
         return decorator.decorator(wrapper, function)
     return real_decorator
 
 
 @contextlib.contextmanager
-def tmp(path=None, teardown=True):
+def tmp(path=None, teardown=True, rel_path=""):
     """Create and go into tmp directory, returns the path.
     This function creates a temporary directory and enters that directory.  The
     returned object is the path to the created directory.
@@ -41,7 +63,7 @@ def tmp(path=None, teardown=True):
         if not os.path.isdir(path):
             logging.debug('tmp:raise no such path')
             raise IOError('No such directory: %s' % path)
-        shutil.copytree(path, fname)
+        shutil.copytree(path, os.path.join(fname, rel_path))
     else:
         # no path to copy, create empty dir
         os.mkdir(fname)

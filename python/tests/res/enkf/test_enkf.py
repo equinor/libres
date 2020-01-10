@@ -30,79 +30,62 @@ from res.enkf.enums import (EnkfObservationImplementationType, LoadFailTypeEnum,
                             EnkfRunType, EnkfFieldFileFormatEnum,
                             EnkfTruncationType, ActiveMode)
 
-from ecl.util.test import TestAreaContext
 from res.enkf.observations.summary_observation import SummaryObservation
 
 from tests.utils import tmpdir
 
 class EnKFTest(ResTest):
-    def setUp(self):
-        self.case_directory = self.createTestPath("local/simple_config/")
-        self.case_directory_custom_kw = self.createTestPath("local/snake_oil/")
+    case_directory           = ResTest.createTestPath("local/simple_config/")
+    case_directory_custom_kw = ResTest.createTestPath("local/snake_oil/")
 
-
-    @tmpdir()
+    @tmpdir(local="simple_config")
     def test_repr( self ):
-        with TestAreaContext("enkf_test", store_area=True) as work_area:
-            work_area.copy_directory(self.case_directory)
-            res_config = ResConfig("simple_config/minimum_config")
-            main = EnKFMain(res_config)
-            pfx = 'EnKFMain(ensemble_size'
-            self.assertEqual(pfx, repr(main)[:len(pfx)])
+        res_config = ResConfig("simple_config/minimum_config")
+        main = EnKFMain(res_config)
+        pfx = 'EnKFMain(ensemble_size'
+        self.assertEqual(pfx, repr(main)[:len(pfx)])
 
-
-    @tmpdir()
+    @tmpdir(local="simple_config")
     def test_bootstrap( self ):
-        with TestAreaContext("enkf_test", store_area=True) as work_area:
-            work_area.copy_directory(self.case_directory)
-            res_config = ResConfig("simple_config/minimum_config")
-            main = EnKFMain(res_config)
-            self.assertTrue(main, "Load failed")
+        res_config = ResConfig("simple_config/minimum_config")
+        main = EnKFMain(res_config)
+        self.assertTrue(main, "Load failed")
 
-
-    @tmpdir()
+    @tmpdir(local="simple_config")
     def test_site_condif(self):
-        with TestAreaContext("enkf_test", store_area=True) as work_area:
-            work_area.copy_directory(self.case_directory)
-            res_config = ResConfig("simple_config/minimum_config")
-            main = EnKFMain(res_config)
+        res_config = ResConfig("simple_config/minimum_config")
+        main = EnKFMain(res_config)
 
-            self.assertTrue(main, "Load failed")
+        self.assertTrue(main, "Load failed")
 
-            self.assertEqual(
-                    res_config.site_config_file,
-                    main.resConfig().site_config_file
-                    )
+        self.assertEqual(
+                res_config.site_config_file,
+                main.resConfig().site_config_file
+                )
 
-            self.assertEqual(
-                    res_config.user_config_file,
-                    main.resConfig().user_config_file
-                    )
+        self.assertEqual(
+                res_config.user_config_file,
+                main.resConfig().user_config_file
+                )
 
     @tmpdir()
     def test_site_bootstrap( self ):
-        with TestAreaContext("enkf_test", store_area=True) as work_area:
-            with  self.assertRaises(ValueError):
-                EnKFMain(None)
+        with  self.assertRaises(ValueError):
+            EnKFMain(None)
 
-    @tmpdir()
+    @tmpdir(local="simple_config")
     def test_default_res_config(self):
-        with TestAreaContext("enkf_test", store_area=True) as work_area:
-            work_area.copy_directory(self.case_directory)
-            res_config = ResConfig("simple_config/minimum_config")
-            main = EnKFMain(res_config)
+        res_config = ResConfig("simple_config/minimum_config")
+        main = EnKFMain(res_config)
 
-            self.assertIsNotNone(main.resConfig)
-            self.assertIsNotNone(main.siteConfig)
-            self.assertIsNotNone(main.analysisConfig)
+        self.assertIsNotNone(main.resConfig)
+        self.assertIsNotNone(main.siteConfig)
+        self.assertIsNotNone(main.analysisConfig)
 
-    @tmpdir()
+    @tmpdir(local="simple_config")
     def test_invalid_res_config(self):
-        with TestAreaContext("enkf_test") as work_area:
-            with self.assertRaises(TypeError):
-                work_area.copy_directory(self.case_directory)
-                main = EnKFMain(res_config="This is not a ResConfig instance")
-
+        with self.assertRaises(TypeError):
+            main = EnKFMain(res_config="This is not a ResConfig instance")
 
     @tmpdir()
     def test_enum(self):
@@ -118,77 +101,68 @@ class EnKFTest(ResTest):
         self.assertEnumIsFullyDefined(EnkfFieldFileFormatEnum, "field_file_format_type", "lib/include/ert/enkf/field_config.hpp")
         self.assertEnumIsFullyDefined(ActiveMode , "active_mode_type" , "lib/include/ert/enkf/enkf_types.hpp")
 
-
-    @tmpdir()
+    @tmpdir(local="simple_config")
     def test_observations(self):
-        with TestAreaContext("enkf_test") as work_area:
-            work_area.copy_directory(self.case_directory)
+        res_config = ResConfig("simple_config/minimum_config")
+        main = EnKFMain(res_config)
 
-            res_config = ResConfig("simple_config/minimum_config")
-            main = EnKFMain(res_config)
+        count = 10
+        summary_key = "test_key"
+        observation_key = "test_obs_key"
+        summary_observation_node = EnkfConfigNode.createSummaryConfigNode(summary_key, LoadFailTypeEnum.LOAD_FAIL_EXIT)
+        observation_vector = ObsVector(EnkfObservationImplementationType.SUMMARY_OBS, observation_key, summary_observation_node, count)
 
-            count = 10
-            summary_key = "test_key"
-            observation_key = "test_obs_key"
-            summary_observation_node = EnkfConfigNode.createSummaryConfigNode(summary_key, LoadFailTypeEnum.LOAD_FAIL_EXIT)
-            observation_vector = ObsVector(EnkfObservationImplementationType.SUMMARY_OBS, observation_key, summary_observation_node, count)
+        main.getObservations().addObservationVector(observation_vector)
 
-            main.getObservations().addObservationVector(observation_vector)
-
-            values = []
-            for index in range(0, count):
-                value = index * 10.5
-                std = index / 10.0
-                summary_observation_node = SummaryObservation(summary_key, observation_key, value, std)
-                observation_vector.installNode(index, summary_observation_node)
-                self.assertEqual(observation_vector.getNode(index), summary_observation_node)
-                self.assertEqual(value, summary_observation_node.getValue())
-                values.append((index, value, std))
+        values = []
+        for index in range(0, count):
+            value = index * 10.5
+            std = index / 10.0
+            summary_observation_node = SummaryObservation(summary_key, observation_key, value, std)
+            observation_vector.installNode(index, summary_observation_node)
+            self.assertEqual(observation_vector.getNode(index), summary_observation_node)
+            self.assertEqual(value, summary_observation_node.getValue())
+            values.append((index, value, std))
 
 
 
-            observations = main.getObservations()
-            test_vector = observations[observation_key]
-            index = 0
-            for node in test_vector:
-                self.assertTrue( isinstance( node , SummaryObservation ))
-                self.assertEqual( node.getValue( ) , index * 10.5 )
-                index += 1
+        observations = main.getObservations()
+        test_vector = observations[observation_key]
+        index = 0
+        for node in test_vector:
+            self.assertTrue( isinstance( node , SummaryObservation ))
+            self.assertEqual( node.getValue( ) , index * 10.5 )
+            index += 1
 
 
-            self.assertEqual(observation_vector, test_vector)
-            for index, value, std in values:
-                self.assertTrue(test_vector.isActive(index))
+        self.assertEqual(observation_vector, test_vector)
+        for index, value, std in values:
+            self.assertTrue(test_vector.isActive(index))
 
-                summary_observation_node = test_vector.getNode(index)
-                """@type: SummaryObservation"""
+            summary_observation_node = test_vector.getNode(index)
+            """@type: SummaryObservation"""
 
-                self.assertEqual(value, summary_observation_node.getValue())
-                self.assertEqual(std, summary_observation_node.getStandardDeviation())
-                self.assertEqual(summary_key, summary_observation_node.getSummaryKey())
+            self.assertEqual(value, summary_observation_node.getValue())
+            self.assertEqual(std, summary_observation_node.getStandardDeviation())
+            self.assertEqual(summary_key, summary_observation_node.getSummaryKey())
 
-
-
-    @tmpdir()
+    @tmpdir(local="simple_config")
     def test_config( self ):
-        with TestAreaContext("enkf_test") as work_area:
-            work_area.copy_directory(self.case_directory)
+        res_config = ResConfig("simple_config/minimum_config")
+        main = EnKFMain(res_config)
 
-            res_config = ResConfig("simple_config/minimum_config")
-            main = EnKFMain(res_config)
+        self.assertIsInstance(main.ensembleConfig(), EnsembleConfig)
+        self.assertIsInstance(main.analysisConfig(), AnalysisConfig)
+        self.assertIsInstance(main.getModelConfig(), ModelConfig)
+        self.assertIsInstance(main.siteConfig(), SiteConfig)
+        self.assertIsInstance(main.eclConfig(), EclConfig)
 
-            self.assertIsInstance(main.ensembleConfig(), EnsembleConfig)
-            self.assertIsInstance(main.analysisConfig(), AnalysisConfig)
-            self.assertIsInstance(main.getModelConfig(), ModelConfig)
-            self.assertIsInstance(main.siteConfig(), SiteConfig)
-            self.assertIsInstance(main.eclConfig(), EclConfig)
+        self.assertIsInstance(main.getObservations(), EnkfObs)
+        self.assertIsInstance(main.get_templates(), ErtTemplates)
+        self.assertIsInstance(main.getEnkfFsManager().getCurrentFileSystem(), EnkfFs)
+        self.assertIsInstance(main.getMemberRunningState(0), EnKFState)
 
-            self.assertIsInstance(main.getObservations(), EnkfObs)
-            self.assertIsInstance(main.get_templates(), ErtTemplates)
-            self.assertIsInstance(main.getEnkfFsManager().getCurrentFileSystem(), EnkfFs)
-            self.assertIsInstance(main.getMemberRunningState(0), EnKFState)
-
-            self.assertEqual( "simple_config/Ensemble" , main.getMountPoint())
+        self.assertEqual( "simple_config/Ensemble" , main.getMountPoint())
 
 
     @tmpdir()
@@ -197,57 +171,51 @@ class EnKFTest(ResTest):
         dbase_type       = "BLOCK_FS"
         num_realizations = 42
 
-        with TestAreaContext("python/ens_condif/create_config" , store_area = True) as ta:
-            EnKFMain.createNewConfig(config_file, "storage" , dbase_type, num_realizations)
-            res_config = ResConfig(config_file)
-            main = EnKFMain(res_config)
-            self.assertEqual(main.getEnsembleSize(), num_realizations)
+        EnKFMain.createNewConfig(config_file, "storage" , dbase_type, num_realizations)
+        res_config = ResConfig(config_file)
+        main = EnKFMain(res_config)
+        self.assertEqual(main.getEnsembleSize(), num_realizations)
 
 
-    @tmpdir()
+    @tmpdir(local="simple_config")
     def test_run_context(self):
-        with TestAreaContext("enkf_test") as work_area:
-            work_area.copy_directory(self.case_directory)
-            res_config = ResConfig("simple_config/minimum_config")
-            main = EnKFMain(res_config)
-            fs_manager = main.getEnkfFsManager()
-            fs = fs_manager.getCurrentFileSystem( )
-            iactive = BoolVector(initial_size = 10 , default_value = True)
-            iactive[0] = False
-            iactive[1] = False
-            run_context = main.getRunContextENSEMPLE_EXPERIMENT( fs , iactive )
+        res_config = ResConfig("simple_config/minimum_config")
+        main = EnKFMain(res_config)
+        fs_manager = main.getEnkfFsManager()
+        fs = fs_manager.getCurrentFileSystem( )
+        iactive = BoolVector(initial_size = 10 , default_value = True)
+        iactive[0] = False
+        iactive[1] = False
+        run_context = main.getRunContextENSEMPLE_EXPERIMENT( fs , iactive )
 
-            self.assertEqual( len(run_context) , 10 )
+        self.assertEqual( len(run_context) , 10 )
 
-            with self.assertRaises(IndexError):
-                run_context[10]
+        with self.assertRaises(IndexError):
+            run_context[10]
 
-            with self.assertRaises(TypeError):
-                run_context["String"]
+        with self.assertRaises(TypeError):
+            run_context["String"]
 
-            self.assertIsNone( run_context[0] )
-            run_arg = run_context[2]
-            self.assertTrue( isinstance( run_arg , RunArg ))
+        self.assertIsNone( run_context[0] )
+        run_arg = run_context[2]
+        self.assertTrue( isinstance( run_arg , RunArg ))
 
 
-    @tmpdir()
+    @tmpdir(local="snake_oil")
     def test_run_context_from_external_folder(self):
-        with TestAreaContext('enkf_test') as work_area:
-            work_area.copy_directory(self.case_directory_custom_kw)
-            res_config = ResConfig('snake_oil/snake_oil.ert')
-            main = EnKFMain(res_config)
-            fs_manager = main.getEnkfFsManager()
-            fs = fs_manager.getCurrentFileSystem( )
+        res_config = ResConfig('snake_oil/snake_oil.ert')
+        main = EnKFMain(res_config)
+        fs_manager = main.getEnkfFsManager()
+        fs = fs_manager.getCurrentFileSystem( )
 
-            mask = BoolVector(default_value = False , initial_size = 10)
-            mask[0] = True
-            run_context = main.getRunContextENSEMPLE_EXPERIMENT( fs , mask )
+        mask = BoolVector(default_value = False , initial_size = 10)
+        mask[0] = True
+        run_context = main.getRunContextENSEMPLE_EXPERIMENT( fs , mask )
 
-            self.assertEqual( len(run_context) , 10 )
+        self.assertEqual( len(run_context) , 10 )
 
-            job_queue = main.get_queue_config().create_job_queue()
-            main.getEnkfSimulationRunner().createRunPath( run_context )
-            num = main.getEnkfSimulationRunner().runEnsembleExperiment(job_queue, run_context)
-            self.assertTrue( os.path.isdir( "snake_oil/storage/snake_oil/runpath/realisation-0/iter-0"))
-            self.assertEqual( num , 1 )
-
+        job_queue = main.get_queue_config().create_job_queue()
+        main.getEnkfSimulationRunner().createRunPath( run_context )
+        num = main.getEnkfSimulationRunner().runEnsembleExperiment(job_queue, run_context)
+        self.assertTrue( os.path.isdir( "snake_oil/storage/snake_oil/runpath/realisation-0/iter-0"))
+        self.assertEqual( num , 1 )
