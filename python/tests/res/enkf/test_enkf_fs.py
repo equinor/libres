@@ -21,38 +21,29 @@ class EnKFFSTest(ResTest):
     def test_id_enum(self):
         self.assertEnumIsFullyDefined(EnKFFSType, "fs_driver_impl", "lib/include/ert/enkf/fs_types.hpp")
 
-
+    @tmpdir(equinor="config/with_data/config")
     def test_create(self):
-        with TestAreaContext("create_fs") as work_area:
-            work_area.copy_parent_content(self.config_file)
+        self.assertTrue(EnkfFs.exists(self.mount_point))
+        fs = EnkfFs(self.mount_point)
+        self.assertEqual(1, fs.refCount())
+        fs.umount()
 
-            self.assertTrue(EnkfFs.exists(self.mount_point))
-            fs = EnkfFs(self.mount_point)
-            self.assertEqual(1, fs.refCount())
-            fs.umount()
+        self.assertFalse(EnkfFs.exists("newFS"))
+        arg = None
+        fs = EnkfFs.createFileSystem("newFS", EnKFFSType.BLOCK_FS_DRIVER_ID, arg)
+        self.assertTrue(EnkfFs.exists("newFS"))
+        self.assertTrue( fs is None )
 
-            self.assertFalse(EnkfFs.exists("newFS"))
-            arg = None
-            fs = EnkfFs.createFileSystem("newFS", EnKFFSType.BLOCK_FS_DRIVER_ID, arg)
-            self.assertTrue(EnkfFs.exists("newFS"))
-            self.assertTrue( fs is None )
+        with self.assertRaises(IOError):
+            version = EnkfFs.diskVersion("does/not/exist")
 
-            with self.assertRaises(IOError):
-                version = EnkfFs.diskVersion("does/not/exist")
+        version = EnkfFs.diskVersion("newFS")
+        self.assertTrue( version >= 106 )
 
-            version = EnkfFs.diskVersion("newFS")
-            self.assertTrue( version >= 106 )
-
-
-    @tmpdir()
+    @tmpdir(equinor="config/with_data/config")
     def test_create2(self):
-        with TestAreaContext("create_fs2") as work_area:
-            work_area.copy_parent_content(self.config_file)
-
-            new_fs = EnkfFs.createFileSystem("newFS", EnKFFSType.BLOCK_FS_DRIVER_ID, mount = True)
-            self.assertTrue( isinstance( new_fs , EnkfFs ))
-
-
+        new_fs = EnkfFs.createFileSystem("newFS", EnKFFSType.BLOCK_FS_DRIVER_ID, mount = True)
+        self.assertTrue( isinstance( new_fs , EnkfFs ))
 
     def test_throws(self):
         with self.assertRaises(Exception):
