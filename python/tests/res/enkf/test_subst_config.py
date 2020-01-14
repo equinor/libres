@@ -15,12 +15,11 @@
 #  for more details.
 import os
 import os.path
-from ecl.util.test import TestAreaContext
 from res.enkf import SubstConfig
 from res.enkf import ConfigKeys
 from res.enkf import ResConfig
 import unittest
-from tests import ResTest
+from tests import ResTest, tmpdir
 
 
 class SubstConfigTest(ResTest):
@@ -46,20 +45,19 @@ class SubstConfigTest(ResTest):
         subst_config2 = SubstConfig(config_dict=self.set_key(ConfigKeys.RUNPATH_FILE, "aaaaa"))
         self.assertNotEqual(subst_config1, subst_config2)
 
+    @tmpdir(local="snake_oil_structure/eclipse", target="eclipse")
     def test_old_and_new_constructor_creates_equal_config(self):
-        with TestAreaContext("subst_config_test_tmp") as work_area:
-            work_area.copy_directory(os.path.join(self.path, "eclipse"))
-            cwd = os.getcwd()
-            filename = self.config_data[ConfigKeys.CONFIG_FILE_KEY]
-            self.make_config_file(filename)
-            res_config = ResConfig(user_config_file=filename)
-            subst_config1 = res_config.subst_config
-            subst_config2 = SubstConfig(config_dict=self.set_key(ConfigKeys.CONFIG_DIRECTORY, cwd))
+        cwd = os.getcwd()
+        filename = self.config_data[ConfigKeys.CONFIG_FILE_KEY]
+        self.make_config_file(filename)
+        res_config = ResConfig(user_config_file=filename)
+        subst_config1 = res_config.subst_config
+        subst_config2 = SubstConfig(config_dict=self.set_key(ConfigKeys.CONFIG_DIRECTORY, cwd))
 
-            self.assertEqual(
-                subst_config1,
-                subst_config2,
-                str(subst_config1) + "\n\nis not equal to:\n\n" + str(subst_config2))
+        self.assertEqual(
+            subst_config1,
+            subst_config2,
+            str(subst_config1) + "\n\nis not equal to:\n\n" + str(subst_config2))
 
     def test_complete_config_reads_correct_values(self):
         subst_config = SubstConfig(config_dict=self.config_data)

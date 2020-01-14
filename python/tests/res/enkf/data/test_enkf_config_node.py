@@ -2,12 +2,10 @@ import os.path
 import json
 
 from res.enkf.config import EnkfConfigNode
-from ecl.util.test import TestAreaContext
 from tests import ResTest
 
 
 class EnkfConfigNodeTest(ResTest):
-
     def test_gen_data(self):
 
         # Must have %d in filename argument

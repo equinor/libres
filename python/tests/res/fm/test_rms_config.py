@@ -17,8 +17,8 @@ import os
 import stat
 import unittest
 import yaml
-from ecl.util.test import TestAreaContext
 from tests import ResTest
+from tests.utils import tmpdir
 from _pytest.monkeypatch import MonkeyPatch
 
 from res.fm.rms import RMSConfig
@@ -33,6 +33,7 @@ class RMSConfigTest(ResTest):
     def tearDown(self):
         self.monkeypatch.undo()
 
+    @tmpdir()
     def test_load(self):
         self.monkeypatch.setenv("RMS_SITE_CONFIG", "file/does/not/exist")
         with self.assertRaises(IOError):
@@ -44,33 +45,31 @@ class RMSConfigTest(ResTest):
         with self.assertRaises(OSError):
             exe = conf.executable
 
+        with open("file.yml","w") as f:
+            f.write("this:\n -should\n-be\ninvalid:yaml?")
 
-        with TestAreaContext("yaml"):
-            with open("file.yml","w") as f:
-                f.write("this:\n -should\n-be\ninvalid:yaml?")
-
-            self.monkeypatch.setenv("RMS_SITE_CONFIG", "file.yml")
-            with self.assertRaises(ValueError):
-                conf = RMSConfig()
-
-            os.mkdir("bin")
-            with open("bin/rms", "w") as f:
-                f.write("This is an RMS executable ...")
-            os.chmod("bin/rms", stat.S_IEXEC)
-
-            with open("file.yml", "w") as f:
-                f.write("executable: bin/rms")
-
+        self.monkeypatch.setenv("RMS_SITE_CONFIG", "file.yml")
+        with self.assertRaises(ValueError):
             conf = RMSConfig()
-            self.assertEqual(conf.executable, "bin/rms")
-            self.assertIsNone(conf.threads)
 
-            with open("file.yml", "w") as f:
-                f.write("executable: bin/rms\n")
-                f.write("threads: 17")
+        os.mkdir("bin")
+        with open("bin/rms", "w") as f:
+            f.write("This is an RMS executable ...")
+        os.chmod("bin/rms", stat.S_IEXEC)
 
-            conf = RMSConfig()
-            self.assertEqual(conf.threads, 17)
+        with open("file.yml", "w") as f:
+            f.write("executable: bin/rms")
+
+        conf = RMSConfig()
+        self.assertEqual(conf.executable, "bin/rms")
+        self.assertIsNone(conf.threads)
+
+        with open("file.yml", "w") as f:
+            f.write("executable: bin/rms\n")
+            f.write("threads: 17")
+
+        conf = RMSConfig()
+        self.assertEqual(conf.threads, 17)
 
 if __name__ == "__main__":
     unittest.main()

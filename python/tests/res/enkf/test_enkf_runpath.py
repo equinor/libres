@@ -16,9 +16,7 @@
 
 import pytest
 
-from ecl.util.test import TestAreaContext
-from tests import ResTest
-from tests.utils import tmpdir
+from tests import ResTest, tmpdir
 from ecl.util.util import BoolVector
 
 from res.enkf import (EnsembleConfig, AnalysisConfig, ModelConfig, SiteConfig,
@@ -40,40 +38,34 @@ class EnKFRunpathTest(ResTest):
     def setUp(self):
         pass
 
-    @tmpdir()
+    @tmpdir(local="snake_oil_no_data")
     def test_with_gen_kw(self):
-        case_directory = self.createTestPath('local/snake_oil_no_data/')
-        with TestAreaContext('test_enkf_runpath', store_area=True) as work_area:
-            work_area.copy_directory(case_directory)
-            res_config = ResConfig('snake_oil_no_data/snake_oil.ert')
-            main = EnKFMain(res_config)
-            iactive = BoolVector(initial_size=main.getEnsembleSize(), default_value=False)
-            iactive[0] = True
-            fs = main.getEnkfFsManager().getCurrentFileSystem()
-            run_context = main.getRunContextENSEMPLE_EXPERIMENT(fs, iactive)
-            main.createRunpath(run_context)
-            self.assertFileExists('snake_oil_no_data/storage/snake_oil/runpath/realisation-0/iter-0/parameters.txt')
-            self.assertEqual(len(os.listdir('snake_oil_no_data/storage/snake_oil/runpath')), 1)
-            self.assertEqual(len(os.listdir('snake_oil_no_data/storage/snake_oil/runpath/realisation-0')), 1)
+        res_config = ResConfig('snake_oil_no_data/snake_oil.ert')
+        main = EnKFMain(res_config)
+        iactive = BoolVector(initial_size=main.getEnsembleSize(), default_value=False)
+        iactive[0] = True
+        fs = main.getEnkfFsManager().getCurrentFileSystem()
+        run_context = main.getRunContextENSEMPLE_EXPERIMENT(fs, iactive)
+        main.createRunpath(run_context)
+        self.assertFileExists('snake_oil_no_data/storage/snake_oil/runpath/realisation-0/iter-0/parameters.txt')
+        self.assertEqual(len(os.listdir('snake_oil_no_data/storage/snake_oil/runpath')), 1)
+        self.assertEqual(len(os.listdir('snake_oil_no_data/storage/snake_oil/runpath/realisation-0')), 1)
 
-            rp = main.create_runpath_list( )
-            self.assertEqual(len(rp), 0)
-            rp.load()
-            self.assertEqual(len(rp), 1)
+        rp = main.create_runpath_list( )
+        self.assertEqual(len(rp), 0)
+        rp.load()
+        self.assertEqual(len(rp), 1)
 
-    @tmpdir()
+    @tmpdir(local="snake_oil_no_data")
     def test_without_gen_kw(self):
-        case_directory = self.createTestPath('local/snake_oil_no_data/')
-        with TestAreaContext('test_enkf_runpath', store_area=False) as work_area:
-            work_area.copy_directory(case_directory)
-            res_config = ResConfig('snake_oil_no_data/snake_oil_no_gen_kw.ert')
-            main = EnKFMain(res_config)
-            iactive = BoolVector(initial_size=main.getEnsembleSize(), default_value=False)
-            iactive[0] = True
-            fs = main.getEnkfFsManager().getCurrentFileSystem()
-            run_context = main.getRunContextENSEMPLE_EXPERIMENT(fs, iactive)
-            main.createRunpath(run_context)
-            self.assertDirectoryExists('snake_oil_no_data/storage/snake_oil_no_gen_kw/runpath/realisation-0/iter-0')
-            self.assertFileDoesNotExist('snake_oil_no_data/storage/snake_oil_no_gen_kw/runpath/realisation-0/iter-0/parameters.txt')
-            self.assertEqual(len(os.listdir('snake_oil_no_data/storage/snake_oil_no_gen_kw/runpath')), 1)
-            self.assertEqual(len(os.listdir('snake_oil_no_data/storage/snake_oil_no_gen_kw/runpath/realisation-0')), 1)
+        res_config = ResConfig('snake_oil_no_data/snake_oil_no_gen_kw.ert')
+        main = EnKFMain(res_config)
+        iactive = BoolVector(initial_size=main.getEnsembleSize(), default_value=False)
+        iactive[0] = True
+        fs = main.getEnkfFsManager().getCurrentFileSystem()
+        run_context = main.getRunContextENSEMPLE_EXPERIMENT(fs, iactive)
+        main.createRunpath(run_context)
+        self.assertDirectoryExists('snake_oil_no_data/storage/snake_oil_no_gen_kw/runpath/realisation-0/iter-0')
+        self.assertFileDoesNotExist('snake_oil_no_data/storage/snake_oil_no_gen_kw/runpath/realisation-0/iter-0/parameters.txt')
+        self.assertEqual(len(os.listdir('snake_oil_no_data/storage/snake_oil_no_gen_kw/runpath')), 1)
+        self.assertEqual(len(os.listdir('snake_oil_no_data/storage/snake_oil_no_gen_kw/runpath/realisation-0')), 1)

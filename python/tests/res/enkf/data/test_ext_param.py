@@ -3,8 +3,7 @@ import json
 
 from res.enkf.data import ExtParam
 from res.enkf.config import ExtParamConfig
-from ecl.util.test import TestAreaContext
-from tests import ResTest
+from tests import ResTest, tmpdir
 
 
 class ExtParamTest(ResTest):
@@ -68,7 +67,7 @@ class ExtParamTest(ResTest):
         d = { k: s for k, s in config.items()}
         self.assertEqual(d , input_dict)
 
-
+    @tmpdir()
     def test_data(self):
         input_keys = ["key1","key2","key3"]
         config = ExtParamConfig("Key" , input_keys)
@@ -98,12 +97,10 @@ class ExtParamTest(ResTest):
         for i in range(len(data)):
             self.assertEqual( i + 1 , data[i] )
 
-        with TestAreaContext("json"):
-            data.export( "file.json" )
-            d = json.load( open("file.json"))
+        data.export( "file.json" )
+        d = json.load( open("file.json"))
         for key in data.config.keys():
             self.assertEqual( data[key] , d[key] )
-
 
     def test_data_with_suffixes(self):
         input_suffixes = [["a", "b", "c"],

@@ -1,6 +1,5 @@
 import os
 import sys
-from ecl.util.test import TestAreaContext
 from tests import ResTest
 from tests.utils import tmpdir
 from ecl.util.util import BoolVector

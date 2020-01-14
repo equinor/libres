@@ -20,8 +20,7 @@ import pytest
 import os.path
 
 from res.enkf import EclConfig, ResConfig, ConfigKeys
-from ecl.util.test import TestAreaContext
-from tests import ResTest
+from tests import ResTest, tmpdir
 from res.util import UIReturn
 from ecl.summary  import EclSum
 
@@ -52,7 +51,7 @@ class EclConfigTest(ResTest):
         self.assertTrue( os.path.exists( smspec_file ))
         ui = ec.validateGridFile( smspec_file )
         self.assertFalse( ui )
-    
+
     @pytest.mark.equinor_test
     def test_datafile(self):
         ec = EclConfig()
@@ -102,6 +101,7 @@ class EclConfigTest(ResTest):
         refcaseName = ec.getRefcaseName() + ".DATA"
         self.assertEqual( dfile , refcaseName )
 
+    @tmpdir(local="configuration_tests")
     def test_ecl_config_constructor(self):
         config_dict = {
             ConfigKeys.DATA_FILE                : "configuration_tests/input/SPE1.DATA",
@@ -111,15 +111,8 @@ class EclConfigTest(ResTest):
             ConfigKeys.END_DATE                 : "10/10/2010",
             ConfigKeys.SCHEDULE_PREDICTION_FILE : "configuration_tests/input/schedule.sch"
         }
-        
-        self.case_directory = self.createTestPath("local/configuration_tests/")
-        with TestAreaContext("ecl_config_test") as work_area:
-            work_area.copy_directory(self.case_directory)
-            res_config = ResConfig('configuration_tests/ecl_config.ert')
-            ecl_config_file = res_config.ecl_config
-            ecl_config_dict = EclConfig(config_dict=config_dict)
+        res_config = ResConfig('configuration_tests/ecl_config.ert')
+        ecl_config_file = res_config.ecl_config
+        ecl_config_dict = EclConfig(config_dict=config_dict)
 
-            self.assertEqual(ecl_config_dict, ecl_config_file)
-
-
-
+        self.assertEqual(ecl_config_dict, ecl_config_file)

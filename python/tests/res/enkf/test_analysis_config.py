@@ -25,6 +25,8 @@ from res.enkf import ConfigKeys
 from tests.utils import tmpdir
 
 class AnalysisConfigTest(ResTest):
+    case_file = "simple_config/minimum_config"
+
     @tmpdir()
     def test_invalid_user_config(self):
         with self.assertRaises(IOError):

@@ -1,11 +1,10 @@
 from res.enkf.enums.realization_state_enum import RealizationStateEnum
 from res.enkf.state_map import StateMap
-from ecl.util.test import TestAreaContext
-from tests import ResTest
+from tests import ResTest, tmpdir
 
 
 class StateMapTest(ResTest):
-
+    @tmpdir()
     def test_state_map(self):
         state_map = StateMap()
 
@@ -62,12 +61,9 @@ class StateMapTest(ResTest):
 
         self.assertFalse(state_map.isReadOnly())
 
-        with TestAreaContext("python/state-map/fwrite") as work_area:
-            state_map.save("MAP")
-            s2 = StateMap("MAP")
-            self.assertTrue( state_map == s2 )
-            
-
+        state_map.save("MAP")
+        s2 = StateMap("MAP")
+        self.assertTrue( state_map == s2 )
 
     def test_state_map_transitions(self):
         self.assertTrue(StateMap.isLegalTransition(RealizationStateEnum.STATE_UNDEFINED, RealizationStateEnum.STATE_INITIALIZED))

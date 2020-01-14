@@ -29,7 +29,7 @@ Swiped from
 https://github.com/equinor/everest/blob/master/tests/utils/__init__.py
 """
 
-def tmpdir(path=None, teardown=True, local=None, equinor=None):
+def tmpdir(path=None, teardown=True, local=None, equinor=None, target=None):
     """ Decorator based on the  `tmp` context """
     rel_path = ""
 
@@ -40,6 +40,9 @@ def tmpdir(path=None, teardown=True, local=None, equinor=None):
     if equinor is not None:
         path = os.path.join(source_root(), "test-data", "Equinor", equinor)
         rel_path = equinor
+
+    if target is not None:
+        rel_path = target
 
     def real_decorator(function):
         def wrapper(function, *args, **kwargs):

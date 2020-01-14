@@ -2,8 +2,8 @@ import datetime
 
 from res.enkf.enums.realization_state_enum import RealizationStateEnum
 from res.enkf import TimeMap
-from ecl.util.test import TestAreaContext
 from tests import ResTest
+from tests.utils import tmp
 
 
 class TimeMapTest(ResTest):
@@ -45,7 +45,7 @@ class TimeMapTest(ResTest):
         with self.assertRaises(IOError):
             tm.fload( "Does/not/exist" )
 
-        with TestAreaContext("timemap/fload1") as work_area:
+        with tmp():
             with open("map.txt","w") as fileH:
                 fileH.write("10/10/2000\n")
                 fileH.write("12/10/2000\n")
@@ -57,7 +57,7 @@ class TimeMapTest(ResTest):
             self.assertEqual( datetime.date(2000,10,10) , tm[0])
             self.assertEqual( datetime.date(2000,10,16) , tm[3])
 
-        with TestAreaContext("timemap/fload2") as work_area:
+        with tmp():
             with open("map.txt","w") as fileH:
                 fileH.write("10/10/200X\n")
 
@@ -69,7 +69,7 @@ class TimeMapTest(ResTest):
             self.assertEqual( datetime.date(2000,10,16) , tm[3])
 
 
-        with TestAreaContext("timemap/fload2") as work_area:
+        with tmp():
             with open("map.txt","w") as fileH:
                 fileH.write("12/10/2000\n")
                 fileH.write("10/10/2000\n")

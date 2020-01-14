@@ -1,17 +1,11 @@
-from tests import ResTest
+from tests import ResTest, tmpdir
 
 from res.enkf import EnsembleConfig, ResConfig
 from res.enkf import ConfigKeys
-from ecl.util.test import TestAreaContext
 from res.enkf.enums import GenDataFileType
 
 
 class EnsembleConfigTest(ResTest):
-
-    def setUp(self):
-        self.case_directory = self.createTestPath("local/simple_config/")
-        self.case_file = 'simple_config/ensemble_config'
-
     def test_create(self):
         conf = EnsembleConfig( )
         self.assertEqual( len(conf) , 0 )
@@ -20,6 +14,7 @@ class EnsembleConfigTest(ResTest):
         with self.assertRaises(KeyError):
             node = conf["KEY"]
 
+    @tmpdir(local="configuration_tests")
     def test_ensemble_config_constructor(self):
         config_dict = {
             ConfigKeys.GEN_KW_TAG_FORMAT: '<%s>',
@@ -119,10 +114,7 @@ class EnsembleConfigTest(ResTest):
             ]
         }
 
-        self.case_directory = self.createTestPath("local/configuration_tests/")
-        with TestAreaContext("ensemble_config_test") as work_area:
-            work_area.copy_directory(self.case_directory)
-            res_config = ResConfig('configuration_tests/ensemble_config.ert')
-            ensemble_config_file = res_config.ensemble_config
-            ensemble_config_dict = EnsembleConfig(config_dict=config_dict, grid=res_config.ecl_config.getGrid())
-            self.assertEqual(ensemble_config_dict, ensemble_config_file)
+        res_config = ResConfig('configuration_tests/ensemble_config.ert')
+        ensemble_config_file = res_config.ensemble_config
+        ensemble_config_dict = EnsembleConfig(config_dict=config_dict, grid=res_config.ecl_config.getGrid())
+        self.assertEqual(ensemble_config_dict, ensemble_config_file)

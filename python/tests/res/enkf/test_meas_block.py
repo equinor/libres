@@ -1,10 +1,8 @@
 import datetime
 
-from ecl.util.test import TestAreaContext
 from tests import ResTest
 from ecl.util.util import BoolVector
 from res.enkf import MeasBlock
-
 
 
 class MeasBlockTest(ResTest):

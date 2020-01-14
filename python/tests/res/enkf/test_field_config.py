@@ -14,8 +14,7 @@
 # See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
 # for more details.
 from os.path import abspath
-from ecl.util.test import TestAreaContext
-from tests import ResTest
+from tests import ResTest, tmpdir
 
 from ecl.grid import EclGridGenerator
 from res.enkf.config import FieldTypeEnum, FieldConfig
@@ -23,21 +22,21 @@ from res.enkf.enums import EnkfFieldFileFormatEnum
 
 class FieldConfigTest(ResTest):
 
+    @tmpdir()
     def test_field_guess_filetype(self):
-        with TestAreaContext('field_config') as test_context:
-            fname = abspath('test.kw.grdecl')
-            print(fname)
-            with open(fname, 'w') as f:
-                f.write("-- my comment\n")
-                f.write("-- more comments\n")
-                f.write("SOWCR\n")
-                for i in range(256//8): # technicalities demand file has >= 256B
-                    f.write("0 0 0 0\n")
+        fname = abspath('test.kw.grdecl')
+        print(fname)
+        with open(fname, 'w') as f:
+            f.write("-- my comment\n")
+            f.write("-- more comments\n")
+            f.write("SOWCR\n")
+            for i in range(256//8): # technicalities demand file has >= 256B
+                f.write("0 0 0 0\n")
 
-            ft = FieldConfig.guessFiletype(fname)
-            grdecl_type = EnkfFieldFileFormatEnum(5)
-            self.assertEqual('ECL_GRDECL_FILE', grdecl_type.name)
-            self.assertEqual(grdecl_type, ft)
+        ft = FieldConfig.guessFiletype(fname)
+        grdecl_type = EnkfFieldFileFormatEnum(5)
+        self.assertEqual('ECL_GRDECL_FILE', grdecl_type.name)
+        self.assertEqual(grdecl_type, ft)
 
     def test_field_type_enum(self):
         self.assertEqual(FieldTypeEnum(2), FieldTypeEnum.ECLIPSE_PARAMETER)

@@ -24,7 +24,6 @@ import pytest
 import re
 
 from ecl.summary import EclSum
-from ecl.util.test import TestAreaContext
 from tests import ResTest
 from tests.utils import tmpdir
 from res.fm.ecl import *

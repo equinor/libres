@@ -14,8 +14,7 @@
 #  See the GNU General Public License at <http://www.gnu.org/licenses/gpl.html>
 #  for more details.
 import os
-from ecl.util.test import TestAreaContext
-from tests import ResTest
+from tests import ResTest, tmpdir
 
 from res.test import ErtTestContext
 from res.enkf import ResConfig, ConfigKeys
@@ -314,73 +313,60 @@ class ProgrammaticResConfigTest(ResTest):
                                   }
                                 }
                               }
+    @tmpdir(local="simple_config")
     def test_minimum_config(self):
-        case_directory = self.createTestPath("local/simple_config")
         config_file = "simple_config/minimum_config"
 
-        with TestAreaContext("res_config_prog_test") as work_area:
-            work_area.copy_directory(case_directory)
+        loaded_res_config = ResConfig(user_config_file=config_file)
+        prog_res_config = ResConfig(config=self.minimum_config)
 
-            loaded_res_config = ResConfig(user_config_file=config_file)
-            prog_res_config = ResConfig(config=self.minimum_config)
+        self.assertEqual(loaded_res_config.model_config.num_realizations,
+                         prog_res_config.model_config.num_realizations)
 
-            self.assertEqual(loaded_res_config.model_config.num_realizations,
-                             prog_res_config.model_config.num_realizations)
+        self.assertEqual(loaded_res_config.model_config.getJobnameFormat(),
+                         prog_res_config.model_config.getJobnameFormat())
 
-            self.assertEqual(loaded_res_config.model_config.getJobnameFormat(),
-                             prog_res_config.model_config.getJobnameFormat())
+        self.assertEqual(loaded_res_config.model_config.getRunpathAsString(),
+                         prog_res_config.model_config.getRunpathAsString())
 
-            self.assertEqual(loaded_res_config.model_config.getRunpathAsString(),
-                             prog_res_config.model_config.getRunpathAsString())
+        self.assertEqual(loaded_res_config.model_config.getEnspath(),
+                         prog_res_config.model_config.getEnspath())
 
-            self.assertEqual(loaded_res_config.model_config.getEnspath(),
-                             prog_res_config.model_config.getEnspath())
-
-            self.assertEqual(0, len(prog_res_config.errors))
-            self.assertEqual(0, len(prog_res_config.failed_keys))
+        self.assertEqual(0, len(prog_res_config.errors))
+        self.assertEqual(0, len(prog_res_config.failed_keys))
 
 
+    @tmpdir(local="simple_config")
     def test_no_config_directory(self):
-        case_directory = self.createTestPath("local/simple_config")
         config_file = "simple_config/minimum_config"
 
-        with TestAreaContext("res_config_prog_test") as work_area:
-            work_area.copy_directory(case_directory)
-
-            with self.assertRaises(ValueError):
-                ResConfig(config=self.minimum_config_cwd)
+        with self.assertRaises(ValueError):
+            ResConfig(config=self.minimum_config_cwd)
 
 
+    @tmpdir(local="simple_config")
     def test_errors(self):
-        case_directory = self.createTestPath("local/simple_config")
         config_file = "simple_config/minimum_config"
 
-        with TestAreaContext("res_config_prog_test") as work_area:
-            work_area.copy_directory(case_directory)
+        with self.assertRaises(ValueError):
+            res_config = ResConfig(config=self.minimum_config_error)
 
-            with self.assertRaises(ValueError):
-                res_config = ResConfig(config=self.minimum_config_error)
+        res_config = ResConfig(config=self.minimum_config_error,
+                               throw_on_error=False)
 
-            res_config = ResConfig(config=self.minimum_config_error,
-                                   throw_on_error=False)
+        self.assertTrue(len(res_config.errors) > 0)
+        self.assertEqual(0, len(res_config.failed_keys))
 
-            self.assertTrue(len(res_config.errors) > 0)
-            self.assertEqual(0, len(res_config.failed_keys))
-
-
+    @tmpdir(local="simple_config")
     def test_failed_keys(self):
-        case_directory = self.createTestPath("local/simple_config")
         config_file = "simple_config/minimum_config"
 
-        with TestAreaContext("res_config_prog_test") as work_area:
-            work_area.copy_directory(case_directory)
+        res_config = ResConfig(config=self.minimum_config_extra_key)
 
-            res_config = ResConfig(config=self.minimum_config_extra_key)
-
-            self.assertTrue(len(res_config.failed_keys) == 1)
-            self.assertEqual(["UNKNOWN_KEY"], list(res_config.failed_keys.keys()))
-            self.assertEqual(self.minimum_config_extra_key["UNKNOWN_KEY"],
-                            res_config.failed_keys["UNKNOWN_KEY"])
+        self.assertTrue(len(res_config.failed_keys) == 1)
+        self.assertEqual(["UNKNOWN_KEY"], list(res_config.failed_keys.keys()))
+        self.assertEqual(self.minimum_config_extra_key["UNKNOWN_KEY"],
+                        res_config.failed_keys["UNKNOWN_KEY"])
 
 
     def assert_equal_model_config(self, loaded_model_config, prog_model_config):
@@ -457,84 +443,73 @@ class ProgrammaticResConfigTest(ResTest):
         self.assertEqual(loaded_simulation_config.getPath(),
                          prog_simulation_config.getPath())
 
+    @tmpdir(local="simulation_model")
     def test_new_config(self):
         case_directory = self.createTestPath("local/simulation_model")
         config_file = "simulation_model/sim_kw.ert"
 
-        with TestAreaContext("res_config_sim_job") as work_area:
-            work_area.copy_directory(case_directory)
+        prog_res_config   = ResConfig(config=self.new_config)
+        forward_model = prog_res_config.model_config.getForwardModel()
+        job_A = forward_model.iget_job(0)
+        job_B = forward_model.iget_job(1)
+        self.assertEqual( job_A.get_arglist(), ["Hello", "True", "3.14", "4"])
+        self.assertEqual( job_B.get_arglist(), ["word"])
 
-            prog_res_config   = ResConfig(config=self.new_config)
-            forward_model = prog_res_config.model_config.getForwardModel()
-            job_A = forward_model.iget_job(0)
-            job_B = forward_model.iget_job(1)
-            self.assertEqual( job_A.get_arglist(), ["Hello", "True", "3.14", "4"])
-            self.assertEqual( job_B.get_arglist(), ["word"])
-
-
-
+    @tmpdir(local="snake_oil_structure")
     def test_large_config(self):
-        case_directory = self.createTestPath("local/snake_oil_structure")
         config_file = "snake_oil_structure/ert/model/user_config.ert"
 
-        with TestAreaContext("res_config_prog_test") as work_area:
-            work_area.copy_directory(case_directory)
+        loaded_res_config = ResConfig(user_config_file=config_file)
+        prog_res_config   = ResConfig(config=self.large_config)
 
-            loaded_res_config = ResConfig(user_config_file=config_file)
-            prog_res_config   = ResConfig(config=self.large_config)
+        self.assert_equal_model_config(loaded_res_config.model_config,
+                                       prog_res_config.model_config)
 
-            self.assert_equal_model_config(loaded_res_config.model_config,
-                                           prog_res_config.model_config)
+        self.assert_equal_site_config(loaded_res_config.site_config,
+                                      prog_res_config.site_config)
 
-            self.assert_equal_site_config(loaded_res_config.site_config,
-                                          prog_res_config.site_config)
+        self.assert_equal_ecl_config(loaded_res_config.ecl_config,
+                                     prog_res_config.ecl_config)
 
-            self.assert_equal_ecl_config(loaded_res_config.ecl_config,
-                                         prog_res_config.ecl_config)
+        self.assert_equal_analysis_config(loaded_res_config.analysis_config,
+                                          prog_res_config.analysis_config)
 
-            self.assert_equal_analysis_config(loaded_res_config.analysis_config,
-                                              prog_res_config.analysis_config)
+        self.assert_equal_hook_manager(loaded_res_config.hook_manager,
+                                       prog_res_config.hook_manager)
 
-            self.assert_equal_hook_manager(loaded_res_config.hook_manager,
-                                           prog_res_config.hook_manager)
+        self.assert_equal_log_config(loaded_res_config.log_config,
+                                     prog_res_config.log_config)
 
-            self.assert_equal_log_config(loaded_res_config.log_config,
-                                         prog_res_config.log_config)
+        self.assert_equal_ensemble_config(loaded_res_config.ensemble_config,
+                                          prog_res_config.ensemble_config)
 
-            self.assert_equal_ensemble_config(loaded_res_config.ensemble_config,
-                                              prog_res_config.ensemble_config)
+        self.assert_equal_ert_templates(loaded_res_config.ert_templates,
+                                        prog_res_config.ert_templates)
 
-            self.assert_equal_ert_templates(loaded_res_config.ert_templates,
-                                            prog_res_config.ert_templates)
+        self.assert_equal_ert_workflow(loaded_res_config.ert_workflow_list,
+                                       prog_res_config.ert_workflow_list)
 
-            self.assert_equal_ert_workflow(loaded_res_config.ert_workflow_list,
-                                           prog_res_config.ert_workflow_list)
+        self.assertEqual(loaded_res_config.queue_config, prog_res_config.queue_config)
 
-            self.assertEqual(loaded_res_config.queue_config, prog_res_config.queue_config)
+        self.assertEqual(0, len(prog_res_config.failed_keys))
 
-            self.assertEqual(0, len(prog_res_config.failed_keys))
-
-
+    @tmpdir(local="simple_config")
     def test_test_context(self):
-        case_directory = self.createTestPath("local/simple_config")
-
         # We first make sure that the files referred to in the
         # minimum_config dictionary are found are located correctly by
         # creating a working area, and then we create testcontext from
         # there.
-        with TestAreaContext("res_config_prog_test", store_area = True) as work_area:
-            work_area.copy_directory(case_directory)
-            self.assertTrue(os.path.isfile( "simple_config/script.sh"))
+        self.assertTrue(os.path.isfile( "simple_config/script.sh"))
 
+        with ErtTestContext( "dict_test", config_dict = self.minimum_config, store_area = True):
+            pass
+
+        os.chdir( "simple_config")
+        # The directory referenced in INTERNALS.CONFIG_DIRECTORY does not exist => IOError
+        with self.assertRaises(IOError):
             with ErtTestContext( "dict_test", config_dict = self.minimum_config, store_area = True):
                 pass
 
-            os.chdir( "simple_config")
-            # The directory referenced in INTERNALS.CONFIG_DIRECTORY does not exist => IOError
-            with self.assertRaises(IOError):
-                with ErtTestContext( "dict_test", config_dict = self.minimum_config, store_area = True):
-                    pass
-
-            # Create minimum config in cwd:
-            with ErtTestContext( "dict_test", config_dict = self.minimum_config_cwd, store_area = True):
-                pass
+        # Create minimum config in cwd:
+        with ErtTestContext( "dict_test", config_dict = self.minimum_config_cwd, store_area = True):
+            pass

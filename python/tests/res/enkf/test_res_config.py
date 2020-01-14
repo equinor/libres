@@ -18,8 +18,7 @@ import stat
 from copy import deepcopy
 from datetime import date
 
-from ecl.util.test import TestAreaContext
-from tests import ResTest
+from tests import ResTest, tmpdir
 from tests.utils import tmpdir
 from ecl.util.util import CTime
 from ecl.util.enums import RngAlgTypeEnum
@@ -307,56 +306,51 @@ class ResConfigTest(ResTest):
     @tmpdir()
     def test_invalid_user_config(self):
         self.set_up_simple()
+        with self.assertRaises(IOError):
+            ResConfig("this/is/not/a/file")
 
-        with TestAreaContext("void land"):
-            with self.assertRaises(IOError):
-                ResConfig("this/is/not/a/file")
-
-    @tmpdir()
+    @tmpdir(local="simple_config")
     def test_init(self):
         self.set_up_simple()
 
-        with TestAreaContext("res_config_init_test") as work_area:
-            cwd = os.getcwd()
-            work_area.copy_directory(self.case_directory)
+        cwd = os.getcwd()
 
-            config_file = "simple_config/minimum_config"
-            res_config = ResConfig(user_config_file=config_file)
+        config_file = "simple_config/minimum_config"
+        res_config = ResConfig(user_config_file=config_file)
 
-            self.assertEqual( res_config.model_config.data_root( ) , os.path.join( cwd , "simple_config"))
-            self.assertEqual( clib_getenv("DATA_ROOT") , os.path.join( cwd , "simple_config"))
+        self.assertEqual( res_config.model_config.data_root( ) , os.path.join( cwd , "simple_config"))
+        self.assertEqual( clib_getenv("DATA_ROOT") , os.path.join( cwd , "simple_config"))
 
-            # This fails with an not-understandable Python error:
-            #-----------------------------------------------------------------
-            # res_config.model_config.set_data_root( "NEW" )
-            # self.assertEqual( res_config.model_config.data_root( ) , "NEW")
-            # self.assertEqual( clib_getenv("DATA_ROOT") , "NEW")
+        # This fails with an not-understandable Python error:
+        #-----------------------------------------------------------------
+        # res_config.model_config.set_data_root( "NEW" )
+        # self.assertEqual( res_config.model_config.data_root( ) , "NEW")
+        # self.assertEqual( clib_getenv("DATA_ROOT") , "NEW")
 
-            self.assertIsNotNone(res_config)
-            self.assert_same_config_file(config_file, res_config.user_config_file, os.getcwd())
+        self.assertIsNotNone(res_config)
+        self.assert_same_config_file(config_file, res_config.user_config_file, os.getcwd())
 
-            self.assertIsNotNone(res_config.site_config)
-            self.assertTrue(isinstance(res_config.site_config, SiteConfig))
+        self.assertIsNotNone(res_config.site_config)
+        self.assertTrue(isinstance(res_config.site_config, SiteConfig))
 
-            self.assertIsNotNone(res_config.analysis_config)
-            self.assertTrue(isinstance(res_config.analysis_config, AnalysisConfig))
+        self.assertIsNotNone(res_config.analysis_config)
+        self.assertTrue(isinstance(res_config.analysis_config, AnalysisConfig))
 
-            self.assertEqual( res_config.config_path , os.path.join( cwd , "simple_config"))
+        self.assertEqual( res_config.config_path , os.path.join( cwd , "simple_config"))
 
-            config_file = os.path.join( cwd, "simple_config/minimum_config")
-            res_config = ResConfig(user_config_file=config_file)
-            self.assertEqual( res_config.config_path , os.path.join( cwd , "simple_config"))
+        config_file = os.path.join( cwd, "simple_config/minimum_config")
+        res_config = ResConfig(user_config_file=config_file)
+        self.assertEqual( res_config.config_path , os.path.join( cwd , "simple_config"))
 
-            os.chdir("simple_config")
-            config_file = "minimum_config"
-            res_config = ResConfig(user_config_file=config_file)
-            self.assertEqual( res_config.config_path , os.path.join( cwd , "simple_config"))
+        os.chdir("simple_config")
+        config_file = "minimum_config"
+        res_config = ResConfig(user_config_file=config_file)
+        self.assertEqual( res_config.config_path , os.path.join( cwd , "simple_config"))
 
-            subst_config = res_config.subst_config
-            for t in subst_config:
-                print(t)
-            self.assertEqual( subst_config["<CONFIG_PATH>"], os.path.join( cwd , "simple_config"))
-
+        subst_config = res_config.subst_config
+        for t in subst_config:
+            print(t)
+        self.assertEqual( subst_config["<CONFIG_PATH>"], os.path.join( cwd , "simple_config"))
 
     def assert_same_config_file(self, expected_filename, filename, prefix):
         prefix_path = lambda fn: fn if os.path.isabs(fn) else os.path.join(prefix, fn)
@@ -581,37 +575,34 @@ class ResConfigTest(ResTest):
                 log_config.log_level
                 )
 
-    @tmpdir()
+    @tmpdir(local="snake_oil_structure")
     def test_extensive_config(self):
         self.set_up_snake_oil_structure()
 
-        with TestAreaContext("enkf_test_other_area") as work_area:
-            work_area.copy_directory(self.case_directory)
+        # Move to another directory
+        run_dir = "i/ll/camp/here"
+        os.makedirs(run_dir)
+        os.chdir(run_dir)
+        inv_run_dir = "/".join([".."] * len(run_dir.split("/")))
+        rel_config_file = os.path.join( inv_run_dir, self.config_file )
+        work_dir = os.path.split(rel_config_file)[0]
+        res_config = ResConfig(rel_config_file)
 
-            # Move to another directory
-            run_dir = "i/ll/camp/here"
-            os.makedirs(run_dir)
-            os.chdir(run_dir)
-            inv_run_dir = "/".join([".."] * len(run_dir.split("/")))
-            rel_config_file = os.path.join( inv_run_dir, self.config_file )
-            work_dir = os.path.split(rel_config_file)[0]
-            res_config = ResConfig(rel_config_file)
-
-            self.assert_model_config(res_config.model_config, config_data, work_dir)
-            self.assert_analysis_config(res_config.analysis_config, config_data)
-            self.assert_queue_config(res_config.queue_config, config_data)
-            self.assert_site_config(res_config.site_config, config_data, work_dir)
-            self.assert_ecl_config(res_config.ecl_config, config_data, work_dir)
-            self.assert_ensemble_config(res_config.ensemble_config, config_data, work_dir)
-            self.assert_hook_manager(res_config.hook_manager, config_data, work_dir)
-            self.assert_ert_workflow_list(res_config.ert_workflow_list, config_data, work_dir)
-            self.assert_rng_config(res_config.rng_config, config_data, work_dir)
-            self.assert_ert_templates(res_config.ert_templates, config_data, work_dir)
-            self.assert_log_config(res_config.log_config, config_data, work_dir)
+        self.assert_model_config(res_config.model_config, config_data, work_dir)
+        self.assert_analysis_config(res_config.analysis_config, config_data)
+        self.assert_queue_config(res_config.queue_config, config_data)
+        self.assert_site_config(res_config.site_config, config_data, work_dir)
+        self.assert_ecl_config(res_config.ecl_config, config_data, work_dir)
+        self.assert_ensemble_config(res_config.ensemble_config, config_data, work_dir)
+        self.assert_hook_manager(res_config.hook_manager, config_data, work_dir)
+        self.assert_ert_workflow_list(res_config.ert_workflow_list, config_data, work_dir)
+        self.assert_rng_config(res_config.rng_config, config_data, work_dir)
+        self.assert_ert_templates(res_config.ert_templates, config_data, work_dir)
+        self.assert_log_config(res_config.log_config, config_data, work_dir)
 
 
-            # TODO: Not tested
-            # - MIN_REALIZATIONS
+        # TODO: Not tested
+        # - MIN_REALIZATIONS
 
     @tmpdir()
     def test_missing_directory(self):
@@ -636,72 +627,69 @@ class ResConfigTest(ResTest):
         with self.assertRaises(IOError):
             ResConfig( config = config )
 
-    @tmpdir()
+    @tmpdir(local="snake_oil_structure")
     def test_res_config_dict_constructor(self):
         self.set_up_snake_oil_structure()
 
-        with TestAreaContext("enkf_test_other_area") as work_area:
-            work_area.copy_directory(self.case_directory)
+        #create script file
+        script_file = 'script.sh'
+        with open(script_file,'w') as f:
+            f.write("""#!/bin/sh\nls""")
 
-            #create script file
-            script_file = 'script.sh'
-            with open(script_file,'w') as f:
-                f.write("""#!/bin/sh\nls""")
+        st = os.stat(script_file)
+        os.chmod(script_file,  stat.S_IEXEC | st.st_mode)
 
-            st = os.stat(script_file)
-            os.chmod(script_file,  stat.S_IEXEC | st.st_mode)
-
-            # add a missing entries to config file
-            with open(self.config_file, 'a+') as ert_file:
-                ert_file.write("JOB_SCRIPT ../../../script.sh\n")
-                ert_file.write("END_DATE 10/10/2010\n")
+        # add a missing entries to config file
+        with open(self.config_file, 'a+') as ert_file:
+            ert_file.write("JOB_SCRIPT ../../../script.sh\n")
+            ert_file.write("END_DATE 10/10/2010\n")
 
 
-            #split config_file to path and filename
-            cfg_path, cfg_file = os.path.split(os.path.realpath(self.config_file))
+        #split config_file to path and filename
+        cfg_path, cfg_file = os.path.split(os.path.realpath(self.config_file))
 
-            # replace define keys only in root strings, this should be updated and validated in configsuite instead
-            for define_key in config_data_new[ConfigKeys.DEFINE_KEY]:
-                for data_key in config_data_new:
-                    if isinstance(config_data_new[data_key], str):
-                        config_data_new[data_key] = config_data_new[data_key].replace(
-                            define_key,
-                            config_data_new[ConfigKeys.DEFINE_KEY].get(define_key)
-                        )
+        # replace define keys only in root strings, this should be updated and validated in configsuite instead
+        for define_key in config_data_new[ConfigKeys.DEFINE_KEY]:
+            for data_key in config_data_new:
+                if isinstance(config_data_new[data_key], str):
+                    config_data_new[data_key] = config_data_new[data_key].replace(
+                        define_key,
+                        config_data_new[ConfigKeys.DEFINE_KEY].get(define_key)
+                    )
 
-            #change dir to actual location of cfg_file
-            os.chdir(cfg_path)
+        #change dir to actual location of cfg_file
+        os.chdir(cfg_path)
 
-            # load res_file
-            res_config_file = ResConfig(user_config_file=cfg_file)
+        # load res_file
+        res_config_file = ResConfig(user_config_file=cfg_file)
 
-            # get site_config location
-            ERT_SHARE_PATH = os.path.dirname(res_config_file.site_config.getLocation())
+        # get site_config location
+        ERT_SHARE_PATH = os.path.dirname(res_config_file.site_config.getLocation())
 
-            #update dictionary
-            #commit missing entries, this should be updated and validated in configsuite instead
-            config_data_new[ConfigKeys.CONFIG_FILE_KEY] = cfg_file
-            config_data_new[ConfigKeys.INSTALL_JOB_DIRECTORY] = [
-                ERT_SHARE_PATH + '/forward-models/res',
-                ERT_SHARE_PATH + '/forward-models/shell',
-                ERT_SHARE_PATH + '/forward-models/templating',
-                ERT_SHARE_PATH + '/forward-models/old_style'
-            ]
-            config_data_new[ConfigKeys.WORKFLOW_JOB_DIRECTORY] = [
-               ERT_SHARE_PATH + '/workflows/jobs/internal/config',
-               ERT_SHARE_PATH + '/workflows/jobs/internal-gui/config'
-            ]
-            for ip in config_data_new[ConfigKeys.INSTALL_JOB]:
-                ip[ConfigKeys.PATH] = os.path.realpath(ip[ConfigKeys.PATH])
+        #update dictionary
+        #commit missing entries, this should be updated and validated in configsuite instead
+        config_data_new[ConfigKeys.CONFIG_FILE_KEY] = cfg_file
+        config_data_new[ConfigKeys.INSTALL_JOB_DIRECTORY] = [
+            ERT_SHARE_PATH + '/forward-models/res',
+            ERT_SHARE_PATH + '/forward-models/shell',
+            ERT_SHARE_PATH + '/forward-models/templating',
+            ERT_SHARE_PATH + '/forward-models/old_style'
+        ]
+        config_data_new[ConfigKeys.WORKFLOW_JOB_DIRECTORY] = [
+           ERT_SHARE_PATH + '/workflows/jobs/internal/config',
+           ERT_SHARE_PATH + '/workflows/jobs/internal-gui/config'
+        ]
+        for ip in config_data_new[ConfigKeys.INSTALL_JOB]:
+            ip[ConfigKeys.PATH] = os.path.realpath(ip[ConfigKeys.PATH])
 
-            for ip in config_data_new[ConfigKeys.LOAD_WORKFLOW]:
-                ip[ConfigKeys.PATH] = os.path.realpath(ip[ConfigKeys.PATH])
-            for ip in config_data_new[ConfigKeys.LOAD_WORKFLOW_JOB]:
-                ip[ConfigKeys.PATH] = os.path.realpath(ip[ConfigKeys.PATH])
+        for ip in config_data_new[ConfigKeys.LOAD_WORKFLOW]:
+            ip[ConfigKeys.PATH] = os.path.realpath(ip[ConfigKeys.PATH])
+        for ip in config_data_new[ConfigKeys.LOAD_WORKFLOW_JOB]:
+            ip[ConfigKeys.PATH] = os.path.realpath(ip[ConfigKeys.PATH])
 
-            config_data_new[ConfigKeys.JOB_SCRIPT] = os.path.normpath(os.path.realpath(config_data_new[ConfigKeys.JOB_SCRIPT]))
+        config_data_new[ConfigKeys.JOB_SCRIPT] = os.path.normpath(os.path.realpath(config_data_new[ConfigKeys.JOB_SCRIPT]))
 
-            #open config via dictionary
-            res_config_dict = ResConfig(config_dict = config_data_new)
+        #open config via dictionary
+        res_config_dict = ResConfig(config_dict = config_data_new)
 
-            self.assertEqual(res_config_file, res_config_dict)
+        self.assertEqual(res_config_file, res_config_dict)

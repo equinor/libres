@@ -16,13 +16,14 @@
 import os
 
 from cwrap import Prototype, clib
-from ecl.util.test import TestAreaContext
 from tests import ResTest
 
 from res import load as resload
 from res.config import UnrecognizedEnum, SchemaItem
 from res.config import ContentTypeEnum, ContentItem, ContentNode
 from res.config import ConfigContent, ConfigParser, ConfigSettings
+
+from tests.utils import tmpdir
 
 
 class TestConfigPrototype(Prototype):
@@ -51,55 +52,52 @@ class ConfigTest(ResTest):
         self.assertEnumIsFullyDefined(ContentTypeEnum, "config_item_types", source_file_path)
         self.assertEnumIsFullyDefined(UnrecognizedEnum, "config_schema_unrecognized_enum", source_file_path)
 
-
+    @tmpdir()
     def test_item_types(self):
-        with TestAreaContext("config/types") as test_area:
-            with open("config", "w") as f:
-                f.write("TYPE_ITEM 10 3.14 TruE  String  file\n")
+        with open("config", "w") as f:
+            f.write("TYPE_ITEM 10 3.14 TruE  String  file\n")
 
-            conf = ConfigParser()
-            self.assertEqual(0, len(conf))
-            schema_item = conf.add("TYPE_ITEM", False)
-            schema_item.iset_type(0, ContentTypeEnum.CONFIG_INT)
-            schema_item.iset_type(1, ContentTypeEnum.CONFIG_FLOAT)
-            schema_item.iset_type(2, ContentTypeEnum.CONFIG_BOOL)
-            schema_item.iset_type(3, ContentTypeEnum.CONFIG_STRING)
-            schema_item.iset_type(4, ContentTypeEnum.CONFIG_PATH)
-            self.assertEqual(1, len(conf))
-            self.assertNotIn("TYPE_XX", conf)
-            self.assertIn("TYPE_ITEM", conf)
+        conf = ConfigParser()
+        self.assertEqual(0, len(conf))
+        schema_item = conf.add("TYPE_ITEM", False)
+        schema_item.iset_type(0, ContentTypeEnum.CONFIG_INT)
+        schema_item.iset_type(1, ContentTypeEnum.CONFIG_FLOAT)
+        schema_item.iset_type(2, ContentTypeEnum.CONFIG_BOOL)
+        schema_item.iset_type(3, ContentTypeEnum.CONFIG_STRING)
+        schema_item.iset_type(4, ContentTypeEnum.CONFIG_PATH)
+        self.assertEqual(1, len(conf))
+        self.assertNotIn("TYPE_XX", conf)
+        self.assertIn("TYPE_ITEM", conf)
 
-            content = conf.parse("config")
-            type_item = content["TYPE_ITEM"][0]
-            int_value = type_item[0]
-            self.assertEqual(int_value, 10)
-            self.assertEqual(type_item.igetString(0), "10")
+        content = conf.parse("config")
+        type_item = content["TYPE_ITEM"][0]
+        int_value = type_item[0]
+        self.assertEqual(int_value, 10)
+        self.assertEqual(type_item.igetString(0), "10")
 
-            float_value = type_item[1]
-            self.assertEqual(float_value, 3.14)
-            self.assertEqual(type_item.igetString(1), "3.14")
+        float_value = type_item[1]
+        self.assertEqual(float_value, 3.14)
+        self.assertEqual(type_item.igetString(1), "3.14")
 
-            bool_value = type_item[2]
-            self.assertEqual(bool_value, True)
-            self.assertEqual(type_item.igetString(2), "TruE")
+        bool_value = type_item[2]
+        self.assertEqual(bool_value, True)
+        self.assertEqual(type_item.igetString(2), "TruE")
 
-            string_value = type_item[3]
-            self.assertEqual(string_value, "String")
-            self.assertEqual(type_item.igetString(3), "String")
+        string_value = type_item[3]
+        self.assertEqual(string_value, "String")
+        self.assertEqual(type_item.igetString(3), "String")
 
-            path_value = type_item[4]
-            self.assertEqual(path_value, "file")
-            self.assertEqual(type_item.igetString(4), "file")
+        path_value = type_item[4]
+        self.assertEqual(path_value, "file")
+        self.assertEqual(type_item.igetString(4), "file")
 
-            # test __getitem__
-            self.assertTrue(conf['TYPE_ITEM'])
-            with self.assertRaises(KeyError):
-                _ = conf['TYPE_XX']
+        # test __getitem__
+        self.assertTrue(conf['TYPE_ITEM'])
+        with self.assertRaises(KeyError):
+            _ = conf['TYPE_XX']
 
-            self.assertIn('ConfigParser', repr(conf))
-            self.assertIn('size=1', repr(conf))
-
-
+        self.assertIn('ConfigParser', repr(conf))
+        self.assertIn('size=1', repr(conf))
 
     def test_parse(self):
         conf = ConfigParser()
@@ -134,65 +132,62 @@ class ConfigTest(ResTest):
             conf.parse("DoesNotExits")
 
 
+    @tmpdir()
     def test_parse_invalid(self):
         conf = ConfigParser()
         conf.add("INT", value_type=ContentTypeEnum.CONFIG_INT)
-        with TestAreaContext("config/parse2"):
-            with open("config","w") as fileH:
-                fileH.write("INT xx\n")
 
-            with self.assertRaises(ValueError):
-                conf.parse("config")
+        with open("config","w") as fileH:
+            fileH.write("INT xx\n")
 
-            content = conf.parse("config", validate=False)
-            self.assertFalse(content.isValid())
-            self.assertEqual(len(content.getErrors()), 1)
+        with self.assertRaises(ValueError):
+            conf.parse("config")
 
+        content = conf.parse("config", validate=False)
+        self.assertFalse(content.isValid())
+        self.assertEqual(len(content.getErrors()), 1)
 
+    @tmpdir()
     def test_parse_deprecated(self):
         conf = ConfigParser()
         item = conf.add("INT", value_type=ContentTypeEnum.CONFIG_INT)
         msg = "ITEM INT IS DEPRECATED"
         item.setDeprecated(msg)
-        with TestAreaContext("config/parse2"):
-            with open("config","w") as fileH:
-                fileH.write("INT 100\n")
 
-            content = conf.parse("config" )
-            self.assertTrue(content.isValid())
+        with open("config","w") as fileH:
+            fileH.write("INT 100\n")
 
-            warnings = content.getWarnings()
-            self.assertEqual(len(warnings), 1)
-            self.assertEqual(warnings[0], msg)
+        content = conf.parse("config" )
+        self.assertTrue(content.isValid())
+
+        warnings = content.getWarnings()
+        self.assertEqual(len(warnings), 1)
+        self.assertEqual(warnings[0], msg)
 
 
+    @tmpdir()
     def test_parse_dotdot_relative(self):
         conf = ConfigParser()
         schema_item = conf.add("EXECUTABLE", False)
         schema_item.iset_type(0, ContentTypeEnum.CONFIG_PATH)
 
+        os.makedirs("cwd/jobs")
+        os.makedirs("eclipse/bin")
+        script_path = os.path.join(os.getcwd(), "eclipse/bin/script.sh")
+        with open(script_path,"w") as f:
+            f.write("This is a test script")
 
-        with TestAreaContext("config/parse_dotdot"):
-            os.makedirs("cwd/jobs")
-            os.makedirs("eclipse/bin")
-            script_path = os.path.join(os.getcwd(), "eclipse/bin/script.sh")
-            with open(script_path,"w") as f:
-                f.write("This is a test script")
+        with open("cwd/jobs/JOB","w") as fileH:
+            fileH.write("EXECUTABLE ../../eclipse/bin/script.sh\n")
 
-            with open("cwd/jobs/JOB","w") as fileH:
-                fileH.write("EXECUTABLE ../../eclipse/bin/script.sh\n")
+        os.makedirs("cwd/ert")
+        os.chdir("cwd/ert")
+        content = conf.parse("../jobs/JOB")
+        item = content["EXECUTABLE"]
+        node = item[0]
+        self.assertEqual(script_path, node.getPath())
 
-            os.makedirs("cwd/ert")
-            os.chdir("cwd/ert")
-            content = conf.parse("../jobs/JOB")
-            item = content["EXECUTABLE"]
-            node = item[0]
-            self.assertEqual(script_path, node.getPath())
-
-
-
-
-
+    @tmpdir()
     def test_parser_content(self):
         conf = ConfigParser()
         conf.add("KEY2", False)
@@ -203,100 +198,96 @@ class ConfigTest(ResTest):
         schema_item.iset_type(5, ContentTypeEnum.CONFIG_PATH)
         schema_item = conf.add("NOT_IN_CONTENT", False)
 
+        with open("config","w") as fileH:
+            fileH.write("KEY VALUE1 VALUE2 100  True  3.14  path/file.txt\n")
 
-        with TestAreaContext("config/parse2"):
-            with open("config","w") as fileH:
-                fileH.write("KEY VALUE1 VALUE2 100  True  3.14  path/file.txt\n")
-
-            cwd0 = os.getcwd()
-            os.makedirs("tmp")
-            os.chdir("tmp")
-            content = conf.parse("../config")
-            d = content.as_dict()
-            self.assertTrue(content.isValid())
-            self.assertTrue("KEY" in content)
-            self.assertFalse("NOKEY" in content)
-            self.assertEqual( cwd0, content.get_config_path( ))
+        cwd0 = os.getcwd()
+        os.makedirs("tmp")
+        os.chdir("tmp")
+        content = conf.parse("../config")
+        d = content.as_dict()
+        self.assertTrue(content.isValid())
+        self.assertTrue("KEY" in content)
+        self.assertFalse("NOKEY" in content)
+        self.assertEqual( cwd0, content.get_config_path( ))
 
 
-            keys = content.keys()
-            self.assertEqual(len(keys), 1)
-            self.assertIn("KEY", keys)
-            d = content.as_dict()
-            self.assertIn("KEY", d)
-            item_list = d["KEY"]
-            self.assertEqual(len(item_list), 1)
-            l = item_list[0]
-            self.assertEqual(l[0], "VALUE1")
-            self.assertEqual(l[1], "VALUE2")
-            self.assertEqual(l[2], 100)
-            self.assertEqual(l[3], True)
-            self.assertEqual(l[4], 3.14)
-            self.assertEqual(l[5], "../path/file.txt")
+        keys = content.keys()
+        self.assertEqual(len(keys), 1)
+        self.assertIn("KEY", keys)
+        d = content.as_dict()
+        self.assertIn("KEY", d)
+        item_list = d["KEY"]
+        self.assertEqual(len(item_list), 1)
+        l = item_list[0]
+        self.assertEqual(l[0], "VALUE1")
+        self.assertEqual(l[1], "VALUE2")
+        self.assertEqual(l[2], 100)
+        self.assertEqual(l[3], True)
+        self.assertEqual(l[4], 3.14)
+        self.assertEqual(l[5], "../path/file.txt")
 
-            self.assertFalse("NOT_IN_CONTENT" in content)
-            item = content["NOT_IN_CONTENT"]
-            self.assertEqual(len(item), 0)
+        self.assertFalse("NOT_IN_CONTENT" in content)
+        item = content["NOT_IN_CONTENT"]
+        self.assertEqual(len(item), 0)
 
-            with self.assertRaises(KeyError):
-                content["Nokey"]
+        with self.assertRaises(KeyError):
+            content["Nokey"]
 
-            item = content["KEY"]
-            self.assertEqual(len(item), 1)
-
-
-            line = item[0]
-            with self.assertRaises(TypeError):
-                line.getPath(4)
-
-            with self.assertRaises(TypeError):
-                line.getPath()
+        item = content["KEY"]
+        self.assertEqual(len(item), 1)
 
 
-            rel_path = line.getPath(index=5, absolute=False)
-            self.assertEqual(rel_path, "../path/file.txt")
-            get = line[5]
-            self.assertEqual(get, "../path/file.txt")
-            abs_path = line.getPath(index=5)
-            self.assertEqual(abs_path, os.path.join(cwd0, "path/file.txt"))
+        line = item[0]
+        with self.assertRaises(TypeError):
+            line.getPath(4)
 
-            rel_path = line.getPath(index=5, absolute=False, relative_start="../")
-            self.assertEqual(rel_path, "path/file.txt")
+        with self.assertRaises(TypeError):
+            line.getPath()
 
 
-            with self.assertRaises(IndexError):
-                item[10]
+        rel_path = line.getPath(index=5, absolute=False)
+        self.assertEqual(rel_path, "../path/file.txt")
+        get = line[5]
+        self.assertEqual(get, "../path/file.txt")
+        abs_path = line.getPath(index=5)
+        self.assertEqual(abs_path, os.path.join(cwd0, "path/file.txt"))
 
-            node = item[0]
-            self.assertEqual(len(node), 6)
-            with self.assertRaises(IndexError):
-                node[6]
-
-            self.assertEqual(node[0], "VALUE1")
-            self.assertEqual(node[1], "VALUE2")
-            self.assertEqual(node[2], 100)
-            self.assertEqual(node[3], True)
-            self.assertEqual(node[4], 3.14)
-
-            self.assertEqual(content.getValue("KEY", 0, 1), "VALUE2")
-            self.assertEqual(_iget(content, "KEY", 0, 1), "VALUE2")
-
-            self.assertEqual(content.getValue("KEY", 0, 2), 100)
-            self.assertEqual(_iget_as_int(content, "KEY", 0, 2), 100)
-
-            self.assertEqual(content.getValue("KEY", 0, 3), True)
-            self.assertEqual(_iget_as_bool(content, "KEY", 0, 3), True)
-
-            self.assertEqual(content.getValue("KEY", 0, 4), 3.14)
-            self.assertEqual(_iget_as_double(content, "KEY", 0, 4), 3.14)
-
-            self.assertIsNone(_safe_iget(content, "KEY2", 0, 0))
-
-            self.assertEqual( _get_occurences(content, "KEY2"), 0)
-            self.assertEqual( _get_occurences(content, "KEY"), 1)
-            self.assertEqual( _get_occurences(content, "MISSING-KEY"), 0)
+        rel_path = line.getPath(index=5, absolute=False, relative_start="../")
+        self.assertEqual(rel_path, "path/file.txt")
 
 
+        with self.assertRaises(IndexError):
+            item[10]
+
+        node = item[0]
+        self.assertEqual(len(node), 6)
+        with self.assertRaises(IndexError):
+            node[6]
+
+        self.assertEqual(node[0], "VALUE1")
+        self.assertEqual(node[1], "VALUE2")
+        self.assertEqual(node[2], 100)
+        self.assertEqual(node[3], True)
+        self.assertEqual(node[4], 3.14)
+
+        self.assertEqual(content.getValue("KEY", 0, 1), "VALUE2")
+        self.assertEqual(_iget(content, "KEY", 0, 1), "VALUE2")
+
+        self.assertEqual(content.getValue("KEY", 0, 2), 100)
+        self.assertEqual(_iget_as_int(content, "KEY", 0, 2), 100)
+
+        self.assertEqual(content.getValue("KEY", 0, 3), True)
+        self.assertEqual(_iget_as_bool(content, "KEY", 0, 3), True)
+
+        self.assertEqual(content.getValue("KEY", 0, 4), 3.14)
+        self.assertEqual(_iget_as_double(content, "KEY", 0, 4), 3.14)
+
+        self.assertIsNone(_safe_iget(content, "KEY2", 0, 0))
+
+        self.assertEqual( _get_occurences(content, "KEY2"), 0)
+        self.assertEqual( _get_occurences(content, "KEY"), 1)
+        self.assertEqual( _get_occurences(content, "MISSING-KEY"), 0)
 
     def test_schema(self):
         schema_item = SchemaItem("TestItem")
@@ -306,12 +297,9 @@ class ConfigTest(ResTest):
         self.assertEqual(schema_item.iget_type(0), ContentTypeEnum.CONFIG_INT)
         schema_item.set_argc_minmax(3, 6)
 
-
         del schema_item
 
-
-
-
+    @tmpdir()
     def test_settings(self):
         cs = ConfigSettings("SETTINGS")
 
@@ -338,15 +326,15 @@ class ConfigTest(ResTest):
         cs.addSetting("C", ContentTypeEnum.CONFIG_INT, 1)
         cs.initParser(parser)
 
+        with open("config","w") as fileH:
+            fileH.write("SETTINGS A 100\n")
+            fileH.write("SETTINGS B 200\n")
+            fileH.write("SETTINGS C 300\n")
 
-        with TestAreaContext("config/parse3"):
-            with open("config","w") as fileH:
-                fileH.write("SETTINGS A 100\n")
-                fileH.write("SETTINGS B 200\n")
-                fileH.write("SETTINGS C 300\n")
+        content = parser.parse("config")
 
-            content = parser.parse("config")
         cs.apply(content)
+
         self.assertEqual(cs["A"], 100)
         self.assertEqual(cs["B"], 200)
         self.assertEqual(cs["C"], 300)
@@ -368,14 +356,13 @@ class ConfigTest(ResTest):
         cs.addBoolSetting("D",  True)
         cs.initParser(parser)
 
-        with TestAreaContext("config/parse4"):
-            with open("config","w") as fileH:
-                fileH.write("SETTINGS A 100.1\n")
-                fileH.write("SETTINGS B 200\n")
-                fileH.write("SETTINGS C 300\n")
-                fileH.write("SETTINGS D False\n")
+        with open("config","w") as fileH:
+            fileH.write("SETTINGS A 100.1\n")
+            fileH.write("SETTINGS B 200\n")
+            fileH.write("SETTINGS C 300\n")
+            fileH.write("SETTINGS D False\n")
 
-            content = parser.parse("config")
+        content = parser.parse("config")
 
         cs.apply(content)
         self.assertEqual(cs["A"], 100.1)
@@ -386,17 +373,16 @@ class ConfigTest(ResTest):
         with self.assertRaises(Exception):
             cs["A"] = "Hei"
 
-
+    @tmpdir()
     def test_add_unknown_keyowrds(self):
         parser = ConfigParser( )
-        with TestAreaContext("config/parse4"):
-            with open("config","w") as fileH:
-                fileH.write("SETTINGS A 100.1\n")
-                fileH.write("SETTINGS B 200  STRING1 STRING2\n")
-                fileH.write("SETTINGS C 300\n")
-                fileH.write("SETTINGS D False\n")
+        with open("config","w") as fileH:
+            fileH.write("SETTINGS A 100.1\n")
+            fileH.write("SETTINGS B 200  STRING1 STRING2\n")
+            fileH.write("SETTINGS C 300\n")
+            fileH.write("SETTINGS D False\n")
 
-            content = parser.parse("config", unrecognized=UnrecognizedEnum.CONFIG_UNRECOGNIZED_ADD)
+        content = parser.parse("config", unrecognized=UnrecognizedEnum.CONFIG_UNRECOGNIZED_ADD)
 
         self.assertIn("SETTINGS", content)
         item = content["SETTINGS"]
@@ -415,14 +401,13 @@ class ConfigTest(ResTest):
 
         self.assertEqual(len(content), 4)
 
-
+    @tmpdir()
     def test_valid_string_runtime_file(self):
-        with TestAreaContext("assert_runtime_file"):
-            with open("some_file" , "w") as f:
-                f.write("This i.")
-            self.assertTrue(ContentTypeEnum.CONFIG_RUNTIME_FILE.valid_string("no_file"))
-            self.assertTrue(ContentTypeEnum.CONFIG_RUNTIME_FILE.valid_string("some_file", True))
-            self.assertFalse(ContentTypeEnum.CONFIG_RUNTIME_FILE.valid_string("no_file", True))
+        with open("some_file" , "w") as f:
+            f.write("This i.")
+        self.assertTrue(ContentTypeEnum.CONFIG_RUNTIME_FILE.valid_string("no_file"))
+        self.assertTrue(ContentTypeEnum.CONFIG_RUNTIME_FILE.valid_string("some_file", True))
+        self.assertFalse(ContentTypeEnum.CONFIG_RUNTIME_FILE.valid_string("no_file", True))
 
     def test_valid_string(self):
         self.assertTrue(ContentTypeEnum.CONFIG_FLOAT.valid_string("1.25"))

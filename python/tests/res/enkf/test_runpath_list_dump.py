@@ -1,7 +1,6 @@
 import unittest, os
 import itertools
 
-from ecl.util.test import TestAreaContext
 from tests import ResTest
 from tests.utils import tmpdir
 from res.test import ErtTestContext

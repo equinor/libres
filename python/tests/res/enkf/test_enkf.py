@@ -35,9 +35,6 @@ from res.enkf.observations.summary_observation import SummaryObservation
 from tests.utils import tmpdir
 
 class EnKFTest(ResTest):
-    case_directory           = ResTest.createTestPath("local/simple_config/")
-    case_directory_custom_kw = ResTest.createTestPath("local/snake_oil/")
-
     @tmpdir(local="simple_config")
     def test_repr( self ):
         res_config = ResConfig("simple_config/minimum_config")
