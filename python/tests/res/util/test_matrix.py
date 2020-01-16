@@ -1,8 +1,7 @@
 from ecl.util.util import RandomNumberGenerator
 from ecl.util.enums import RngAlgTypeEnum, RngInitModeEnum
-from ecl.util.test import TestAreaContext
 from res.util import Matrix
-from tests import ResTest
+from tests import ResTest, tmpdir
 from cwrap import CFILE, BaseCClass, load, open as copen
 
 class MatrixTest(ResTest):
@@ -103,6 +102,7 @@ class MatrixTest(ResTest):
 
         self.assertEqual(m, r)
 
+    @tmpdir()
     def test_str(self):
         m = Matrix(2, 2)
         s = "%s" % m
@@ -111,21 +111,19 @@ class MatrixTest(ResTest):
         m[0,1] = 1
         m[1,0] = 2
         m[1,1] = 3
-        
-        with TestAreaContext("matrix_fprint"):
-            with copen("matrix.txt", "w") as f:
-                m.fprint( f )
 
-            with open("matrix.txt") as f:
-                l1 = [ float(x) for x in f.readline().split()]
-                l2 = [ float(x) for x in f.readline().split()]
+        with copen("matrix.txt", "w") as f:
+            m.fprint( f )
 
-            self.assertEqual( l1[0] , m[0,0])
-            self.assertEqual( l1[1] , m[0,1])
-            self.assertEqual( l2[0] , m[1,0])
-            self.assertEqual( l2[1] , m[1,1])
+        with open("matrix.txt") as f:
+            l1 = [ float(x) for x in f.readline().split()]
+            l2 = [ float(x) for x in f.readline().split()]
 
-            
+        self.assertEqual( l1[0] , m[0,0])
+        self.assertEqual( l1[1] , m[0,1])
+        self.assertEqual( l2[0] , m[1,0])
+        self.assertEqual( l2[1] , m[1,1])
+
     def test_copy_equal(self):
         m1 = Matrix(2, 2)
         m1[0,0] = 0
@@ -220,12 +218,12 @@ class MatrixTest(ResTest):
         self.assertEqual( m2[2,2] , 41 )
         
 
+    @tmpdir()
     def test_csv(self):
         m = Matrix(2, 2)
         m[0, 0] = 2
         m[1, 1] = 4
-        with TestAreaContext("matrix_csv"):
-            m.dumpCSV("matrix.csv")
+        m.dumpCSV("matrix.csv")
 
     def test_identity(self):
         m1 = Matrix.identity(1)

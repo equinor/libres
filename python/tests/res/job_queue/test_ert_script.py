@@ -1,6 +1,5 @@
 from res.job_queue import ErtScript
-from ecl.util.test import TestAreaContext
-from tests import ResTest
+from tests import ResTest, tmpdir
 from .workflow_common import WorkflowCommon
 
 
@@ -58,23 +57,21 @@ class ErtScriptTest(ResTest):
         with self.assertRaises(UserWarning):
             script = FailScript("ert")
 
-
+    @tmpdir()
     def test_ert_script_from_file(self):
-        with TestAreaContext("python/job_queue/ert_script") as work_area:
-            ErtScriptTest.createScripts()
+        ErtScriptTest.createScripts()
 
-            script_object = ErtScript.loadScriptFromFile("subtract_script.py")
+        script_object = ErtScript.loadScriptFromFile("subtract_script.py")
 
-            script = script_object("ert")
-            result = script.initializeAndRun([int, int], ["1", "2"])
-            self.assertEqual(result, -1)
+        script = script_object("ert")
+        result = script.initializeAndRun([int, int], ["1", "2"])
+        self.assertEqual(result, -1)
 
 
-            # with self.assertRaises(ErtScriptError):
-            self.assertIsNone(ErtScript.loadScriptFromFile("syntax_error_script.py"))
-            self.assertIsNone(ErtScript.loadScriptFromFile("import_error_script.py"))
-            self.assertIsNone(ErtScript.loadScriptFromFile("empty_script.py"))
-
+        # with self.assertRaises(ErtScriptError):
+        self.assertIsNone(ErtScript.loadScriptFromFile("syntax_error_script.py"))
+        self.assertIsNone(ErtScript.loadScriptFromFile("import_error_script.py"))
+        self.assertIsNone(ErtScript.loadScriptFromFile("empty_script.py"))
 
     def test_none_ert_script(self):
         #Check if None is not converted to string "None"

@@ -1,12 +1,13 @@
 from res.enkf.key_manager import KeyManager
 from res.test import ErtTestContext
 
-from tests import ResTest
+from tests import ResTest, tmpdir
 
 class KeyManagerTest(ResTest):
     def setUp(self):
-        self.config_file = self.createTestPath("local/snake_oil/snake_oil.ert")
+        self.config_file = "snake_oil/snake_oil.ert"
 
+    @tmpdir(local="snake_oil")
     def test_summary_keys(self):
         with ErtTestContext("enkf_key_manager_test", self.config_file) as testContext:
             ert = testContext.getErt()
@@ -19,7 +20,7 @@ class KeyManagerTest(ResTest):
             self.assertTrue("FOPR" in key_man.summaryKeysWithObservations())
             self.assertTrue(key_man.isKeyWithObservations("FOPR"))
 
-
+    @tmpdir(local="snake_oil")
     def test_gen_data_keys(self):
         with ErtTestContext("enkf_key_manager_test", self.config_file) as testContext:
             ert = testContext.getErt()
@@ -32,6 +33,7 @@ class KeyManagerTest(ResTest):
             self.assertTrue("SNAKE_OIL_WPR_DIFF@199" in key_man.genDataKeysWithObservations())
             self.assertTrue(key_man.isKeyWithObservations("SNAKE_OIL_WPR_DIFF@199"))
 
+    @tmpdir(local="snake_oil")
     def test_custom_keys(self):
         with ErtTestContext("enkf_key_manager_test", self.config_file) as testContext:
             ert = testContext.getErt()
@@ -40,6 +42,7 @@ class KeyManagerTest(ResTest):
             self.assertEqual( len(key_man.customKwKeys()), 2)
             self.assertTrue("SNAKE_OIL_NPV:NPV" in key_man.customKwKeys())
 
+    @tmpdir(local="snake_oil")
     def test_gen_kw_keys(self):
         with ErtTestContext("enkf_key_manager_test", self.config_file) as testContext:
             ert = testContext.getErt()

@@ -1,5 +1,4 @@
 
-from ecl.util.test import TestAreaContext
 from tests import ResTest
 from tests.utils import tmpdir
 from res.fm.templating import *
@@ -40,38 +39,36 @@ class TemplatingTest(ResTest):
 
     @tmpdir()
     def test_render_invalid(self):
-        with TestAreaContext("templating") as tac:
+        prod_wells = { 'PROD%d' % idx: 0.3*idx for idx in range(4) }
+        prod_in = 'well_drill.json'
+        with open(prod_in, 'w') as fout:
+            json.dump(prod_wells, fout)
+        with open('parameters.json', 'w') as fout:
+            json.dump(self.default_parameters, fout)
+        with open('template_file','w') as fout:
+            fout.write(self.well_drill_tmpl)
 
-            prod_wells = { 'PROD%d' % idx: 0.3*idx for idx in range(4) }
-            prod_in = 'well_drill.json'
-            with open(prod_in, 'w') as fout:
-                json.dump(prod_wells, fout)
-            with open('parameters.json', 'w') as fout:
-                json.dump(self.default_parameters, fout)
-            with open('template_file','w') as fout:
-                fout.write(self.well_drill_tmpl)
+        wells_out = 'wells.out'
 
-            wells_out = 'wells.out'
+        #undefined template elements
+        with self.assertRaises(jinja2.exceptions.UndefinedError):
+            render_template(None, 'template_file', wells_out)
 
-            #undefined template elements
-            with self.assertRaises(jinja2.exceptions.UndefinedError):
-                render_template(None, 'template_file', wells_out)
+        #file not found
+        with self.assertRaises(ValueError):
+            render_template(2*prod_in, 'template_file', wells_out)
 
-            #file not found
-            with self.assertRaises(ValueError):
-                render_template(2*prod_in, 'template_file', wells_out)
+        #no template file
+        with self.assertRaises(TypeError):
+            render_template(prod_in, None, wells_out)
 
-            #no template file
-            with self.assertRaises(TypeError):
-                render_template(prod_in, None, wells_out)
+        #templatefile not found
+        with self.assertRaises(ValueError):
+            render_template(prod_in, 'template_file'+'nogo', wells_out)
 
-            #templatefile not found
-            with self.assertRaises(ValueError):
-                render_template(prod_in, 'template_file'+'nogo', wells_out)
-
-            #no output file
-            with self.assertRaises(TypeError):
-                render_template(prod_in, 'template_file', None)
+        #no output file
+        with self.assertRaises(TypeError):
+            render_template(prod_in, 'template_file', None)
 
     @tmpdir()
     def test_render(self):
@@ -141,41 +138,38 @@ class TemplatingTest(ResTest):
 
     @tmpdir()
     def test_template_executable(self):
-        with TestAreaContext("templating") as tac:
-            with open("template", 'w') as template_file:
-                template_file.write("FILENAME\n"+\
-                                    "F1 {{parameters.key1.subkey1}}\n" +\
-                                    "F2 {{other.key1.subkey1}}")
+        with open("template", 'w') as template_file:
+            template_file.write("FILENAME\n"+\
+                                "F1 {{parameters.key1.subkey1}}\n" +\
+                                "F2 {{other.key1.subkey1}}")
 
-            with open("parameters.json", 'w') as json_file:
-                json_file.write(json.dumps(self.default_parameters))
+        with open("parameters.json", 'w') as json_file:
+            json_file.write(json.dumps(self.default_parameters))
 
-            with open("other.json", 'w') as json_file:
-                parameters = {
-                    "key1":{
-                        "subkey1":200,
-                    }
+        with open("other.json", 'w') as json_file:
+            parameters = {
+                "key1":{
+                    "subkey1":200,
                 }
-                json_file.write(json.dumps(parameters))
+            }
+            json_file.write(json.dumps(parameters))
 
-            params = ' --output_file out_file --template_file template --input_files other.json'
-            template_render_exec = os.path.join(self.SOURCE_ROOT, 'share/ert/forward-models/templating/script/template_render')
+        params = ' --output_file out_file --template_file template --input_files other.json'
+        template_render_exec = os.path.join(self.SOURCE_ROOT, 'share/ert/forward-models/templating/script/template_render')
 
-            subprocess.call(template_render_exec +  params, shell=True,stdout=subprocess.PIPE)
+        subprocess.call(template_render_exec +  params, shell=True,stdout=subprocess.PIPE)
 
-            with open("out_file", 'r') as parameter_file:
-                expected_output = "FILENAME\n"+ \
-                                  "F1 1999.22\n"+ \
-                                  "F2 200"
-                self.assertEqual(parameter_file.read(), expected_output)
+        with open("out_file", 'r') as parameter_file:
+            expected_output = "FILENAME\n"+ \
+                              "F1 1999.22\n"+ \
+                              "F2 200"
+            self.assertEqual(parameter_file.read(), expected_output)
 
     @tmpdir()
     def test_load_parameters(self):
+        with open("parameters.json", 'w') as json_file:
+            json_file.write(json.dumps(self.default_parameters))
 
-        with TestAreaContext("templating") as tac:
-            with open("parameters.json", 'w') as json_file:
-                json_file.write(json.dumps(self.default_parameters))
+        input_parameters = load_parameters()
 
-            input_parameters = load_parameters()
-
-            self.assertEqual(input_parameters, self.default_parameters)
+        self.assertEqual(input_parameters, self.default_parameters)

@@ -2,9 +2,8 @@ import os.path
 import datetime
 import json
 
-from ecl.util.test import TestAreaContext
 from ecl.util.util import EclVersion, Version
-from tests import ResTest
+from tests import ResTest, tmpdir
 from res.util.substitution_list import SubstitutionList
 from res.job_queue.environment_varlist import EnvironmentVarlist
 from res.job_queue.forward_model import ForwardModel
@@ -360,65 +359,63 @@ class ForwardModelFormattedPrintTest(ResTest):
             job["argList"] = arg_list_back_up
             job["name"] = name_back_up
 
+    @tmpdir()
     def test_no_jobs(self):
-        with TestAreaContext("python/job_queue/forward_model_no_jobs"):
-            forward_model = self.set_up_forward_model([])
-            run_id = "test_no_jobs_id"
-            umask = 4
-            global_args = SubstitutionList()
-            varlist = EnvironmentVarlist()
-            forward_model.formatted_fprintf(
-                run_id,
-                os.getcwd(),
-                "data_root",
-                global_args,
-                umask,
-                varlist)
+        forward_model = self.set_up_forward_model([])
+        run_id = "test_no_jobs_id"
+        umask = 4
+        global_args = SubstitutionList()
+        varlist = EnvironmentVarlist()
+        forward_model.formatted_fprintf(
+            run_id,
+            os.getcwd(),
+            "data_root",
+            global_args,
+            umask,
+            varlist)
 
-            self.verify_json_dump([], global_args, umask, run_id)
+        self.verify_json_dump([], global_args, umask, run_id)
 
+    @tmpdir()
     def test_transfer_arg_types(self):
-        with TestAreaContext("python/job_queue/forward_model_transfer_arg_types"):
-            with open("FWD_MODEL" , "w") as f:
-               f.write("EXECUTABLE ls\n")
-               f.write("MIN_ARG 2\n")
-               f.write("MAX_ARG 6\n")
-               f.write("ARG_TYPE 0 INT\n")
-               f.write("ARG_TYPE 1 FLOAT\n")
-               f.write("ARG_TYPE 2 STRING\n")
-               f.write("ARG_TYPE 3 BOOL\n")
-               f.write("ARG_TYPE 4 RUNTIME_FILE\n")
-               f.write("ARG_TYPE 5 RUNTIME_INT\n")
-               f.write("ENV KEY1 VALUE2\n")
-               f.write("ENV KEY2 VALUE2\n")
+        with open("FWD_MODEL" , "w") as f:
+           f.write("EXECUTABLE ls\n")
+           f.write("MIN_ARG 2\n")
+           f.write("MAX_ARG 6\n")
+           f.write("ARG_TYPE 0 INT\n")
+           f.write("ARG_TYPE 1 FLOAT\n")
+           f.write("ARG_TYPE 2 STRING\n")
+           f.write("ARG_TYPE 3 BOOL\n")
+           f.write("ARG_TYPE 4 RUNTIME_FILE\n")
+           f.write("ARG_TYPE 5 RUNTIME_INT\n")
+           f.write("ENV KEY1 VALUE2\n")
+           f.write("ENV KEY2 VALUE2\n")
 
-            job = ExtJob("FWD_MODEL" , True)
+        job = ExtJob("FWD_MODEL" , True)
 
-            ext_joblist = ExtJoblist()
-            ext_joblist.add_job(job.name(), job)
-            forward_model = ForwardModel(ext_joblist)
-            forward_model.add_job("FWD_MODEL")
+        ext_joblist = ExtJoblist()
+        ext_joblist.add_job(job.name(), job)
+        forward_model = ForwardModel(ext_joblist)
+        forward_model.add_job("FWD_MODEL")
 
-            run_id = "test_no_jobs_id"
-            umask = 4
-            global_args = SubstitutionList()
+        run_id = "test_no_jobs_id"
+        umask = 4
+        global_args = SubstitutionList()
 
-            forward_model.formatted_fprintf(
-                run_id,
-                os.getcwd(),
-                "data_root",
-                global_args,
-                umask,
-                EnvironmentVarlist())
-            config = load_configs(self.JOBS_JSON_FILE)
-            printed_job = config["jobList"][0]
-            self.assertEqual(printed_job["min_arg"], 2)
-            self.assertEqual(printed_job["max_arg"], 6)
-            self.assertEqual(printed_job["arg_types"], ["INT", "FLOAT", "STRING", "BOOL", "RUNTIME_FILE", "RUNTIME_INT"])
+        forward_model.formatted_fprintf(
+            run_id,
+            os.getcwd(),
+            "data_root",
+            global_args,
+            umask,
+            EnvironmentVarlist())
+        config = load_configs(self.JOBS_JSON_FILE)
+        printed_job = config["jobList"][0]
+        self.assertEqual(printed_job["min_arg"], 2)
+        self.assertEqual(printed_job["max_arg"], 6)
+        self.assertEqual(printed_job["arg_types"], ["INT", "FLOAT", "STRING", "BOOL", "RUNTIME_FILE", "RUNTIME_INT"])
 
-
-
-
+    @tmpdir()
     def test_env_varlist(self):
         varlist_string = "global_environment"
         update_string  = "global_update_path"
@@ -434,11 +431,38 @@ class ForwardModelFormattedPrintTest(ResTest):
         varlist[second] = second_value
         varlist[third] = third_value
         self.assertEqual(len(varlist), 3)
-        with TestAreaContext("python/job_queue/env_varlist"):
-            forward_model = self.set_up_forward_model([])
-            run_id = "test_no_jobs_id"
-            umask = 4
+
+        forward_model = self.set_up_forward_model([])
+        run_id = "test_no_jobs_id"
+        umask = 4
+        global_args = SubstitutionList()
+        forward_model.formatted_fprintf(
+            run_id,
+            os.getcwd(),
+            "data_root",
+            global_args,
+            umask,
+            varlist)
+        config = load_configs(self.JOBS_JSON_FILE)
+        env_config = config[varlist_string]
+        self.assertEqual(first_value, env_config[first]  )
+        self.assertEqual(second_value, env_config[second] )
+        self.assertEqual(third_value_correct, env_config[third])
+        update_config = config[update_string]
+
+    @tmpdir()
+    def test_repr(self):
+        forward_model = self.set_up_forward_model()
+        self.assertTrue(repr(forward_model).startswith('ForwardModel'))
+
+    @tmpdir()
+    def test_one_job(self):
+        for i in range(len(joblist)):
+            forward_model = self.set_up_forward_model([i])
+            run_id = "test_one_job"
+            umask = 11
             global_args = SubstitutionList()
+            varlist = EnvironmentVarlist()
             forward_model.formatted_fprintf(
                 run_id,
                 os.getcwd(),
@@ -446,37 +470,8 @@ class ForwardModelFormattedPrintTest(ResTest):
                 global_args,
                 umask,
                 varlist)
-            config = load_configs(self.JOBS_JSON_FILE)
-            env_config = config[varlist_string]
-            self.assertEqual(first_value, env_config[first]  )
-            self.assertEqual(second_value, env_config[second] )
-            self.assertEqual(third_value_correct, env_config[third])
-            update_config = config[update_string]
 
-
-
-    def test_repr(self):
-        with TestAreaContext("python/job_queue/forward_model_one_job"):
-            forward_model = self.set_up_forward_model()
-            self.assertTrue(repr(forward_model).startswith('ForwardModel'))
-
-    def test_one_job(self):
-        with TestAreaContext("python/job_queue/forward_model_one_job"):
-            for i in range(len(joblist)):
-                forward_model = self.set_up_forward_model([i])
-                run_id = "test_one_job"
-                umask = 11
-                global_args = SubstitutionList()
-                varlist = EnvironmentVarlist()
-                forward_model.formatted_fprintf(
-                    run_id,
-                    os.getcwd(),
-                    "data_root",
-                    global_args,
-                    umask,
-                    varlist)
-
-                self.verify_json_dump([i], global_args, umask, run_id)
+            self.verify_json_dump([i], global_args, umask, run_id)
 
     def run_all(self):
         forward_model = self.set_up_forward_model(range(len(joblist)))
@@ -494,25 +489,25 @@ class ForwardModelFormattedPrintTest(ResTest):
 
         self.verify_json_dump(range(len(joblist)), global_args, umask, run_id)
 
+    @tmpdir()
     def test_all_jobs(self):
-        with TestAreaContext("python/job_queue/forward_model_all"):
-            self.run_all()
+        self.run_all()
 
+    @tmpdir()
     def test_name_none(self):
-        with TestAreaContext("python/job_queue/forward_model_no_name"):
-            name_back_up = joblist[0]["name"]
-            license_path_back_up = joblist[0]["license_path"]
+        name_back_up = joblist[0]["name"]
+        license_path_back_up = joblist[0]["license_path"]
 
-            joblist[0]["name"] = None
-            joblist[0]["license_path"] = os.path.join(
-                    get_license_root_path(joblist[0]["license_path"]),
-                    DEFAULT_NAME
-                    )
+        joblist[0]["name"] = None
+        joblist[0]["license_path"] = os.path.join(
+                get_license_root_path(joblist[0]["license_path"]),
+                DEFAULT_NAME
+                )
 
-            self.run_all()
+        self.run_all()
 
-            joblist[0]["name"] = name_back_up
-            joblist[0]["license_path"] = license_path_back_up
+        joblist[0]["name"] = name_back_up
+        joblist[0]["license_path"] = license_path_back_up
 
     def test_various_null_fields(self):
         for key in [
@@ -525,35 +520,37 @@ class ForwardModelFormattedPrintTest(ResTest):
             "argList",
             "environment",
             "stdin"
-            ]:
-                with TestAreaContext("python/job_queue/forward_model_none_" + key):
-                    back_up = joblist[0][key]
-                    joblist[0][key] = None
-                    self.run_all()
-                    joblist[0][key] = back_up
+        ]:
+            self._test_null_field(key)
 
+    @tmpdir()
+    def _test_null_field(self, key):
+        back_up = joblist[0][key]
+        joblist[0][key] = None
+        self.run_all()
+        joblist[0][key] = back_up
 
+    @tmpdir()
     def test_status_file(self):
-        with TestAreaContext("status_json"):
-            forward_model = self.set_up_forward_model()
-            run_id = "test_no_jobs_id"
-            umask = 4
-            global_args = SubstitutionList()
-            varlist = EnvironmentVarlist()
-            forward_model.formatted_fprintf(
-                run_id,
-                os.getcwd(),
-                "data_root",
-                global_args,
-                umask,
-                varlist)
+        forward_model = self.set_up_forward_model()
+        run_id = "test_no_jobs_id"
+        umask = 4
+        global_args = SubstitutionList()
+        varlist = EnvironmentVarlist()
+        forward_model.formatted_fprintf(
+            run_id,
+            os.getcwd(),
+            "data_root",
+            global_args,
+            umask,
+            varlist)
 
-            s = '{"start_time": null, "jobs": [{"status": "Success", "start_time": 1519653419.0, "end_time": 1519653419.0, "name": "SQUARE_PARAMS", "error": null, "current_memory_usage": 2000, "max_memory_usage": 3000}], "end_time": null, "run_id": ""}'
+        s = '{"start_time": null, "jobs": [{"status": "Success", "start_time": 1519653419.0, "end_time": 1519653419.0, "name": "SQUARE_PARAMS", "error": null, "current_memory_usage": 2000, "max_memory_usage": 3000}], "end_time": null, "run_id": ""}'
 
-            with open("status.json", "w") as f:
-                f.write(s)
+        with open("status.json", "w") as f:
+            f.write(s)
 
-            status = ForwardModelStatus.try_load("")
-            for job in status.jobs:
-                self.assertTrue( isinstance(job.start_time, datetime.datetime))
-                self.assertTrue( isinstance(job.end_time, datetime.datetime))
+        status = ForwardModelStatus.try_load("")
+        for job in status.jobs:
+            self.assertTrue( isinstance(job.start_time, datetime.datetime))
+            self.assertTrue( isinstance(job.end_time, datetime.datetime))

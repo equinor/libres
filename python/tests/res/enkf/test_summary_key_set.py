@@ -70,10 +70,8 @@ class SummaryKeySetTest(ResTest):
         keys_from_file = SummaryKeySet(filename)
         self.assertItemsEqual(keys.keys(), keys_from_file.keys())
 
-    @tmpdir(equinor="config/with_data")
+    @tmpdir(equinor="config/with_data", target="")
     def test_with_enkf_fs(self):
-        config_file = self.createTestPath("Equinor/config/with_data/config")
-
         fs = EnkfFs("storage/default")
         summary_key_set = fs.getSummaryKeySet()
         summary_key_set.addSummaryKey("FOPT")

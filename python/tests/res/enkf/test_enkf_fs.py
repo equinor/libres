@@ -13,13 +13,11 @@ from res.enkf.enums import EnKFFSType
 class EnKFFSTest(ResTest):
     def setUp(self):
         self.mount_point = "storage/default"
-        self.config_file = self.createTestPath("Equinor/config/with_data/config")
-
 
     def test_id_enum(self):
         self.assertEnumIsFullyDefined(EnKFFSType, "fs_driver_impl", "lib/include/ert/enkf/fs_types.hpp")
 
-    @tmpdir(equinor="config/with_data/config")
+    @tmpdir(equinor="config/with_data", target="")
     def test_create(self):
         self.assertTrue(EnkfFs.exists(self.mount_point))
         fs = EnkfFs(self.mount_point)
@@ -38,7 +36,7 @@ class EnKFFSTest(ResTest):
         version = EnkfFs.diskVersion("newFS")
         self.assertTrue( version >= 106 )
 
-    @tmpdir(equinor="config/with_data/config")
+    @tmpdir(equinor="config/with_data", target="")
     def test_create2(self):
         new_fs = EnkfFs.createFileSystem("newFS", EnKFFSType.BLOCK_FS_DRIVER_ID, mount = True)
         self.assertTrue( isinstance( new_fs , EnkfFs ))

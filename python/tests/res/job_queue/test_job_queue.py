@@ -1,7 +1,6 @@
 from res.job_queue import JobStatusType, Driver, QueueDriverEnum, JobQueue, JobQueueNode
-from tests import ResTest
+from tests import ResTest, tmpdir
 from tests.utils import wait_until
-from ecl.util.test import TestAreaContext
 import os, stat, time
 from threading import BoundedSemaphore
 
@@ -57,7 +56,7 @@ def create_queue(script, max_submit=1, max_runtime=None):
             max_runtime=max_runtime)
 
         job_queue.add_job(job)
-    
+
     return job_queue
 
 def start_all(job_queue, sema_pool):
@@ -65,7 +64,7 @@ def start_all(job_queue, sema_pool):
     while(job is not None):
         job.run(job_queue.driver, sema_pool, job_queue.max_submit)
         job = job_queue.fetch_next_waiting()
-    
+
 
 class JobQueueTest(ResTest):
 
@@ -73,100 +72,100 @@ class JobQueueTest(ResTest):
         source_path = "lib/include/ert/job_queue/job_status.hpp"
         self.assertEnumIsFullyDefined(JobStatusType, "job_status_type", source_path)
 
+    @tmpdir()
     def test_kill_jobs(self):
-        with TestAreaContext("job_queue_test_kill") as work_area:
-            job_queue = create_queue(never_ending_script)
+        job_queue = create_queue(never_ending_script)
 
-            assert job_queue.queue_size == 10
-            assert job_queue.is_active()
-            
-            pool_sema = BoundedSemaphore(value=10)
-            start_all(job_queue, pool_sema)
+        assert job_queue.queue_size == 10
+        assert job_queue.is_active()
 
-            # make sure never ending jobs are running
-            wait_until(
-                lambda: self.assertTrue(job_queue.is_active())
-            )
+        pool_sema = BoundedSemaphore(value=10)
+        start_all(job_queue, pool_sema)
 
-            for job in job_queue.job_list:
-                job.stop()
+        # make sure never ending jobs are running
+        wait_until(
+            lambda: self.assertTrue(job_queue.is_active())
+        )
 
-            wait_until(
-                lambda: self.assertFalse(job_queue.is_active())
-            )
-            
-            for job in job_queue.job_list:
-                assert job.status == JobStatusType.JOB_QUEUE_IS_KILLED
-            
-            for job in job_queue.job_list:
-                job.wait_for()
+        for job in job_queue.job_list:
+            job.stop()
 
+        wait_until(
+            lambda: self.assertFalse(job_queue.is_active())
+        )
+
+        for job in job_queue.job_list:
+            assert job.status == JobStatusType.JOB_QUEUE_IS_KILLED
+
+        for job in job_queue.job_list:
+            job.wait_for()
+
+    @tmpdir()
     def test_add_jobs(self):
-        with TestAreaContext("job_queue_test_add") as work_area:
-            job_queue = create_queue(simple_script)
+        job_queue = create_queue(simple_script)
 
-            assert job_queue.queue_size == 10
-            assert job_queue.is_active()
-            assert job_queue.fetch_next_waiting() is not None
+        assert job_queue.queue_size == 10
+        assert job_queue.is_active()
+        assert job_queue.fetch_next_waiting() is not None
 
-            pool_sema = BoundedSemaphore(value=10)
-            start_all(job_queue, pool_sema)
+        pool_sema = BoundedSemaphore(value=10)
+        start_all(job_queue, pool_sema)
 
-            for job in job_queue.job_list:
-                job.stop()
+        for job in job_queue.job_list:
+            job.stop()
 
-            wait_until(
-                lambda: self.assertFalse(job_queue.is_active())
-            )
+        wait_until(
+            lambda: self.assertFalse(job_queue.is_active())
+        )
 
-            for job in job_queue.job_list:
-                job.wait_for()
+        for job in job_queue.job_list:
+            job.wait_for()
 
+    @tmpdir()
     def test_failing_jobs(self):
-        with TestAreaContext("job_queue_test_add") as work_area:
-            job_queue = create_queue(failing_script, max_submit=1)
+        job_queue = create_queue(failing_script, max_submit=1)
 
-            assert job_queue.queue_size == 10
-            assert job_queue.is_active()
+        assert job_queue.queue_size == 10
+        assert job_queue.is_active()
 
-            pool_sema = BoundedSemaphore(value=10)            
-            start_all(job_queue, pool_sema)
+        pool_sema = BoundedSemaphore(value=10)
+        start_all(job_queue, pool_sema)
 
-            wait_until(
-                func=(lambda: self.assertFalse(job_queue.is_active())),
-            )
+        wait_until(
+            func=(lambda: self.assertFalse(job_queue.is_active())),
+        )
 
-            for job in job_queue.job_list:
-                job.wait_for()
+        for job in job_queue.job_list:
+            job.wait_for()
 
-            assert job_queue.fetch_next_waiting() is None
+        assert job_queue.fetch_next_waiting() is None
 
-            for job in job_queue.job_list:
-                assert job.status == JobStatusType.JOB_QUEUE_FAILED
-            
-            assert True
+        for job in job_queue.job_list:
+            assert job.status == JobStatusType.JOB_QUEUE_FAILED
 
+        assert True
+
+    @tmpdir()
     def test_timeout_jobs(self):
-        with TestAreaContext("job_queue_test_kill") as work_area:
-            job_queue = create_queue(never_ending_script, max_submit=1, max_runtime=5)
+        job_queue = create_queue(never_ending_script, max_submit=1, max_runtime=5)
 
-            assert job_queue.queue_size == 10
-            assert job_queue.is_active()
+        assert job_queue.queue_size == 10
+        assert job_queue.is_active()
 
-            pool_sema = BoundedSemaphore(value=10)
-            start_all(job_queue, pool_sema)
+        pool_sema = BoundedSemaphore(value=10)
+        start_all(job_queue, pool_sema)
 
-            # make sure never ending jobs are running
-            wait_until(
-                lambda: self.assertTrue(job_queue.is_active())
-            )
+        # make sure never ending jobs are running
+        wait_until(
+            lambda: self.assertTrue(job_queue.is_active())
+        )
 
-            wait_until(
-                lambda: self.assertFalse(job_queue.is_active())
-            )
+        wait_until(
+            lambda: self.assertFalse(job_queue.is_active())
+        )
 
-            for job in job_queue.job_list:
-                assert job.status == JobStatusType.JOB_QUEUE_IS_KILLED
+        for job in job_queue.job_list:
+            assert job.status == JobStatusType.JOB_QUEUE_IS_KILLED
 
-            for job in job_queue.job_list:
-                job.wait_for()
+        for job in job_queue.job_list:
+            job.wait_for()

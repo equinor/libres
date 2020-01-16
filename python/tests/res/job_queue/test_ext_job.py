@@ -1,7 +1,6 @@
 import os.path
 
-from ecl.util.test import TestAreaContext
-from tests import ResTest
+from tests import ResTest, tmpdir
 from res.job_queue.ext_job import ExtJob
 from res.config import ContentTypeEnum
 
@@ -52,61 +51,63 @@ def create_config_foreign_file( config_file ):
 
 
 class ExtJobTest(ResTest):
-    def test_load_forward_model(self):
+    def test_no_config(self):
         with self.assertRaises(IOError):
             job = ExtJob("CONFIG_FILE" , True)
 
-        with TestAreaContext("python/job_queue/forward_model1"):
-            create_valid_config("CONFIG")
+    @tmpdir()
+    def test_valid_config(self):
+        create_valid_config("CONFIG")
+        job = ExtJob("CONFIG" , True)
+        self.assertEqual( job.name() , "CONFIG")
+        self.assertEqual( job.get_stdout_file(), None)
+        self.assertEqual( job.get_stderr_file(), None)
+
+        self.assertEqual( job.get_executable() , os.path.join( os.getcwd() , "script.sh"))
+        self.assertTrue( os.access( job.get_executable() , os.X_OK ))
+
+        self.assertEqual( job.min_arg, -1)
+
+        job = ExtJob("CONFIG" , True , name = "Job")
+        self.assertEqual( job.name() , "Job")
+        pfx = 'ExtJob('
+        self.assertEqual(pfx, repr(job)[:len(pfx)])
+
+    @tmpdir()
+    def test_upgraded_valid_config(self):
+        create_upgraded_valid_config("CONFIG")
+        job = ExtJob("CONFIG" , True)
+        self.assertEqual( job.min_arg, 2 )
+        self.assertEqual( job.max_arg, 7 )
+        argTypes = job.arg_types
+        self.assertEqual( argTypes , [ContentTypeEnum.CONFIG_INT, ContentTypeEnum.CONFIG_FLOAT ,
+                                      ContentTypeEnum.CONFIG_STRING, ContentTypeEnum.CONFIG_BOOL,
+                                      ContentTypeEnum.CONFIG_RUNTIME_FILE, ContentTypeEnum.CONFIG_RUNTIME_INT,
+                                      ContentTypeEnum.CONFIG_STRING] )
+
+    @tmpdir()
+    def test_missing_executable(self):
+        create_config_missing_executable( "CONFIG" )
+        with self.assertRaises(ValueError):
             job = ExtJob("CONFIG" , True)
-            self.assertEqual( job.name() , "CONFIG")
-            self.assertEqual( job.get_stdout_file(), None)
-            self.assertEqual( job.get_stderr_file(), None)
 
-            self.assertEqual( job.get_executable() , os.path.join( os.getcwd() , "script.sh"))
-            self.assertTrue( os.access( job.get_executable() , os.X_OK ))
-
-            self.assertEqual( job.min_arg, -1)
-
-            job = ExtJob("CONFIG" , True , name = "Job")
-            self.assertEqual( job.name() , "Job")
-            pfx = 'ExtJob('
-            self.assertEqual(pfx, repr(job)[:len(pfx)])
-
-        with TestAreaContext("python/job_queue/forward_model1a"):
-            create_upgraded_valid_config("CONFIG")
+    @tmpdir()
+    def test_missing_execu(self):
+        create_config_missing_EXECUTABLE( "CONFIG" )
+        with self.assertRaises(ValueError):
             job = ExtJob("CONFIG" , True)
-            self.assertEqual( job.min_arg, 2 )
-            self.assertEqual( job.max_arg, 7 )
-            argTypes = job.arg_types
-            self.assertEqual( argTypes , [ContentTypeEnum.CONFIG_INT, ContentTypeEnum.CONFIG_FLOAT ,
-                                          ContentTypeEnum.CONFIG_STRING, ContentTypeEnum.CONFIG_BOOL,
-                                          ContentTypeEnum.CONFIG_RUNTIME_FILE, ContentTypeEnum.CONFIG_RUNTIME_INT,
-                                          ContentTypeEnum.CONFIG_STRING] )
 
+    @tmpdir()
+    def test_executable_is_directory(self):
+        create_config_executable_directory( "CONFIG" )
+        with self.assertRaises(ValueError):
+            job = ExtJob("CONFIG" , True)
 
-        with TestAreaContext("python/job_queue/forward_model2"):
-            create_config_missing_executable( "CONFIG" )
-            with self.assertRaises(ValueError):
-                job = ExtJob("CONFIG" , True)
-
-
-        with TestAreaContext("python/job_queue/forward_model3"):
-            create_config_missing_EXECUTABLE( "CONFIG" )
-            with self.assertRaises(ValueError):
-                job = ExtJob("CONFIG" , True)
-
-
-        with TestAreaContext("python/job_queue/forward_model4"):
-            create_config_executable_directory( "CONFIG" )
-            with self.assertRaises(ValueError):
-                job = ExtJob("CONFIG" , True)
-
-
-        with TestAreaContext("python/job_queue/forward_model5"):
-            create_config_foreign_file( "CONFIG" )
-            with self.assertRaises(ValueError):
-                job = ExtJob("CONFIG" , True)
+    @tmpdir()
+    def test_executable_is_foreign_file(self):
+        create_config_foreign_file( "CONFIG" )
+        with self.assertRaises(ValueError):
+            job = ExtJob("CONFIG" , True)
 
     def test_valid_args(self):
         arg_types = [ContentTypeEnum.CONFIG_FLOAT, ContentTypeEnum.CONFIG_INT, ContentTypeEnum.CONFIG_BOOL, ContentTypeEnum.CONFIG_STRING]

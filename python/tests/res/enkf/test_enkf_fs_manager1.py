@@ -11,9 +11,9 @@ from res.enkf import EnkfFsManager
 
 class EnKFFSManagerTest1(ResTest):
     def setUp(self):
-        self.config_file = self.createTestPath("local/snake_oil/snake_oil.ert")
+        self.config_file = "snake_oil/snake_oil.ert"
 
-    @tmpdir()
+    @tmpdir(local="snake_oil")
     def test_create(self):
         # We are indirectly testing the create through the create
         # already in the enkf_main object. In principle we could
