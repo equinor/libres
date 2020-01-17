@@ -20,6 +20,7 @@ from tests import ResTest, tmpdir
 from res.test import ErtTestContext
 from res.enkf import ResConfig, ConfigKeys
 
+@unittest.skip("util_abort?")
 class ProgrammaticResConfigTest(ResTest):
 
     def setUp(self):
@@ -345,7 +346,6 @@ class ProgrammaticResConfigTest(ResTest):
             ResConfig(config=self.minimum_config_cwd)
 
 
-    @unittest.skip("util_abort?")
     @tmpdir(local="simple_config")
     def test_errors(self):
         config_file = "simple_config/minimum_config"
