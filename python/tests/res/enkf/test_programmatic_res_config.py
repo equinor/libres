@@ -20,7 +20,6 @@ from tests import ResTest, tmpdir
 from res.test import ErtTestContext
 from res.enkf import ResConfig, ConfigKeys
 
-@unittest.skip("util_abort?")
 class ProgrammaticResConfigTest(ResTest):
 
     def setUp(self):
