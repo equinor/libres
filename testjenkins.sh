@@ -130,21 +130,21 @@ clone_repos () {
 
 create_virtualenv () {
 	mkdir $ENV
-	python -m virtualenv $ENV
+	catchsegv python -m virtualenv $ENV
 	source $ENV/bin/activate
 }
 
 run_ctest () {
 	run enable_environment
 	pushd $LIBRES_BUILD
-	ctest -j $CTEST_JARG -E Lint --output-on-failure
+	catchsegv ctest -j $CTEST_JARG -E Lint --output-on-failure
 	popd
 }
 
 run_pytest_normal () {
 	run enable_environment
 	pushd $LIBRES_ROOT/python
-	python -m pytest -m "not equinor_test" --durations=10
+	catchsegv python -m pytest -m "not equinor_test" --durations=10
 	popd
 }
 
@@ -152,7 +152,7 @@ run_pytest_normal () {
 run_pytest_equinor () {
 	run enable_environment
 	pushd $LIBRES_ROOT/python
-	python -m pytest -m "equinor_test" --durations=10
+	catchsegv python -m pytest -m "equinor_test" --durations=10
 	popd
 }
 
