@@ -9,6 +9,13 @@ else ()
    message(STATUS "LSF not found")
 endif ()
 
+if (ENABLE_PYTHON_MODULE)
+    list(APPEND res_opt_src
+      pymodule.cpp
+      libecl_shim/ecl_shim.cpp)
+    include_directories(libecl_shim)
+endif ()
+
 add_library(res res_util/res_log.cpp
                 res_util/log.cpp
                 res_util/es_testdata.cpp
@@ -209,6 +216,7 @@ add_library(res res_util/res_log.cpp
                 enkf/config_keys.cpp
 
                 external/JSON/cJSON.c
+                ${res_opt_src}
 )
 
 #-----------------------------------------------------------------
@@ -219,7 +227,7 @@ add_library(rml_enkf SHARED analysis/modules/rml_enkf_config.c
                             analysis/modules/rml_enkf_log.c
                             )
 
-target_link_libraries(rml_enkf PRIVATE res ecl ${CMAKE_DL_LIBS})
+target_link_libraries(rml_enkf PRIVATE res ${CMAKE_DL_LIBS})
 target_include_directories(rml_enkf PRIVATE analysis/modules)
 set_target_properties(rml_enkf PROPERTIES VERSION 1.0
                               SOVERSION 1.0
@@ -230,11 +238,11 @@ set( ies_source analysis/modules/ies_enkf.c
                 analysis/modules/ies_enkf_data.c)
 
 add_library(ies MODULE ${ies_source})
-target_link_libraries(ies PRIVATE res ecl ${CMAKE_DL_LIBS})
+target_link_libraries(ies PRIVATE res ${CMAKE_DL_LIBS})
 target_include_directories(ies PRIVATE analysis/modules)
 
 add_library(std_enkf_debug SHARED analysis/modules/std_enkf_debug.c)
-target_link_libraries(std_enkf_debug PRIVATE res ecl ${CMAKE_DL_LIBS})
+target_link_libraries(std_enkf_debug PRIVATE res ${CMAKE_DL_LIBS})
 target_include_directories(std_enkf_debug PRIVATE modules)
 set_target_properties(std_enkf_debug PROPERTIES VERSION 1.0
                                                 SOVERSION 1.0
@@ -247,7 +255,7 @@ set_target_properties(std_enkf_debug PROPERTIES VERSION 1.0
 target_compile_definitions(res PRIVATE -DINTERNAL_LINK)
 
 find_package(LAPACK REQUIRED)
-target_link_libraries( res PUBLIC ecl ${LAPACK_LIBRARIES} ${LAPACK_LINKER_FLAGS})
+target_link_libraries( res ${LAPACK_LIBRARIES} ${LAPACK_LINKER_FLAGS})
 target_include_directories(res
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
@@ -269,7 +277,10 @@ target_compile_definitions(res PRIVATE
 )
 
 
-
+if (ENABLE_PYTHON_MODULE)
+        python_extension_module(res)
+        set(CMAKE_INSTALL_LIBDIR "${PYTHON_RELATIVE_SITE_PACKAGES_DIR}")
+endif ()
 
 install(DIRECTORY include/ DESTINATION include)
 

@@ -77,6 +77,7 @@ find_package(CXX11Features)
 option( BUILD_TESTS         "Should the tests be built"             OFF)
 option( BUILD_PYTHON        "Run py_compile on the python wrappers" OFF)
 option( ENABLE_PYTHON       "Enable the python wrappers"            ON )
+option( ENABLE_PYTHON_MODULE       "Enable the python wrappers"            OFF )
 option( USE_RPATH           "Should we embed path to libraries"     ON )
 option( INSTALL_ERT_LEGACY  "Install legacy ert code"               OFF)
 option( ERT_LSF_SUBMIT_TEST "Build and run tests of LSF submit"     OFF)
@@ -107,14 +108,17 @@ if (BUILD_PYTHON)
   message(WARNING "The 'BUILD_PYTHON' option is deprecated - use 'ENABLE_PYTHON=ON'")
 endif()
 
+if (ENABLE_PYTHON_MODULE)
+    find_package(PythonExtensions REQUIRED)
+    set(ENABLE_PYTHON OFF)
+endif ()
+
 if (USE_RPATH)
     SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}")
     set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 endif ()
 
 #-----------------------------------------------------------------
-
-find_package( ecl REQUIRED )
 
 set(ERT_LSF_LIB_PATH     "" CACHE FILEPATH "Path to search for the LSF libraries")
 set(ERT_LSF_INCLUDE_PATH "" CACHE FILEPATH "Path to search for the LSF header files")

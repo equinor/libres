@@ -42,6 +42,12 @@ try:
 except ImportError:
     pass
 
+try:
+    import libres
+    RES_PYTHON_MODULE = True
+except ImportError:
+    RES_PYTHON_MODULE = False
+
 required_version_hex = 0x02070000
 
 res_lib_path = None
@@ -86,6 +92,18 @@ if os.getenv("ERT_LIBRARY_PATH"):
 # libraries.
 
 def load(name):
+    if RES_PYTHON_MODULE:
+        import ecl.libecl
+        import ctypes
+        lib = ctypes.PyDLL(libres.__file__, ctypes.RTLD_GLOBAL)
+
+        fn = lib.res_link_with_ecl
+        fn.argtypes = (ctypes.c_char_p,)
+        fn.restype = None
+        fn(bytes(ecl.libecl.__file__, 'utf8'))
+
+        return lib
+
     return cwrapload(name, path=res_lib_path, so_version=ert_so_version)
 
 class ResPrototype(Prototype):
