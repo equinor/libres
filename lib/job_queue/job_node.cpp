@@ -617,14 +617,14 @@ bool job_queue_node_update_status(job_queue_node_type * node,
     // it's running, but not confirmed running.
     double runtime = job_queue_node_time_since_sim_start(node);
     if (runtime >= node->max_confirm_wait) {
-      res_log_finfo("max_confirm_wait (%d) has passed since sim_start"
-                    "without success; %s is dead (attempt %d)",
-                    node->max_confirm_wait,
-                    node->job_name,
-                    node->submit_attempt);
-      job_status_type new_status = JOB_QUEUE_DO_KILL_NODE_FAILURE;
-      status_change = job_queue_status_transition(status, current_status, new_status);
-      job_queue_node_set_status(node, new_status);
+      res_log_fwarning("max_confirm_wait (%d) has passed since sim_start - status file: %s not found",
+                       node->max_confirm_wait,
+                       node->status_file);
+      if (node->max_confirm_wait != 0) {
+        job_status_type new_status = JOB_QUEUE_DO_KILL_NODE_FAILURE;
+        status_change = job_queue_status_transition(status, current_status, new_status);
+        job_queue_node_set_status(node, new_status);
+      }
     }
   }
 
@@ -662,13 +662,13 @@ bool job_queue_node_update_status_simple(job_queue_node_type * node,
     // it's running, but not confirmed running.
     double runtime = job_queue_node_time_since_sim_start(node);
     if (runtime >= node->max_confirm_wait) {
-      res_log_finfo("max_confirm_wait (%d) has passed since sim_start"
-                    "without success; %s is dead (attempt %d)",
-                    node->max_confirm_wait,
-                    node->job_name,
-                    node->submit_attempt);
-      job_status_type new_status = JOB_QUEUE_DO_KILL_NODE_FAILURE;
-      job_queue_node_set_status(node, new_status);
+      res_log_fwarning("max_confirm_wait (%d) has passed since sim_start - status file: %s not found",
+                       node->max_confirm_wait,
+                       node->status_file);
+      if (node->max_confirm_wait != 0) {
+        job_status_type new_status = JOB_QUEUE_DO_KILL_NODE_FAILURE;
+        job_queue_node_set_status(node, new_status);
+      }
     }
   }
 
