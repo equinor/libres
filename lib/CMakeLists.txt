@@ -479,7 +479,7 @@ endforeach()
 foreach(name job_loadOK
              ext_joblist_test
              job_torque_submit_test
-             job_queue_timeout_test
+             #job_queue_timeout_test
              job_queue_stress_test
              job_queue_stress_task
              job_job_queue_test
@@ -568,8 +568,8 @@ if (SBATCH)
     True)
 endif()
 
-add_test(NAME job_queue_timeout_test
-         COMMAND job_queue_timeout_test $<TARGET_FILE:job_queue_stress_task>)
+#add_test(NAME job_queue_timeout_test
+#         COMMAND job_queue_timeout_test $<TARGET_FILE:job_queue_stress_task>)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/job_queue/tests/data/qsub_emulators/
      DESTINATION ${EXECUTABLE_OUTPUT_PATH})

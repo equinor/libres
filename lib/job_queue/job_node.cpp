@@ -342,7 +342,7 @@ job_queue_node_type * job_queue_node_alloc( const char * job_name ,
   node->sim_start      = 0;
   node->sim_end        = 0;
   node->submit_time    = time( NULL );
-  node->max_confirm_wait= 60*2; // 2 minutes before we consider job dead.
+  node->max_confirm_wait= 0;
 
   pthread_mutex_init( &node->data_mutex , NULL );
   return node;
