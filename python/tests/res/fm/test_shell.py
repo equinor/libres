@@ -239,11 +239,36 @@ class ShellTest(ResTest):
             self.assertFalse( os.path.exists( "path" ))
             self.assertTrue( os.path.exists("link_target/link_file"))
 
+    def create_source_directory(self):
+        os.mkdir("source")
+        with open("source/file.txt" , "w") as f:
+            f.write("dummy content\n")
+
+
+    def test_copy_directory(self):
+        with TestAreaContext("copy/directory"):
+            self.create_source_directory()
+
+            copy_directory("source" , "target")
+
+            self.assertTrue(os.path.isfile("target/file.txt"))
+
+    def test_copy_directory_target_exists(self):
+        with TestAreaContext("copy/directory_exists"):
+            self.create_source_directory()
+
+            os.mkdir("target")
+
+            copy_directory("source" , "target")
+
+            self.assertFalse(os.path.isfile("target/source/file.txt"))
+            self.assertTrue(os.path.isfile("target/file.txt"))
+
     def test_copy_directory_error(self):
         with self.assertRaises(IOError):
             copy_directory("does/not/exist" , "target")
 
-        with TestAreaContext("copy/directory"):
+        with TestAreaContext("copy/directory_error"):
             with open("file" , "w") as f:
                 f.write("hei")
 

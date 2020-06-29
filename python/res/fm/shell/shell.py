@@ -158,8 +158,6 @@ class Shell(object):
                     Shell.mkdir( target_root )
 
             print("Copying directory structure %s -> %s" % (src_path , target_path))
-            if os.path.isdir( target_path ):
-                target_path = os.path.join( target_path, src_basename )
             distutils.dir_util.copy_tree( src_path , target_path , preserve_times = 0)
         else:
             raise IOError("Input argument:'%s' does not correspond to an existing directory" % src_path)
