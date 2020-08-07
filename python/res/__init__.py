@@ -101,9 +101,16 @@ class ResPrototype(Prototype):
 RES_LIB = ResPrototype.lib
 
 from res.util import ResVersion
-from ecl.util.util import updateAbortSignals
+from ecl.util.util import updateAbortSignals, setSignalOnUtilAbort
+import faulthandler
+import signal
 
-updateAbortSignals( )
+faulthandler.enable()
+signal.signal(signal.SIGUSR1, lambda a, b: exit(1))
+faulthandler.register(signal.SIGUSR1, chain=True)
+
+setSignalOnUtilAbort(signal.SIGUSR1)
+updateAbortSignals()
 
 def root():
     """
