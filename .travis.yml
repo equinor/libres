@@ -59,10 +59,10 @@ before_script:
   # Remove when it's possible to pip install
 
   - source .libecl_version
-  - git clone https://github.com/equinor/libecl
+  - git clone https://github.com/mortalisk/libecl
   - pushd libecl
   - git fetch
-  - git checkout tags/$LIBECL_VERSION
+  - git checkout c_and_python_stack
   - pip install -r requirements.txt
   - mkdir build
   - pushd build
