@@ -18,7 +18,7 @@ except ImportError as e:
 
 class SynthesizerTest(ResTest):
 
-    @pytest.mark.xfail(sys.version_info > (2, 7), reason="Python 3 solution probably correct, but test currently fails")
+    @pytest.mark.xfail(reason="Python 3 solution probably correct, but test currently fails")
     def test_oil_simulator(self):
         sim = OilSimulator()
         sim.addWell("OP1", seed=1)

@@ -232,17 +232,11 @@ class _RealEnKFMain(BaseCClass):
         if not config:
             check = True
         else:
-            if sys.version_info[0] == 2:
-                check = isinstance(config, basestring)
-            else:
-                check = isinstance(config, str)
+            check = isinstance(config, str)
         if check:
             user_config_file = None
 
-            if sys.version_info[0] == 2:
-               check2 = isinstance(config, basestring)
-            else:
-               check2 = isinstance(config, str)
+            check2 = isinstance(config, str)
             if check2:
                 if not isfile(config):
                     raise IOError('No such configuration file "%s".' % res_config)
