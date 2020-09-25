@@ -51,7 +51,7 @@ def test_run_backup_python_path(tmpdir, monkeypatch, python_path):
     shutil.copy(os.path.join(source_root(), "python/tests/res/fm/rms"), "bin")
     monkeypatch.setenv("RMS_SITE_CONFIG", "rms_config.yml")
     if python_path is None:
-        monkeypatch.delenv("PYTHONPATH")
+        monkeypatch.delenv("PYTHONPATH", raising=False)
     else:
         monkeypatch.setenv("PYTHONPATH", python_path)
 
