@@ -54,11 +54,7 @@ add_library(res res_util/res_log.cpp
                 sched/history.cpp
 
                 analysis/analysis_module.cpp
-                analysis/bootstrap_enkf.cpp
-                analysis/cv_enkf.cpp
                 analysis/enkf_linalg.cpp
-                analysis/fwd_step_enkf.cpp
-                analysis/fwd_step_log.cpp
                 analysis/module_data_block.cpp
                 analysis/module_data_block_vector.cpp
                 analysis/module_info.cpp
@@ -67,7 +63,6 @@ add_library(res res_util/res_log.cpp
                 analysis/null_enkf.cpp
                 analysis/sqrt_enkf.cpp
                 analysis/std_enkf.cpp
-                analysis/stepwise.cpp
 
                 job_queue/ext_job.cpp
                 job_queue/ext_joblist.cpp

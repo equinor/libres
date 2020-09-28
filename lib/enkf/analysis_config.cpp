@@ -404,9 +404,6 @@ void analysis_config_load_internal_modules( analysis_config_type * config ) {
   analysis_config_load_internal_module( config , "STD_ENKF");
   analysis_config_load_internal_module( config , "NULL_ENKF");
   analysis_config_load_internal_module( config , "SQRT_ENKF");
-  analysis_config_load_internal_module( config , "CV_ENKF");
-  analysis_config_load_internal_module( config , "BOOTSTRAP_ENKF");
-  analysis_config_load_internal_module( config , "FWD_STEP_ENKF");
   analysis_config_select_module( config , DEFAULT_ANALYSIS_MODULE);
 }
 
