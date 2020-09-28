@@ -29,17 +29,9 @@ from res.util import Matrix
 
 class AnalysisModuleTest(ResTest):
     def setUp(self):
-        if sys.platform.lower() == "darwin":
-            self.libname = "rml_enkf.dylib"
-        else:
-            self.libname = "rml_enkf.so"
-
         self.rng = RandomNumberGenerator(
             RngAlgTypeEnum.MZRAN, RngInitModeEnum.INIT_DEFAULT
         )
-
-    def createAnalysisModule(self):
-        return AnalysisModule(lib_name=self.libname)
 
     def test_load_status_enum(self):
         source_file_path = "lib/include/ert/analysis/analysis_module.hpp"
@@ -48,25 +40,6 @@ class AnalysisModuleTest(ResTest):
             "analysis_module_load_status_enum",
             source_file_path,
         )
-
-    def test_analysis_module(self):
-        am = self.createAnalysisModule()
-
-        self.assertEqual(am.getLibName(), self.libname)
-
-        self.assertFalse(am.getInternal())
-
-        self.assertTrue(am.setVar("ITER", "1"))
-
-        self.assertEqual(am.getTableName(), "analysis_table")
-
-        self.assertTrue(am.checkOption(AnalysisModuleOptionsEnum.ANALYSIS_ITERABLE))
-
-        self.assertTrue(am.hasVar("ITER"))
-
-        self.assertIsInstance(am.getDouble("ENKF_TRUNCATION"), float)
-
-        self.assertIsInstance(am.getInt("ITER"), int)
 
     def test_set_get_var(self):
         mod = AnalysisModule(name="STD_ENKF")

@@ -137,10 +137,6 @@ RUN_TEMPLATE      GEN_DATA_TEMPLATE GEN_DATA_FILE
 
 
 
---ANALYSIS_LOAD       RML_ENKF     /project/res/x86_64_RH_5/lib/rml_enkf.so
---ANALYSIS_LOAD       RML_ENKF     rml_enkf.so
-ANALYSIS_LOAD       RML_ENKF     /private/joaho/ERT/NR/libanalysis/src/rml_enkf.so
-
 --ANALYSIS_LOAD       FWD_ENKF   /private/joaho/ERT/NR/tmp-build/libanalysis/src/sqrt_enkf.so  
 --ANALYSIS_LOAD       SFWD_ENKF     /private/joaho/ERT/NR/tmp-build/libanalysis/src/std_enkf.so
 ANALYSIS_SET_VAR    STD_ENKF     ENKF_TRUNCATION    0.95

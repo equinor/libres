@@ -667,12 +667,7 @@ class ResConfigTest(ResTest):
             for ip in config_data_new[ConfigKeys.LOAD_WORKFLOW_JOB]:
                 ip[ConfigKeys.PATH] = os.path.realpath(ip[ConfigKeys.PATH])
 
-            config_data_new[ConfigKeys.JOB_SCRIPT] = os.path.normpath(
-                os.path.realpath(config_data_new[ConfigKeys.JOB_SCRIPT])
-            )
-            config_data_new[ConfigKeys.ANALYSIS_LOAD] = [
-                {ConfigKeys.USER_NAME: "RML_ENKF", ConfigKeys.LIB_NAME: "rml_enkf.so"}
-            ]
+            config_data_new[ConfigKeys.JOB_SCRIPT] = os.path.normpath(os.path.realpath(config_data_new[ConfigKeys.JOB_SCRIPT]))
 
             # open config via dictionary
             res_config_dict = ResConfig(config_dict=config_data_new)

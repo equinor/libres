@@ -179,18 +179,6 @@ add_library(res res_util/res_log.cpp
 
 #-----------------------------------------------------------------
 
-add_library(rml_enkf SHARED analysis/modules/rml_enkf_config.c
-                            analysis/modules/rml_enkf.c
-                            analysis/modules/rml_enkf_common.c
-                            analysis/modules/rml_enkf_log.c
-                            )
-
-target_link_libraries(rml_enkf PRIVATE res ecl ${CMAKE_DL_LIBS})
-target_include_directories(rml_enkf PRIVATE analysis/modules)
-set_target_properties(rml_enkf PROPERTIES VERSION 1.0
-                              SOVERSION 1.0
-                                  PREFIX "")
-
 set( ies_source analysis/modules/ies_enkf.c
                 analysis/modules/ies_enkf_config.c
                 analysis/modules/ies_enkf_data.c)
@@ -244,11 +232,6 @@ install(TARGETS res
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-install(TARGETS rml_enkf
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 install(TARGETS ies
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
@@ -386,22 +369,6 @@ target_link_libraries(rms_file_test res)
 
 add_executable(analysis_external_module analysis/tests/analysis_test_external_module.cpp)
 target_link_libraries(analysis_external_module res)
-
-add_test(NAME analysis_module_rml
-         COMMAND analysis_external_module
-                 "RML_ENKF"
-                 $<TARGET_FILE_NAME:rml_enkf> 41
-                 ITER:45
-                 USE_PRIOR:False
-                 LAMBDA_REDUCE:0.10
-                 LAMBDA_INCREASE:2.5
-                 ENKF_TRUNCATION:0.77
-                 LAMBDA0:0.25
-                 LAMBDA_MIN:0.01
-                 LOG_FILE:LogFile.txt
-                 CLEAR_LOG:True
-                 LAMBDA_RECALCULATE:True)
-
 
 foreach(name analysis_test_module_info analysis_module_test)
   add_executable(${name} analysis/tests/${name}.cpp)
@@ -631,7 +598,6 @@ foreach(test enkf_magic_string_in_workflows
              enkf_workflow_job_test_directory
              enkf_ert_test_context
              gen_kw_logarithmic_test
-             enkf_analysis_config_analysis_load
              enkf_forward_init_GEN_KW
              enkf_forward_init_GEN_PARAM
              enkf_umask_config_test
@@ -715,21 +681,6 @@ add_config_test(gen_kw_logarithmic_test
                 ${CMAKE_CURRENT_SOURCE_DIR}/enkf/tests/data/config/gen_kw_logarithmic/config_GEN_KW_logarithmic)
 
 
-
-
-
-add_config_test(enkf_analysis_config_analysis_load enkf_analysis_config_analysis_load ${CMAKE_CURRENT_SOURCE_DIR}/enkf/tests/data/config/analysis_load_config)
-# It seems necessary to set the LD_LIBRARY_PATH for the loading of the
-# rml_enkf module to work.  Do understand why!
-if (UNIX AND NOT APPLE)
-set_property(TEST enkf_analysis_config_analysis_load PROPERTY
-    ENVIRONMENT
-    "ERT_SITE_CONFIG=${CMAKE_CURRENT_SOURCE_DIR}/enkf/tests/data/config/analysis_load_site_config;LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}:$ENV{LD_LIBRARY_PATH}")
-elseif (APPLE)
-set_property(TEST enkf_analysis_config_analysis_load PROPERTY
-    ENVIRONMENT
-    "ERT_SITE_CONFIG=${CMAKE_CURRENT_SOURCE_DIR}/enkf/tests/data/config/analysis_load_site_config_osx;DYLD_LIBRARY_PATH=${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR}:$ENV{DYLD_LIBRARY_PATH}")
-endif()
 
 add_config_test(enkf_workflow_job_test_directory enkf_workflow_job_test_directory ${CMAKE_CURRENT_SOURCE_DIR}/enkf/tests/data/workflow_jobs)
 #-----------------------------------------------------------------
