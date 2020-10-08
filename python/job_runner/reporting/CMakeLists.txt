@@ -1,9 +1,10 @@
 set(PYTHON_SOURCES
     __init__.py
+    event.py
     file.py
     interactive.py
-    network.py
     message.py
+    network.py
 )
 
 
