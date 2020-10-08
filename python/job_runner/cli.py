@@ -27,6 +27,7 @@ def main(args):
     else:
         reporters.append(reporting.File())
         reporters.append(reporting.Network())
+        reporters.append(reporting.Event())
 
     job_runner = JobRunner()
 
