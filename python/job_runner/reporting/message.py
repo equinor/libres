@@ -1,5 +1,14 @@
 from datetime import datetime as dt
 
+_JOB_STATUS_SUCCESS = "Success"
+_JOB_STATUS_RUNNING = "Running"
+_JOB_STATUS_FAILURE = "Failure"
+_JOB_STATUS_WAITING = "Waiting"
+
+_RUNNER_STATUS_INITIALIZED = "Initialized"
+_RUNNER_STATUS_SUCCESS = "Success"
+_RUNNER_STATUS_FAILURE = "Failure"
+
 
 class Message(object):
     def __init__(self, job=None):
