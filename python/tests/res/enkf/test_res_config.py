@@ -15,7 +15,6 @@
 #  for more details.
 import os, os.path
 import stat
-from copy import deepcopy
 from datetime import date
 
 from ecl.util.test import TestAreaContext
@@ -29,7 +28,6 @@ from res.sched import HistorySourceEnum
 
 from res.job_queue import QueueDriverEnum
 from res.enkf import ResConfig, SiteConfig, AnalysisConfig, ConfigKeys, GenDataFileType
-from res.test import ErtTestContext
 
 from res.enkf import QueueConfig
 
@@ -48,7 +46,6 @@ from cwrap import load
 
 clib = load(None)
 clib_getenv = Prototype(clib, "char* getenv( char* )", bind=False)
-
 
 config_defines = {
     "<USER>": "TEST_USER",
@@ -136,7 +133,6 @@ config_data = {
     },
 }
 
-
 config_data_new = {
     ConfigKeys.ALPHA_KEY: 3,
     ConfigKeys.RERUN_KEY: False,
@@ -213,7 +209,8 @@ config_data_new = {
     "PLOT_PATH": "../output/results/plot/<CASE_DIR>",  # removed, previously plot config
     ConfigKeys.UPDATE_LOG_PATH: "../output/update_log/<CASE_DIR>",  # analysis
     ConfigKeys.LOG_FILE: "../output/log/ert_<CASE_DIR>.log",  # log
-    ConfigKeys.RUNPATH_FILE: "../output/run_path_file/.ert-runpath-list_<CASE_DIR>",  # subst
+    ConfigKeys.RUNPATH_FILE: "../output/run_path_file/.ert-runpath-list_<CASE_DIR>",
+    # subst
     ConfigKeys.DEFINE_KEY: {
         "<USER>": "TEST_USER",
         "<SCRATCH>": "scratch/ert",
@@ -239,14 +236,8 @@ config_data_new = {
         },  # site
     ],
     ConfigKeys.FORWARD_MODEL: [
-        {
-            ConfigKeys.NAME: "SNAKE_OIL_SIMULATOR",
-            ConfigKeys.ARGLIST: "",
-        },
-        {
-            ConfigKeys.NAME: "SNAKE_OIL_NPV",
-            ConfigKeys.ARGLIST: "",
-        },
+        {ConfigKeys.NAME: "SNAKE_OIL_SIMULATOR", ConfigKeys.ARGLIST: ""},
+        {ConfigKeys.NAME: "SNAKE_OIL_NPV", ConfigKeys.ARGLIST: ""},
         {ConfigKeys.NAME: "SNAKE_OIL_DIFF", ConfigKeys.ARGLIST: ""},  # model
     ],
     ConfigKeys.HISTORY_SOURCE: HistorySourceEnum.REFCASE_HISTORY,
@@ -587,13 +578,9 @@ class ResConfigTest(ResTest):
     @tmpdir()
     def test_missing_directory(self):
         config = {
-            "INTERNALS": {
-                "CONFIG_DIRECTORY": "does_not_exist",
-            },
+            "INTERNALS": {"CONFIG_DIRECTORY": "does_not_exist"},
             "SIMULATION": {
-                "QUEUE_SYSTEM": {
-                    "JOBNAME": "Job%d",
-                },
+                "QUEUE_SYSTEM": {"JOBNAME": "Job%d"},
                 "RUNPATH": "/tmp/simulations/run%d",
                 "NUM_REALIZATIONS": 1,
                 "JOB_SCRIPT": "script.sh",
@@ -627,7 +614,8 @@ class ResConfigTest(ResTest):
             # split config_file to path and filename
             cfg_path, cfg_file = os.path.split(os.path.realpath(self.config_file))
 
-            # replace define keys only in root strings, this should be updated and validated in configsuite instead
+            # replace define keys only in root strings, this should be
+            # updated and validated in configsuite instead
             for define_key in config_data_new[ConfigKeys.DEFINE_KEY]:
                 for data_key in config_data_new:
                     if isinstance(config_data_new[data_key], str):
@@ -646,7 +634,8 @@ class ResConfigTest(ResTest):
             ERT_SHARE_PATH = os.path.dirname(res_config_file.site_config.getLocation())
 
             # update dictionary
-            # commit missing entries, this should be updated and validated in configsuite instead
+            # commit missing entries, this should be updated
+            # and validated in configsuite instead
             config_data_new[ConfigKeys.CONFIG_FILE_KEY] = cfg_file
             config_data_new[ConfigKeys.INSTALL_JOB_DIRECTORY] = [
                 ERT_SHARE_PATH + "/forward-models/res",
@@ -667,7 +656,9 @@ class ResConfigTest(ResTest):
             for ip in config_data_new[ConfigKeys.LOAD_WORKFLOW_JOB]:
                 ip[ConfigKeys.PATH] = os.path.realpath(ip[ConfigKeys.PATH])
 
-            config_data_new[ConfigKeys.JOB_SCRIPT] = os.path.normpath(os.path.realpath(config_data_new[ConfigKeys.JOB_SCRIPT]))
+            config_data_new[ConfigKeys.JOB_SCRIPT] = os.path.normpath(
+                os.path.realpath(config_data_new[ConfigKeys.JOB_SCRIPT])
+            )
 
             # open config via dictionary
             res_config_dict = ResConfig(config_dict=config_data_new)
