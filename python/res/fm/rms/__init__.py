@@ -1,5 +1,5 @@
 from .rms_config import RMSConfig
-from .rms_run import RMSRun
+from .rms_run import RMSRun, RMSRunException
 
 
 def run(iens, project, workflow, run_path="rms", target_file=None, export_path="rmsEXPORT", import_path="rmsIMPORT", version=None, readonly=True):
