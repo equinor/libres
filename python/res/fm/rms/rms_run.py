@@ -5,6 +5,7 @@ import sys
 import os.path
 import time
 import random
+import subprocess
 
 from contextlib import contextmanager
 from .rms_config import RMSConfig
@@ -80,16 +81,8 @@ class RMSRun(object):
 
 
     def run(self):
-        child_pid = os.fork( )
-        if child_pid == 0:
-            self._run_child()
-        else:
-            self.wait( child_pid )
-
-
-    def _run_child(self):
-        if not os.path.exists( self.run_path ):
-            os.makedirs( self.run_path )
+        if not os.path.exists(self.run_path):
+            os.makedirs(self.run_path)
 
         self_exe, _ = os.path.splitext(os.path.basename(sys.argv[0]))
         exec_env_file = "%s_exec_env.json" % self_exe
@@ -108,13 +101,7 @@ class RMSRun(object):
             if not os.path.exists( self.import_path ):
                 os.makedirs( self.import_path )
 
-            self.exec_rms(exec_env)
-
-
-
-    def wait(self, child_pid):
-        _, wait_status = os.waitpid(child_pid, 0)
-        exit_status = os.WEXITSTATUS(wait_status)
+            exit_status = self.exec_rms(exec_env)
 
         if exit_status != 0:
             raise Exception("The RMS run failed with exit status: {}".format(exit_status))
@@ -155,7 +142,9 @@ class RMSRun(object):
         exec_env["_PRE_RMS_BACKUP"] = "1"
         if "PYTHONPATH" in os.environ:
             exec_env["_PRE_RMS_PYTHONPATH"] = os.environ["PYTHONPATH"]
-        os.execve(self.config.executable, args, exec_env)
+
+        comp_process = subprocess.run(args=args, env=exec_env)
+        return comp_process.returncode
 
 
     @staticmethod
