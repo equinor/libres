@@ -41,7 +41,7 @@ class Event:
         }
         self._transitions = {
             None: initialized,
-            initialized: jobs,
+            initialized: jobs + finished,
             jobs: jobs + finished,
         }
         self._state = None
@@ -79,9 +79,7 @@ class Event:
                     "source": self._step_path(),
                     "datacontenttype": "application/json",
                 },
-                {
-                    "jobs": [job.job_data for job in msg.jobs],
-                },
+                {"jobs": [job.job_data for job in msg.jobs],},
             )
         )
 
@@ -90,13 +88,7 @@ class Event:
 
         if isinstance(msg, Start):
             self._dump_event(
-                CloudEvent(
-                    {
-                        "type": _FM_JOB_START,
-                        "source": job_path,
-                    },
-                    None,
-                )
+                CloudEvent({"type": _FM_JOB_START, "source": job_path,}, None,)
             )
             if not msg.success():
                 self._dump_event(
@@ -106,22 +98,14 @@ class Event:
                             "source": job_path,
                             "datacontenttype": "application/json",
                         },
-                        {
-                            "error_msg": msg.error_message,
-                        },
+                        {"error_msg": msg.error_message,},
                     )
                 )
 
         elif isinstance(msg, Exited):
             if msg.success():
                 self._dump_event(
-                    CloudEvent(
-                        {
-                            "type": _FM_JOB_SUCCESS,
-                            "source": job_path,
-                        },
-                        None,
-                    )
+                    CloudEvent({"type": _FM_JOB_SUCCESS, "source": job_path,}, None,)
                 )
             else:
                 self._dump_event(
@@ -131,10 +115,7 @@ class Event:
                             "source": job_path,
                             "datacontenttype": "application/json",
                         },
-                        {
-                            "exit_code": msg.exit_code,
-                            "error_msg": msg.error_message,
-                        },
+                        {"exit_code": msg.exit_code, "error_msg": msg.error_message,},
                     )
                 )
 
@@ -157,12 +138,7 @@ class Event:
         step_path = self._step_path()
         if msg.success():
             self._dump_event(
-                CloudEvent(
-                    {
-                        "type": _FM_STEP_SUCCESS,
-                        "source": step_path,
-                    }
-                )
+                CloudEvent({"type": _FM_STEP_SUCCESS, "source": step_path,})
             )
         else:
             self._dump_event(
@@ -172,8 +148,6 @@ class Event:
                         "source": step_path,
                         "datacontenttype": "application/json",
                     },
-                    {
-                        "error_msg": msg.error_message,
-                    },
+                    {"error_msg": msg.error_message,},
                 )
             )

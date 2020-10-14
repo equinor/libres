@@ -10,7 +10,7 @@ from subprocess import Popen
 import psutil
 
 from job_runner.cli import main
-from job_runner.reporting.message import Finish
+from job_runner.reporting.message import Init, Finish
 from tests.utils import tmpdir, wait_until
 
 from unittest.mock import patch
@@ -116,7 +116,8 @@ else:
             "job_runner.cli.JobRunner"
         ) as mock_runner:
             mock_runner.return_value.run.return_value = [
-                Finish().with_error("overall bad run")
+                Init([], 0, 0),
+                Finish().with_error("overall bad run"),
             ]
             mock_os.getpgid.return_value = 17
 

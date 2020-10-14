@@ -39,9 +39,7 @@ def test_report_with_successful_start_message_argument(tmpdir):
         lines = f.readlines()
         assert len(lines) == 2
         assert f'"type": "{_FM_JOB_START}"' in lines[1], "logged wrong type"
-        assert (
-            '"source": "/ert/ee/ee_id/real/0/step/0/job/0"' in lines[1]
-        ), "bad source"
+        assert '"source": "/ert/ee/ee_id/real/0/step/0/job/0"' in lines[1], "bad source"
 
 
 def test_report_with_failed_start_message_argument(tmpdir):

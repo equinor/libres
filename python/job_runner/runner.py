@@ -46,7 +46,9 @@ class JobRunner(object):
         else:
             job_queue = [j for j in self.jobs if j.name() in names_of_jobs_to_run]
 
-        init_message = Init(job_queue, self.simulation_id, self.ert_pid, self.ee_id, self.real_id)
+        init_message = Init(
+            job_queue, self.simulation_id, self.ert_pid, self.ee_id, self.real_id
+        )
 
         unused = set(names_of_jobs_to_run) - set([j.name() for j in job_queue])
         if unused:
