@@ -1,89 +1,179 @@
-import json
-import os
-import socket
-import time
-
+from cloudevents.http import CloudEvent, to_json
 from job_runner.reporting.message import (
-    _JOB_STATUS_FAILURE,
-    _JOB_STATUS_RUNNING,
-    _JOB_STATUS_SUCCESS,
-    _RUNNER_STATUS_FAILURE,
-    _RUNNER_STATUS_INITIALIZED,
-    _RUNNER_STATUS_SUCCESS,
     Exited,
     Finish,
     Init,
     Running,
     Start,
 )
-from job_runner.util import data as data_util
+
+_FM_JOB_START = "com.equinor.ert.forward_model_job.start"
+_FM_JOB_RUNNING = "com.equinor.ert.forward_model_job.running"
+_FM_JOB_SUCCESS = "com.equinor.ert.forward_model_job.success"
+_FM_JOB_FAILURE = "com.equinor.ert.forward_model_job.failure"
+
+_FM_STEP_START = "com.equinor.ert.forward_model_step.start"
+_FM_STEP_FAILURE = "com.equinor.ert.forward_model_step.failure"
+_FM_STEP_SUCCESS = "com.equinor.ert.forward_model_step.success"
+
+
+class TransitionError(ValueError):
+    pass
 
 
 class Event:
     def __init__(self, event_log="event_log"):
         self._event_log = event_log
-        self.status_dict = {}
-        self.node = socket.gethostname()
+
+        self._ee_id = None
+        self._real_id = None
+
+        self._initialize_state_machine()
+
+    def _initialize_state_machine(self):
+        initialized = (Init,)
+        jobs = (Start, Running, Exited)
+        finished = (Finish,)
+        self._states = {
+            initialized: self._init_handler,
+            jobs: self._job_handler,
+            finished: self._end_handler,
+        }
+        self._transitions = {
+            None: initialized,
+            initialized: jobs,
+            jobs: jobs + finished,
+        }
+        self._state = None
 
     def report(self, msg):
-        job_status = {}
-        if msg.job:
-            index = msg.job.index
-            job_status = self.status_dict["jobs"][index]
+        new_state = None
+        for state in self._states.keys():
+            if isinstance(msg, state):
+                new_state = state
 
-        if isinstance(msg, Init):
-            self.status_dict = self._init_job_status_dict(
-                msg.timestamp, msg.run_id, msg.jobs
+        if self._state not in self._transitions or not isinstance(
+            msg, self._transitions[self._state]
+        ):
+            raise TransitionError(
+                f"Illegal transition {self._state} -> {new_state} for {msg}, expected to transition into {self._transitions[self._state]}"
             )
-            self._dump_event(self.status_dict)
 
-        elif isinstance(msg, Start):
-            if msg.success():
-                job_status["status"] = _JOB_STATUS_RUNNING
-                job_status["start_time"] = data_util.datetime_serialize(msg.timestamp)
-            else:
-                error_msg = msg.error_message
-                job_status["status"] = _JOB_STATUS_FAILURE
-                job_status["error"] = error_msg
-                job_status["end_time"] = data_util.datetime_serialize(msg.timestamp)
-            self._dump_event(job_status)
-
-        elif isinstance(msg, Exited):
-            job_status["end_time"] = data_util.datetime_serialize(msg.timestamp)
-            self.status_dict["exit_code"] = msg.exit_code
-
-            if msg.success():
-                job_status["status"] = _JOB_STATUS_SUCCESS
-            else:
-                error_msg = msg.error_message
-                job_status["error"] = error_msg
-                job_status["status"] = _JOB_STATUS_FAILURE
-            self._dump_event(job_status)
-
-        elif isinstance(msg, Running):
-            job_status["max_memory_usage"] = msg.max_memory_usage
-            job_status["current_memory_usage"] = msg.current_memory_usage
-            job_status["status"] = _JOB_STATUS_RUNNING
-            self._dump_event(job_status)
-
-        elif isinstance(msg, Finish):
-            self.status_dict["end_time"] = data_util.datetime_serialize(msg.timestamp)
-            if msg.success():
-                self.status_dict["status"] = _RUNNER_STATUS_SUCCESS
-            else:
-                self.status_dict["status"] = _RUNNER_STATUS_FAILURE
-            self._dump_event(self.status_dict)
+        self._states[new_state](msg)
+        self._state = new_state
 
     def _dump_event(self, event):
         with open(self._event_log, "a") as el:
-            json.dump(event, el)
-            el.write("\n")
+            el.write("{}\n".format(to_json(event)))
 
-    def _init_job_status_dict(self, start_time, run_id, jobs):
-        return {
-            "run_id": run_id,
-            "status": _RUNNER_STATUS_INITIALIZED,
-            "start_time": data_util.datetime_serialize(start_time),
-            "end_time": None,
-            "jobs": [data_util.create_job_dict(j) for j in jobs],
-        }
+    def _step_path(self):
+        return f"/ert/ee/{self._ee_id}/real/{self._real_id}/step/{0}"
+
+    def _init_handler(self, msg):
+        self._ee_id = msg.ee_id
+        self._real_id = msg.real_id
+        self._dump_event(
+            CloudEvent(
+                {
+                    "type": _FM_STEP_START,
+                    "source": self._step_path(),
+                    "datacontenttype": "application/json",
+                },
+                {
+                    "jobs": [job.job_data for job in msg.jobs],
+                },
+            )
+        )
+
+    def _job_handler(self, msg):
+        job_path = f"{self._step_path()}/job/{msg.job.index}"
+
+        if isinstance(msg, Start):
+            self._dump_event(
+                CloudEvent(
+                    {
+                        "type": _FM_JOB_START,
+                        "source": job_path,
+                    },
+                    None,
+                )
+            )
+            if not msg.success():
+                self._dump_event(
+                    CloudEvent(
+                        {
+                            "type": _FM_JOB_FAILURE,
+                            "source": job_path,
+                            "datacontenttype": "application/json",
+                        },
+                        {
+                            "error_msg": msg.error_message,
+                        },
+                    )
+                )
+
+        elif isinstance(msg, Exited):
+            if msg.success():
+                self._dump_event(
+                    CloudEvent(
+                        {
+                            "type": _FM_JOB_SUCCESS,
+                            "source": job_path,
+                        },
+                        None,
+                    )
+                )
+            else:
+                self._dump_event(
+                    CloudEvent(
+                        {
+                            "type": _FM_JOB_FAILURE,
+                            "source": job_path,
+                            "datacontenttype": "application/json",
+                        },
+                        {
+                            "exit_code": msg.exit_code,
+                            "error_msg": msg.error_message,
+                        },
+                    )
+                )
+
+        elif isinstance(msg, Running):
+            self._dump_event(
+                CloudEvent(
+                    {
+                        "type": _FM_JOB_RUNNING,
+                        "source": job_path,
+                        "datacontenttype": "application/json",
+                    },
+                    {
+                        "max_memory_usage": msg.max_memory_usage,
+                        "current_memory_usage": msg.current_memory_usage,
+                    },
+                )
+            )
+
+    def _end_handler(self, msg):
+        step_path = self._step_path()
+        if msg.success():
+            self._dump_event(
+                CloudEvent(
+                    {
+                        "type": _FM_STEP_SUCCESS,
+                        "source": step_path,
+                    }
+                )
+            )
+        else:
+            self._dump_event(
+                CloudEvent(
+                    {
+                        "type": _FM_STEP_FAILURE,
+                        "source": step_path,
+                        "datacontenttype": "application/json",
+                    },
+                    {
+                        "error_msg": msg.error_message,
+                    },
+                )
+            )
