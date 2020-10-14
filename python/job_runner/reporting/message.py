@@ -10,11 +10,19 @@ _RUNNER_STATUS_SUCCESS = "Success"
 _RUNNER_STATUS_FAILURE = "Failure"
 
 
-class Message(object):
+class _MetaMessage(type):
+    def __repr__(cls):
+        return f"MessageType<{cls.__name__}>"
+
+
+class Message(metaclass=_MetaMessage):
     def __init__(self, job=None):
         self.timestamp = dt.now()
         self.job = job
         self.error_message = None
+
+    def __repr__(self):
+        return type(self).__name__
 
     def with_error(self, message):
         self.error_message = message
@@ -28,11 +36,13 @@ class Message(object):
 
 
 class Init(Message):
-    def __init__(self, jobs, run_id, ert_pid):
+    def __init__(self, jobs, run_id, ert_pid, ee_id=None, real_id=None):
         super(Init, self).__init__()
         self.jobs = jobs
         self.run_id = run_id
         self.ert_pid = ert_pid
+        self.ee_id = ee_id
+        self.real_id = real_id
 
 
 class Finish(Message):
