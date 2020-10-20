@@ -125,7 +125,10 @@ clone_repos () {
 	source ./.libecl_version
 
 	echo "Cloning into $LIBECL_ROOT"
-	git clone -b $LIBECL_VERSION https://github.com/equinor/libecl $LIBECL_ROOT
+	git clone  https://github.com/equinor/libecl $LIBECL_ROOT
+	pushd $LIBECL_ROOT
+	git checkout $LIBECL_VERSION
+	popd
 }
 
 create_virtualenv () {
