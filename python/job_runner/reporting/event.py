@@ -27,6 +27,7 @@ class Event:
 
         self._ee_id = None
         self._real_id = None
+        self._stage_id = None
 
         self._initialize_state_machine()
 
@@ -67,11 +68,12 @@ class Event:
             el.write("{}\n".format(to_json(event)))
 
     def _step_path(self):
-        return f"/ert/ee/{self._ee_id}/real/{self._real_id}/step/{0}"
+        return f"/ert/ee/{self._ee_id}/real/{self._real_id}/stage/{self._stage_id}/step/{0}"
 
     def _init_handler(self, msg):
         self._ee_id = msg.ee_id
         self._real_id = msg.real_id
+        self._stage_id = msg.stage_id
         self._dump_event(
             CloudEvent(
                 {
