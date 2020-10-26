@@ -65,7 +65,7 @@ class Event:
 
     def _dump_event(self, event):
         with open(self._event_log, "a") as el:
-            el.write("{}\n".format(to_json(event)))
+            el.write("{}\n".format(to_json(event).decode()))
 
     def _step_path(self):
         return f"/ert/ee/{self._ee_id}/real/{self._real_id}/stage/{self._stage_id}/step/{0}"
