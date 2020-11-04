@@ -1,19 +1,12 @@
 import json
 import os
 
-from job_runner import JOBS_FILE
 from job_runner.job import Job
 from job_runner.reporting.message import Init, Finish
 
 
 class JobRunner(object):
-    def __init__(self, jobs_file=JOBS_FILE):
-        try:
-            with open(jobs_file, "r") as json_file:
-                jobs_data = json.load(json_file)
-        except ValueError as e:
-            raise IOError("Job Runner failed to load JSON-file.{}".format(str(e)))
-
+    def __init__(self, jobs_data):
         os.umask(int(jobs_data["umask"], 8))
 
         self._data_root = jobs_data.get("DATA_ROOT")
