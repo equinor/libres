@@ -1,3 +1,5 @@
+import os
+
 from job_runner.job import Job
 from job_runner.reporting import Event
 from job_runner.reporting.event import (
@@ -132,3 +134,13 @@ def test_report_with_failed_finish_message_argument(tmpdir):
         assert len(lines) == 3
         assert f'"type": "{_FM_STEP_FAILURE}"' in lines[2], "logged wrong type"
         assert '"error_msg": "massive_failure"' in lines[2], "log missing error message"
+
+
+def test_report_startup_clearing_of_event_log_file(tmpdir):
+    reporter1 = Event(event_log=tmpdir / "event_log")
+    job1 = Job({"name": "job1"}, 0)
+    reporter1.report(Init([job1], 1, 19, ee_id="ee_id", real_id=0, stage_id=0))
+
+    reporter2 = Event(event_log=tmpdir / "event_log")
+
+    assert os.path.getsize(tmpdir / "event_log") == 0

@@ -30,6 +30,7 @@ class Event:
         self._stage_id = None
 
         self._initialize_state_machine()
+        self._clear_log()
 
     def _initialize_state_machine(self):
         initialized = (Init,)
@@ -46,6 +47,10 @@ class Event:
             jobs: jobs + finished,
         }
         self._state = None
+
+    def _clear_log(self):
+        with open(self._event_log, "w") as f:
+            pass
 
     def report(self, msg):
         new_state = None
