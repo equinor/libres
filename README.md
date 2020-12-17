@@ -97,3 +97,4 @@ In the Python distribution installed by `libres` there is a file:
 You should provide an alternative file with your local path to the `rms` wrapper
 script supplied by _Roxar_ by setting the environment variable `RMS_SITE_CONFIG`
 to point to the alternative file.
+
