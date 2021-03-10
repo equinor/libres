@@ -113,6 +113,7 @@ class JobQueueNode(BaseCClass):
         while not self.ok_cb_barrier.broken:
             try:
                 self.ok_cb_barrier.wait()
+                break
             except BrokenBarrierError:
                 pass
 
