@@ -31,6 +31,8 @@ from cwrap import BaseCClass
 from job_runner import JOBS_FILE
 from res import ResPrototype
 from res.job_queue import JobQueueNode, JobStatusType, ThreadStatus
+from threading import Barrier
+
 
 logger = logging.getLogger(__name__)
 
@@ -379,7 +381,7 @@ class JobQueue(BaseCClass):
                 msg = "Unexpected job status type after running job: {} with thread status: {}"
                 raise AssertionError(msg.format(job.status, job.thread_status))
 
-    def launch_jobs(self, pool_sema):
+    def launch_jobs(self, pool_sema, ok_cb_barrier):
         # Start waiting jobs
         while self.available_capacity():
             job = self.fetch_next_waiting()
@@ -388,12 +390,14 @@ class JobQueue(BaseCClass):
             job.run(
                 driver=self.driver,
                 pool_sema=pool_sema,
+                ok_cb_barrier=ok_cb_barrier,
                 max_submit=self.max_submit,
             )
 
     def execute_queue(self, pool_sema, evaluators):
+        ok_cb_barrier = Barrier(1)
         while self.is_active() and not self.stopped:
-            self.launch_jobs(pool_sema)
+            self.launch_jobs(pool_sema, ok_cb_barrier)
 
             time.sleep(1)
 
@@ -431,12 +435,13 @@ class JobQueue(BaseCClass):
             await websocket.send(to_json(event))
 
     async def execute_queue_async(self, ws_uri, pool_sema, evaluators):
+        ok_cb_barrier = Barrier(1)
         async with websockets.connect(ws_uri) as websocket:
             await JobQueue._publish_changes(self.snapshot(), websocket)
 
             try:
                 while self.is_active() and not self.stopped:
-                    self.launch_jobs(pool_sema)
+                    self.launch_jobs(pool_sema, ok_cb_barrier)
 
                     await asyncio.sleep(1)
 

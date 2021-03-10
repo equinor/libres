@@ -2,7 +2,7 @@ from cwrap import BaseCClass
 from ecl.util.util import StringList
 from res import ResPrototype
 from res.job_queue import JobStatusType, ThreadStatus
-from threading import Thread, Lock
+from threading import BrokenBarrierError, Thread, Lock
 
 import time
 
@@ -66,6 +66,7 @@ class JobQueueNode(BaseCClass):
         self._mutex = Lock()
 
         self.run_path = run_path
+        self._ok_cb_barrier = None
         self._max_runtime = max_runtime
         self._start_time = None
         self._end_time = None
@@ -109,12 +110,19 @@ class JobQueueNode(BaseCClass):
         self._submit(driver)
 
     def run_done_callback(self):
-        callback_status = self.done_callback_function(self.callback_arguments)
+        while not self.ok_cb_barrier.broken:
+            try:
+                self.ok_cb_barrier.wait()
+            except BrokenBarrierError:
+                pass
 
+        callback_status = self.done_callback_function(self.callback_arguments)
         if callback_status:
             self._set_status(JobStatusType.JOB_QUEUE_SUCCESS)
+            self.ok_cb_barrier.abort()
         else:
             self._set_status(JobStatusType.JOB_QUEUE_EXIT)
+            self.ok_cb_barrier.reset()
 
         return callback_status
 
@@ -188,7 +196,8 @@ class JobQueueNode(BaseCClass):
 
             self._set_thread_status(ThreadStatus.DONE)
 
-    def run(self, driver, pool_sema, max_submit=2):
+    def run(self, driver, pool_sema, ok_cb_barrier, max_submit=2):
+        self._ok_cb_barrier = ok_cb_barrier
         # Prevent multiple threads working on the same object
         self.wait_for()
         # Do not start if already kill signal is sent

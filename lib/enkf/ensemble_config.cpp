@@ -825,7 +825,9 @@ enkf_config_node_type * ensemble_config_add_summary(ensemble_config_type * ensem
 
   } else {
     config_node = enkf_config_node_alloc_summary( key , load_fail);
-    ensemble_config_add_node(ensemble_config , config_node );
+    sleep(3);
+    printf("waiting\n");
+    ensemble_config_add_node(ensemble_config, config_node);
   }
 
   return config_node;
