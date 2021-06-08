@@ -1,21 +1,5 @@
-import os
 import setuptools
-import skbuild
 from setuptools_scm import get_version
-
-
-def get_ecl_include():
-    from ecl import get_include
-
-    return get_include()
-
-
-def get_data_files():
-    data_files = []
-    for root, _, files in os.walk("share/ert"):
-        data_files.append((root, [os.path.join(root, name) for name in files]))
-    return data_files
-
 
 version = get_version(
     relative_to=__file__,
@@ -27,7 +11,7 @@ with open("README.md") as f:
     long_description = f.read()
 
 
-skbuild.setup(
+setuptools.setup(
     name="equinor-libres",
     author="Equinor ASA",
     author_email="fg_sib-scout@equinor.com",
@@ -35,19 +19,6 @@ skbuild.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/equinor/libres",
-    packages=setuptools.find_packages(
-        where="python",
-        exclude=["doc", "*.tests", "*.tests.*", "tests.*", "tests"],
-    ),
-    package_dir={"": "python"},
-    package_data={
-        "res": [
-            "fm/rms/rms_config.yml",
-            "fm/ecl/ecl300_config.yml",
-            "fm/ecl/ecl100_config.yml",
-        ]
-    },
-    data_files=get_data_files(),
     license="GPL-3.0",
     platforms="any",
     install_requires=[
@@ -61,18 +32,6 @@ skbuild.setup(
         "pyyaml",
         "requests",
         "websockets >= 9.0.1",
-    ],
-    entry_points={
-        "console_scripts": ["job_dispatch.py = job_runner.job_dispatch:main"]
-    },
-    cmake_args=[
-        "-DRES_VERSION=" + version,
-        "-DECL_INCLUDE_DIRS=" + get_ecl_include(),
-        # we can safely pass OSX_DEPLOYMENT_TARGET as it's ignored on
-        # everything not OS X. We depend on C++11, which makes our minimum
-        # supported OS X release 10.9
-        "-DCMAKE_OSX_DEPLOYMENT_TARGET=10.9",
-        "-DCMAKE_INSTALL_LIBDIR=python/res/.libs",
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
