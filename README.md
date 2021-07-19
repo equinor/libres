@@ -1,3 +1,6 @@
+### ⚠️ This repository is no longer maintained ⚠️
+Libres has merged with it's mothership [ERT](https://github.com/equinor/ert) 👾
+
 # libres [![Libres testing](https://github.com/equinor/libres/workflows/Libres%20testing/badge.svg)](https://github.com/equinor/libres/actions?query=workflow%3A%22Libres+testing%22) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 *libres* is part of the `ERT` project: _[Ensemble based Reservoir Tool](https://github.com/Equinor/ert)_. It is now available in PyPI:
